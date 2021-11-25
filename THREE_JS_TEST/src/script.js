@@ -102,8 +102,11 @@ raycaster.setFromCamera(mouse, camera)
     // Update controls
     controls.update()
 
+    var start = new Date()
     // Render
     renderer.render(scene, camera)
+    var time = new Date() - start
+    console.log(time)
 
     // Call tick again on the next frame
     window.requestAnimationFrame(tick)
