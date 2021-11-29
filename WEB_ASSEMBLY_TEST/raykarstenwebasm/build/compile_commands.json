@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/home/utilisateur/Documents/PTUT/SHADERTOY_2.0/WEB_ASSEMBLY_TEST/raykarstenwebasm/build",
+  "command": "/usr/bin/c++    -g   -std=gnu++11 -o CMakeFiles/RayKarsten.dir/src/RayLib.cpp.o -c /home/utilisateur/Documents/PTUT/SHADERTOY_2.0/WEB_ASSEMBLY_TEST/raykarstenwebasm/src/RayLib.cpp",
+  "file": "/home/utilisateur/Documents/PTUT/SHADERTOY_2.0/WEB_ASSEMBLY_TEST/raykarstenwebasm/src/RayLib.cpp"
+},
+{
+  "directory": "/home/utilisateur/Documents/PTUT/SHADERTOY_2.0/WEB_ASSEMBLY_TEST/raykarstenwebasm/build",
+  "command": "/usr/bin/c++    -g   -std=gnu++11 -o CMakeFiles/RayKarsten.dir/src/main.cpp.o -c /home/utilisateur/Documents/PTUT/SHADERTOY_2.0/WEB_ASSEMBLY_TEST/raykarstenwebasm/src/main.cpp",
+  "file": "/home/utilisateur/Documents/PTUT/SHADERTOY_2.0/WEB_ASSEMBLY_TEST/raykarstenwebasm/src/main.cpp"
+}
+]

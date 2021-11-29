@@ -1,0 +1,1 @@
+/usr/bin/c++  -g  -rdynamic CMakeFiles/RayKarsten.dir/src/RayLib.cpp.o CMakeFiles/RayKarsten.dir/src/main.cpp.o  -o RayKarsten 
