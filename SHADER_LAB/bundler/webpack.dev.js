@@ -13,17 +13,11 @@ module.exports = merge(
     common,
     {
         mode: 'development',
-        output:
-        {
-            hashFunction: 'xxhash64',
-            filename: '[name].bundle.js',
-            path: path.resolve(__dirname, '../build')
-        },
         stats: 'errors-warnings',
         devServer:
         {
             host: 'local-ip',
-            port: portFinderSync.getPort(8080),
+            port: portFinderSync.getPort(8000),
             open: true,
             https: false,
             allowedHosts: 'all',
