@@ -1,7 +1,6 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     entry:
@@ -20,7 +19,6 @@ module.exports = {
             template: path.resolve(__dirname, '../src/templates/index.html'),
             minify: true
         }),
-        new MiniCSSExtractPlugin()
     ],
     module:
     {
@@ -45,33 +43,23 @@ module.exports = {
                 ]
             },
 
-            // CSS
-            {
-                test: /\.css$/,
-                use:
-                [
-                    MiniCSSExtractPlugin.loader,
-                    'css-loader'
-                ]
-            },
-
-            // Images
+            // IMAGES
             {
                 test: /\.(jpg|png|gif|svg)$/,
                 type: 'asset/resource',
                 generator:
                 {
-                    filename: 'assets/images/[hash][ext]'
+                    filename: 'assets/images/[name].[hash][ext]'
                 }
             },
 
-            // Fonts
+            // FONTS
             {
                 test: /\.(ttf|eot|woff|woff2)$/,
                 type: 'asset/resource',
                 generator:
                 {
-                    filename: 'assets/fonts/[hash][ext]'
+                    filename: 'assets/fonts/[name].[hash][ext]'
                 }
             }
         ]
