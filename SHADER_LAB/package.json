@@ -5,7 +5,8 @@
     "description": "",
     "scripts": {
         "dev":      "webpack server --config ./bundler/webpack.dev.js",
-        "build":    "webpack        --config ./bundler/webpack.prod.js"
+        "build":    "webpack        --config ./bundler/webpack.prod.js",
+        "clean":    "rm -rf ./build"
     },
     "keywords": [],
     "author": "",
