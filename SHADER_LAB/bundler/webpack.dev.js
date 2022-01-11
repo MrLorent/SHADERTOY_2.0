@@ -13,6 +13,7 @@ module.exports = merge(
     common,
     {
         mode: 'development',
+        devtool: 'source-map',
         stats: 'errors-warnings',
         devServer:
         {
