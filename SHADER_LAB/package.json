@@ -1,15 +1,20 @@
 {
-    "repository": "#",
-    "license": "UNLICENSED",
+    "name": "SHADER_LAB",
+    "version": "1.0.0",
+    "private": true,
+    "description": "",
     "scripts": {
-        "build": "webpack --config ./bundler/webpack.prod.js",
-        "dev": "webpack serve --config ./bundler/webpack.dev.js"
+        "dev":      "webpack server --config ./bundler/webpack.dev.js",
+        "build":    "webpack        --config ./bundler/webpack.prod.js"
     },
-    "dependencies": {
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": 
+    {
         "@babel/core": "^7.15.8",
         "@babel/preset-env": "^7.15.8",
         "babel-loader": "^8.2.3",
-        "clean-webpack-plugin": "^4.0.0",
         "copy-webpack-plugin": "^9.0.1",
         "css-loader": "^6.5.0",
         "file-loader": "^6.2.0",
@@ -24,5 +29,9 @@
         "webpack-cli": "^4.9.1",
         "webpack-dev-server": "^4.4.0",
         "webpack-merge": "^5.8.0"
+    },
+    "dependencies": 
+    {
+        "clean-webpack-plugin": "^4.0.0"
     }
 }
