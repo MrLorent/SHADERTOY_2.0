@@ -1,8 +1,8 @@
-const path = require('path')
-const { merge } = require('webpack-merge')
-const commonConfiguration = require('./webpack.common.js')
-const ip = require('internal-ip')
-const portFinderSync = require('portfinder-sync')
+const path = require('path');
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common.js');
+const ip = require('internal-ip');
+const portFinderSync = require('portfinder-sync');
 
 const infoColor = (_message) =>
 {
@@ -10,14 +10,15 @@ const infoColor = (_message) =>
 }
 
 module.exports = merge(
-    commonConfiguration,
+    common,
     {
-        stats: 'errors-warnings',
         mode: 'development',
+        devtool: 'source-map',
+        stats: 'errors-warnings',
         devServer:
         {
             host: 'local-ip',
-            port: portFinderSync.getPort(8080),
+            port: portFinderSync.getPort(8000),
             open: true,
             https: false,
             allowedHosts: 'all',
@@ -44,6 +45,22 @@ module.exports = merge(
                 
                 console.log(`Project running at:\n  - ${infoColor(domain1)}\n  - ${infoColor(domain2)}`)
             }
-        }
+        },
+        module:
+        {
+            rules:
+            [
+                {
+                    test: /\.scss$/,
+                    use:
+                    [
+                        "style-loader", // 3. Extract css into files
+                        "css-loader",   // 2. Turns css into commonjs
+                        "sass-loader"   // 1. Turns sass into css
+                    ]
+                }
+            ]
+        },
+
     }
 )

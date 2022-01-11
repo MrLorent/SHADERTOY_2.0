@@ -4,14 +4,14 @@
     "private": true,
     "description": "",
     "scripts": {
-        "dev":      "webpack server --config ./bundler/webpack.dev.js",
-        "build":    "webpack        --config ./bundler/webpack.prod.js"
+        "dev": "webpack server --config ./bundler/webpack.dev.js",
+        "build": "webpack        --config ./bundler/webpack.prod.js",
+        "clear": "rm -rf ./build"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "devDependencies": 
-    {
+    "devDependencies": {
         "@babel/core": "^7.15.8",
         "@babel/preset-env": "^7.15.8",
         "babel-loader": "^8.2.3",
@@ -23,6 +23,8 @@
         "mini-css-extract-plugin": "^2.4.3",
         "portfinder-sync": "0.0.2",
         "raw-loader": "^4.0.2",
+        "sass": "^1.47.0",
+        "sass-loader": "^12.4.0",
         "style-loader": "^3.3.1",
         "three": "^0.134.0",
         "webpack": "^5.60.0",
@@ -30,8 +32,7 @@
         "webpack-dev-server": "^4.4.0",
         "webpack-merge": "^5.8.0"
     },
-    "dependencies": 
-    {
+    "dependencies": {
         "clean-webpack-plugin": "^4.0.0"
     }
 }
