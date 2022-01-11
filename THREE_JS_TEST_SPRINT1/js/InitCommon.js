@@ -148,10 +148,10 @@ function onWindowResize(event)
 	renderer.setPixelRatio(pixelRatio);
 	renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	fontAspect = (SCREEN_WIDTH / 175) * (SCREEN_HEIGHT / 200);
-	if (fontAspect > 25) fontAspect = 25;
-	if (fontAspect < 4) fontAspect = 4;
-	fontAspect *= 2;
+	// fontAspect = (SCREEN_WIDTH / 175) * (SCREEN_HEIGHT / 200);
+	// if (fontAspect > 25) fontAspect = 25;
+	// if (fontAspect < 4) fontAspect = 4;
+	// fontAspect *= 2;
 
 	pathTracingUniforms.uResolution.value.x = context.drawingBufferWidth;
 	pathTracingUniforms.uResolution.value.y = context.drawingBufferHeight;
@@ -321,16 +321,17 @@ function initTHREEjs()
 	context = renderer.getContext();
 	context.getExtension('EXT_color_buffer_float');
 
+	//Ici là où on définit le container donc à adapter selon comment Tanguy appelle la fenêtre
 	container = document.getElementById('container');
 	container.appendChild(renderer.domElement);
 
-	stats = new Stats();
-	stats.domElement.style.position = 'absolute';
-	stats.domElement.style.top = '0px';
-	stats.domElement.style.cursor = "default";
-	stats.domElement.style.webkitUserSelect = "none";
-	stats.domElement.style.MozUserSelect = "none";
-	container.appendChild(stats.domElement);
+	// stats = new Stats();
+	// stats.domElement.style.position = 'absolute';
+	// stats.domElement.style.top = '0px';
+	// stats.domElement.style.cursor = "default";
+	// stats.domElement.style.webkitUserSelect = "none";
+	// stats.domElement.style.MozUserSelect = "none";
+	// container.appendChild(stats.domElement);
 
 
 	clock = new THREE.Clock();
@@ -342,7 +343,7 @@ function initTHREEjs()
 	// quadCamera is simply the camera to help render the full screen quad (2 triangles),
 	// hence the name.  It is an Orthographic camera that sits facing the view plane, which serves as
 	// the window into our 3d world. This camera will not move or rotate for the duration of the app.
-	quadCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+	quadCamera = new THREE.PerspectiveCamera(60, document.body.clientWidth / document.body.clientHeight, 1, 1000);//new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 	screenCopyScene.add(quadCamera);
 	screenOutputScene.add(quadCamera);
 
@@ -400,6 +401,7 @@ function initTHREEjs()
 
 	// this full-screen quad mesh performs the path tracing operations and produces a screen-sized image
 	pathTracingGeometry = new THREE.PlaneBufferGeometry(2, 2);
+	//ces variables ne servent peut être pas ??
 	pathTracingUniforms = {
 
 		tPreviousTexture: { type: "t", value: screenCopyRenderTarget.texture },
@@ -783,7 +785,7 @@ function animate()
 	renderer.setRenderTarget(null);
 	renderer.render(screenOutputScene, quadCamera);
 
-	stats.update();
+	// stats.update();
 
 	requestAnimationFrame(animate);
 
