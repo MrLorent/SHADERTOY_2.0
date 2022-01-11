@@ -1,8 +1,8 @@
-const path = require('path')
-const { merge } = require('webpack-merge')
-const commonConfiguration = require('./webpack.common.js')
-const ip = require('internal-ip')
-const portFinderSync = require('portfinder-sync')
+const path = require('path');
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common.js');
+const ip = require('internal-ip');
+const portFinderSync = require('portfinder-sync');
 
 const infoColor = (_message) =>
 {
@@ -10,10 +10,16 @@ const infoColor = (_message) =>
 }
 
 module.exports = merge(
-    commonConfiguration,
+    common,
     {
-        stats: 'errors-warnings',
         mode: 'development',
+        output:
+        {
+            hashFunction: 'xxhash64',
+            filename: '[name].bundle.js',
+            path: path.resolve(__dirname, '../build')
+        },
+        stats: 'errors-warnings',
         devServer:
         {
             host: 'local-ip',

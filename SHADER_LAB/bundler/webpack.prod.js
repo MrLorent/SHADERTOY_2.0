@@ -1,11 +1,17 @@
-const { merge } = require('webpack-merge')
-const commonConfiguration = require('./webpack.common.js')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common.js');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = merge(
-    commonConfiguration,
+    common,
     {
         mode: 'production',
+        output:
+        {
+            hashFunction: 'xxhash64',
+            filename: '[name].[contenthash].bundle.js',
+            path: path.resolve(__dirname, '../build')
+        },
         plugins:
         [
             new CleanWebpackPlugin()

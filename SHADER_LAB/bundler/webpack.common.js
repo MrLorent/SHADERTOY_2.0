@@ -1,15 +1,12 @@
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
-const path = require('path')
+const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-    entry: path.resolve(__dirname, '../src/script.js'),
-    output:
+    entry:
     {
-        hashFunction: 'xxhash64',
-        filename: 'bundle.[contenthash].js',
-        path: path.resolve(__dirname, '../dist')
+        main: path.resolve(__dirname, '../src/index.js')
     },
     devtool: 'source-map',
     plugins:
