@@ -201,9 +201,10 @@ void main()
     s.o=vec3((mat4(uSphereInvMatrix[0])* vec4(-1,1, 8, 1)).xyz);
     box.o=vec3((mat4(uBoxInvMatrix[0])* vec4(1,1, 8, 1)).xyz);
     vec2 uv = vuv-0.5;//(gl_FragCoord.xy - uResolution.xy * .5 ) / uResolution.y; // center around origin
+    uv.x*=uResolution.x/uResolution.y;
     vec3 color=vec3(0);
     
-    for(int i=0; i<5; i++){
+    for(int i=0; i<10; i++){
         // simplest camera
         vec3 ro = uCameraPosition;//vec3(0,1,0);//vec3( uCameraMatrix[3][0],  uCameraMatrix[3][1],  uCameraMatrix[3][2]);
         float offset = rand(vec2(i))/uResolution.y;
@@ -222,6 +223,6 @@ void main()
     }
 
    
-	pc_fragColor = clamp(vec4( pow(color/5.0, vec3(0.4545)), 1.0 ), 0.0, 1.0);//vec4(color/10.0, 1.0);
+	pc_fragColor = clamp(vec4( pow(color/10.0, vec3(0.4545)), 1.0 ), 0.0, 1.0);//vec4(color/10.0, 1.0);
 
 }
