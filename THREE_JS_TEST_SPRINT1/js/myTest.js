@@ -7,6 +7,21 @@ var sphereMesh = [];
 var nbBoxes=3;
 var nbSpheres=3;
 
+// var material={
+//     'albedo': new THREE.Color(),
+//     'ks': 0.1,
+//     'kd':0.5,
+//     'ka':0.2,
+//     'alpha':30
+// };
+
+function material(albedo, ks, kd, ka, alpha){
+    this.albedo=albedo;
+    this.ks=ks;
+    this.kd=kd;
+    this.ka=ka;
+    this.alpha=alpha;
+}
 
 // called automatically from within initTHREEjs() function
 function initSceneData() 
@@ -38,8 +53,8 @@ function initSceneData()
         // it is just a data placeholder as well as an Object3D that can be transformed/manipulated by 
         // using familiar Three.js library commands. It is then fed into the GPU path tracing renderer
         // through its 'matrixWorld' matrix. See below:
-        boxMesh[i].position.set(80+200*i, 170+20*i, -350);
-        boxMesh[i].rotation.set(0, Math.PI * 0.1, 0);
+        boxMesh[i].position.set(0, 0, 0);
+        //boxMesh[i].rotation.set(0, Math.PI * 0.3, 0);
         boxMesh[i].updateMatrixWorld(true);
     }
     for (let i=0; i<nbSpheres; i++){
@@ -56,8 +71,8 @@ function initSceneData()
         // it is just a data placeholder as well as an Object3D that can be transformed/manipulated by 
         // using familiar Three.js library commands. It is then fed into the GPU path tracing renderer
         // through its 'matrixWorld' matrix. See below:
-        sphereMesh[i].rotation.set(0, Math.PI * 0.1, 0);
-        sphereMesh[i].position.set(200, 150*i, 0);
+        //sphereMesh[i].rotation.set(0, Math.PI * 0.1, 0);
+        sphereMesh[i].position.set(0, 0.5, 0);
         sphereMesh[i].updateMatrixWorld(true);
     }
 
@@ -67,12 +82,6 @@ function initSceneData()
 	// set camera's field of view
 	worldCamera.fov = 31;
 	// focusDistance = 1180.0;
-
-	// position and orient camera
-	cameraControlsObject.position.set(278, 270, 1050);
-	///cameraControlsYawObject.rotation.y = 0.0;
-	// look slightly upward
-	cameraControlsPitchObject.rotation.x = 0.005;
 
 } // end function initSceneData()
 
@@ -109,10 +118,14 @@ function initPathTracingShaders()
         sphereColor.push(new THREE.Color('blue'));
         sphereType.push(1);
     }
+    let colors = [new THREE.Color('white'),new THREE.Color('purple')];
+    let k = [new THREE.Vector4(0.1,0.2,0.3,30), new THREE.Vector4(0.1,0.2,0.3,30)]
 
     pathTracingUniforms.uSphereInvMatrix =  { type: "Matrix4fv", value: sphereMatrixes }
     pathTracingUniforms.uSphereColor = { value: sphereColor}
     pathTracingUniforms.uSphereType = { value: sphereType}
+    pathTracingUniforms.uColors = {value: colors}
+    pathTracingUniforms.uK={value: k}
 
 	
 	pathTracingDefines = {

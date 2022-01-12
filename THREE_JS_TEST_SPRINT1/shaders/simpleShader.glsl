@@ -16,11 +16,19 @@
 #define SURF_DIST_MARCH .01
 #define EULER_APPROX_OFFSET .003
 
+#define N_BOXES 3
+#define N_SPHERES 3
+#define N_MATERIALS 2
+
 uniform float uTime;
 uniform vec3 uResolution;
-uniform mat4 uCameraMatrix;
-uniform float uULen;
-uniform float uVLen;
+uniform vec3 uCameraPosition;
+
+uniform mat4 uBoxInvMatrix[N_BOXES];
+uniform mat4 uSphereInvMatrix[N_SPHERES];
+uniform vec3 uColors[N_MATERIALS];
+uniform vec4 uK[N_MATERIALS];
+
 
 in vec3 fragCoord;
 in vec2 vuv;
@@ -48,18 +56,12 @@ struct PointLight {
 };
 
 
-const Sphere s = Sphere(vec3(-0.5,1.5, 8), 0.5);
-const Box box = Box(vec3(1, 1, 8), vec3(0.5));
+Sphere s = Sphere(vec3(-1,1, 8), 0.5);
+Box box = Box(vec3(1, 1, 8), vec3(0.5));
 
-const PointLight light = PointLight(vec3(0, 5, 6),
+PointLight light = PointLight(vec3(0, 5, 6),
                                     vec3(1.000,0.878,0.878));
-                                    
-const PhongMaterial sphereMaterial = PhongMaterial(vec3(0.9,.3,0.94), 
-                                                   .33, .64, .3, 64.);
-const PhongMaterial globalMaterial = PhongMaterial(vec3(.4, .9, 1.), 
-                                                   .1, .7, .2, 8.);
-
-                                                   
+                                                                                    
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -139,7 +141,7 @@ vec3 GetNormalEulerTwoSided(in vec3 p) { // get surface normal using euler appro
   ro -> ray origin (position of the camera)
 */
 vec3 PhongIllumination(in vec3 p, in vec3 ro, in int hitObject) {
-    vec3 lightPosOffset = vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.;
+    vec3 lightPosOffset = vec3(0,0,0);//vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.;
     vec3 lightPos = light.pos + lightPosOffset;
     // PhongMaterial mat = (hitObject == 1) ? sphereMaterial : globalMaterial; // bugs are great!
     
@@ -164,24 +166,19 @@ vec3 PhongIllumination(in vec3 p, in vec3 ro, in int hitObject) {
     }
     
     // Acutal Phong stuff
-    vec3 ambientDiffuse= light.col * ( hitObject ==1 ? sphereMaterial.albedo : globalMaterial.albedo);
-    vec3 light1SpecularComponent = vec3(pow(spec, ( hitObject ==1 ? sphereMaterial.alpha : globalMaterial.alpha)));   
+    vec3 ambientDiffuse = light.col * uColors[hitObject];
     vec3 light1DiffuseComponent = dif * light.col;
-    vec3 col = (hitObject ==1 ? sphereMaterial.ka * ambientDiffuse + 
-               sphereMaterial.kd * light1DiffuseComponent + 
-               sphereMaterial.ks * light1SpecularComponent :
-               
-               globalMaterial.ka * ambientDiffuse + 
-               globalMaterial.kd * light1DiffuseComponent + 
-               globalMaterial.ks * light1SpecularComponent);
+    vec3 light1SpecularComponent = vec3(pow(spec, uK[hitObject][3]));
     
+    vec3 col = uK[hitObject][0] * ambientDiffuse + 
+               uK[hitObject][1] * light1DiffuseComponent + 
+               uK[hitObject][2] * light1SpecularComponent;
     
     return col;
 }
 
 vec3 flatPainting(in int hitObject){
-    return hitObject==1 ? sphereMaterial.albedo : globalMaterial.albedo;
-    
+    return uColors[hitObject];
 }
 
 vec3 Lambert(in vec3 p, in int hitObject){
@@ -192,8 +189,7 @@ vec3 Lambert(in vec3 p, in int hitObject){
     vec3 n = GetNormal(p); // get normal of p
     float dif  = clamp(dot(l, n), 0., 1.);
     
-    return dif * (hitObject==1 ? sphereMaterial.albedo : globalMaterial.albedo) * light.col;
-    
+    return dif * uColors[hitObject] * light.col;
 }
 
 float rand(vec2 co){
@@ -202,12 +198,14 @@ float rand(vec2 co){
 
 void main()
 {
-    vec2 uv = (vuv-0.5);//(gl_FragCoord.xy - uResolution.xy * .5 ) / uResolution.y; // center around origin
+    s.o=vec3((mat4(uSphereInvMatrix[0])* vec4(-1,1, 8, 1)).xyz);
+    box.o=vec3((mat4(uBoxInvMatrix[0])* vec4(1,1, 8, 1)).xyz);
+    vec2 uv = vuv-0.5;//(gl_FragCoord.xy - uResolution.xy * .5 ) / uResolution.y; // center around origin
     vec3 color=vec3(0);
     
     for(int i=0; i<10; i++){
         // simplest camera
-        vec3 ro = vec3(0,1,0);//vec3( uCameraMatrix[3][0],  uCameraMatrix[3][1],  uCameraMatrix[3][2]);
+        vec3 ro = uCameraPosition;//vec3(0,1,0);//vec3( uCameraMatrix[3][0],  uCameraMatrix[3][1],  uCameraMatrix[3][2]);
         float offset = rand(vec2(i))/uResolution.y;
 
         vec3 rd = normalize(vec3(uv.xy+offset, 1));
@@ -218,11 +216,15 @@ void main()
         float d = RayMarch(object, ro, rd);
         vec3 p = ro + rd * d;
 
-        //color += PhongIllumination(p, ro, object);
-        color += flatPainting(object);
-        //color += Lambert(p, object);
+        color += PhongIllumination(p, ro, object);
+        //color += flatPainting(object);
+        //color+=Lambert(p, object);
     }
+
+        //     vec3 pixelColor=(texelFetch(tPathTracedImageTexture, ivec2(gl_FragCoord.xy), 0)).rgb;
+
+        // pc_fragColor = clamp(vec4( pow(pixelColor, vec3(0.4545)), 1.0 ), 0.0, 1.0);
    
-	pc_fragColor = vec4(color/10.0, 1.0);
+	pc_fragColor = clamp(vec4( pow(color/10.0, vec3(0.4545)), 1.0 ), 0.0, 1.0);//vec4(color/10.0, 1.0);
 
 }
