@@ -1,7 +1,7 @@
 let SCREEN_WIDTH;
 let SCREEN_HEIGHT;
 let canvas, context;
-let container, stats;
+let container;
 let controls;
 let pathTracingScene, screenCopyScene, screenOutputScene;
 let pathTracingUniforms, screenCopyUniforms, screenOutputUniforms;
@@ -21,12 +21,12 @@ let increaseFOV = false;
 let decreaseFOV = false;
 let dollyCameraIn = false;
 let dollyCameraOut = false;
+
+///aucune idée si ça sert
 let apertureSize = 0.0;
 let increaseAperture = false;
 let decreaseAperture = false;
-let focusDistance = 132.0;
-let increaseFocusDist = false;
-let decreaseFocusDist = false;
+
 let pixelRatio = 0.5;
 let windowIsBeingResized = false;
 let TWO_PI = Math.PI * 2;
@@ -59,7 +59,7 @@ let display = false;
 let cameraDirectionVector = new THREE.Vector3(); //for moving where the camera is looking
 let cameraRightVector = new THREE.Vector3(); //for strafing the camera right and left
 let cameraUpVector = new THREE.Vector3(); //for moving camera up and down
-let cameraWorldQuaternion = new THREE.Quaternion(); //for rotating scene objects to match camera's current rotation
+//let cameraWorldQuaternion = new THREE.Quaternion(); //for rotating scene objects to match camera's current rotation
 let cameraControlsObject; //for positioning and moving the camera itself
 let cameraControlsYawObject; //allows access to control camera's left/right movements through mobile input
 let cameraControlsPitchObject; //allows access to control camera's up/down movements through mobile input
@@ -148,11 +148,6 @@ function onWindowResize(event)
 	renderer.setPixelRatio(pixelRatio);
 	renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	// fontAspect = (SCREEN_WIDTH / 175) * (SCREEN_HEIGHT / 200);
-	// if (fontAspect > 25) fontAspect = 25;
-	// if (fontAspect < 4) fontAspect = 4;
-	// fontAspect *= 2;
-
 	pathTracingUniforms.uResolution.value.x = context.drawingBufferWidth;
 	pathTracingUniforms.uResolution.value.y = context.drawingBufferHeight;
 
@@ -168,50 +163,6 @@ function onWindowResize(event)
 	fovScale = worldCamera.fov * 0.5 * (Math.PI / 180.0);
 	pathTracingUniforms.uVLen.value = Math.tan(fovScale);
 	pathTracingUniforms.uULen.value = pathTracingUniforms.uVLen.value * worldCamera.aspect;
-
-	if (!mouseControl)
-	{
-		button1Element.style.display = "";
-		button2Element.style.display = "";
-		button3Element.style.display = "";
-		button4Element.style.display = "";
-		button5Element.style.display = "";
-		button6Element.style.display = "";
-		// check if mobile device is in portrait or landscape mode and position buttons accordingly
-		if (SCREEN_WIDTH < SCREEN_HEIGHT)
-		{
-			button1Element.style.right = 36 + "%";
-			button2Element.style.right = 2 + "%";
-			button3Element.style.right = 16 + "%";
-			button4Element.style.right = 16 + "%";
-			button5Element.style.right = 3 + "%";
-			button6Element.style.right = 3 + "%";
-
-			button1Element.style.bottom = 5 + "%";
-			button2Element.style.bottom = 5 + "%";
-			button3Element.style.bottom = 13 + "%";
-			button4Element.style.bottom = 2 + "%";
-			button5Element.style.bottom = 25 + "%";
-			button6Element.style.bottom = 18 + "%";
-		} 
-		else
-		{
-			button1Element.style.right = 22 + "%";
-			button2Element.style.right = 3 + "%";
-			button3Element.style.right = 11 + "%";
-			button4Element.style.right = 11 + "%";
-			button5Element.style.right = 3 + "%";
-			button6Element.style.right = 3 + "%";
-
-			button1Element.style.bottom = 10 + "%";
-			button2Element.style.bottom = 10 + "%";
-			button3Element.style.bottom = 26 + "%";
-			button4Element.style.bottom = 4 + "%";
-			button5Element.style.bottom = 48 + "%";
-			button6Element.style.bottom = 34 + "%";
-		}
-	} // end if ( !mouseControl ) {
-
 } // end function onWindowResize( event )
 
 
@@ -277,27 +228,6 @@ function init()
 
 	}
 
-	/*
-	// Fullscreen API
-	document.addEventListener("click", function() {
-		
-		if ( !document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement ) 
-		{
-			if (document.documentElement.requestFullscreen) 
-			{
-				document.documentElement.requestFullscreen();	
-			} 
-			else if (document.documentElement.mozRequestFullScreen) 
-			{
-				document.documentElement.mozRequestFullScreen();
-			} else if (document.documentElement.webkitRequestFullscreen) 
-			{
-				document.documentElement.webkitRequestFullscreen();
-			}
-		}
-	});
-	*/
-
 	initTHREEjs(); // boilerplate: init necessary three.js items and scene/demo-specific objects
 
 } // end function init()
@@ -324,15 +254,6 @@ function initTHREEjs()
 	//Ici là où on définit le container donc à adapter selon comment Tanguy appelle la fenêtre
 	container = document.getElementById('container');
 	container.appendChild(renderer.domElement);
-
-	// stats = new Stats();
-	// stats.domElement.style.position = 'absolute';
-	// stats.domElement.style.top = '0px';
-	// stats.domElement.style.cursor = "default";
-	// stats.domElement.style.webkitUserSelect = "none";
-	// stats.domElement.style.MozUserSelect = "none";
-	// container.appendChild(stats.domElement);
-
 
 	clock = new THREE.Clock();
 
@@ -417,7 +338,6 @@ function initTHREEjs()
 		uULen: { type: "f", value: 1.0 },
 		uVLen: { type: "f", value: 1.0 },
 		uApertureSize: { type: "f", value: apertureSize },
-		uFocusDistance: { type: "f", value: focusDistance },
 
 		uResolution: { type: "v2", value: new THREE.Vector2() },
 		uRandomVec2: { type: "v2", value: new THREE.Vector2() },
@@ -602,51 +522,44 @@ function animate()
 
 	// the following gives us a rotation quaternion (4D vector), which will be useful for 
 	// rotating scene objects to match the camera's rotation
-	worldCamera.getWorldQuaternion(cameraWorldQuaternion);
+	//worldCamera.getWorldQuaternion(cameraWorldQuaternion);
 
 	if (useGenericInput)
 	{
 		
 		if (!isPaused)
 		{
-			if ( (keyPressed('w') || button3Pressed) && !(keyPressed('s') || button4Pressed) )
+			if ( (keyPressed('w') || button3Pressed) && !(keyPressed('x') || button4Pressed) )
 			{
 				cameraControlsObject.position.add(cameraDirectionVector.multiplyScalar(camFlightSpeed * frameTime));
 				cameraIsMoving = true;
 			}
-			if ( (keyPressed('s') || button4Pressed) && !(keyPressed('w') || button3Pressed) )
+			if ( (keyPressed('x') || button4Pressed) && !(keyPressed('w') || button3Pressed) )
 			{
 				cameraControlsObject.position.sub(cameraDirectionVector.multiplyScalar(camFlightSpeed * frameTime));
 				cameraIsMoving = true;
 			}
-			if ( (keyPressed('a') || button1Pressed) && !(keyPressed('d') || button2Pressed) )
+			if ( (keyPressed('q') || button1Pressed) && !(keyPressed('d') || button2Pressed) )
 			{
 				cameraControlsObject.position.sub(cameraRightVector.multiplyScalar(camFlightSpeed * frameTime));
 				cameraIsMoving = true;
 			}
-			if ( (keyPressed('d') || button2Pressed) && !(keyPressed('a') || button1Pressed) )
+			if ( (keyPressed('d') || button2Pressed) && !(keyPressed('q') || button1Pressed) )
 			{
 				cameraControlsObject.position.add(cameraRightVector.multiplyScalar(camFlightSpeed * frameTime));
 				cameraIsMoving = true;
 			}
-			if (keyPressed('q') && !keyPressed('z'))
+			if (keyPressed('z') && !keyPressed('s'))
 			{
 				cameraControlsObject.position.add(cameraUpVector.multiplyScalar(camFlightSpeed * frameTime));
 				cameraIsMoving = true;
 			}
-			if (keyPressed('z') && !keyPressed('q'))
+			if (keyPressed('s') && !keyPressed('z'))
 			{
 				cameraControlsObject.position.sub(cameraUpVector.multiplyScalar(camFlightSpeed * frameTime));
 				cameraIsMoving = true;
 			}
-			if ( (keyPressed('up') || button5Pressed) && !(keyPressed('down') || button6Pressed) )
-			{
-				increaseFocusDist = true;
-			}
-			if ( (keyPressed('down') || button6Pressed) && !(keyPressed('up') || button5Pressed) )
-			{
-				decreaseFocusDist = true;
-			}
+
 			if (keyPressed('right') && !keyPressed('left'))
 			{
 				increaseAperture = true;
@@ -682,23 +595,6 @@ function animate()
 
 			cameraIsMoving = true;
 			decreaseFOV = false;
-		}
-
-		if (increaseFocusDist)
-		{
-			focusDistance += 1;
-			pathTracingUniforms.uFocusDistance.value = focusDistance;
-			cameraIsMoving = true;
-			increaseFocusDist = false;
-		}
-		if (decreaseFocusDist)
-		{
-			focusDistance -= 1;
-			if (focusDistance < 1)
-				focusDistance = 1;
-			pathTracingUniforms.uFocusDistance.value = focusDistance;
-			cameraIsMoving = true;
-			decreaseFocusDist = false;
 		}
 
 		if (increaseAperture)
@@ -776,8 +672,7 @@ function animate()
 	// STEP 2
 	// Render(copy) the pathTracingScene output(pathTracingRenderTarget above) into screenCopyRenderTarget.
 	// This will be used as a new starting point for Step 1 above (essentially creating ping-pong buffers)
-	renderer.setRenderTarget(screenCopyRenderTarget);
-	renderer.render(screenCopyScene, quadCamera);
+
 
 	// STEP 3
 	// Render full screen quad with generated pathTracingRenderTarget in STEP 1 above.

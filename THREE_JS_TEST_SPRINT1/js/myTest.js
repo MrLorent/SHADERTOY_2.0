@@ -66,7 +66,7 @@ function initSceneData()
 
 	// set camera's field of view
 	worldCamera.fov = 31;
-	focusDistance = 1180.0;
+	// focusDistance = 1180.0;
 
 	// position and orient camera
 	cameraControlsObject.position.set(278, 270, 1050);
@@ -132,7 +132,7 @@ function initPathTracingShaders()
 // called automatically from within initPathTracingShaders() function above
 function createPathTracingMaterial() 
 {
-	fileLoader.load('shaders/test.glsl', function (shaderText) {
+	fileLoader.load('shaders/simpleShader.glsl', function (shaderText) {
 		
 		pathTracingFragmentShader = shaderText;
 
@@ -180,7 +180,7 @@ function updateVariablesAndUniforms()
     pathTracingUniforms.uSphereInvMatrix.value = matrixesWorldSphere;
 
 	// INFO
-	cameraInfoElement.innerHTML = "FOV: " + worldCamera.fov + " / Aperture: " + apertureSize.toFixed(2) + " / FocusDistance: " + focusDistance + "<br>" + "Samples: " + sampleCounter;
+	// cameraInfoElement.innerHTML = "FOV: " + worldCamera.fov + " / Aperture: " + apertureSize.toFixed(2) + " / FocusDistance: " + focusDistance + "<br>" + "Samples: " + sampleCounter;
 
 } // end function updateVariablesAndUniforms()
 
