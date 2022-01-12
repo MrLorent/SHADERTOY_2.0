@@ -2,3 +2,5 @@
 SHADER_LAB/build/
 
 SHADER_LAB/node_modules/
+
+.DS_Store
