@@ -173,7 +173,7 @@ void main()
     sphere.origin=vec3((mat4(uSphereInvMatrix[0])* vec4(-1,1, 8, 1)).xyz);
     box.origin=vec3((mat4(uBoxInvMatrix[0])* vec4(1,1, 8, 1)).xyz);
     vec2 uv = vertex_uv-0.5;
-    uv*=uResolution.x/uResolution.y;
+    uv*=uResolution.xy/uResolution.y;
     vec3 color=vec3(0);
     
     for(int i=0; i<N_RAY; i++){
