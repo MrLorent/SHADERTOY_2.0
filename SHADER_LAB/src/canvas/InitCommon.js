@@ -207,9 +207,12 @@ export default function init()
 function initTHREEjs()
 {
 
-	canvas = document.createElement('canvas');
+	//canvas = document.createElement('canvas');
 
-	renderer = new THREE.WebGLRenderer({ canvas: canvas, context: canvas.getContext('webgl2') });
+	renderer = new THREE.WebGLRenderer({
+		canvas: document.querySelector('canvas.webgl'),
+		context: document.querySelector('canvas.webgl').getContext('webgl2')
+	});
 	//suggestion: set to false for production
 	renderer.debug.checkShaderErrors = true;
 
@@ -220,10 +223,6 @@ function initTHREEjs()
 	//required by WebGL 2.0 for rendering to FLOAT textures
 	context = renderer.getContext();
 	context.getExtension('EXT_color_buffer_float');
-
-	//Ici là où on définit le container donc à adapter selon comment Tanguy appelle la fenêtre
-	container = document.querySelector('canvas.webgl');
-	container.appendChild(renderer.domElement);
 
 	clock = new THREE.Clock();
 
@@ -464,13 +463,13 @@ function initPathTracingShaders()
 	};
 
 	// load vertex and fragment shader files that are used in the pathTracing material, mesh and scene
-    pathTracingVertexShader=vs;
-    createPathTracingMaterial();
-	// fileLoader.load(vs, function (shaderText) {
-	// 	pathTracingVertexShader = shaderText;
+    // pathTracingVertexShader=vs;
+    // createPathTracingMaterial();
+	fileLoader.load(vs, function (shaderText) {
+		pathTracingVertexShader = shaderText;
 
-	// 	createPathTracingMaterial();
-	// });
+		createPathTracingMaterial();
+	});
 
 } // end function initPathTracingShaders()
 
@@ -478,47 +477,48 @@ function initPathTracingShaders()
 // called automatically from within initPathTracingShaders() function above
 function createPathTracingMaterial() 
 {
-    pathTracingFragmentShader = mainshader;
+    // pathTracingFragmentShader = mainshader;
 
-    pathTracingMaterial = new THREE.ShaderMaterial({
-        uniforms: pathTracingUniforms,
-        defines: pathTracingDefines,
-        vertexShader: pathTracingVertexShader,
-        fragmentShader: pathTracingFragmentShader,
-        depthTest: false,
-        depthWrite: false
-    });
+    // pathTracingMaterial = new THREE.ShaderMaterial({
+    //     uniforms: pathTracingUniforms,
+    //     defines: pathTracingDefines,
+    //     vertexShader: pathTracingVertexShader,
+    //     fragmentShader: pathTracingFragmentShader,
+    //     depthTest: false,
+    //     depthWrite: false
+    // });
 
-    pathTracingMesh = new THREE.Mesh(pathTracingGeometry, pathTracingMaterial);
-    pathTracingScene.add(pathTracingMesh);
+    // pathTracingMesh = new THREE.Mesh(pathTracingGeometry, pathTracingMaterial);
+    // pathTracingScene.add(pathTracingMesh);
 
     // the following keeps the large scene ShaderMaterial quad right in front 
     //   of the camera at all times. This is necessary because without it, the scene 
     //   quad will fall out of view and get clipped when the camera rotates past 180 degrees.
-    worldCamera.add(pathTracingMesh);
+    // worldCamera.add(pathTracingMesh);
 
-	// fileLoader.load('shaders/simpleShader.glsl', function (shaderText) {
+	fileLoader.load(mainshader, function (shaderText) {
 		
-	// 	pathTracingFragmentShader = shaderText;
+		pathTracingFragmentShader = shaderText;
 
-	// 	pathTracingMaterial = new THREE.ShaderMaterial({
-	// 		uniforms: pathTracingUniforms,
-	// 		defines: pathTracingDefines,
-	// 		vertexShader: pathTracingVertexShader,
-	// 		fragmentShader: pathTracingFragmentShader,
-	// 		depthTest: false,
-	// 		depthWrite: false
-	// 	});
+		pathTracingMaterial = new THREE.ShaderMaterial({
+			uniforms: pathTracingUniforms,
+			defines: pathTracingDefines,
+			vertexShader: pathTracingVertexShader,
+			fragmentShader: pathTracingFragmentShader,
+			depthTest: false,
+			depthWrite: false
+		});
 
-	// 	pathTracingMesh = new THREE.Mesh(pathTracingGeometry, pathTracingMaterial);
-	// 	pathTracingScene.add(pathTracingMesh);
+		pathTracingMesh = new THREE.Mesh(pathTracingGeometry, pathTracingMaterial);
+		pathTracingScene.add(pathTracingMesh);
+		
 
 	// 	// the following keeps the large scene ShaderMaterial quad right in front 
 	// 	//   of the camera at all times. This is necessary because without it, the scene 
 	// 	//   quad will fall out of view and get clipped when the camera rotates past 180 degrees.
-	// 	worldCamera.add(pathTracingMesh);
+		worldCamera.add(pathTracingMesh);
 		
-	// });
+	});
 
 } // end function createPathTracingMaterial()
 
