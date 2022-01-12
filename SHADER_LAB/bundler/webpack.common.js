@@ -42,7 +42,7 @@ module.exports = {
                 ]
             },
 
-            // JS
+            // JSX
             {
                 test: /\.jsx$/,
                 loader: "babel-loader",
@@ -58,6 +58,16 @@ module.exports = {
                             }
                         ]
                     ]
+                }
+            },
+
+            // SHADERS
+            {
+                test: /\.(glsl|vs|fs|vert|frag)$/,
+                type: 'asset/resource',
+                generator:
+                {
+                    filename: 'assets/shaders/[name].[hash][ext]'
                 }
             },
 
