@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry:
     {
-        main: path.resolve(__dirname, '../src/main.js')
+        main: path.resolve(__dirname, '../src/main.jsx')
     },
     plugins:
     [
@@ -40,6 +40,25 @@ module.exports = {
                 [
                     'babel-loader'
                 ]
+            },
+
+            // JS
+            {
+                test: /\.jsx$/,
+                loader: "babel-loader",
+                exclude: /node_modules/,
+                options:
+                {
+                    plugins:
+                    [
+                        [
+                            "@babel/plugin-transform-react-jsx",
+                            {
+                                "pragma": "createElement"
+                            }
+                        ]
+                    ]
+                }
             },
 
             // IMAGES
