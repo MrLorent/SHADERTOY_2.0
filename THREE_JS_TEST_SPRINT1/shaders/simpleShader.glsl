@@ -58,8 +58,7 @@ const PhongMaterial sphereMaterial = PhongMaterial(vec3(0.9,.3,0.94),
                                                    .33, .64, .3, 64.);
 const PhongMaterial globalMaterial = PhongMaterial(vec3(.4, .9, 1.), 
                                                    .1, .7, .2, 8.);
-const PhongMaterial mats[2] = PhongMaterial[](globalMaterial, 
-                                              sphereMaterial);
+
                                                    
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -165,19 +164,36 @@ vec3 PhongIllumination(in vec3 p, in vec3 ro, in int hitObject) {
     }
     
     // Acutal Phong stuff
-    vec3 ambientDiffuse = light.col * mats[hitObject].albedo;
+    vec3 ambientDiffuse= light.col * ( hitObject ==1 ? sphereMaterial.albedo : globalMaterial.albedo);
+    vec3 light1SpecularComponent = vec3(pow(spec, ( hitObject ==1 ? sphereMaterial.alpha : globalMaterial.alpha)));   
     vec3 light1DiffuseComponent = dif * light.col;
-    vec3 light1SpecularComponent = vec3(pow(spec, mats[hitObject].alpha));
+    vec3 col = (hitObject ==1 ? sphereMaterial.ka * ambientDiffuse + 
+               sphereMaterial.kd * light1DiffuseComponent + 
+               sphereMaterial.ks * light1SpecularComponent :
+               
+               globalMaterial.ka * ambientDiffuse + 
+               globalMaterial.kd * light1DiffuseComponent + 
+               globalMaterial.ks * light1SpecularComponent);
     
-    vec3 col = mats[hitObject].ka * ambientDiffuse + 
-               mats[hitObject].kd * light1DiffuseComponent + 
-               mats[hitObject].ks * light1SpecularComponent;
     
     return col;
 }
 
 vec3 flatPainting(in int hitObject){
-    return mats[hitObject].albedo;
+    return hitObject==1 ? sphereMaterial.albedo : globalMaterial.albedo;
+    
+}
+
+vec3 Lambert(in vec3 p, in int hitObject){
+    vec3 lightPosOffset = vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.;
+    vec3 lightPos = light.pos + lightPosOffset;
+    
+    vec3 l = normalize(lightPos - p); // light vector
+    vec3 n = GetNormal(p); // get normal of p
+    float dif  = clamp(dot(l, n), 0., 1.);
+    
+    return dif * (hitObject==1 ? sphereMaterial.albedo : globalMaterial.albedo) * light.col;
+    
 }
 
 float rand(vec2 co){
@@ -186,7 +202,7 @@ float rand(vec2 co){
 
 void main()
 {
-    vec2 uv = (vuv-uResolution.xy*0.5)/uResolution.y;//(gl_FragCoord.xy - uResolution.xy * .5 ) / uResolution.y; // center around origin
+    vec2 uv = (vuv-0.5);//(gl_FragCoord.xy - uResolution.xy * .5 ) / uResolution.y; // center around origin
     vec3 color=vec3(0);
     
     for(int i=0; i<10; i++){
@@ -202,8 +218,9 @@ void main()
         float d = RayMarch(object, ro, rd);
         vec3 p = ro + rd * d;
 
-        color += PhongIllumination(p, ro, object);
-        //color += flatPainting(object);
+        //color += PhongIllumination(p, ro, object);
+        color += flatPainting(object);
+        //color += Lambert(p, object);
     }
    
 	pc_fragColor = vec4(color/10.0, 1.0);
