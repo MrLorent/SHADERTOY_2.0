@@ -200,8 +200,7 @@ void main()
 {
     s.o=vec3((mat4(uSphereInvMatrix[0])* vec4(-1,1, 8, 1)).xyz);
     box.o=vec3((mat4(uBoxInvMatrix[0])* vec4(1,1, 8, 1)).xyz);
-    vec2 uv = (vuv-0.5);//(gl_FragCoord.xy - uResolution.xy * .5 ) / uResolution.y; // center around origin
-    uv.x*=uResolution.x/uResolution.y;
+    vec2 uv = vuv-0.5;//(gl_FragCoord.xy - uResolution.xy * .5 ) / uResolution.y; // center around origin
     vec3 color=vec3(0);
     
     for(int i=0; i<10; i++){
