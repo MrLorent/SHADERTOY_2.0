@@ -15,8 +15,6 @@ uniform vec3 uCameraPosition;
 uniform mat4 uBoxInvMatrix[N_BOXES];
 uniform mat4 uSphereInvMatrix[N_SPHERES];
 uniform vec3 uColors[N_MATERIALS];
-uniform vec4 uK[N_MATERIALS];
-
 
 in vec3 fragCoord;
 in vec2 vertex_uv;
