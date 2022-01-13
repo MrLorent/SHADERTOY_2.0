@@ -1,9 +1,9 @@
-import createElement from './createElement.jsx';
+import createElement from './createElement.js';
 
 // Create some dom elements
 export const slider = (id, label, name, min, max) => {
     const slider = 
-    <div className='slider_input'>
+    <div className='input-container slider'>
         <input
             type="range"
             id={id}
