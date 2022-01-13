@@ -24,7 +24,12 @@ let pixel_ratio =1;
 let window_is_being_resized = false;
 let file_loader = new THREE.FileLoader();
 
-
+//colors changera de taille quand on ajoutera des couleurs différentes par objet
+let colors=[new THREE.Color('blue'), new THREE.Color('white')]
+let ks=[0.1,0.2]
+let kd=[0.4,0.7]
+let ka=[0.9,0.4]
+let alpha=[30, 20]
 
 function on_window_resize(event)
 {
@@ -111,6 +116,7 @@ function init_THREEjs()
 
 }
 
+
 function animate()
 {
 
@@ -172,6 +178,10 @@ function init_scene_data()
 	world_camera.fov = 31;
 } 
 
+function update(nameInput, value, inputArray, id){
+	inputArray[id]=value
+	nameInput.value = inputArray;
+}
 
 
 function init_ray_marching_shaders() 
@@ -190,12 +200,13 @@ function init_ray_marching_shaders()
     for(let i=0; i<nb_boxes; i++){
         sphere_matrixes.push(new THREE.Matrix4());
     }
-    let colors = [new THREE.Color('aqua'),new THREE.Color('rgb(240, 31, 17)')];
-    let k = [new THREE.Vector4(0.1,0.2,0.3,30), new THREE.Vector4(0.1,0.2,0.3,30)]
 
     ray_marching_uniforms.uSphereInvMatrix =  { type: "Matrix4fv", value: sphere_matrixes }
     ray_marching_uniforms.uColors = {value: colors}
-    ray_marching_uniforms.uK={value: k}
+    ray_marching_uniforms.uKs={value: ks}
+    ray_marching_uniforms.uKd={value: kd}
+    ray_marching_uniforms.uKa={value: ka}
+    ray_marching_uniforms.uAlpha={value: alpha}
 
 	//pas sure que ce soit utile
 	ray_marching_defines = {
@@ -239,6 +250,11 @@ function create_ray_marching_material()
 // servira pour tous les input d'objets pour mettre à
 function update_variables_and_uniforms() 
 {   
+	update(ray_marching_uniforms.uColors, new THREE.Color('white'), colors, 0)
+	update(ray_marching_uniforms.uColors, new THREE.Color('#f34720'), colors, 1)
+	update(ray_marching_uniforms.uKd, 1, kd, 1)
+	update(ray_marching_uniforms.uKa, 1, ka, 1)
+
 	// BOXES
     let matrixes_world = [];
     for(let i=0; i<nb_boxes; i++){

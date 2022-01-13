@@ -15,10 +15,7 @@ uniform vec3 uCameraPosition;
 uniform mat4 uBoxInvMatrix[N_BOXES];
 uniform mat4 uSphereInvMatrix[N_SPHERES];
 uniform vec3 uColors[N_MATERIALS];
-uniform float uKs[N_MATERIALS];
-uniform float uKd[N_MATERIALS];
-uniform float uKa[N_MATERIALS];
-uniform float uAlpha[N_MATERIALS];
+uniform vec4 uK[N_MATERIALS];
 
 
 in vec3 fragCoord;
@@ -114,47 +111,6 @@ vec3 GetNormalEulerTwoSided(in vec3 p) { // get surface normal using euler appro
 #define GetNormal GetNormalEulerTwoSided
 
 
-vec3 PhongIllumination(in vec3 ray_position, in vec3 ray_origin, in int hit_object) {
-    vec3 lightPosOffset = vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.; //light is turning
-    vec3 lightPos = light.pos + lightPosOffset;
-    
-    vec3 light_vector = normalize(lightPos - ray_position);
-    vec3 normal = GetNormal(ray_position);
-    vec3 reflect = reflect(light_vector, normal);
-    vec3 ray_vector = normalize(ray_origin - ray_position);
-    
-    vec3 half_vector = normalize(light_vector + ray_vector); // the `half-angle` vector
-    
-    float diffuse  = clamp(dot(light_vector, normal), 0., 1.);
-    float specular = clamp(dot(half_vector, normal), 0., 1.);  // also called `blinn term`
-    
-
-    // shadow stuff
-    vec3 position_offset = normal * SURF_DIST_MARCH * 1.2; // move the point above a little
-    int _; //useless stuff but needed for the next RayMarch
-    float d = RayMarch(_, ray_position + position_offset, light_vector);
-    if (d < length(lightPos - ray_position)) { // If true then we've shaded a point on some object before, 
-                                    // so shade the currnet point as shodow.
-        diffuse *= .3; // no half-shadow because the light source is a point.    
-        specular = 0.; // shadows don't have specular component, I think.
-    }
-
-
-    // Acutal Phong stuff
-    vec3 ambientDiffuse = light.col * uColors[hit_object];
-    vec3 light1DiffuseComponent = diffuse * light.col;
-    vec3 light1SpecularComponent = vec3(pow(specular, uAlpha[hit_object]));
-    
-    vec3 col = uKs[hit_object] * ambientDiffuse + 
-               uKd[hit_object] * light1DiffuseComponent + 
-               uKa[hit_object] * light1SpecularComponent;
-    
-    return col;
-}
-
-vec3 flatPainting(in int hit_object){
-    return uColors[hit_object];
-}
 
 vec3 Lambert(in vec3 ray_position, in int hit_object){
     vec3 lightPosOffset = vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.;
@@ -193,9 +149,7 @@ void main()
         float distance_to_object = RayMarch(hit_object, ray_origin, ray_direction);
         vec3 ray_position = ray_origin + ray_direction * distance_to_object;
 
-        color += PhongIllumination(ray_position, ray_origin, hit_object);
-        //color += flatPainting(hit_object);
-        //color+=Lambert(object_position, hit_object);
+        color+=Lambert(ray_position, hit_object);
     }
 
    
