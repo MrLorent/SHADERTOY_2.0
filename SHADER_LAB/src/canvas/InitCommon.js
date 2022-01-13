@@ -1,55 +1,28 @@
 import * as THREE from 'three';
 import vs from "../shaders/vertex/vertexShader.glsl"
 import mainshader from "../shaders/fragment/phongIllumination.glsl"
-
-
-var box_mesh = [];
-var sphere_mesh = [];
-
-var nb_boxes=3;
-var nb_spheres=3;
-
-let SCREEN_WIDTH;
-let SCREEN_HEIGHT;
-let context;
-let ray_marching_scene;
-let ray_marching_uniforms;
-let ray_marching_defines;
-let ray_marching_vertex_shader, ray_marching_fragment_shader;
-let ray_marching_geometry, ray_marching_material, ray_marching_mesh;
-let ray_marching_render_target;
-let world_camera;
-let renderer, clock;
-let frame_time, elapsed_time;
-let pixel_ratio =1;
-let window_is_being_resized = false;
-let file_loader = new THREE.FileLoader();
+import * as GLOBALS from "./globals.js";
 
 //colors changera de taille quand on ajoutera des couleurs différentes par objet
-let colors=[new THREE.Color('blue'), new THREE.Color('white')]
-let ks=[0.1,0.2]
-let kd=[0.4,0.7]
-let ka=[0.9,0.4]
-let alpha=[30, 20]
 
 function on_window_resize(event)
 {
 
-	window_is_being_resized = true;
+	GLOBALS.window_is_being_resized = true;
 
-	SCREEN_WIDTH = 800 ;
-	SCREEN_HEIGHT = 600 ;
+	let SCREEN_WIDTH = 800 ;
+	let SCREEN_HEIGHT = 600 ;
 
-	renderer.setPixelRatio(pixel_ratio);
-	renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	GLOBALS.renderer.setPixelRatio(GLOBALS.pixel_ratio);
+	GLOBALS.renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	ray_marching_uniforms.uResolution.value.x = context.drawingBufferWidth;
-	ray_marching_uniforms.uResolution.value.y = context.drawingBufferHeight;
+	GLOBALS.ray_marching_uniforms.uResolution.value.x = GLOBALS.context.drawingBufferWidth;
+	GLOBALS.ray_marching_uniforms.uResolution.value.y = GLOBALS.context.drawingBufferHeight;
 
-	ray_marching_render_target.setSize(context.drawingBufferWidth, context.drawingBufferHeight);
+	GLOBALS.ray_marching_render_target.setSize(GLOBALS.context.drawingBufferWidth, GLOBALS.context.drawingBufferHeight);
 
-	world_camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
-	world_camera.updateProjectionMatrix();
+	GLOBALS.world_camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+	GLOBALS.world_camera.updateProjectionMatrix();
 
 }
 
@@ -61,6 +34,13 @@ export default function init()
 
 	//ici on mettra probablement des event de mouse
 
+	GLOBALS.file_loader = new THREE.FileLoader();
+	GLOBALS.colors=[new THREE.Color('blue'), new THREE.Color('white')]
+	GLOBALS.kd=[0.4,0.7];
+	GLOBALS.ks=[0.1,0.2];
+	GLOBALS.ka=[0.9,0.4];
+	GLOBALS.alpha=[30, 20];
+
 	init_THREEjs(); 
 
 }
@@ -69,26 +49,26 @@ export default function init()
 function init_THREEjs()
 {
 
-	renderer = new THREE.WebGLRenderer({
+	GLOBALS.renderer = new THREE.WebGLRenderer({
 		canvas: document.querySelector('canvas.webgl'),
 		context: document.querySelector('canvas.webgl').getContext('webgl2')
 	});
-	renderer.debug.checkShaderErrors = true;
-	renderer.autoClear = false;
-	renderer.toneMapping = THREE.ReinhardToneMapping;
+	GLOBALS.renderer.debug.checkShaderErrors = true;
+	GLOBALS.renderer.autoClear = false;
+	GLOBALS.renderer.toneMapping = THREE.ReinhardToneMapping;
 
-	context = renderer.getContext();
-	context.getExtension('EXT_color_buffer_float');
+	GLOBALS.context = GLOBALS.renderer.getContext();
+	GLOBALS.context.getExtension('EXT_color_buffer_float');
 
-	clock = new THREE.Clock();
+	GLOBALS.clock = new THREE.Clock();
 
-	ray_marching_scene = new THREE.Scene();
+	GLOBALS.ray_marching_scene = new THREE.Scene();
 
-	world_camera = new THREE.PerspectiveCamera(60, document.body.clientWidth / document.body.clientHeight, 1, 1000);
-	ray_marching_scene.add(world_camera);
-	world_camera.position.y=1;
+	GLOBALS.world_camera = new THREE.PerspectiveCamera(60, document.body.clientWidth / document.body.clientHeight, 1, 1000);
+	GLOBALS.ray_marching_scene.add(GLOBALS.world_camera);
+	GLOBALS.world_camera.position.y=1;
 
-	ray_marching_render_target = new THREE.WebGLRenderTarget(context.drawingBufferWidth, context.drawingBufferHeight, {
+	GLOBALS.ray_marching_render_target = new THREE.WebGLRenderTarget(GLOBALS.context.drawingBufferWidth, GLOBALS.context.drawingBufferHeight, {
 		minFilter: THREE.NearestFilter,
 		magFilter: THREE.NearestFilter,
 		format: THREE.RGBAFormat,
@@ -96,16 +76,17 @@ function init_THREEjs()
 		depthBuffer: false,
 		stencilBuffer: false
 	});
-	ray_marching_render_target.texture.generateMipmaps = false;
+	GLOBALS.ray_marching_render_target.texture.generateMipmaps = false;
 
 
 	init_scene_data();
 
-	ray_marching_geometry = new THREE.PlaneBufferGeometry(2, 2);
-	ray_marching_uniforms = {
+	GLOBALS.ray_marching_geometry = new THREE.PlaneBufferGeometry(2, 2);
+	GLOBALS.ray_marching_uniforms = {
 		uTime: { type: "f", value: 0.0 },
 		uResolution: { type: "v2", value: new THREE.Vector2() },
-		uCameraPosition: { type: "v3", value: new THREE.Vector3() }
+		uCameraPosition: { type: "v3", value: new THREE.Vector3() },
+		uRotatingLight: {value: 1}
 	};
 
 	init_ray_marching_shaders();
@@ -121,25 +102,25 @@ function animate()
 {
 
 	//servira pour les changements de cam
-	frame_time = clock.getDelta();
+	GLOBALS.frame_time = GLOBALS.clock.getDelta();
 
-	elapsed_time = clock.getElapsedTime() % 1000;
+	GLOBALS.elapsed_time = GLOBALS.clock.getElapsedTime() % 1000;
 
-	if (window_is_being_resized)
+	if (GLOBALS.window_is_being_resized)
 	{
-		window_is_being_resized = false;
+		GLOBALS.window_is_being_resized = false;
 	}
 
 	// update scene
 	update_variables_and_uniforms();
-	ray_marching_uniforms.uTime.value = elapsed_time;
+	GLOBALS.ray_marching_uniforms.uTime.value = GLOBALS.elapsed_time;
 
 	// CAMERA
-	world_camera.updateMatrixWorld(true);
-	ray_marching_uniforms.uCameraPosition.value.copy(world_camera.position);
+	GLOBALS.world_camera.updateMatrixWorld(true);
+	GLOBALS.ray_marching_uniforms.uCameraPosition.value.copy(GLOBALS.world_camera.position);
 
-	renderer.setRenderTarget(null);
-	renderer.render(ray_marching_scene, world_camera);
+	GLOBALS.renderer.setRenderTarget(null);
+	GLOBALS.renderer.render(GLOBALS.ray_marching_scene, GLOBALS.world_camera);
 
 	requestAnimationFrame(animate);
 
@@ -150,32 +131,7 @@ function animate()
 function init_scene_data() 
 {
     //en réalité le material a plutôt l'air choisi dans le shader donc je laisse ces valeurs les mêmes pour tous les objets
-    let global_material = new THREE.MeshPhysicalMaterial( {
-        color: new THREE.Color(0.0, 0.0, 0.95), 
-        roughness: 0.2 
-    } );
-
-	// Boxes
-    for (let i=0; i<nb_boxes; i++){
-        let tmp_box_geometry = new THREE.BoxGeometry(1,1,1);
-        box_mesh.push(new THREE.Mesh(tmp_box_geometry, global_material));
-        ray_marching_scene.add(box_mesh[i]);
-        box_mesh[i].visible = false;
-        box_mesh[i].position.set(0, 0, 0);
-        //box_mesh[i].rotation.set(0, Math.PI * 0.3, 0);
-        box_mesh[i].updateMatrixWorld(true);
-    }
-    for (let i=0; i<nb_spheres; i++){
-        let tmp_sphere_geometry = new THREE.SphereGeometry(1,1,1);
-        sphere_mesh.push(new THREE.Mesh(tmp_sphere_geometry, global_material));
-        ray_marching_scene.add(sphere_mesh[i]);
-        sphere_mesh[i].visible = false; 
-        //sphere_mesh[i].rotation.set(0, Math.PI * 0.1, 0);
-        sphere_mesh[i].position.set(0, 0.5, 0);
-        sphere_mesh[i].updateMatrixWorld(true);
-    }
-
-	world_camera.fov = 31;
+	GLOBALS.world_camera.fov = 31;
 } 
 
 function update(nameInput, value, inputArray, id){
@@ -183,38 +139,25 @@ function update(nameInput, value, inputArray, id){
 	nameInput.value = inputArray;
 }
 
-
+function updateLight(isRotating){
+	GLOBALS.ray_marching_uniforms.uRotatingLight.value = isRotating;
+}
 function init_ray_marching_shaders() 
 {
 
-    //BOXES
-    let box_matrixes= [];
-    for(let i=0; i<nb_boxes; i++){
-        box_matrixes.push(new THREE.Matrix4());
-    }
-    //on envoie les valeurs au shader via uniforms
-    ray_marching_uniforms.uBoxInvMatrix =  { type: "Matrix4fv", value: box_matrixes }
-
-    //SPHERES
-    let sphere_matrixes= [];
-    for(let i=0; i<nb_boxes; i++){
-        sphere_matrixes.push(new THREE.Matrix4());
-    }
-
-    ray_marching_uniforms.uSphereInvMatrix =  { type: "Matrix4fv", value: sphere_matrixes }
-    ray_marching_uniforms.uColors = {value: colors}
-    ray_marching_uniforms.uKs={value: ks}
-    ray_marching_uniforms.uKd={value: kd}
-    ray_marching_uniforms.uKa={value: ka}
-    ray_marching_uniforms.uAlpha={value: alpha}
+    GLOBALS.ray_marching_uniforms.uColors = {value: GLOBALS.colors}
+    GLOBALS.ray_marching_uniforms.uKs={value: GLOBALS.ks}
+    GLOBALS.ray_marching_uniforms.uKd={value: GLOBALS.kd}
+    GLOBALS.ray_marching_uniforms.uKa={value: GLOBALS.ka}
+    GLOBALS.ray_marching_uniforms.uAlpha={value: GLOBALS.alpha}
 
 	//pas sure que ce soit utile
-	ray_marching_defines = {
+	GLOBALS.ray_marching_defines = {
 		//NUMBER_OF_TRIANGLES: total_number_of_triangles
 	};
 
-	file_loader.load(vs, function (shaderText) {
-		ray_marching_vertex_shader = shaderText;
+	GLOBALS.file_loader.load(vs, function (shaderText) {
+		GLOBALS.ray_marching_vertex_shader = shaderText;
 		create_ray_marching_material();
 	});
 
@@ -223,23 +166,23 @@ function init_ray_marching_shaders()
 function create_ray_marching_material() 
 {
 
-	file_loader.load(mainshader, function (shaderText) {
+	GLOBALS.file_loader.load(mainshader, function (shaderText) {
 		
-		ray_marching_fragment_shader = shaderText;
+		GLOBALS.ray_marching_fragment_shader = shaderText;
 
-		ray_marching_material = new THREE.ShaderMaterial({
-			uniforms: ray_marching_uniforms,
-			defines: ray_marching_defines,
-			vertexShader: ray_marching_vertex_shader,
-			fragmentShader: ray_marching_fragment_shader,
+		GLOBALS.ray_marching_material = new THREE.ShaderMaterial({
+			uniforms: GLOBALS.ray_marching_uniforms,
+			defines: GLOBALS.ray_marching_defines,
+			vertexShader: GLOBALS.ray_marching_vertex_shader,
+			fragmentShader: GLOBALS.ray_marching_fragment_shader,
 			depthTest: false,
 			depthWrite: false
 		});
 
-		ray_marching_mesh = new THREE.Mesh(ray_marching_geometry, ray_marching_material);
-		ray_marching_scene.add(ray_marching_mesh);
+		GLOBALS.ray_marching_mesh = new THREE.Mesh(GLOBALS.ray_marching_geometry, GLOBALS.ray_marching_material);
+		GLOBALS.ray_marching_scene.add(GLOBALS.ray_marching_mesh);
 		
-		world_camera.add(ray_marching_mesh);
+		GLOBALS.world_camera.add(GLOBALS.ray_marching_mesh);
 		
 	});
 
@@ -250,27 +193,11 @@ function create_ray_marching_material()
 // servira pour tous les input d'objets pour mettre à
 function update_variables_and_uniforms() 
 {   
-	update(ray_marching_uniforms.uColors, new THREE.Color('white'), colors, 0)
-	update(ray_marching_uniforms.uColors, new THREE.Color('#f34720'), colors, 1)
-	update(ray_marching_uniforms.uKd, 1, kd, 1)
-	update(ray_marching_uniforms.uAlpha, 60, alpha, 1)
+	update(GLOBALS.ray_marching_uniforms.uColors, new THREE.Color('white'), GLOBALS.colors, 0)
+	update(GLOBALS.ray_marching_uniforms.uColors, new THREE.Color('#f34720'), GLOBALS.colors, 1)
+	//update(GLOBALS.ray_marching_uniforms.uKd, 1, GLOBALS.kd, 1)
+	update(GLOBALS.ray_marching_uniforms.uKa, 1, GLOBALS.ka, 1)
+	updateLight(0)
 
-	// BOXES
-    let matrixes_world = [];
-    for(let i=0; i<nb_boxes; i++){
-        let matrix=box_mesh[i].matrixWorld.invert()
-        matrixes_world.push(matrix.clone());
-    }   
-
-    ray_marching_uniforms.uBoxInvMatrix.value = matrixes_world;
-
-	//SPHERES
-    let matrixes_world_sphere = [];
-    for(let i=0; i<nb_spheres; i++){
-        let matrix=sphere_mesh[i].matrixWorld
-        matrixes_world_sphere.push(matrix.clone());
-    }   
-
-    ray_marching_uniforms.uSphereInvMatrix.value = matrixes_world_sphere;
 
 }
