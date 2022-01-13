@@ -1,4 +1,4 @@
-import './scss/style.scss';
+import './scss/index.scss';
 
 import createElement from './createElement.jsx';
 import initCanvas from './canvas/InitCommon.js';
