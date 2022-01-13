@@ -6,7 +6,7 @@ import initCanvas from './canvas/InitCommon.js';
 initCanvas();
 
 // Inputs
-const inputs = document.querySelector('div.inputs');
+const inputs = document.getElementById('inputs');
 
 // Setup some data
 const name = 'Geoff'
