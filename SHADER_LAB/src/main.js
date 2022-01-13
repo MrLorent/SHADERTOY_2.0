@@ -8,6 +8,6 @@ initCanvas();
 // Inputs
 const inputs = document.getElementById('inputs');
 
-const tmp = slider(1,"Input 1", "input1",1,100);
+const tmp = slider(1,"Alpha", "input1",1,100);
 
 inputs.append(tmp);

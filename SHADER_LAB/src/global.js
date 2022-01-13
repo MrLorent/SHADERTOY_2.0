@@ -1,1 +1,1 @@
-let inputVal = 0.5;
+let inputVal;

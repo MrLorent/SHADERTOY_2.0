@@ -58,7 +58,7 @@ function on_window_resize(event)
 
 export default function init()
 {
-
+	GLOBAL.inputVal = 50;
 	window.addEventListener('resize', on_window_resize, false);
 
 	//ici on mettra probablement des event de mouse
