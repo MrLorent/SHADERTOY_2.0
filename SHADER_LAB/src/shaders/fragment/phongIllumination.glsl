@@ -115,7 +115,7 @@ vec3 GetNormalEulerTwoSided(in vec3 p) { // get surface normal using euler appro
 
 
 vec3 PhongIllumination(in vec3 ray_position, in vec3 ray_origin, in int hit_object) {
-    vec3 lightPosOffset = vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.; //light is turning
+    vec3 lightPosOffset = 0.0 * vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.; //light is turning
     vec3 lightPos = light.pos + lightPosOffset;
     
     vec3 light_vector = normalize(lightPos - ray_position);

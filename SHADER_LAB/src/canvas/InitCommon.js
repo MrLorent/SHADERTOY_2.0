@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import vs from "../shaders/vertex/vertexShader.glsl"
 import mainshader from "../shaders/fragment/phongIllumination.glsl"
+import * as GLOBAL from '../global.js';
+
 
 var box_mesh = [];
 var sphere_mesh = [];
@@ -253,7 +255,7 @@ function update_variables_and_uniforms()
 	update(ray_marching_uniforms.uColors, new THREE.Color('white'), colors, 0)
 	update(ray_marching_uniforms.uColors, new THREE.Color('#f34720'), colors, 1)
 	update(ray_marching_uniforms.uKd, 1, kd, 1)
-	update(ray_marching_uniforms.uKa, 1, ka, 1)
+	update(ray_marching_uniforms.uAlpha, GLOBAL.inputVal, alpha, 1)
 
 	// BOXES
     let matrixes_world = [];
