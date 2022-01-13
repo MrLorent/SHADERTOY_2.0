@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import vs from "../shaders/vertex/vertexShader.glsl"
 import mainshader from "../shaders/fragment/phongIllumination.glsl"
-import * as GLOBAL from '../global.js';
 
 
 var box_mesh = [];
@@ -58,7 +57,6 @@ function on_window_resize(event)
 
 export default function init()
 {
-	GLOBAL.inputVal = 50;
 	window.addEventListener('resize', on_window_resize, false);
 
 	//ici on mettra probablement des event de mouse
@@ -255,7 +253,7 @@ function update_variables_and_uniforms()
 	update(ray_marching_uniforms.uColors, new THREE.Color('white'), colors, 0)
 	update(ray_marching_uniforms.uColors, new THREE.Color('#f34720'), colors, 1)
 	update(ray_marching_uniforms.uKd, 1, kd, 1)
-	update(ray_marching_uniforms.uAlpha, GLOBAL.inputVal, alpha, 1)
+	update(ray_marching_uniforms.uAlpha, 60, alpha, 1)
 
 	// BOXES
     let matrixes_world = [];

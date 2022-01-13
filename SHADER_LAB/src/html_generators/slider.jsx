@@ -1,12 +1,11 @@
 import createElement from './createElement.js';
-import * as GLOBAL from '../global.js';
 
 // Create some dom elements
 export const slider = (id, label, name, min, max) => {
     const slider = 
     <div className='input-container slider'>
         <input
-            oninput={function(){ console.log(GLOBAL.inputVal); GLOBAL.inputVal = this.value; }}
+            // oninput={}
             type="range"
             id={id}
             name={name}
