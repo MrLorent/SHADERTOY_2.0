@@ -15,7 +15,10 @@ uniform vec3 uCameraPosition;
 uniform mat4 uBoxInvMatrix[N_BOXES];
 uniform mat4 uSphereInvMatrix[N_SPHERES];
 uniform vec3 uColors[N_MATERIALS];
-uniform vec4 uK[N_MATERIALS];
+uniform float uKs[N_MATERIALS];
+uniform float uKa[N_MATERIALS];
+uniform float uKd[N_MATERIALS];
+uniform float uAlpha[N_MATERIALS];
 
 
 in vec3 fragCoord;
@@ -140,11 +143,11 @@ vec3 PhongIllumination(in vec3 ray_position, in vec3 ray_origin, in int hit_obje
     // Acutal Phong stuff
     vec3 ambientDiffuse = light.col * uColors[hit_object];
     vec3 light1DiffuseComponent = diffuse * light.col;
-    vec3 light1SpecularComponent = vec3(pow(specular, uK[hit_object][3]));
+    vec3 light1SpecularComponent = vec3(pow(specular, uAlpha[hit_object]));
     
-    vec3 col = uK[hit_object][0] * ambientDiffuse +  //ka
-               uK[hit_object][1] * light1DiffuseComponent + //kd 
-               uK[hit_object][2] * light1SpecularComponent; //ks
+    vec3 col = uKs[hit_object] * ambientDiffuse +  //ka
+               uKd[hit_object] * light1DiffuseComponent + //kd 
+               uKa[hit_object] * light1SpecularComponent; //ks
     
     return col;
 }
