@@ -142,9 +142,9 @@ vec3 PhongIllumination(in vec3 ray_position, in vec3 ray_origin, in int hit_obje
     vec3 light1DiffuseComponent = diffuse * light.col;
     vec3 light1SpecularComponent = vec3(pow(specular, uK[hit_object][3]));
     
-    vec3 col = uK[hit_object][0] * ambientDiffuse + 
-               uK[hit_object][1] * light1DiffuseComponent + 
-               uK[hit_object][2] * light1SpecularComponent;
+    vec3 col = uK[hit_object][0] * ambientDiffuse +  //ka
+               uK[hit_object][1] * light1DiffuseComponent + //kd 
+               uK[hit_object][2] * light1SpecularComponent; //ks
     
     return col;
 }

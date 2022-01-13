@@ -1,0 +1,78 @@
+{
+    "shader1" : [
+        {
+            "nom" : "Flatpainting",
+            "vertex" : "./vertex/vertexShader.glsl",
+            "fragment" : "./fragment/flatPainting.glsl",
+            "input" : [
+                {
+                   "label" : "Color",
+                   "uniform" : "uColor",
+                   "type" : "color_picker"
+                }
+            ]
+        }
+    ],
+
+    "shader2" : [
+        {
+            "nom" : "Lambert",
+            "vertex" : "./vertex/vertexShader.glsl",
+            "fragment" : "./fragment/lambert.glsl",
+            "input" : [
+                {
+                   "label" : "Color",
+                   "uniform" : "uColor",
+                   "type" : "color_picker"
+                }
+            ]
+        }
+    ],
+
+    "shader3" : [
+        {
+            "nom" : "Blinn-Phong",
+            "vertex" : "./vertex/vertexShader.glsl",
+            "fragment" : "./fragment/phongIllumination.glsl",
+            "input" : [
+                {
+                   "label" : "Color",
+                   "uniform" : "uColor",
+                   "type" : "color_picker"
+                },
+                {
+                    "label" : "ambiant",
+                    "uniform" : "uKa",
+                    "rang" : "0",
+                    "type" : "slider",
+                    "min" : "0",
+                    "max" : "1"
+                },
+                {
+                    "label" : "diffus",
+                    "uniform" : "uKd",
+                    "rang" : "1",
+                    "type" : "slider",
+                    "min" : "0",
+                    "max" : "1"
+                },
+                {
+                    "label" : "specular",
+                    "uniform" : "uKs",
+                    "rang" : "2",
+                    "type" : "slider",
+                    "min" : "0",
+                    "max" : "20"
+                },
+                {
+                    "label" : "alpha",
+                    "uniform" : "uAlpha",
+                    "rang" : "3",
+                    "type" : "slider",
+                    "min" : "0",
+                    "max" : "100"
+                }
+            ]
+        }
+    ]
+}

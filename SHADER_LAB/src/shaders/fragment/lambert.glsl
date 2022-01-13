@@ -119,6 +119,15 @@ vec3 Lambert(in vec3 ray_position, in int hit_object){
     vec3 light_vector = normalize(lightPos - ray_position); 
     vec3 normal = GetNormal(ray_position); 
     float diffuse  = clamp(dot(light_vector, normal), 0., 1.);
+
+    // shadow stuff
+    vec3 position_offset = normal * SURF_DIST_MARCH * 1.2; // move the point above a little
+    int _; //useless stuff but needed for the next RayMarch
+    float d = RayMarch(_, ray_position + position_offset, light_vector);
+    if (d < length(lightPos - ray_position)) { // If true then we've shaded a point on some object before, 
+                                    // so shade the currnet point as shodow.
+        diffuse *= .3; // no half-shadow because the light source is a point.    
+    }
     
     return diffuse * uColors[hit_object] * light.col;
 }
