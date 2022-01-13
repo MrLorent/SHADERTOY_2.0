@@ -149,20 +149,6 @@ vec3 PhongIllumination(in vec3 ray_position, in vec3 ray_origin, in int hit_obje
     return col;
 }
 
-vec3 flatPainting(in int hit_object){
-    return uColors[hit_object];
-}
-
-vec3 Lambert(in vec3 ray_position, in int hit_object){
-    vec3 lightPosOffset = vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.;
-    vec3 lightPos = light.pos + lightPosOffset;
-    
-    vec3 light_vector = normalize(lightPos - ray_position); 
-    vec3 normal = GetNormal(ray_position); 
-    float diffuse  = clamp(dot(light_vector, normal), 0., 1.);
-    
-    return diffuse * uColors[hit_object] * light.col;
-}
 
 float rand(vec2 co){
     return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453)-0.5;
@@ -191,8 +177,6 @@ void main()
         vec3 ray_position = ray_origin + ray_direction * distance_to_object;
 
         color += PhongIllumination(ray_position, ray_origin, hit_object);
-        //color += flatPainting(hit_object);
-        //color+=Lambert(object_position, hit_object);
     }
 
    
