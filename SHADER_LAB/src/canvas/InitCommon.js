@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import vs from "../shaders/vertexShader.glsl"
-import mainshader from "../shaders/simpleShader.glsl"
+import vs from "../shaders/vertex/vertexShader.glsl"
+import mainshader from "../shaders/fragment/phongIllumination.glsl"
 
 var box_mesh = [];
 var sphere_mesh = [];
