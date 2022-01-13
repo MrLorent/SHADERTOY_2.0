@@ -1,16 +1,3 @@
-/// Possible things one could add to this:
-/// * Rays should attenuate the further away they get from the camera.
-
-
-// Based on what I read from: https://paroj.github.io/gltut/Illumination/Tut11%20BlinnPhong%20Model.html
-
-//  Apparently, Blinn's model needs material.alpha to be higher than Phong's model
-// to create the same effect. I concluded this by comparing this with the one which
-// this shader is forked from
-
-// Colors should be in standard rgb format: 0. < rgb < 1.
-
-//#define MAX_MARCH_STEPS (1<<7)
 #define MAX_MARCH_STEPS 128
 #define MAX_MARCH_DIST 100.
 #define SURF_DIST_MARCH .01
@@ -19,6 +6,7 @@
 #define N_BOXES 3
 #define N_SPHERES 3
 #define N_MATERIALS 2
+#define N_RAY 5
 
 uniform float uTime;
 uniform vec3 uResolution;
@@ -31,17 +19,18 @@ uniform vec4 uK[N_MATERIALS];
 
 
 in vec3 fragCoord;
-in vec2 vuv;
+in vec2 vertex_uv;
+
 
 //-----------------------------------------------------------------------------------------------------------------//
 
 struct Sphere {
-    vec3 o;
-    float r;
+    vec3 origin;
+    float radius;
 };
 
 struct Box{
-    vec3 o;
+    vec3 origin;
     vec3 dimension; //{longueur, largeur, profondeur}
 };
 
@@ -56,7 +45,7 @@ struct PointLight {
 };
 
 
-Sphere s = Sphere(vec3(-1,1, 8), 0.5);
+Sphere sphere = Sphere(vec3(-1,1, 8), 0.5);
 Box box = Box(vec3(1, 1, 8), vec3(0.5));
 
 PointLight light = PointLight(vec3(0, 5, 6),
@@ -67,40 +56,40 @@ PointLight light = PointLight(vec3(0, 5, 6),
 
 
 
-float SphereSDF(in vec3 p, in Sphere s) {
-    return length(p - s.o) - s.r;
+float SphereSDF(in vec3 ray_position, in Sphere sphere) {
+    return length(ray_position - sphere.origin) - sphere.radius;
 }
 
-float BoxSDF(in vec3 p, in Box b ){
-  vec3 q = abs(p-b.o) - b.dimension;
+float BoxSDF(in vec3 ray_position, in Box box ){
+  vec3 q = abs(ray_position - box.origin) - box.dimension;
   return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0);
 }
 
-float SceneSDF(out int hitObject, in vec3 p) { // sdf for the scene.
-    float sphereDist = SphereSDF(p, s);  
-    float boxDist = BoxSDF(p, box);
+float SceneSDF(out int hitObject, in vec3 ray_position) { // sdf for the scene.
+    float sphereDist = SphereSDF(ray_position, sphere);  //Distance to our sphere
+    float boxDist = BoxSDF(ray_position, box);     //Distance to our box
     
     float minDist= min(sphereDist, boxDist);
-    float planeDist = p.y; // ground
+    float planeDist = ray_position.y; // ground
     
     float d = min(planeDist, minDist);
     hitObject = minDist == d ? 1 : 0;
     return d;
 }
 
-float RayMarch(out int hitObject, in vec3 ro, in vec3 rd) {
-    float dO = 0.; // Distance I've marched from origin
+float RayMarch(out int hitObject, in vec3 ray_origin, in vec3 ray_direction) {
+    float distance_from_origin = 0.; // Distance I've marched from origin
 
     for (int i = 0; i < MAX_MARCH_STEPS; i++) {
-        vec3 p = ro + rd * dO;
-        float dS = SceneSDF(hitObject, p);
-        dO += dS;  // Safe distance to march with
-        if (dO > MAX_MARCH_DIST || // Far-plane clipping
-            dS < SURF_DIST_MARCH)  // Did we hit anything?
+        vec3 ray_position = ray_origin + ray_direction * distance_from_origin;
+        float distance_to_scene = SceneSDF(hitObject, ray_position);
+        distance_from_origin += distance_to_scene;  // Safe distance to march with
+        if (distance_from_origin > MAX_MARCH_DIST || // Far-plane clipping
+            distance_to_scene < SURF_DIST_MARCH)  // Did we hit anything?
             break;
     }
 
-    return dO;
+    return distance_from_origin;
 }
 
 
@@ -119,77 +108,60 @@ vec3 GetNormalEulerTwoSided(in vec3 p) { // get surface normal using euler appro
     return n;
 }
 
-
-/*vec3 GetNormalEulerOneSided(in vec3 p) { // get surface normal using euler approx. method
-    vec2 e = vec2(EULER_APPROX_OFFSET, 0);
-    int _;
-    vec3 center = vec3(SceneSDF(_, p)),
-          right = vec3(SceneSDF(_, p + e.xyy),
-                       SceneSDF(_, p + e.yxy),
-                       SceneSDF(_, p + e.yyx));
-        
-    vec3 n = normalize(right - center);
-    return n;
-}*/
-
-//#define GetNormal GetNormalEulerOneSided
 #define GetNormal GetNormalEulerTwoSided
 
 
-/*
-  p  -> position of point to shade
-  ro -> ray origin (position of the camera)
-*/
-vec3 PhongIllumination(in vec3 p, in vec3 ro, in int hitObject) {
-    vec3 lightPosOffset = vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.;
+vec3 PhongIllumination(in vec3 ray_position, in vec3 ray_origin, in int hit_object) {
+    vec3 lightPosOffset = vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.; //light is turning
     vec3 lightPos = light.pos + lightPosOffset;
-    // PhongMaterial mat = (hitObject == 1) ? sphereMaterial : globalMaterial; // bugs are great!
     
-    vec3 l = normalize(lightPos - p); // light vector
-    vec3 n = GetNormal(p); // get normal of p
-    vec3 r = reflect(l, n);
-    vec3 v = normalize(ro - p);
+    vec3 light_vector = normalize(lightPos - ray_position);
+    vec3 normal = GetNormal(ray_position);
+    vec3 reflect = reflect(light_vector, normal);
+    vec3 ray_vector = normalize(ray_origin - ray_position);
     
-    vec3 h = normalize(l + v); // the `half-angle` vector
+    vec3 half_vector = normalize(light_vector + ray_vector); // the `half-angle` vector
     
-    float dif  = clamp(dot(l, n), 0., 1.);
-    float spec = clamp(dot(h, n), 0., 1.);  // also called `blinn term`
+    float diffuse  = clamp(dot(light_vector, normal), 0., 1.);
+    float specular = clamp(dot(half_vector, normal), 0., 1.);  // also called `blinn term`
     
+
     // shadow stuff
-    vec3 pOffset = n * SURF_DIST_MARCH * 1.2; // move the point above a little
-    int _;
-    float d = RayMarch(_, p + pOffset, l);
-    if (d < length(lightPos - p)) { // If true then we've shaded a point on some object before, 
+    vec3 position_offset = normal * SURF_DIST_MARCH * 1.2; // move the point above a little
+    int _; //useless stuff but needed for the next RayMarch
+    float d = RayMarch(_, ray_position + position_offset, light_vector);
+    if (d < length(lightPos - ray_position)) { // If true then we've shaded a point on some object before, 
                                     // so shade the currnet point as shodow.
-        dif *= .3; // no half-shadow because the light source is a point.    
-        spec = 0.; // shadows don't have specular component, I think.
+        diffuse *= .3; // no half-shadow because the light source is a point.    
+        specular = 0.; // shadows don't have specular component, I think.
     }
-    
+
+
     // Acutal Phong stuff
-    vec3 ambientDiffuse = light.col * uColors[hitObject];
-    vec3 light1DiffuseComponent = dif * light.col;
-    vec3 light1SpecularComponent = vec3(pow(spec, uK[hitObject][3]));
+    vec3 ambientDiffuse = light.col * uColors[hit_object];
+    vec3 light1DiffuseComponent = diffuse * light.col;
+    vec3 light1SpecularComponent = vec3(pow(specular, uK[hit_object][3]));
     
-    vec3 col = uK[hitObject][0] * ambientDiffuse + 
-               uK[hitObject][1] * light1DiffuseComponent + 
-               uK[hitObject][2] * light1SpecularComponent;
+    vec3 col = uK[hit_object][0] * ambientDiffuse + 
+               uK[hit_object][1] * light1DiffuseComponent + 
+               uK[hit_object][2] * light1SpecularComponent;
     
     return col;
 }
 
-vec3 flatPainting(in int hitObject){
-    return uColors[hitObject];
+vec3 flatPainting(in int hit_object){
+    return uColors[hit_object];
 }
 
-vec3 Lambert(in vec3 p, in int hitObject){
+vec3 Lambert(in vec3 ray_position, in int hit_object){
     vec3 lightPosOffset = vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.;
     vec3 lightPos = light.pos + lightPosOffset;
     
-    vec3 l = normalize(lightPos - p); // light vector
-    vec3 n = GetNormal(p); // get normal of p
-    float dif  = clamp(dot(l, n), 0., 1.);
+    vec3 light_vector = normalize(lightPos - ray_position); 
+    vec3 normal = GetNormal(ray_position); 
+    float diffuse  = clamp(dot(light_vector, normal), 0., 1.);
     
-    return dif * uColors[hitObject] * light.col;
+    return diffuse * uColors[hit_object] * light.col;
 }
 
 float rand(vec2 co){
@@ -198,30 +170,32 @@ float rand(vec2 co){
 
 void main()
 {
-    s.o=vec3((mat4(uSphereInvMatrix[0])* vec4(-1,1, 8, 1)).xyz);
-    box.o=vec3((mat4(uBoxInvMatrix[0])* vec4(1,1, 8, 1)).xyz);
-    vec2 uv = vuv-0.5;//(gl_FragCoord.xy - uResolution.xy * .5 ) / uResolution.y; // center around origin
+    sphere.origin=vec3((mat4(uSphereInvMatrix[0])* vec4(-1,1, 8, 1)).xyz);
+    box.origin=vec3((mat4(uBoxInvMatrix[0])* vec4(1,1, 8, 1)).xyz);
+    vec2 uv = vertex_uv-0.5;
+    uv*=uResolution.xy/uResolution.y;
     vec3 color=vec3(0);
     
-    for(int i=0; i<5; i++){
+    for(int i=0; i<N_RAY; i++){
         // simplest camera
-        vec3 ro = uCameraPosition;//vec3(0,1,0);//vec3( uCameraMatrix[3][0],  uCameraMatrix[3][1],  uCameraMatrix[3][2]);
-        float offset = rand(vec2(i))/uResolution.y;
+        vec3 ray_origin = uCameraPosition;
 
-        vec3 rd = normalize(vec3(uv.xy+offset, 1));
+        // Casting a ray in a random place for each pixels
+        float offset = rand(vec2(i))/uResolution.y;
+        vec3 ray_direction = normalize(vec3(uv.xy+offset, 1));
 
 
         // RayMarching stuff
-        int object;
-        float d = RayMarch(object, ro, rd);
-        vec3 p = ro + rd * d;
+        int hit_object;
+        float distance_to_object = RayMarch(hit_object, ray_origin, ray_direction);
+        vec3 ray_position = ray_origin + ray_direction * distance_to_object;
 
-        color += PhongIllumination(p, ro, object);
-        //color += flatPainting(object);
-        //color+=Lambert(p, object);
+        color += PhongIllumination(ray_position, ray_origin, hit_object);
+        //color += flatPainting(hit_object);
+        //color+=Lambert(object_position, hit_object);
     }
 
    
-	pc_fragColor = clamp(vec4( pow(color/5.0, vec3(0.4545)), 1.0 ), 0.0, 1.0);//vec4(color/10.0, 1.0);
+	pc_fragColor = clamp(vec4( pow(color/float(N_RAY), vec3(0.4545)), 1.0 ), 0.0, 1.0);//vec4(color/10.0, 1.0);
 
 }
