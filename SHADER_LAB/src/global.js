@@ -1,0 +1,1 @@
+let inputVal = 0.5;
