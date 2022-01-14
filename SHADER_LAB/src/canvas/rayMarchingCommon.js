@@ -5,9 +5,7 @@ shaderChunk['uniforms_and_defines']=`
 #define SURF_DIST_MARCH .01
 #define EULER_APPROX_OFFSET .003
 
-#define N_BOXES 3
-#define N_SPHERES 3
-#define N_MATERIALS 2
+#define N_MATERIALS 3
 #define N_RAY 5
 
 uniform float uTime;
@@ -69,7 +67,13 @@ shaderChunk['creation_scene']=`
         float planeDist = ray_position.y; // ground
         
         float d = min(planeDist, minDist);
-        hitObject = minDist == d ? 1 : 0;
+        //hitObject = minDist == d ? 1 : 0;
+        hitObject = d == planeDist ? 0 
+                    : minDist == boxDist ? 1 
+                    : 2;
+
+
+
         return d;
     }
     `
