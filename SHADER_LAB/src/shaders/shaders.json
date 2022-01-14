@@ -58,7 +58,7 @@
                 {
                     "type" : "slider",
                     "label" : "Diffus",
-                    "name" : "ambiant",
+                    "name" : "diffus",
                     "rang" : "1",
                     "min" : "0",
                     "max" : "1",
