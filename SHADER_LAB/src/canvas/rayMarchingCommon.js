@@ -43,7 +43,7 @@ shaderChunk['creation_scene']=`
     Box box = Box(vec3(1, 1, 8), vec3(0.5));
     
     PointLight light = PointLight(vec3(0, 5, 6),
-                                        vec3(1.000,0.878,0.878));
+                                        vec3(0.800,0.678,0.678));
                                                                       
     
     

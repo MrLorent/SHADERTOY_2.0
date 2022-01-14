@@ -1,18 +1,23 @@
 import './scss/index.scss';
 import { App } from './App.js'
 import { slider } from './html_generators/slider.jsx';
+import * as THREE from 'three';
 
 let FLAT_PAINTING = 0;
 let LAMBERT = 1;
 let PHONG = 2;
 
+let SALLE = 0
+let BOX = 1;
+let SPHERE = 2;
+
 // APP
 const app = new App();
 app.run(PHONG);
-console.log(app.shaders[PHONG].uniforms.uAlpha)
-app.shaders[PHONG].update("alpha", 70, 1)
-console.log(app.shaders[PHONG].uniforms.uAlpha)
 
+app.shaders[PHONG].update("color", new THREE.Color('white'), SALLE)
+app.shaders[PHONG].update("color", new THREE.Color('green'), BOX)
+app.shaders[PHONG].update("rotate_light",1)
 
 
 // Inputs

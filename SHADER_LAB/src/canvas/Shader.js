@@ -38,7 +38,7 @@ export default class Shader
 
     update(name, value, id=0){
         if(name=="rotate_light"){
-            this.uRotatingLight.value = value;
+            this.uniforms.uRotatingLight.value = value;
         }
         else if(name=="alpha"){
             this.alpha[id]=value;
