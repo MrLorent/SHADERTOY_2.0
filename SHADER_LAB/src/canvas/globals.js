@@ -1,3 +1,3 @@
 let clock;
-let shader;
-let scene;
+let currentScene;
+let currentShader;

@@ -1,14 +1,35 @@
 {
-    "shader1" : [
+    "shader0" : [
         {
             "nom" : "Flatpainting",
-            "vertex" : "./vertex/vertexShader.glsl",
-            "fragment" : "./fragment/flatPainting.glsl",
+            "vertex" : "assets/shaders/vertexShader.glsl",
+            "fragment" : "assets/shaders/flatPainting.glsl",
             "input" : [
                 {
                     "type" : "color_picker",
                     "label" : "Color",
                     "name" : "color"
+                }
+            ]
+        }
+    ],
+
+    "shader1" : [
+        {
+            "nom" : "Lambert",
+            "vertex" : "assets/shaders/vertexShader.glsl",
+            "fragment" : "assets/shaders/lambert.glsl",
+            "input" : [
+                {
+                    "type" : "color_picker",
+                    "label" : "Color",
+                    "name" : "color"
+                },
+                {
+                    "type": "checkbox",
+                    "label": "Rotate light",
+                    "name": "rotate_light",
+                    "checked" : 0
                 }
             ]
         }
@@ -16,24 +37,9 @@
 
     "shader2" : [
         {
-            "nom" : "Lambert",
-            "vertex" : "./vertex/vertexShader.glsl",
-            "fragment" : "./fragment/lambert.glsl",
-            "input" : [
-                {
-                    "type" : "color_picker",
-                    "label" : "Color",
-                    "name" : "color"
-                }
-            ]
-        }
-    ],
-
-    "shader3" : [
-        {
             "nom" : "Blinn-Phong",
-            "vertex" : "./vertex/vertexShader.glsl",
-            "fragment" : "./fragment/phongIllumination.glsl",
+            "vertex" : "assets/shaders/vertexShader.glsl",
+            "fragment" : "assets/shaders/phongIllumination.glsl",
             "input" : [
                 {
                     "type" : "color_picker",
@@ -75,6 +81,12 @@
                     "min" : "0",
                     "max" : "100",
                     "step": "1"
+                },
+                {
+                    "type": "checkbox",
+                    "label": "Rotate light",
+                    "name": "rotate_light",
+                    "checked" : 0
                 }
             ]
         }

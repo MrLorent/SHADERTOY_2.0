@@ -67,7 +67,7 @@ module.exports = {
                 type: 'asset/resource',
                 generator:
                 {
-                    filename: 'assets/shaders/[name].[hash][ext]'
+                    filename: 'assets/shaders/[name][ext]'
                 }
             },
 
