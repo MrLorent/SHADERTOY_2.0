@@ -21,11 +21,14 @@ inputs.append(tmp);
 // Textarea
 const textarea = document.getElementById('editor');
 
-const config = CodeMirror.EditorConfiguration = {
-    tabSize: 3,
-    lineNumbers: true,
-    mode: 'xml',
-    theme: 'monokai'
-};
+const glslEditor = new GlslEditor('#glsl_editor', { 
+    canvas_size: 0,
+    canvas_draggable: true,
+    theme: 'monokai',
+    multipleBuffers: true,
+    watchHash: true,
+    fileDrops: true,
+    menu: true
+});
 
 const editor = CodeMirror.fromTextArea(textarea, config);
