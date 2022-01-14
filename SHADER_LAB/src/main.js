@@ -1,9 +1,10 @@
 import './scss/index.scss';
-
+import { App } from './App.js';
 import { slider } from './html_generators/slider.jsx';
-import initCanvas from './canvas/InitCommon.js';
 
-initCanvas();
+// APP
+const app = new App();
+app.run();
 
 // Inputs
 const inputs = document.getElementById('inputs');

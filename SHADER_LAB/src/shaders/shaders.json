@@ -6,9 +6,9 @@
             "fragment" : "./fragment/flatPainting.glsl",
             "input" : [
                 {
-                   "label" : "Color",
-                   "uniform" : "uColor",
-                   "type" : "color_picker"
+                    "type" : "color_picker",
+                    "label" : "Color",
+                    "name" : "color"
                 }
             ]
         }
@@ -21,9 +21,9 @@
             "fragment" : "./fragment/lambert.glsl",
             "input" : [
                 {
-                   "label" : "Color",
-                   "uniform" : "uColor",
-                   "type" : "color_picker"
+                    "type" : "color_picker",
+                    "label" : "Color",
+                    "name" : "color"
                 }
             ]
         }
@@ -36,41 +36,45 @@
             "fragment" : "./fragment/phongIllumination.glsl",
             "input" : [
                 {
-                   "label" : "Color",
-                   "uniform" : "uColor",
-                   "type" : "color_picker"
+                    "type" : "color_picker",
+                    "label" : "Color",
+                    "name" : "color"
                 },
                 {
-                    "label" : "ambiant",
-                    "uniform" : "uKa",
+                    "type" : "slider",
+                    "label" : "Ambiant",
+                    "name" : "ambiant",
                     "rang" : "0",
-                    "type" : "slider",
                     "min" : "0",
-                    "max" : "1"
+                    "max" : "1",
+                    "step": "0.01"
                 },
                 {
-                    "label" : "diffus",
-                    "uniform" : "uKd",
+                    "type" : "slider",
+                    "label" : "Diffus",
+                    "name" : "ambiant",
                     "rang" : "1",
-                    "type" : "slider",
                     "min" : "0",
-                    "max" : "1"
+                    "max" : "1",
+                    "step": "0.01"
                 },
                 {
-                    "label" : "specular",
-                    "uniform" : "uKs",
+                    "type" : "slider",
+                    "label" : "Specular",
+                    "name" : "specular",
                     "rang" : "2",
-                    "type" : "slider",
                     "min" : "0",
-                    "max" : "20"
+                    "max" : "20",
+                    "step": "0.5"
                 },
                 {
-                    "label" : "alpha",
-                    "uniform" : "uAlpha",
-                    "rang" : "3",
                     "type" : "slider",
+                    "label" : "Alpha",
+                    "name" : "alpha",
+                    "rang" : "3",
                     "min" : "0",
-                    "max" : "100"
+                    "max" : "100",
+                    "step": "1"
                 }
             ]
         }
