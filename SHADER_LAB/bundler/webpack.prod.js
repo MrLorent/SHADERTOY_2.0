@@ -23,6 +23,16 @@ module.exports = merge(
         {
             rules:
             [
+                // CSS
+                {
+                    test: /\.css$/,
+                    use:
+                    [
+                        MiniCssExtractPlugin.loader, // 3. Extract css into files
+                        "css-loader",   // 2. Turns css into commonjs
+                    ]
+                },
+
                 // SASS
                 {
                     test: /\.scss$/,

@@ -4,7 +4,8 @@ import { App } from './App.js'
 import { slider } from './html_generators/slider.jsx';
 import CodeMirror from 'codemirror';
 import 'codemirror/mode/xml/xml.js';
-import 'codemirror/theme/blackboard.css';
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/theme/monokai.css';
 
 // APP
 const app = new App();
@@ -24,7 +25,7 @@ const config = CodeMirror.EditorConfiguration = {
     tabSize: 3,
     lineNumbers: true,
     mode: 'xml',
-    theme: 'blackboard'
+    theme: 'monokai'
 };
 
 const editor = CodeMirror.fromTextArea(textarea, config);
