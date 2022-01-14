@@ -1,11 +1,26 @@
 export default class Input
 {
-    constructor(label, name, type){
+    #type;
+    #label;
+    #name;
+    constructor(type, label, name){
         if(this.constructor == Input){
             throw new TypeError('Abstract class "Input" cannot be instantiated directly');
         }
-        this.label = label;
-        this.name = name;
-        //this.type = type;
+        this.#type = type;
+        this.#label = label;
+        this.#name = name;
+    }
+
+    getType(){
+        return this.#type;
+    }
+
+    getLabel(){
+        return this.#label;
+    }
+
+    getName(){
+        return this.#name;
     }
 }

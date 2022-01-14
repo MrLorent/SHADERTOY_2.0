@@ -1,14 +1,29 @@
+import * as THREE from 'three';
 import Input from './Input.js'
 
 export default class Shader
 {
-    constructor(nom, vertex_shader, fragment_shader, inputs){
-        this.nom = nom;
-        this.vertex_shader = vertex_shader;
-        this.fragment_shader = fragment_shader;
-        this.inputs = inputs;
+    #nom;
+    #inputs;
+    uniforms;
+    vertex_shader;
+    fragment_shader;
+    constructor(nom, vertex_shader_path, fragment_shader_path, inputs){
+        this.#nom = nom;
+        this.#inputs = inputs;
+        this.uniforms = {
+            uTime: { type: "f", value: 0.0 },
+            uResolution: { type: "v2", value: new THREE.Vector2() },
+            uCameraPosition: { type: "v3", value: new THREE.Vector3() },
+            uRotatingLight: {value: 1},
 
-        console.log(this)
+            uColors:{value : [new THREE.Color('blue'), new THREE.Color('white')]},
+            uKd:{value: [0.4,0.7]},
+            uKs:{value: [0.1,0.2]},
+            uKa:{value: [0.9,0.4]},
+            uAlpha:{value: [30, 20]}
+        };
+        //this.loadShaders(vertex_shader_path, fragment_shader_path);
     }
 
     update(name, value, id){
@@ -19,4 +34,5 @@ export default class Shader
             //updateAlpha(value, id)
         }
     }
+
 }

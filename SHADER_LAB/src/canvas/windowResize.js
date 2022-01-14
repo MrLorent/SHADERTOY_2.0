@@ -1,7 +1,7 @@
 import * as GLOBALS from "./globals.js";
 
 
-export default function on_window_resize(event)
+export default function on_window_resize(scene, shader)
 {
 
 	GLOBALS.window_is_being_resized = true;
@@ -9,15 +9,15 @@ export default function on_window_resize(event)
 	let SCREEN_WIDTH = 800 ;
 	let SCREEN_HEIGHT = 600 ;
 
-	GLOBALS.renderer.setPixelRatio(GLOBALS.pixel_ratio);
-	GLOBALS.renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	scene.renderer.setPixelRatio(1);
+	scene.renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	GLOBALS.ray_marching_uniforms.uResolution.value.x = GLOBALS.context.drawingBufferWidth;
-	GLOBALS.ray_marching_uniforms.uResolution.value.y = GLOBALS.context.drawingBufferHeight;
+	shader.uniforms.uResolution.value.x = scene.context.drawingBufferWidth;
+	shader.uniforms.uResolution.value.y = scene.context.drawingBufferHeight;
 
-	GLOBALS.ray_marching_render_target.setSize(GLOBALS.context.drawingBufferWidth, GLOBALS.context.drawingBufferHeight);
+	scene.target.setSize(scene.context.drawingBufferWidth, scene.context.drawingBufferHeight);
 
-	GLOBALS.world_camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
-	GLOBALS.world_camera.updateProjectionMatrix();
+	scene.camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+	scene.camera.updateProjectionMatrix();
 
 }
