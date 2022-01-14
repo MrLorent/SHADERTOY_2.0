@@ -9,6 +9,10 @@ let PHONG = 2;
 // APP
 const app = new App();
 app.run(PHONG);
+console.log(app.shaders[PHONG].uniforms.uAlpha)
+app.shaders[PHONG].update("alpha", 70, 1)
+console.log(app.shaders[PHONG].uniforms.uAlpha)
+
 
 
 // Inputs
