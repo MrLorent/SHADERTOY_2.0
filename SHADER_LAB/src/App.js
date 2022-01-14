@@ -19,8 +19,7 @@ import Shader from './canvas/Shader.js'
 
 export class App
 {
-    SALLE = 0;
-    OBJETS = 1;
+    
 
     shaders = [];
 
