@@ -12,8 +12,6 @@ uniform float uTime;
 uniform vec3 uResolution;
 uniform vec3 uCameraPosition;
 
-uniform mat4 uBoxInvMatrix[N_BOXES];
-uniform mat4 uSphereInvMatrix[N_SPHERES];
 uniform vec3 uColors[N_MATERIALS];
 
 
@@ -121,8 +119,8 @@ float rand(vec2 co){
 
 void main()
 {
-    sphere.origin=vec3((mat4(uSphereInvMatrix[0])* vec4(-1,1, 8, 1)).xyz);
-    box.origin=vec3((mat4(uBoxInvMatrix[0])* vec4(1,1, 8, 1)).xyz);
+    //sphere.origin=vec3((mat4(uSphereInvMatrix[0])* vec4(-1,1, 8, 1)).xyz);
+    //box.origin=vec3((mat4(uBoxInvMatrix[0])* vec4(1,1, 8, 1)).xyz);
     vec2 uv = vertex_uv-0.5;
     uv*=uResolution.xy/uResolution.y;
     vec3 color=vec3(0);
