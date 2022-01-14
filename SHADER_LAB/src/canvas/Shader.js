@@ -17,11 +17,11 @@ export default class Shader
             uCameraPosition: { type: "v3", value: new THREE.Vector3() },
             uRotatingLight: {value: 0},
 
-            uColors:{value : [new THREE.Color('blue'), new THREE.Color('white')]},
-            uKd:{value: [0.4,0.7]},
-            uKs:{value: [0.1,0.2]},
-            uKa:{value: [0.9,0.4]},
-            uAlpha:{value: [30, 20]}
+            uColors:{value : [new THREE.Color('blue'), new THREE.Color('white'),new THREE.Color('orange')]},
+            uKd:{value: [0.4,0.7,0.5]},
+            uKs:{value: [0.1,0.2,0.3]},
+            uKa:{value: [0.9,0.4,0.5]},
+            uAlpha:{value: [30, 20,50]}
         };
         //this.loadShaders(vertex_shader_path, fragment_shader_path);
     }
