@@ -1,14 +1,14 @@
 import vertex from './shaders/vertex/vertexShader.glsl'
 import fragment from './shaders/fragment/phongIllumination.glsl'
-import Scene from './canvas/Scene.js'
+import Scene from './Canvas/Scene.js'
 
-import init from './canvas/init.js'
-import * as GLOBALS from './canvas/globals.js'
+import init from './Canvas/init.js'
+import * as GLOBALS from './Canvas/globals.js'
 
-import Input from './canvas/Input.js';
-import Slider from './canvas/Slider.js'
-import Checkbox from './canvas/Checkbox.js'
-import Shader from './canvas/Shader.js'
+import Input from './Canvas/Input.js';
+import Slider from './Canvas/Slider.js'
+import Checkbox from './Canvas/Checkbox.js'
+import Shader from './Canvas/Shader.js'
 
 export class App
 {
