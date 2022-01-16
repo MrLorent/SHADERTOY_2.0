@@ -50,6 +50,17 @@ module.exports = merge(
         {
             rules:
             [
+                // CSS
+                {
+                    test: /\.css$/,
+                    use:
+                    [
+                        "style-loader", // 3. Extract css into files
+                        "css-loader",   // 2. Turns css into commonjs
+                    ]
+                },
+
+                // SCSS
                 {
                     test: /\.scss$/,
                     use:

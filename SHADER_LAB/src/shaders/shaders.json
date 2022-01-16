@@ -1,10 +1,10 @@
 {
-    "shader0" : [
+    "0" : [
         {
             "nom" : "Flatpainting",
-            "vertex" : "assets/shaders/vertexShader.glsl",
-            "fragment" : "assets/shaders/flatPainting.glsl",
-            "input" : [
+            "vertex" : "./shaders/vertex/vertexShader.glsl",
+            "fragment" : "./shaders/fragment/flatPainting.glsl",
+            "inputs" : [
                 {
                     "type" : "color_picker",
                     "label" : "Color",
@@ -14,12 +14,12 @@
         }
     ],
 
-    "shader1" : [
+    "1" : [
         {
             "nom" : "Lambert",
-            "vertex" : "assets/shaders/vertexShader.glsl",
-            "fragment" : "assets/shaders/lambert.glsl",
-            "input" : [
+            "vertex" : "./shaders/vertex/vertexShader.glsl",
+            "fragment" : "./shaders/fragment/lambert.glsl",
+            "inputs" : [
                 {
                     "type" : "color_picker",
                     "label" : "Color",
@@ -35,12 +35,12 @@
         }
     ],
 
-    "shader2" : [
+    "2" : [
         {
             "nom" : "Blinn-Phong",
-            "vertex" : "assets/shaders/vertexShader.glsl",
-            "fragment" : "assets/shaders/phongIllumination.glsl",
-            "input" : [
+            "vertex" : "./shaders/vertex/vertexShader.glsl",
+            "fragment" : "./shaders/fragment/phongIllumination.glsl",
+            "inputs" : [
                 {
                     "type" : "color_picker",
                     "label" : "Color",
@@ -50,7 +50,6 @@
                     "type" : "slider",
                     "label" : "Ambiant",
                     "name" : "ambiant",
-                    "rang" : "0",
                     "min" : "0",
                     "max" : "1",
                     "step": "0.01"
@@ -59,7 +58,6 @@
                     "type" : "slider",
                     "label" : "Diffus",
                     "name" : "diffus",
-                    "rang" : "1",
                     "min" : "0",
                     "max" : "1",
                     "step": "0.01"
@@ -68,7 +66,6 @@
                     "type" : "slider",
                     "label" : "Specular",
                     "name" : "specular",
-                    "rang" : "2",
                     "min" : "0",
                     "max" : "20",
                     "step": "0.5"
@@ -77,7 +74,6 @@
                     "type" : "slider",
                     "label" : "Alpha",
                     "name" : "alpha",
-                    "rang" : "3",
                     "min" : "0",
                     "max" : "100",
                     "step": "1"

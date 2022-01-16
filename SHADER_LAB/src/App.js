@@ -1,59 +1,106 @@
-import vertex from './shaders/vertex/vertexShader.glsl'
-import fragment_phong from './shaders/fragment/phongIllumination.glsl'
-import fragment_flat from './shaders/fragment/flatPainting.glsl'
-import fragment_lambert from './shaders/fragment/lambert.glsl'
-
-import Scene from './Canvas/Scene.js'
-var shaders_json = require('./shaders/shaders.json')
-
-import init from './Canvas/init.js'
-import loadShaders from './Canvas/load_shaders'
-import animate from './Canvas/animate.js'
-import * as GLOBALS from './Canvas/globals.js'
 import * as THREE from 'three';
 
-import Input from './Canvas/Input.js';
-import Slider from './Canvas/Slider.js'
-import Checkbox from './Canvas/Checkbox.js'
+import Scene from './Canvas/Scene.js'
 import Shader from './Canvas/Shader.js'
+import shaders_json from './shaders/shaders.json'
+
+import initShaderChunk from "./Canvas/initShaderChunk.js";
 
 export class App
 {
-    shaders = [];
+    // LIST OF SHADERS
+    FLAT_PAINTING = 0;
+    LAMBERT = 1;
+    PHONG = 2;
 
-    scene = new Scene();
+    scene;
+
+    clock;
+    frame_time;
+    elapsed_time;
+
+    list_of_shaders;
+    current_shader;
 
     constructor(){
-        for (let i =0; i<3; i++){
-            this.shaders.push(this.createShader(i))    
-        }
-        console.log(this.shaders)
-    }
-
-    createShader(id){
-        let inputs = [];
-        let inputs_json = shaders_json['shader'+id][0]['input'];
-        for(let i=0; i<inputs_json.length; i++){
-            if(inputs_json[i]['type']=="checkbox"){
-                inputs.push(new Checkbox(inputs_json[i]['label'], inputs_json[i]['name'], inputs_json[i]['checked']));
-            }
-            else if(inputs_json[i]['type']=="slider"){
-                inputs.push(new Slider(inputs_json[i]['label'], inputs_json[i]['name'], inputs_json[i]['min'], inputs_json[i]['max'], inputs_json[i]['any']))
-            }
-            //else if color picker
+        // CREATING SCENE
+        this.scene = new Scene();
+        this.scene.camera.fov = 31;
+        this.clock = new THREE.Clock();
+        
+        initShaderChunk(THREE.ShaderChunk);
+        
+        // LOADING SHADERS
+        this.list_of_shaders = [];
+        for (let i in shaders_json){
+            this.list_of_shaders.push(new Shader(shaders_json[i]))
         }
 
-        return new Shader(shaders_json['shader'+id][0]['nom'], shaders_json['shader'+id][0]['vertex'], shaders_json['shader'+id][0]['fragment'], inputs)
+        // INITIALISE CURRENT SHADER
+        this.current_shader = this.PHONG;
+
+        this.link_shaders(this.scene, this.list_of_shaders[this.current_shader]);
+
+        this.on_window_resize();
+        // window.addEventListener(
+        //     'resize',
+        //     this.on_window_resize,
+        //     false
+        // );
     }
 
+    link_shaders(scene, shader){
+        let file_loader = new THREE.FileLoader();
+    
+        file_loader.load(shader.vertex_shader_path, function(vs){
+            shader.vertex_shader = vs;
+            let material;
+            file_loader.load(shader.fragment_shader_path, function(fs){
+                shader.fragment_shader=fs;
+            
+    
+                material = new THREE.ShaderMaterial({
+                    uniforms: shader.uniforms,
+                    vertexShader: shader.vertex_shader,
+                    fragmentShader: shader.fragment_shader,
+                    depthTest: false,
+                    depthWrite: false
+                });
+    
+                scene.mesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(2,2), material)
+                scene.scene.add(scene.mesh)
+                scene.camera.add(scene.mesh)
+            });
+        });
+    }
 
-    run(id)
+    run()
     {
-        loadShaders(id, this.scene, this.shaders, shaders_json)
-        init(this.scene, this.shaders[id]);
-        GLOBALS.currentScene = this.scene;
-        GLOBALS.currentShader=this.shaders[id];
+        this.frame_time = this.clock.getDelta();
+        this.elapsed_time = this.clock.getElapsedTime() % 1000;
+    
+        this.list_of_shaders[this.current_shader].uniforms.uTime.value = this.elapsed_time;
+        this.scene.camera.updateMatrixWorld(true);
+        this.list_of_shaders[this.current_shader].uniforms.uCameraPosition.value.copy(this.scene.camera.position);
+    
+        this.scene.renderer.setRenderTarget(null);
+        this.scene.renderer.render(this.scene.scene, this.scene.camera);
+    }
 
-        animate();
+    on_window_resize()
+    {
+        let SCREEN_WIDTH = 800 ;
+        let SCREEN_HEIGHT = 600 ;
+
+        this.scene.renderer.setPixelRatio(1);
+        this.scene.renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+        this.list_of_shaders[this.current_shader].uniforms.uResolution.value.x = this.scene.context.drawingBufferWidth;
+        this.list_of_shaders[this.current_shader].uniforms.uResolution.value.y = this.scene.context.drawingBufferHeight;
+
+        this.scene.target.setSize(this.scene.context.drawingBufferWidth, this.scene.context.drawingBufferHeight);
+
+        this.scene.camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+        this.scene.camera.updateProjectionMatrix();
     }
 }
