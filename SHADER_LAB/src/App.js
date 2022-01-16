@@ -25,6 +25,7 @@ export class App
     constructor(){
         // CREATING SCENE
         this.scene = new Scene();
+        // It would be better to creat a Init method here to seperate the App initialisation from the Canvas initialisation
         this.scene.camera.fov = 31;
         this.clock = new THREE.Clock();
         
@@ -42,6 +43,8 @@ export class App
         this.link_shaders(this.scene, this.list_of_shaders[this.current_shader]);
 
         this.on_window_resize();
+
+        // This listener on resize create error "this.scene is undefined" I don't know why
         // window.addEventListener(
         //     'resize',
         //     this.on_window_resize,
