@@ -23,10 +23,9 @@ export class App
     scene = new Scene();
 
     constructor(){
-        for (let i =0; i<3; i++){
-            this.shaders.push(this.createShader(i))    
+        for (let i in shaders_json){
+            this.shaders.push(new Shader(shaders_json[i]))
         }
-        console.log(this.shaders)
     }
 
     createShader(id){

@@ -13,16 +13,40 @@ export default class Shader
     ambiant=[];
     diffus=[];
     specular=[];
-    
-    constructor(nom, vertex_shader_path, fragment_shader_path, inputs){
-        this.#nom = nom;
-        this.#inputs = inputs;
-        this.alpha = [30, 20,50];
-        this.color=[new THREE.Color('blue'), new THREE.Color('white'),new THREE.Color('orange')];
-        this.ambiant=[0.9,0.4,0.5];
-        this.diffus=[0.4,0.7,0.5];
-        this.specular=[0.1,0.2,0.3];
-        this.uniforms = {
+
+    // constructor(nom, vertex_shader_path, fragment_shader_path, inputs){
+    //     this.#nom = nom;
+    //     this.#inputs = inputs;
+    //     this.alpha = [30, 20,50];
+    //     this.color=[new THREE.Color('blue'), new THREE.Color('white'),new THREE.Color('orange')];
+    //     this.ambiant=[0.9,0.4,0.5];
+    //     this.diffus=[0.4,0.7,0.5];
+    //     this.specular=[0.1,0.2,0.3];
+    //     this.uniforms = {
+    //         uTime: { type: "f", value: 0.0 },
+    //         uResolution: { type: "v2", value: new THREE.Vector2() },
+    //         uCameraPosition: { type: "v3", value: new THREE.Vector3() },
+    //         uRotatingLight: {value: 0},
+
+    //         uColors:{value : this.color},
+    //         uKd:{value: this.diffus},
+    //         uKs:{value: this.specular},
+    //         uKa:{value: this.ambiant},
+    //         uAlpha:{value: this.alpha}
+    //     };
+    //     //this.loadShaders(vertex_shader_path, fragment_shader_path);
+    // }
+
+    constructor(shader_details)
+    {
+        this.#nom = shader_details['nom'];
+
+        this.alpha      =   [30, 20,50];
+        this.color      =   [new THREE.Color('blue'), new THREE.Color('white'),new THREE.Color('orange')];
+        this.ambiant    =   [0.9,0.4,0.5];
+        this.diffus     =   [0.4,0.7,0.5];
+        this.specular   =   [0.1,0.2,0.3];
+        this.uniforms   =   {
             uTime: { type: "f", value: 0.0 },
             uResolution: { type: "v2", value: new THREE.Vector2() },
             uCameraPosition: { type: "v3", value: new THREE.Vector3() },
@@ -34,7 +58,32 @@ export default class Shader
             uKa:{value: this.ambiant},
             uAlpha:{value: this.alpha}
         };
-        //this.loadShaders(vertex_shader_path, fragment_shader_path);
+
+        // INPUT INSTANCIATION
+        for(let i in shader_details['inputs']){
+            let input = shader_details['inputs'][i];
+            if(input['type'] == "checkbox"){
+                this.#inputs.push(
+                    new Checkbox(
+                        input[  'label'     ],
+                        input[  'name'      ],
+                        input[  'checked'   ]
+                    )
+                );
+            }
+            else if(input['type'] == "slider"){
+                this.#inputs.push(
+                    new Slider(
+                        input[  'label' ],
+                        input[  'name'  ],
+                        input[  'min'   ],
+                        input[  'max'   ],
+                        input[  'step'  ]
+                    )
+                );
+            }
+            //else if color picker
+        }
     }
 
     update(name, value, id=0){
