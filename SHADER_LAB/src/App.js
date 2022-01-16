@@ -19,11 +19,9 @@ import Shader from './Canvas/Shader.js'
 
 export class App
 {
-    
-
     shaders = [];
 
-    scene= new Scene();
+    scene = new Scene();
 
     constructor(){
         for (let i =0; i<3; i++){
