@@ -4,11 +4,11 @@ import * as THREE from 'three';
 export default function loadShaders(id, scene, shaders, shaders_json){
     let file_loader = new THREE.FileLoader();
 
-    file_loader.load(shaders_json['shader'+id][0]['vertex'], function(vs){
+    file_loader.load(shaders_json[id][0]['vertex'], function(vs){
         shaders[id].vertex_shader = vs;
     });
     let material;
-    file_loader.load(shaders_json['shader'+id][0]['fragment'], function(fs){
+    file_loader.load(shaders_json[id][0]['fragment'], function(fs){
         shaders[id].fragment_shader=fs;
     
 

@@ -1,9 +1,9 @@
 {
-    "shader0" : [
+    "0" : [
         {
             "nom" : "Flatpainting",
-            "vertex" : "assets/shaders/vertexShader.glsl",
-            "fragment" : "assets/shaders/flatPainting.glsl",
+            "vertex" : "./shaders/vertex/vertexShader.glsl",
+            "fragment" : "./shaders/fragment/flatPainting.glsl",
             "input" : [
                 {
                     "type" : "color_picker",
@@ -14,11 +14,11 @@
         }
     ],
 
-    "shader1" : [
+    "1" : [
         {
             "nom" : "Lambert",
-            "vertex" : "assets/shaders/vertexShader.glsl",
-            "fragment" : "assets/shaders/lambert.glsl",
+            "vertex" : "./shaders/vertex/vertexShader.glsl",
+            "fragment" : "./shaders/fragment/lambert.glsl",
             "input" : [
                 {
                     "type" : "color_picker",
@@ -35,11 +35,11 @@
         }
     ],
 
-    "shader2" : [
+    "2" : [
         {
             "nom" : "Blinn-Phong",
-            "vertex" : "assets/shaders/vertexShader.glsl",
-            "fragment" : "assets/shaders/phongIllumination.glsl",
+            "vertex" : "./shaders/vertex/vertexShader.glsl",
+            "fragment" : "./shaders/fragment/phongIllumination.glsl",
             "input" : [
                 {
                     "type" : "color_picker",

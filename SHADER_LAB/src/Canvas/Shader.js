@@ -13,6 +13,7 @@ export default class Shader
     ambiant=[];
     diffus=[];
     specular=[];
+    
     constructor(nom, vertex_shader_path, fragment_shader_path, inputs){
         this.#nom = nom;
         this.#inputs = inputs;

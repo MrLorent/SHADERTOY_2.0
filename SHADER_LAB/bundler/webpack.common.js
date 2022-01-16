@@ -9,11 +9,11 @@ module.exports = {
     },
     plugins:
     [
-        // new CopyWebpackPlugin({
-        //     patterns: [
-        //         { from: path.resolve(__dirname, '../static') }
-        //     ]
-        // }),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: path.resolve(__dirname, '../src/shaders'), to: "shaders" }
+            ]
+        }),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '../src/templates/index.html'),
             minify: true
@@ -61,15 +61,15 @@ module.exports = {
                 }
             },
 
-            // SHADERS
-            {
-                test: /\.(glsl|vs|fs|vert|frag)$/,
-                type: 'asset/resource',
-                generator:
-                {
-                    filename: 'assets/shaders/[name][ext]'
-                }
-            },
+            // // SHADERS
+            // {
+            //     test: /\.(glsl|vs|fs|vert|frag)$/,
+            //     type: 'asset/resource',
+            //     generator:
+            //     {
+            //         filename: 'assets/shaders/[name][ext]'
+            //     }
+            // },
 
             // IMAGES
             {

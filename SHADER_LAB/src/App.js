@@ -1,16 +1,15 @@
-import vertex from './shaders/vertex/vertexShader.glsl'
-import fragment_phong from './shaders/fragment/phongIllumination.glsl'
-import fragment_flat from './shaders/fragment/flatPainting.glsl'
-import fragment_lambert from './shaders/fragment/lambert.glsl'
+// import vertex from './shaders/vertex/vertexShader.glsl'
+// import fragment_phong from './shaders/fragment/phongIllumination.glsl'
+// import fragment_flat from './shaders/fragment/flatPainting.glsl'
+// import fragment_lambert from './shaders/fragment/lambert.glsl'
 
 import Scene from './Canvas/Scene.js'
-var shaders_json = require('./shaders/shaders.json')
+import shaders_json from './shaders/shaders.json'
 
 import init from './Canvas/init.js'
 import loadShaders from './Canvas/load_shaders'
 import animate from './Canvas/animate.js'
-import * as GLOBALS from './Canvas/globals.js'
-import * as THREE from 'three';
+import GLOBALS from './Canvas/globals.js'
 
 import Input from './Canvas/Input.js';
 import Slider from './Canvas/Slider.js'
@@ -32,7 +31,7 @@ export class App
 
     createShader(id){
         let inputs = [];
-        let inputs_json = shaders_json['shader'+id][0]['input'];
+        let inputs_json = shaders_json[id][0]['input'];
         for(let i=0; i<inputs_json.length; i++){
             if(inputs_json[i]['type']=="checkbox"){
                 inputs.push(new Checkbox(inputs_json[i]['label'], inputs_json[i]['name'], inputs_json[i]['checked']));
@@ -43,7 +42,7 @@ export class App
             //else if color picker
         }
 
-        return new Shader(shaders_json['shader'+id][0]['nom'], shaders_json['shader'+id][0]['vertex'], shaders_json['shader'+id][0]['fragment'], inputs)
+        return new Shader(shaders_json[id][0]['nom'], shaders_json[id][0]['vertex'], shaders_json[id][0]['fragment'], inputs)
     }
 
 
