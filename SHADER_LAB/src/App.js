@@ -12,10 +12,10 @@ import animate from './canvas/animate.js'
 import * as GLOBALS from './canvas/globals.js'
 import * as THREE from 'three';
 
-import Input from './canvas/Input.js';
-import Slider from './canvas/Slider.js'
-import Checkbox from './canvas/Checkbox.js'
-import Shader from './canvas/Shader.js'
+import Input from './Canvas/Input.js';
+import Slider from './Canvas/Slider.js'
+import Checkbox from './Canvas/Checkbox.js'
+import Shader from './Canvas/Shader.js'
 
 export class App
 {
