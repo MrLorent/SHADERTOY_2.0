@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import Input from './Input.js'
+import Slider from './Slider.js'
+import Checkbox from './Checkbox.js'
 
 export default class Shader
 {
