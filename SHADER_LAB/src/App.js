@@ -29,7 +29,7 @@ export class App
         }
 
         // INITIALISE CURRENT SHADER
-        this.current_shader = this.PHONG;
+        this.current_shader = this.FLAT_PAINTING;
     }
 
     run()

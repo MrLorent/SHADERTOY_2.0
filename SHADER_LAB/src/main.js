@@ -13,6 +13,9 @@ let SPHERE = 2;
 const app = new App();
 app.run();
 
+// TMP
+const PHONG = 2;
+
 app.list_of_shaders[PHONG].update("color", new THREE.Color('white'), SALLE)
 app.list_of_shaders[PHONG].update("color", new THREE.Color('green'), BOX)
 app.list_of_shaders[PHONG].update("rotate_light",1)
