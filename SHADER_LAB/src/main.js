@@ -5,17 +5,13 @@ import { slider } from './html_generators/slider.jsx';
 import { GLSLCodeEditor } from './GLSLCodeEditor/GLSLCodeEditor.js';
 import * as THREE from 'three';
 
-let FLAT_PAINTING = 0;
-let LAMBERT = 1;
-let PHONG = 2;
-
 let SALLE = 0
 let BOX = 1;
 let SPHERE = 2;
 
 // APP
 const app = new App();
-app.run(PHONG);
+app.run();
 
 app.list_of_shaders[PHONG].update("color", new THREE.Color('white'), SALLE)
 app.list_of_shaders[PHONG].update("color", new THREE.Color('green'), BOX)
