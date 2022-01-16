@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import Slider from './Slider.js'
-import Checkbox from './Checkbox.js'
+import Slider from '../Inputs/Slider.js'
+import Checkbox from '../Inputs/Checkbox.js'
 
 export default class Shader
 {

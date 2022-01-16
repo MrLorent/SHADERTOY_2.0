@@ -4,7 +4,7 @@ import 'brace/ext/language_tools'
 import 'brace/snippets/glsl'
 import 'brace/theme/monokai';
 
-export class GLSLCodeEditor
+export class CodeEditor
 {
     #editor;
 
@@ -17,11 +17,15 @@ export class GLSLCodeEditor
             enableBasicAutocompletion: true,
             enableLiveAutocompletion: true,
             enableSnippets: true,
+
+            maxLines: Infinity,
+            
             // Aesthetic
             fontSize: "1em",
             tabSize: 4,
             showPrintMargin: false
         });
+        this.#editor.$blockScrolling = 'Infinity';
         this.#editor.setValue([
             '// Author:',
             '// Title:',

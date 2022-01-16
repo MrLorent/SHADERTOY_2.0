@@ -4,9 +4,7 @@ import Scene from './Canvas/Scene.js'
 import Shader from './Canvas/Shader.js'
 import shaders_json from './shaders/shaders.json'
 
-import init from './Canvas/init.js'
-import animate from './Canvas/animate.js'
-import GLOBALS from './Canvas/globals.js'
+import initShaderChunk from "./Canvas/initShaderChunk.js";
 
 export class App
 {
@@ -16,12 +14,21 @@ export class App
     PHONG = 2;
 
     scene;
+
+    clock;
+    frame_time;
+    elapsed_time;
+
     list_of_shaders;
     current_shader;
 
     constructor(){
         // CREATING SCENE
         this.scene = new Scene();
+        this.scene.camera.fov = 31;
+        this.clock = new THREE.Clock();
+        
+        initShaderChunk(THREE.ShaderChunk);
         
         // LOADING SHADERS
         this.list_of_shaders = [];
@@ -30,7 +37,16 @@ export class App
         }
 
         // INITIALISE CURRENT SHADER
-        this.current_shader = this.FLAT_PAINTING;
+        this.current_shader = this.PHONG;
+
+        this.link_shaders(this.scene, this.list_of_shaders[this.current_shader]);
+
+        this.on_window_resize();
+        // window.addEventListener(
+        //     'resize',
+        //     this.on_window_resize,
+        //     false
+        // );
     }
 
     link_shaders(scene, shader){
@@ -60,11 +76,31 @@ export class App
 
     run()
     {
-        this.link_shaders(this.scene, this.list_of_shaders[this.current_shader]);
-        init(this.scene, this.list_of_shaders[this.current_shader]);
-        GLOBALS.currentScene = this.scene;
-        GLOBALS.currentShader=this.list_of_shaders[this.current_shader];
+        this.frame_time = this.clock.getDelta();
+        this.elapsed_time = this.clock.getElapsedTime() % 1000;
+    
+        this.list_of_shaders[this.current_shader].uniforms.uTime.value = this.elapsed_time;
+        this.scene.camera.updateMatrixWorld(true);
+        this.list_of_shaders[this.current_shader].uniforms.uCameraPosition.value.copy(this.scene.camera.position);
+    
+        this.scene.renderer.setRenderTarget(null);
+        this.scene.renderer.render(this.scene.scene, this.scene.camera);
+    }
 
-        animate();
+    on_window_resize()
+    {
+        let SCREEN_WIDTH = 800 ;
+        let SCREEN_HEIGHT = 600 ;
+
+        this.scene.renderer.setPixelRatio(1);
+        this.scene.renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+        this.list_of_shaders[this.current_shader].uniforms.uResolution.value.x = this.scene.context.drawingBufferWidth;
+        this.list_of_shaders[this.current_shader].uniforms.uResolution.value.y = this.scene.context.drawingBufferHeight;
+
+        this.scene.target.setSize(this.scene.context.drawingBufferWidth, this.scene.context.drawingBufferHeight);
+
+        this.scene.camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+        this.scene.camera.updateProjectionMatrix();
     }
 }
