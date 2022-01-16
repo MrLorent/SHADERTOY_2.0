@@ -11,6 +11,8 @@ export class GLSLCodeEditor
         this.#editor = ace.edit(container);
         this.#editor.getSession().setMode('ace/mode/glsl');
         this.#editor.setTheme('ace/theme/monokai');
+        this.#editor.setFontSize("16px");
+        this.#editor.setShowPrintMargin(false);
         this.#editor.setValue([
             '// Author:',
             '// Title:',
