@@ -3,13 +3,13 @@ import fragment_phong from './shaders/fragment/phongIllumination.glsl'
 import fragment_flat from './shaders/fragment/flatPainting.glsl'
 import fragment_lambert from './shaders/fragment/lambert.glsl'
 
-import Scene from './canvas/Scene.js'
+import Scene from './Canvas/Scene.js'
 var shaders_json = require('./shaders/shaders.json')
 
-import init from './canvas/init.js'
-import loadShaders from './canvas/load_shaders'
-import animate from './canvas/animate.js'
-import * as GLOBALS from './canvas/globals.js'
+import init from './Canvas/init.js'
+import loadShaders from './Canvas/load_shaders'
+import animate from './Canvas/animate.js'
+import * as GLOBALS from './Canvas/globals.js'
 import * as THREE from 'three';
 
 import Input from './Canvas/Input.js';
