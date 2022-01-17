@@ -131,8 +131,8 @@ export class App
 
     on_window_resize(scene, current_shader)
     {
-        let SCREEN_WIDTH = 800 ;
-        let SCREEN_HEIGHT = 600 ;
+        let SCREEN_WIDTH = 700;
+        let SCREEN_HEIGHT = 540;
 
         scene.renderer.setPixelRatio(1);
         scene.renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
