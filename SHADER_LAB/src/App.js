@@ -59,8 +59,7 @@ export class App
             shader.vertex_shader = vs;
             let material;
             file_loader.load(shader.fragment_shader_path, function(fs){
-                shader.fragment_shader=fs;
-            
+                shader.fragment_shader = fs;
     
                 material = new THREE.ShaderMaterial({
                     uniforms: shader.uniforms,
