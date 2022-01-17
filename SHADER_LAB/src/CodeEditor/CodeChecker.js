@@ -1,4 +1,4 @@
-export class GLSLCodeChecker
+export class CodeChecker
 {
     
 }

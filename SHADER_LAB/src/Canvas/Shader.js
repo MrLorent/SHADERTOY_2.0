@@ -1,6 +1,5 @@
 import * as THREE from 'three';
-import Slider from '../Inputs/Slider.js'
-import Checkbox from '../Inputs/Checkbox.js'
+import input_factory from "../Inputs/inputFactory.js";
 
 export default class Shader
 {
@@ -46,28 +45,8 @@ export default class Shader
 
         // INPUT INSTANCIATION
         for(let i in shader_details['inputs']){
-            let input = shader_details['inputs'][i];
-            if(input['type'] == "checkbox"){
-                this.#inputs.push(
-                    new Checkbox(
-                        input[  'label'     ],
-                        input[  'name'      ],
-                        input[  'checked'   ]
-                    )
-                );
-            }
-            else if(input['type'] == "slider"){
-                this.#inputs.push(
-                    new Slider(
-                        input[  'label' ],
-                        input[  'name'  ],
-                        input[  'min'   ],
-                        input[  'max'   ],
-                        input[  'step'  ]
-                    )
-                );
-            }
-            //else if color picker
+            this.#inputs.push(input_factory(shader_details['inputs'][i]));
+            //console.log(this.#inputs);
         }
 
         
@@ -101,6 +80,10 @@ export default class Shader
             this.uniforms.uKs.value = this.specular;
 
         }
+    }
+
+    add_input(uniform){
+        
     }
 
 }

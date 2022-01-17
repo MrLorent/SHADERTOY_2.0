@@ -4,7 +4,7 @@ import { App } from './App.js'
 import slider_as_HTML from './Inputs/html_generators/slider.jsx';
 import { CodeEditor } from './CodeEditor/CodeEditor.js';
 import * as THREE from 'three';
-import { $dataMetaSchema } from 'ajv';
+import { CodeReader, codeChecker } from './CodeEditor/CodeReader.js';
 import shaders_json from './shaders/shaders.json'
 import Shader from './Canvas/Shader';
 
@@ -72,9 +72,11 @@ loadShader(shaders_json,shaders_as_text,shaders_left);
 // Inputs
 const inputs = document.getElementById('inputs');
 
-const tmp = slider_as_HTML(1,"Alpha", "input1",1,100);
+const tmp = slider(1, "Alpha", "input1", 1, 100);
 
 inputs.append(tmp);
 
 // GLSLCodeEditor
 const codeEditor = new CodeEditor('glsl-editor');
+const codeReader = new CodeReader();
+codeEditor.getEditor().setValue(codeReader.analyzeText(codeEditor.getEditor().getValue()));
