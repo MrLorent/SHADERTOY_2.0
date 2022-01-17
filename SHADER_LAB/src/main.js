@@ -56,8 +56,7 @@ function launch_App(shaders_as_text)
     }
 
     animate();
-
-
+    
     //update 
     app.list_of_shaders[app.current_shader].update("color", new THREE.Color('white'), SALLE)
     app.list_of_shaders[app.current_shader].update("color", new THREE.Color('green'), BOX)
