@@ -41,7 +41,7 @@ export default class Shader
             uTime: { type: "f", value: 0.0 },
             uResolution: { type: "v2", value: new THREE.Vector2() },
             uCameraPosition: { type: "v3", value: new THREE.Vector3() },
-            uRotatingLight: {value: 0},
+            uRotatingLight: {value: 1},
 
             uColors:{value : this.color},
             uKd:{value: this.diffus},

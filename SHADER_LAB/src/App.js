@@ -86,6 +86,7 @@ export class App
     insert_shader_buttons_in_HTML()
     {
         const header = document.querySelector('header');
+
         let shaders_name = [];
         let shaders_id = [];
 
@@ -99,8 +100,11 @@ export class App
 
     insert_inputs_in_HTML()
     {
-        const shader = this.shader_list[this.current_shader];
         const HTML_container = document.getElementById('inputs');
+        while(HTML_container.firstElementChild){
+            HTML_container.removeChild(HTML_container.firstElementChild);
+        }
+        const shader = this.shader_list[this.current_shader];
         const inputs = shader.get_inputs();
 
         for(let k=1; k<=this.SCENE_ELEMENTS; k++)
