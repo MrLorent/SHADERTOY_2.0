@@ -40,7 +40,7 @@ export class App
         this.insert_shader_buttons_in_HTML();
 
         // INIT CURRENT SHADER
-        this.init_shader(this.PHONG);
+        this.init_shader(this.LAMBERT);
 
         // CODE_EDITOR
         this.codeEditor = new CodeEditor('glsl-editor');
@@ -50,7 +50,6 @@ export class App
         THREE.ShaderChunk['main_personal']=this.codeReader.analyzeText(this.codeEditor.get_editor().getValue(), this.shader_list[this.current_shader]);
 
         // WINDOW MANAGEMENT
-        this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
         window.addEventListener(
             'resize',
             () => { this.on_window_resize(this.scene, this.shader_list[this.current_shader]); },
@@ -63,6 +62,7 @@ export class App
         this.current_shader = new_shader_id;
         this.init_material();
         this.insert_inputs_in_HTML();
+        this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
     }
 
     init_material(){
@@ -87,13 +87,14 @@ export class App
     {
         const header = document.querySelector('header');
         let shaders_name = [];
+        let shaders_id = [];
 
         for(let i in this.shader_list)
         {
             shaders_name.push(this.shader_list[i].get_name());
+            shaders_id[this.shader_list[i].get_name()] = i;
         }
-        
-        header.append(nav_bar_as_HTML(shaders_name));
+        header.append(nav_bar_as_HTML(shaders_name, shaders_id, this));
     }
 
     insert_inputs_in_HTML()

@@ -1,7 +1,7 @@
 {
     "0" : [
         {
-            "nom" : "Flatpainting",
+            "nom" : "Flat Painting",
             "vertex" : "./shaders/vertex/vertexShader.glsl",
             "fragment" : "./shaders/fragment/flatPainting.glsl",
             "inputs" : [
