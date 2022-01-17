@@ -15,6 +15,10 @@ export default class Shader
     ambiant=[];
     diffus=[];
     specular=[];
+    uniform1=[];
+    uniform2=[];
+    uniform3=[];
+
 
     constructor(shader_details,vertex, fragment)
     {
@@ -30,6 +34,9 @@ export default class Shader
         this.ambiant    =   [0.9,0.4,0.5];
         this.diffus     =   [0.4,0.7,0.5];
         this.specular   =   [0.1,0.2,0.3];
+        this.uniform1   =   [0., 0., 0.];
+        this.uniform2   =   [0., 0., 0.];
+        this.uniform3   =   [0., 0., 0.];
         this.uniforms   =   {
             uTime: { type: "f", value: 0.0 },
             uResolution: { type: "v2", value: new THREE.Vector2() },
@@ -40,7 +47,11 @@ export default class Shader
             uKd:{value: this.diffus},
             uKs:{value: this.specular},
             uKa:{value: this.ambiant},
-            uAlpha:{value: this.alpha}
+            uAlpha:{value: this.alpha},
+            uUniform1:{value: this.uniform1},
+            uUniform2:{value: this.uniform2},
+            uUniform3:{value: this.uniform3}
+
         };
 
         // INPUT INSTANCIATION
@@ -48,8 +59,6 @@ export default class Shader
             this.#inputs.push(input_factory(shader_details['inputs'][i]));
             //console.log(this.#inputs);
         }
-
-        
     }
 
     update(name, value, id=0){
@@ -79,11 +88,31 @@ export default class Shader
             this.specular[id]=value;
             this.uniforms.uKs.value = this.specular;
 
+        }else if(name==this.uniform1.get_name()){
+            this.uniform1[id]=value;
+            this.uniforms.uUniform1.value = this.uniform1;
+
+        }else if(name==this.uniform2.get_name()){
+            this.uniform2[id]=value;
+            this.uniforms.uUniform2.value = this.uniform2;
+
+        }else if(name==this.uniform3.get_name()){
+            this.uniform3[id]=value;
+            this.uniforms.uUniform3.value = this.uniform3;
         }
     }
 
-    add_input(uniform){
-        
+    add_personal_input(uniform){
+        for(let i=6; i<9; i++){
+            if(this.#inputs[i].get_label() == ""){
+                this.#inputs[i].set_name(uniform[0]);
+                this.#inputs[i].set_label(uniform[1]);
+                this.#inputs[i].set_min(uniform[2]);
+                this.#inputs[i].set_max(uniform[3]);
+                this.#inputs[i].set_step(uniform[4]);
+            }
+            
+        }
     }
 
 }

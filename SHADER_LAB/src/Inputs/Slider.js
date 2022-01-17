@@ -13,15 +13,15 @@ export default class Slider extends Input
         this.#step = step;
     }
 
-    getMin(){
+    get_min(){
         return this.#min;
     }
 
-    getMax(){
+    get_max(){
         return this.#max;
     }
 
-    getStep(){
+    get_step(){
         return this.#step;
     }
 
@@ -35,5 +35,17 @@ export default class Slider extends Input
             this.#max,
             this.#step
         );
+    }
+    
+    set_min(min){
+        this.#min=min;
+    }
+
+    set_max(max){
+        this.#max=max;
+    }
+
+    set_step(step){
+        this.#step=step;
     }
 }
