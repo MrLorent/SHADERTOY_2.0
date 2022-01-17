@@ -3,7 +3,7 @@ import input_factory from "../Inputs/inputFactory.js";
 
 export default class Shader
 {
-    #nom;
+    #name;
     #inputs = [];
     uniforms;
     vertex_shader_path;
@@ -24,7 +24,7 @@ export default class Shader
     {
         shader_details = shader_details[0];
 
-        this.#nom = shader_details['nom'];
+        this.#name = shader_details['nom'];
         this.vertex_shader_path = shader_details['vertex'];
         this.fragment_shader_path = shader_details['fragment'];
         this.vertex_shader  = vertex;
@@ -41,7 +41,7 @@ export default class Shader
             uTime: { type: "f", value: 0.0 },
             uResolution: { type: "v2", value: new THREE.Vector2() },
             uCameraPosition: { type: "v3", value: new THREE.Vector3() },
-            uRotatingLight: {value: 0},
+            uRotatingLight: {value: 1},
 
             uColors:{value : this.color},
             uKd:{value: this.diffus},
@@ -58,6 +58,11 @@ export default class Shader
         for(let i in shader_details['inputs']){
             this.#inputs.push(input_factory(shader_details['inputs'][i]));
         }
+    }
+
+    get_name()
+    {
+        return this.#name;
     }
 
     get_inputs()

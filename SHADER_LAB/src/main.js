@@ -10,12 +10,12 @@ let BOX = 1;
 let SPHERE = 2;
 
 let shaders_as_text = [];
-let list_of_shaders = [];
+let shader_list = [];
 let shaders_left = Object.keys(shaders_json).length;
 
 async function load_shaders(shaders_json,shaders_as_text,shaders_left)
 {
-    if(shaders_left ===0)
+    if(shaders_left === 0)
     {
         //load vertex shader 
         let response = await fetch(shaders_json[0][0]['vertex']);
@@ -36,13 +36,13 @@ async function load_shaders(shaders_json,shaders_as_text,shaders_left)
 
 function launch_App(shaders_as_text)
 {
-    //creation of list_of_shaders
+    //creation of shader_list
     for ( let i = 1; i < shaders_as_text.length  ; i++)
     {
-        list_of_shaders[i-1] = new Shader(shaders_json[i-1],shaders_as_text[0],shaders_as_text[i]);
+        shader_list[i-1] = new Shader(shaders_json[i-1],shaders_as_text[0],shaders_as_text[i]);
     }
 
-    const app = new App(list_of_shaders);
+    const app = new App(shader_list);
 
     function animate(){
         app.render()
@@ -52,9 +52,9 @@ function launch_App(shaders_as_text)
     animate();
     
     //update 
-    app.list_of_shaders[app.current_shader].update("color", new THREE.Color('white'), SALLE)
-    app.list_of_shaders[app.current_shader].update("color", new THREE.Color('green'), BOX)
-    app.list_of_shaders[app.current_shader].update("rotate_light",1)
+    app.shader_list[app.current_shader].update("color", new THREE.Color('white'), SALLE)
+    app.shader_list[app.current_shader].update("color", new THREE.Color('green'), BOX)
+    app.shader_list[app.current_shader].update("rotate_light",1)
 }
 
 load_shaders(shaders_json,shaders_as_text,shaders_left);

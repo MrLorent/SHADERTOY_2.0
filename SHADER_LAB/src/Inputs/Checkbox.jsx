@@ -24,7 +24,7 @@ export default class Checkbox extends Input
             checked
             />
             <label htmlFor={ super.get_name() }>{ super.get_label() }</label>
-        </div>
+        </div>;
     
         return checkbox;
     }

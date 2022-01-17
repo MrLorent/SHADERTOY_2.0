@@ -1,4 +1,4 @@
-html
+html, h1
 {
     margin: 0;
 }
@@ -10,10 +10,44 @@ body
     margin: 0;
 }
 
-#interactive_window
+main
+{
+    position: relative;
+}
+
+header
+{
+    background: #181818;
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    box-sizing: border-box;
+    padding: 0 1.5%;
+    z-index: 1;
+}
+
+#shader_list
 {
     display: flex;
-    padding: 1.5%;
+}
+
+.shader_link
+{
+    cursor: pointer;
+    list-style: none;
+    margin: 0 0 0 25px;
+}
+
+#interactive_window
+{
+    height: 100vh;
+    display: flex;
+    box-sizing: border-box;
+    padding: calc(10vh + 1.5%) 1.5% 1.5% 1.5%;
 }
 
 #inputs

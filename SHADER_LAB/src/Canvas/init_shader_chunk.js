@@ -21,8 +21,7 @@ uniform float uKa[N_MATERIALS];
 uniform float uKd[N_MATERIALS];
 uniform float uAlpha[N_MATERIALS];
 uniform float uRotatingLight;
-
-    `
+`
     
 shaderChunk['creation_scene']=`
     struct Sphere {
