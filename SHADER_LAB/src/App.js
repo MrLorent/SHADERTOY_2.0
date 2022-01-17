@@ -1,10 +1,12 @@
 import * as THREE from 'three';
 
 import Scene from './Canvas/Scene.js'
+import init_shader_chunk from "./Canvas/init_shader_chunk.js";
+
+import nav_bar_as_HTML from './nav_bar.jsx';
+
 import { CodeEditor } from './CodeEditor/CodeEditor.js';
 import { CodeReader } from './CodeEditor/CodeReader.js';
-
-import init_shader_chunk from "./Canvas/init_shader_chunk.js";
 
 export class App
 {
@@ -25,46 +27,49 @@ export class App
     codeEditor;
     codeReader;
 
-    list_of_shaders;
+    shader_list;
     current_shader;
 
-    constructor(list_of_shaders){
+    constructor(shader_list){
         // SCENE
         this.scene = new Scene();
 
-        // SHADERS
-        this.list_of_shaders = list_of_shaders;
-        this.current_shader = this.PHONG;
+        // INIT LIST OF SHADERS
         init_shader_chunk(THREE.ShaderChunk);
-        this.init_shader();
+        this.shader_list = shader_list;
+        this.insert_shader_buttons_in_HTML();
+
+        // INIT CURRENT SHADER
+        this.init_shader(this.PHONG);
 
         // CODE_EDITOR
         this.codeEditor = new CodeEditor('glsl-editor');
         this.codeReader = new CodeReader();
-        this.codeEditor.get_editor().setValue(this.list_of_shaders[this.current_shader].fragment_shader);
-        //this.codeEditor.getEditor().setValue(this.codeReader.analyzeText(this.codeEditor.getEditor().getValue(), this.list_of_shaders[this.current_shader]));
-        THREE.ShaderChunk['main_personal']=this.codeReader.analyzeText(this.codeEditor.get_editor().getValue(), this.list_of_shaders[this.current_shader]);
+        this.codeEditor.get_editor().setValue(this.shader_list[this.current_shader].fragment_shader);
+        //this.codeEditor.getEditor().setValue(this.codeReader.analyzeText(this.codeEditor.getEditor().getValue(), this.shader_list[this.current_shader]));
+        THREE.ShaderChunk['main_personal']=this.codeReader.analyzeText(this.codeEditor.get_editor().getValue(), this.shader_list[this.current_shader]);
 
         // WINDOW MANAGEMENT
-        this.on_window_resize(this.scene, this.list_of_shaders[this.current_shader]);
+        this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
         window.addEventListener(
             'resize',
-            () => { this.on_window_resize(this.scene, this.list_of_shaders[this.current_shader]); },
+            () => { this.on_window_resize(this.scene, this.shader_list[this.current_shader]); },
             false
         );
     }
 
-    init_shader()
+    init_shader(new_shader_id)
     {
+        this.current_shader = new_shader_id;
         this.init_material();
         this.insert_inputs_in_HTML();
     }
 
     init_material(){
         let material = new THREE.ShaderMaterial({
-            uniforms: this.list_of_shaders[this.current_shader].uniforms,
-            vertexShader: this.list_of_shaders[this.current_shader].vertex_shader,
-            fragmentShader: this.list_of_shaders[this.current_shader].fragment_shader,
+            uniforms: this.shader_list[this.current_shader].uniforms,
+            vertexShader: this.shader_list[this.current_shader].vertex_shader,
+            fragmentShader: this.shader_list[this.current_shader].fragment_shader,
             depthTest: false,
             depthWrite: false
         });
@@ -78,9 +83,22 @@ export class App
 
     }
 
+    insert_shader_buttons_in_HTML()
+    {
+        const header = document.querySelector('header');
+        let shaders_name = [];
+
+        for(let i in this.shader_list)
+        {
+            shaders_name.push(this.shader_list[i].get_name());
+        }
+        
+        header.append(nav_bar_as_HTML(shaders_name));
+    }
+
     insert_inputs_in_HTML()
     {
-        const shader = this.list_of_shaders[this.current_shader];
+        const shader = this.shader_list[this.current_shader];
         const HTML_container = document.getElementById('inputs');
         const inputs = shader.get_inputs();
 
@@ -88,7 +106,6 @@ export class App
         {
             for(let i in inputs)
             {
-                console.log(inputs[i]);
                 HTML_container.append(inputs[i].get_as_HTML(k, shader));
             }
         }
@@ -99,9 +116,9 @@ export class App
         this.scene.frame_time = this.scene.clock.getDelta();
         this.scene.elapsed_time = this.scene.clock.getElapsedTime() % 1000;
     
-        this.list_of_shaders[this.current_shader].uniforms.uTime.value = this.scene.elapsed_time;
+        this.shader_list[this.current_shader].uniforms.uTime.value = this.scene.elapsed_time;
         this.scene.camera.updateMatrixWorld(true);
-        this.list_of_shaders[this.current_shader].uniforms.uCameraPosition.value.copy(this.scene.camera.position);
+        this.shader_list[this.current_shader].uniforms.uCameraPosition.value.copy(this.scene.camera.position);
     
         this.scene.renderer.setRenderTarget(null);
         this.scene.renderer.render(this.scene.scene, this.scene.camera);
