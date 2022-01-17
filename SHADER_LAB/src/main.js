@@ -61,6 +61,52 @@ function launch_App(shaders_as_text)
     app.list_of_shaders[app.current_shader].update("color", new THREE.Color('white'), SALLE)
     app.list_of_shaders[app.current_shader].update("color", new THREE.Color('green'), BOX)
     app.list_of_shaders[app.current_shader].update("rotate_light",1)
+
+    console.log(app.scene.mesh.material.vertexShader)
+
+    let status, log, shader, lines, error, details, i, line, message;
+    let messageToDisplay;
+    try{
+        shader = app.scene.context.createShader(app.scene.context.VERTEX_SHADER);
+        app.scene.context.shaderSource(shader, app.scene.mesh.material.vertexShader)
+        app.scene.context.compileShader(shader)
+        status = app.scene.context.getShaderParameter(shader, app.scene.context.COMPILE_STATUS)
+    }
+    catch(error1){
+        e=error1;
+        messageToDisplay = "error : "+e.getMessage
+        console.log(messageToDisplay)
+    }
+    if (status === true){
+        messageToDisplay = "shader loaded successfully"
+        console.log(messageToDisplay)
+    }
+    else{
+        log = app.scene.context.getShaderInfoLog(shader)
+        console.log(log)
+        // ? app.scene.context.deleteShader(shader);
+        lines = log.split('\n');
+        for(let j =0, len = lines.length; j <len; j++){
+            i = lines[j]
+            if(i.substr(0,5) === 'ERROR'){
+                error = i
+                break;
+            }
+        }
+        if(!error){
+            messageToDisplay = 'unable to parse error...'
+            console.log(messageToDisplay)
+        }
+        details = error.split(':')
+        if(details.length < 4){
+            messageToDisplay = error
+            console.log(messageToDisplay)
+        }
+        line = details[2];
+        message = details.splice(3).join(':')
+        messageToDisplay = "Line : "+parseInt(line)+" : "+message
+        console.log(messageToDisplay)
+    }
     
 }
 

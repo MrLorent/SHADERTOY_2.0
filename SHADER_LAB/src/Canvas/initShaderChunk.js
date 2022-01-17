@@ -1,13 +1,18 @@
 export default (shaderChunk) => {
-shaderChunk['uniforms_and_defines']=`
+shaderChunk['uniforms_and_defines']=`#version 300 es
+#define varying in
+out highp vec4 pc_fragColor;
+#define gl_FragColor pc_fragColor
 #define MAX_MARCH_STEPS 128
 #define MAX_MARCH_DIST 100.
 #define SURF_DIST_MARCH .01
 #define EULER_APPROX_OFFSET .003
 
+precision highp float;
+precision highp int;
+
 #define N_MATERIALS 3
 #define N_RAY 5
-
 uniform float uTime;
 uniform vec3 uResolution;
 uniform vec3 uCameraPosition;
