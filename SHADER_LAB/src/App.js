@@ -22,7 +22,7 @@ export class App
     list_of_shaders;
     current_shader;
 
-    constructor(){
+    constructor(list_of_shaders){
         // CREATING SCENE
         this.scene = new Scene();
         // It would be better to creat a Init method here to seperate the App initialisation from the Canvas initialisation
@@ -30,17 +30,13 @@ export class App
         this.clock = new THREE.Clock();
         
         initShaderChunk(THREE.ShaderChunk);
-        
-        // LOADING SHADERS
-        this.list_of_shaders = [];
-        for (let i in shaders_json){
-            this.list_of_shaders.push(new Shader(shaders_json[i]))
-        }
 
-        // INITIALISE CURRENT SHADER
+        this.list_of_shaders = list_of_shaders;
+
+        // // INITIALISE CURRENT SHADER
         this.current_shader = this.PHONG;
 
-        this.link_shaders(this.scene, this.list_of_shaders[this.current_shader]);
+        this.create_material();
 
         this.on_window_resize();
 
@@ -52,29 +48,22 @@ export class App
         // );
     }
 
-    link_shaders(scene, shader){
-        let file_loader = new THREE.FileLoader();
-    
-        file_loader.load(shader.vertex_shader_path, function(vs){
-            shader.vertex_shader = vs;
-            let material;
-            file_loader.load(shader.fragment_shader_path, function(fs){
-                shader.fragment_shader=fs;
+    create_material(){
+        
             
     
-                material = new THREE.ShaderMaterial({
-                    uniforms: shader.uniforms,
-                    vertexShader: shader.vertex_shader,
-                    fragmentShader: shader.fragment_shader,
-                    depthTest: false,
-                    depthWrite: false
-                });
-    
-                scene.mesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(2,2), material)
-                scene.scene.add(scene.mesh)
-                scene.camera.add(scene.mesh)
-            });
+        let material = new THREE.ShaderMaterial({
+            uniforms: this.list_of_shaders[this.current_shader].uniforms,
+            vertexShader: this.list_of_shaders[this.current_shader].vertex_shader,
+            fragmentShader: this.list_of_shaders[this.current_shader].fragment_shader,
+            depthTest: false,
+            depthWrite: false
         });
+    
+        this.scene.mesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(2,2), material)
+        this.scene.scene.add(this.scene.mesh)
+        this.scene.camera.add(this.scene.mesh)
+
     }
 
     run()

@@ -40,13 +40,15 @@ export default class Shader
     //     //this.loadShaders(vertex_shader_path, fragment_shader_path);
     // }
 
-    constructor(shader_details)
+    constructor(shader_details,vertex, fragment)
     {
         shader_details = shader_details[0];
 
         this.#nom = shader_details['nom'];
         this.vertex_shader_path = shader_details['vertex'];
         this.fragment_shader_path = shader_details['fragment'];
+        this.vertex_shader  = vertex;
+        this.fragment_shader = fragment;
         this.alpha      =   [30, 20,50];
         this.color      =   [new THREE.Color('blue'), new THREE.Color('white'),new THREE.Color('orange')];
         this.ambiant    =   [0.9,0.4,0.5];
@@ -90,6 +92,8 @@ export default class Shader
             }
             //else if color picker
         }
+
+        
     }
 
     update(name, value, id=0){
