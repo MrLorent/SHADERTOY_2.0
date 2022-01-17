@@ -8,6 +8,12 @@ import initShaderChunk from "./Canvas/initShaderChunk.js";
 
 export class App
 {
+    // LIST OF SCENE ELEMENTS
+    SALLE = 0
+    BOX = 1;
+    SPHERE = 2;
+    SCENE_ELEMENTS = 2;
+
     // LIST OF SHADERS
     FLAT_PAINTING = 0;
     LAMBERT = 1;
@@ -46,12 +52,11 @@ export class App
         //     this.on_window_resize,
         //     false
         // );
+
+        this.insert_inputs_in_HTML()
     }
 
     create_material(){
-        
-            
-    
         let material = new THREE.ShaderMaterial({
             uniforms: this.list_of_shaders[this.current_shader].uniforms,
             vertexShader: this.list_of_shaders[this.current_shader].vertex_shader,
@@ -77,6 +82,22 @@ export class App
     
         this.scene.renderer.setRenderTarget(null);
         this.scene.renderer.render(this.scene.scene, this.scene.camera);
+    }
+
+    insert_inputs_in_HTML()
+    {
+        const shader = this.list_of_shaders[this.current_shader];
+        const HTML_container = document.getElementById('inputs');
+        const inputs = shader.get_inputs();
+
+        for(let k=1; k<=this.SCENE_ELEMENTS; k++)
+        {
+            for(let i in inputs)
+            {
+                console.log(inputs[i]);
+                HTML_container.append(inputs[i].get_as_HTML(k, shader));
+            }
+        }
     }
 
     on_window_resize()

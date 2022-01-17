@@ -52,7 +52,7 @@ export class CodeEditor {
         this.#editor.clearSelection();
     }
 
-    getEditor() {
+    get_editor() {
         return this.#editor;
     }
 }
