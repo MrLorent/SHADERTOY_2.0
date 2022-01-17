@@ -15,7 +15,7 @@ let shaders_left = Object.keys(shaders_json).length;
 
 async function load_shaders(shaders_json,shaders_as_text,shaders_left)
 {
-    if(shaders_left ===0)
+    if(shaders_left === 0)
     {
         //load vertex shader 
         let response = await fetch(shaders_json[0][0]['vertex']);

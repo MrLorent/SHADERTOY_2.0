@@ -4,7 +4,7 @@ import Scene from './Canvas/Scene.js'
 import { CodeEditor } from './CodeEditor/CodeEditor.js';
 import { CodeReader } from './CodeEditor/CodeReader.js';
 
-import initShaderChunk from "./Canvas/initShaderChunk.js";
+import init_shader_chunk from "./Canvas/init_shader_chunk.js";
 
 export class App
 {
@@ -35,17 +35,15 @@ export class App
         // SHADERS
         this.list_of_shaders = list_of_shaders;
         this.current_shader = this.PHONG;
-        initShaderChunk(THREE.ShaderChunk);
+        init_shader_chunk(THREE.ShaderChunk);
+        this.init_shader();
 
-        // GLSLCodeEditor
+        // CODE_EDITOR
         this.codeEditor = new CodeEditor('glsl-editor');
         this.codeReader = new CodeReader();
         this.codeEditor.get_editor().setValue(this.list_of_shaders[this.current_shader].fragment_shader);
         //this.codeEditor.getEditor().setValue(this.codeReader.analyzeText(this.codeEditor.getEditor().getValue(), this.list_of_shaders[this.current_shader]));
         THREE.ShaderChunk['main_personal']=this.codeReader.analyzeText(this.codeEditor.get_editor().getValue(), this.list_of_shaders[this.current_shader]);
-
-        this.create_material();
-        this.insert_inputs_in_HTML()
 
         // WINDOW MANAGEMENT
         this.on_window_resize(this.scene, this.list_of_shaders[this.current_shader]);
@@ -56,7 +54,13 @@ export class App
         );
     }
 
-    create_material(){
+    init_shader()
+    {
+        this.init_material();
+        this.insert_inputs_in_HTML();
+    }
+
+    init_material(){
         let material = new THREE.ShaderMaterial({
             uniforms: this.list_of_shaders[this.current_shader].uniforms,
             vertexShader: this.list_of_shaders[this.current_shader].vertex_shader,
@@ -74,19 +78,6 @@ export class App
 
     }
 
-    render()
-    {
-        this.scene.frame_time = this.scene.clock.getDelta();
-        this.scene.elapsed_time = this.scene.clock.getElapsedTime() % 1000;
-    
-        this.list_of_shaders[this.current_shader].uniforms.uTime.value = this.scene.elapsed_time;
-        this.scene.camera.updateMatrixWorld(true);
-        this.list_of_shaders[this.current_shader].uniforms.uCameraPosition.value.copy(this.scene.camera.position);
-    
-        this.scene.renderer.setRenderTarget(null);
-        this.scene.renderer.render(this.scene.scene, this.scene.camera);
-    }
-
     insert_inputs_in_HTML()
     {
         const shader = this.list_of_shaders[this.current_shader];
@@ -101,6 +92,19 @@ export class App
                 HTML_container.append(inputs[i].get_as_HTML(k, shader));
             }
         }
+    }
+
+    render()
+    {
+        this.scene.frame_time = this.scene.clock.getDelta();
+        this.scene.elapsed_time = this.scene.clock.getElapsedTime() % 1000;
+    
+        this.list_of_shaders[this.current_shader].uniforms.uTime.value = this.scene.elapsed_time;
+        this.scene.camera.updateMatrixWorld(true);
+        this.list_of_shaders[this.current_shader].uniforms.uCameraPosition.value.copy(this.scene.camera.position);
+    
+        this.scene.renderer.setRenderTarget(null);
+        this.scene.renderer.render(this.scene.scene, this.scene.camera);
     }
 
     on_window_resize(scene, current_shader)
