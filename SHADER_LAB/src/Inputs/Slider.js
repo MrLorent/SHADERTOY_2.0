@@ -1,4 +1,5 @@
 import Input from './Input.js'
+import slider_as_HTML from './html_generators/slider.jsx';
 
 export default class Slider extends Input
 {
@@ -22,5 +23,17 @@ export default class Slider extends Input
 
     getStep(){
         return this.#step;
+    }
+
+    get_as_HTML()
+    {
+        return slider_as_HTML(
+            this.name,
+            this.label,
+            this.name,
+            this.#min,
+            this.#max,
+            this.#step
+        );
     }
 }
