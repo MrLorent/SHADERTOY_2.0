@@ -1,10 +1,8 @@
 import * as THREE from 'three';
 
 import Scene from './Canvas/Scene.js'
-import Shader from './Canvas/Shader.js'
-import shaders_json from './shaders/shaders.json'
 import { CodeEditor } from './CodeEditor/CodeEditor.js';
-import { CodeReader, codeChecker } from './CodeEditor/CodeReader.js';
+import { CodeReader } from './CodeEditor/CodeReader.js';
 
 import initShaderChunk from "./Canvas/initShaderChunk.js";
 
@@ -27,48 +25,35 @@ export class App
     codeEditor;
     codeReader;
 
-    clock;
-    frame_time;
-    elapsed_time;
-
     list_of_shaders;
     current_shader;
 
     constructor(list_of_shaders){
-        // CREATING SCENE
+        // SCENE
         this.scene = new Scene();
-        // It would be better to creat a Init method here to seperate the App initialisation from the Canvas initialisation
-        this.scene.camera.fov = 31;
-        this.clock = new THREE.Clock();
 
+        // SHADERS
         this.list_of_shaders = list_of_shaders;
-
-        // // INITIALISE CURRENT SHADER
-        this.current_shader = this.LAMBERT;
-
+        this.current_shader = this.PHONG;
         initShaderChunk(THREE.ShaderChunk);
 
         // GLSLCodeEditor
         this.codeEditor = new CodeEditor('glsl-editor');
         this.codeReader = new CodeReader();
-        this.codeEditor.getEditor().setValue(this.list_of_shaders[this.current_shader].fragment_shader);
+        this.codeEditor.get_editor().setValue(this.list_of_shaders[this.current_shader].fragment_shader);
         //this.codeEditor.getEditor().setValue(this.codeReader.analyzeText(this.codeEditor.getEditor().getValue(), this.list_of_shaders[this.current_shader]));
-
-  
-        THREE.ShaderChunk['main_personal']=this.codeReader.analyzeText(this.codeEditor.getEditor().getValue(), this.list_of_shaders[this.current_shader]);
+        THREE.ShaderChunk['main_personal']=this.codeReader.analyzeText(this.codeEditor.get_editor().getValue(), this.list_of_shaders[this.current_shader]);
 
         this.create_material();
-
-        this.on_window_resize();
-
-        // This listener on resize create error "this.scene is undefined" I don't know why
-        // window.addEventListener(
-        //     'resize',
-        //     this.on_window_resize,
-        //     false
-        // );
-
         this.insert_inputs_in_HTML()
+
+        // WINDOW MANAGEMENT
+        this.on_window_resize(this.scene, this.list_of_shaders[this.current_shader]);
+        window.addEventListener(
+            'resize',
+            () => { this.on_window_resize(this.scene, this.list_of_shaders[this.current_shader]); },
+            false
+        );
     }
 
     create_material(){
@@ -80,18 +65,21 @@ export class App
             depthWrite: false
         });
     
-        this.scene.mesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(2,2), material)
-        this.scene.scene.add(this.scene.mesh)
-        this.scene.camera.add(this.scene.mesh)
+        this.scene.mesh = new THREE.Mesh(
+            new THREE.PlaneBufferGeometry(2,2),
+            material
+        );
+        this.scene.scene.add(this.scene.mesh);
+        this.scene.camera.add(this.scene.mesh);
 
     }
 
-    run()
+    render()
     {
-        this.frame_time = this.clock.getDelta();
-        this.elapsed_time = this.clock.getElapsedTime() % 1000;
+        this.scene.frame_time = this.scene.clock.getDelta();
+        this.scene.elapsed_time = this.scene.clock.getElapsedTime() % 1000;
     
-        this.list_of_shaders[this.current_shader].uniforms.uTime.value = this.elapsed_time;
+        this.list_of_shaders[this.current_shader].uniforms.uTime.value = this.scene.elapsed_time;
         this.scene.camera.updateMatrixWorld(true);
         this.list_of_shaders[this.current_shader].uniforms.uCameraPosition.value.copy(this.scene.camera.position);
     
@@ -115,20 +103,20 @@ export class App
         }
     }
 
-    on_window_resize()
+    on_window_resize(scene, current_shader)
     {
         let SCREEN_WIDTH = 800 ;
         let SCREEN_HEIGHT = 600 ;
 
-        this.scene.renderer.setPixelRatio(1);
-        this.scene.renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+        scene.renderer.setPixelRatio(1);
+        scene.renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-        this.list_of_shaders[this.current_shader].uniforms.uResolution.value.x = this.scene.context.drawingBufferWidth;
-        this.list_of_shaders[this.current_shader].uniforms.uResolution.value.y = this.scene.context.drawingBufferHeight;
+        current_shader.uniforms.uResolution.value.x = scene.context.drawingBufferWidth;
+        current_shader.uniforms.uResolution.value.y = scene.context.drawingBufferHeight;
 
-        this.scene.target.setSize(this.scene.context.drawingBufferWidth, this.scene.context.drawingBufferHeight);
+        scene.target.setSize(scene.context.drawingBufferWidth, scene.context.drawingBufferHeight);
 
-        this.scene.camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
-        this.scene.camera.updateProjectionMatrix();
+        scene.camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+        scene.camera.updateProjectionMatrix();
     }
 }
