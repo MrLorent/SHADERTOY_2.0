@@ -11,16 +11,21 @@ export default class Input {
         this.#name = name;
     }
 
-    get_type() {
+    get_type(){
         return this.#type;
     }
 
-    get_label() {
+    get_label(){
         return this.#label;
     }
 
-    get_name() {
+    get_name(){
         return this.#name;
+    }
+
+    get_as_HTML(scene_element_id, current_shader)
+    {
+        throw new TypeError('Abstract method "get_as_HTML" of abstract class "Input" cannot be use directly');
     }
 
     set_label(label){

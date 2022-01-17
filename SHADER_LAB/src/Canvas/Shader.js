@@ -57,8 +57,12 @@ export default class Shader
         // INPUT INSTANCIATION
         for(let i in shader_details['inputs']){
             this.#inputs.push(input_factory(shader_details['inputs'][i]));
-            //console.log(this.#inputs);
         }
+    }
+
+    get_inputs()
+    {
+        return this.#inputs;
     }
 
     update(name, value, id=0){
@@ -70,7 +74,7 @@ export default class Shader
             this.uniforms.uAlpha.value = this.alpha;
         }
         else if (name=="color"){
-            this.color[id]=value;
+            this.color[id]= new THREE.Color(value);
             this.uniforms.uColors.value = this.color;
 
         }

@@ -1,8 +1,9 @@
 import './scss/index.scss';
 
 import { App } from './App.js'
-import slider_as_HTML from './Inputs/html_generators/slider.jsx';
+import { CodeEditor } from './CodeEditor/CodeEditor.js';
 import * as THREE from 'three';
+import { CodeReader } from './CodeEditor/CodeReader.js';
 import shaders_json from './shaders/shaders.json'
 import Shader from './Canvas/Shader';
 
@@ -15,7 +16,7 @@ let list_of_shaders = [];
 let shaders_left = Object.keys(shaders_json).length;
 
 
-async function loadShader(shaders_json,shaders_as_text,shaders_left)
+async function load_shaders(shaders_json,shaders_as_text,shaders_left)
 {
     if(shaders_left ===0)
     {
@@ -31,7 +32,7 @@ async function loadShader(shaders_json,shaders_as_text,shaders_left)
         //load fragment shaders
         let response = await fetch(shaders_json[shaders_left-1][0]['fragment']);
         shaders_as_text[shaders_left] = await response.text();
-        loadShader(shaders_json,shaders_as_text,shaders_left-1);
+        load_shaders(shaders_json,shaders_as_text,shaders_left-1);
     }
 
 }
@@ -57,17 +58,14 @@ function launch_App(shaders_as_text)
     //update 
     app.list_of_shaders[app.current_shader].update("color", new THREE.Color('white'), SALLE)
     app.list_of_shaders[app.current_shader].update("color", new THREE.Color('green'), BOX)
-    app.list_of_shaders[app.current_shader].update("rotate_light",1)
+    app.list_of_shaders[app.current_shader].update("rotate_light",0)
     
 }
 
-loadShader(shaders_json,shaders_as_text,shaders_left);
+load_shaders(shaders_json,shaders_as_text,shaders_left);
 
 
-
-// Inputs
-const inputs = document.getElementById('inputs');
-
-const tmp = slider_as_HTML(1, "Alpha", "input1", 1, 100);
-
-inputs.append(tmp);
+// GLSLCodeEditor
+const codeEditor = new CodeEditor('glsl-editor');
+const codeReader = new CodeReader();
+//codeEditor.getEditor().setValue(codeReader.analyzeText(codeEditor.getEditor().getValue()));

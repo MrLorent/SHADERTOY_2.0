@@ -42,11 +42,11 @@ shaderChunk['creation_scene']=`
     
     
     
-    Sphere sphere = Sphere(vec3(-1,1, 8), 0.5);
-    Box box = Box(vec3(1, 1, 8), vec3(0.5));
+    Sphere sphere = Sphere(vec3(-1,1, 5), 0.5);
+    Box box = Box(vec3(1, 1, 5), vec3(0.5));
     
     PointLight light = PointLight(vec3(0, 5, 6),
-                                        vec3(0.800,0.678,0.678));
+                                        vec3(0.600,0.478,0.478));
                                                                       
     
     
