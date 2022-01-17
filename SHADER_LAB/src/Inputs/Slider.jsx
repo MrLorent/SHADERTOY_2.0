@@ -44,4 +44,16 @@ export default class Slider extends Input
 
         return slider;
     }
+    
+    set_min(min){
+        this.#min=min;
+    }
+
+    set_max(max){
+        this.#max=max;
+    }
+
+    set_step(step){
+        this.#step=step;
+    }
 }

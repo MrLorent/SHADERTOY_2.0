@@ -4,6 +4,11 @@ export default class Scene{
     renderer;
     scene;
     camera;
+
+    clock;
+    frame_time;
+    elapsed_time;
+
     mesh;
     target;
     context;
@@ -24,7 +29,10 @@ export default class Scene{
 
         this.camera = new THREE.PerspectiveCamera(60, document.body.clientWidth / document.body.clientHeight, 1, 1000);
         this.camera.position.y=1;
+        this.camera.fov = 31;
         this.scene.add(this.camera);
+
+        this.clock = new THREE.Clock();
 
         this.target = new THREE.WebGLRenderTarget(this.context.drawingBufferWidth, this.context.drawingBufferHeight, {
             minFilter: THREE.NearestFilter,
