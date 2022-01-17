@@ -72,7 +72,7 @@ loadShader(shaders_json,shaders_as_text,shaders_left);
 // Inputs
 const inputs = document.getElementById('inputs');
 
-const tmp = slider(1, "Alpha", "input1", 1, 100);
+const tmp = slider_as_HTML(1, "Alpha", "input1", 1, 100);
 
 inputs.append(tmp);
 
