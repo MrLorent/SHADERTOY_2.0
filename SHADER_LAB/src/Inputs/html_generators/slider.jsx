@@ -1,7 +1,7 @@
 import createElement from './createElement.js';
 
-// Create some dom elements
-export const slider = (id, label, name, min, max) => {
+// Create a slider as HTML
+export default (id, label, name, min, max) => {
     const slider = 
     <div className='input-container slider'>
         <input
@@ -13,7 +13,7 @@ export const slider = (id, label, name, min, max) => {
             max={max}
             step="1"
         />
-        <label for={name}>{label}</label>
+        <label htmlFor={name}>{label}</label>
     </div>
 
     return slider;

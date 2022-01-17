@@ -1,7 +1,7 @@
 import './scss/index.scss';
 
 import { App } from './App.js'
-import { slider } from './html_generators/slider.jsx';
+import slider_as_HTML from './Inputs/html_generators/slider.jsx';
 import { CodeEditor } from './CodeEditor/CodeEditor.js';
 import * as THREE from 'three';
 import { CodeReader, codeChecker } from './CodeEditor/CodeReader.js';
@@ -49,19 +49,23 @@ function launch_App(shaders_as_text)
     }
 
     const app = new App(list_of_shaders);
-
     function animate(){
     app.run()
     requestAnimationFrame(animate)
     }
 
     animate();
-
-
+    
     //update 
     app.list_of_shaders[app.current_shader].update("color", new THREE.Color('white'), SALLE)
     app.list_of_shaders[app.current_shader].update("color", new THREE.Color('green'), BOX)
     app.list_of_shaders[app.current_shader].update("rotate_light",1)
+
+
+    // GLSLCodeEditor
+    const codeEditor = new CodeEditor('glsl-editor');
+    const codeReader = new CodeReader();
+    codeEditor.getEditor().setValue(codeReader.analyzeText(codeEditor.getEditor().getValue(), app.list_of_shaders[3]));
     
 }
 
@@ -72,11 +76,6 @@ loadShader(shaders_json,shaders_as_text,shaders_left);
 // Inputs
 const inputs = document.getElementById('inputs');
 
-const tmp = slider(1, "Alpha", "input1", 1, 100);
+const tmp = slider_as_HTML(1, "Alpha", "input1", 1, 100);
 
 inputs.append(tmp);
-
-// GLSLCodeEditor
-const codeEditor = new CodeEditor('glsl-editor');
-const codeReader = new CodeReader();
-codeEditor.getEditor().setValue(codeReader.analyzeText(codeEditor.getEditor().getValue()));
