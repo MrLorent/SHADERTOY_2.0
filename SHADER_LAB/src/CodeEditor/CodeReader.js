@@ -10,10 +10,10 @@ export class CodeReader
         line.forEach(element => {
             let word=element.split(" ");
             if(word[0] == "///"){
-                element=element.replace(element, "uniform "+word[1]+" "+word[2]+";");
+                // /// uRoughness Roughness 0 1 0.1
+                element=element.replace(element, "uniform  vec3 "+word[1]+";");
                 word.splice(0,1);
                 word.pop();
-                //On envoie word  0(name),1(label),2(min),3(max), 4(step)
                 shader.add_personal_input(JSON.parse(JSON.stringify(word))) ;
             }
             new_text+=element+"\n";

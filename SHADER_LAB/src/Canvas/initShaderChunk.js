@@ -1,5 +1,8 @@
 export default (shaderChunk) => {
 shaderChunk['uniforms_and_defines']=`
+#ifdef GL_ES
+precision mediump float;
+#endif
 #define MAX_MARCH_STEPS 128
 #define MAX_MARCH_DIST 100.
 #define SURF_DIST_MARCH .01
@@ -221,7 +224,7 @@ void main()
 	pc_fragColor = clamp(vec4( pow(color/float(N_RAY), vec3(0.4545)), 1.0 ), 0.0, 1.0);//vec4(color/10.0, 1.0);
 
 }
-`    
+`  
 }
     
     

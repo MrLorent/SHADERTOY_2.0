@@ -3,6 +3,8 @@ import * as THREE from 'three';
 import Scene from './Canvas/Scene.js'
 import Shader from './Canvas/Shader.js'
 import shaders_json from './shaders/shaders.json'
+import { CodeEditor } from './CodeEditor/CodeEditor.js';
+import { CodeReader, codeChecker } from './CodeEditor/CodeReader.js';
 
 import initShaderChunk from "./Canvas/initShaderChunk.js";
 
@@ -12,8 +14,12 @@ export class App
     FLAT_PAINTING = 0;
     LAMBERT = 1;
     PHONG = 2;
+    PERSONAL = 3;
 
     scene;
+
+    codeEditor;
+    codeReader;
 
     clock;
     frame_time;
@@ -28,13 +34,22 @@ export class App
         // It would be better to creat a Init method here to seperate the App initialisation from the Canvas initialisation
         this.scene.camera.fov = 31;
         this.clock = new THREE.Clock();
-        
-        initShaderChunk(THREE.ShaderChunk);
 
         this.list_of_shaders = list_of_shaders;
 
         // // INITIALISE CURRENT SHADER
-        this.current_shader = this.PHONG;
+        this.current_shader = this.LAMBERT;
+
+        initShaderChunk(THREE.ShaderChunk);
+
+        // GLSLCodeEditor
+        this.codeEditor = new CodeEditor('glsl-editor');
+        this.codeReader = new CodeReader();
+        this.codeEditor.getEditor().setValue(this.list_of_shaders[this.current_shader].fragment_shader);
+        //this.codeEditor.getEditor().setValue(this.codeReader.analyzeText(this.codeEditor.getEditor().getValue(), this.list_of_shaders[this.current_shader]));
+
+  
+        THREE.ShaderChunk['main_personal']=this.codeReader.analyzeText(this.codeEditor.getEditor().getValue(), this.list_of_shaders[this.current_shader]);
 
         this.create_material();
 
@@ -46,6 +61,9 @@ export class App
         //     this.on_window_resize,
         //     false
         // );
+
+
+       
     }
 
     create_material(){

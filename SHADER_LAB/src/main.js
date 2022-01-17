@@ -2,9 +2,7 @@ import './scss/index.scss';
 
 import { App } from './App.js'
 import slider_as_HTML from './Inputs/html_generators/slider.jsx';
-import { CodeEditor } from './CodeEditor/CodeEditor.js';
 import * as THREE from 'three';
-import { CodeReader, codeChecker } from './CodeEditor/CodeReader.js';
 import shaders_json from './shaders/shaders.json'
 import Shader from './Canvas/Shader';
 
@@ -60,12 +58,6 @@ function launch_App(shaders_as_text)
     app.list_of_shaders[app.current_shader].update("color", new THREE.Color('white'), SALLE)
     app.list_of_shaders[app.current_shader].update("color", new THREE.Color('green'), BOX)
     app.list_of_shaders[app.current_shader].update("rotate_light",1)
-
-
-    // GLSLCodeEditor
-    const codeEditor = new CodeEditor('glsl-editor');
-    const codeReader = new CodeReader();
-    codeEditor.getEditor().setValue(codeReader.analyzeText(codeEditor.getEditor().getValue(), app.list_of_shaders[3]));
     
 }
 
