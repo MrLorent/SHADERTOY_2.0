@@ -5,7 +5,7 @@ export class CodeReader
     }
 
     analyzeText(shader_text, shader){
-        let new_text;
+        let new_text = "";
         const line = shader_text.split("\n");
         line.forEach(element => {
             let word=element.split(" ");
@@ -14,10 +14,12 @@ export class CodeReader
                 element=element.replace(element, "uniform  vec3 "+word[1]+";");
                 word.splice(0,1);
                 word.pop();
-                shader.add_personal_input(JSON.parse(JSON.stringify(word))) ;
+                shader.add_personal_input(JSON.parse(JSON.stringify(word)));
             }
-            new_text+=element+"\n";
+            new_text += element + "\n";
+            console.log(new_text)
         });
+        
         return new_text;
     }
 }

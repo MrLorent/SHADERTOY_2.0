@@ -4,6 +4,7 @@ import Scene from './Canvas/Scene.js'
 import init_shader_chunk from "./Canvas/init_shader_chunk.js";
 
 import nav_bar_as_HTML from './nav_bar.jsx';
+import compile_button_as_HTML from './compile_button.jsx'
 
 import { CodeEditor } from './CodeEditor/CodeEditor.js';
 import { CodeReader } from './CodeEditor/CodeReader.js';
@@ -39,15 +40,11 @@ export class App
         this.shader_list = shader_list;
         this.insert_shader_buttons_in_HTML();
 
-        
-
 
         // CODE_EDITOR
         this.codeEditor = new CodeEditor('glsl-editor');
         this.codeReader = new CodeReader();
-        //this.codeEditor.get_editor().setValue(this.shader_list[this.current_shader].fragment_shader);
-        //this.codeEditor.getEditor().setValue(this.codeReader.analyzeText(this.codeEditor.getEditor().getValue(), this.shader_list[this.current_shader]));
-        
+        this.insert_compile_button();
 
         //initialisation shader
         this.current_shader = 0;
@@ -60,9 +57,6 @@ export class App
         // INIT CURRENT SHADER
         this.init_shader(this.LAMBERT);
         
-
-        THREE.ShaderChunk['main_personal']=this.codeReader.analyzeText(this.codeEditor.get_editor().getValue(), this.shader_list[this.current_shader]);
-
         // WINDOW MANAGEMENT
         window.addEventListener(
             'resize',
@@ -85,6 +79,15 @@ export class App
 
     }
 
+    update_shader()
+    {
+        let user_shader_input = this.codeEditor.get_editor().getValue();
+        user_shader_input = this.codeReader.analyzeText(user_shader_input, this.shader_list[this.current_shader]);
+
+        // VERIF DE YAYOU
+        this.codeEditor.get_editor().setValue(user_shader_input);
+    }
+
     init_material(){
         let material = new THREE.ShaderMaterial({
             uniforms: this.shader_list[this.current_shader].uniforms,
@@ -101,6 +104,12 @@ export class App
         this.scene.scene.add(this.scene.mesh);
         this.scene.camera.add(this.scene.mesh);
 
+    }
+
+    insert_compile_button()
+    {
+        const editor_container = document.getElementById('editor_container');
+        editor_container.append(compile_button_as_HTML(this));
     }
 
     insert_shader_buttons_in_HTML()

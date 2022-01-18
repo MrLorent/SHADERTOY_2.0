@@ -112,6 +112,7 @@ export default class Shader
     }
 
     add_personal_input(uniform){
+        console.log(uniform)
         for(let i=6; i<9; i++){
             if(this.#inputs[i].get_label() == ""){
                 this.#inputs[i].set_name(uniform[0]);
