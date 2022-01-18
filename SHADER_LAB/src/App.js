@@ -52,7 +52,7 @@ export class App
         
             
     
-        let material = new THREE.RawShaderMaterial({
+        let material = new THREE.ShaderMaterial({
             uniforms: this.list_of_shaders[this.current_shader].uniforms,
             vertexShader: this.list_of_shaders[this.current_shader].vertex_shader,
             fragmentShader: this.list_of_shaders[this.current_shader].fragment_shader,

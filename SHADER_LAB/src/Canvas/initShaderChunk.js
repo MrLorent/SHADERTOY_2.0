@@ -1,8 +1,11 @@
 export default (shaderChunk) => {
-shaderChunk['uniforms_and_defines']=`#version 300 es
+
+shaderChunk['test_compile']=`#version 300 es
 #define varying in
 out highp vec4 pc_fragColor;
-#define gl_FragColor pc_fragColor
+#define gl_FragColor pc_fragColor`
+
+shaderChunk['uniforms_and_defines']=`
 #define MAX_MARCH_STEPS 128
 #define MAX_MARCH_DIST 100.
 #define SURF_DIST_MARCH .01

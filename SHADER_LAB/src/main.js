@@ -62,13 +62,15 @@ function launch_App(shaders_as_text)
     app.list_of_shaders[app.current_shader].update("color", new THREE.Color('green'), BOX)
     app.list_of_shaders[app.current_shader].update("rotate_light",1)
 
-    console.log(app.scene.mesh.material.vertexShader)
 
-    let status, log, shader, lines, error, details, i, line, message;
+    let modeles = ['main_flatPainting', 'main_lambert', 'main_phongIllumination'] //ajouter celle de l'utilisateur 
+    let fs = THREE.ShaderChunk['test_compile'] + THREE.ShaderChunk['uniforms_and_defines'] + THREE.ShaderChunk['creation_scene'] + THREE.ShaderChunk['RayMarch'] + THREE.ShaderChunk['get_normal'] + THREE.ShaderChunk['rand'] +  app.scene.mesh.material.fragmentShader + THREE.ShaderChunk[modeles[app.current_shader]]
+
+    let status, log, shader, lines, error, details, i, line, message, true_error=true, warning = false;
     let messageToDisplay;
     try{
-        shader = app.scene.context.createShader(app.scene.context.VERTEX_SHADER);
-        app.scene.context.shaderSource(shader, app.scene.mesh.material.vertexShader)
+        shader = app.scene.context.createShader(app.scene.context.FRAGMENT_SHADER);
+        app.scene.context.shaderSource(shader, fs)
         app.scene.context.compileShader(shader)
         status = app.scene.context.getShaderParameter(shader, app.scene.context.COMPILE_STATUS)
     }
@@ -83,29 +85,36 @@ function launch_App(shaders_as_text)
     }
     else{
         log = app.scene.context.getShaderInfoLog(shader)
-        console.log(log)
-        // ? app.scene.context.deleteShader(shader);
+        //console.log(log)
+        app.scene.context.deleteShader(shader);
         lines = log.split('\n');
         for(let j =0, len = lines.length; j <len; j++){
             i = lines[j]
-            if(i.substr(0,5) === 'ERROR'){
-                error = i
-                break;
+            if(i.includes('ERROR') || i.includes('WARNING')){
+                true_error=false
+                if(!i.includes('invalid directive name')){
+                    if (i.includes('WARNING')) warning=true;
+                    error = i
+                    break;
+                }
             }
         }
         if(!error){
-            messageToDisplay = 'unable to parse error...'
+            true_error ? messageToDisplay = 'unable to parse error...' : messageToDisplay = "shader loaded successfully"
             console.log(messageToDisplay)
         }
-        details = error.split(':')
-        if(details.length < 4){
-            messageToDisplay = error
+        else{
+            details = error.split(':')
+            if(details.length < 4){
+                messageToDisplay = error
+                console.log(messageToDisplay)
+            }
+            line = details[2];
+            message = details.splice(3).join(':')
+            messageToDisplay = "Line : "+parseInt(line)+" : "+message
+            if (warning) messageToDisplay = "(WARNING) "+messageToDisplay
             console.log(messageToDisplay)
         }
-        line = details[2];
-        message = details.splice(3).join(':')
-        messageToDisplay = "Line : "+parseInt(line)+" : "+message
-        console.log(messageToDisplay)
     }
     
 }
