@@ -39,14 +39,28 @@ export class App
         this.shader_list = shader_list;
         this.insert_shader_buttons_in_HTML();
 
-        // INIT CURRENT SHADER
-        this.init_shader(this.LAMBERT);
+        
+
 
         // CODE_EDITOR
         this.codeEditor = new CodeEditor('glsl-editor');
         this.codeReader = new CodeReader();
-        this.codeEditor.get_editor().setValue(this.shader_list[this.current_shader].fragment_shader);
+        //this.codeEditor.get_editor().setValue(this.shader_list[this.current_shader].fragment_shader);
         //this.codeEditor.getEditor().setValue(this.codeReader.analyzeText(this.codeEditor.getEditor().getValue(), this.shader_list[this.current_shader]));
+        
+
+        //initialisation shader
+        this.current_shader = 0;
+        this.init_material();
+        this.insert_inputs_in_HTML();
+        this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
+        this.codeEditor.get_editor().setValue(this.shader_list[this.current_shader].fragment_shader);
+
+
+        // INIT CURRENT SHADER
+        this.init_shader(this.LAMBERT);
+        
+
         THREE.ShaderChunk['main_personal']=this.codeReader.analyzeText(this.codeEditor.get_editor().getValue(), this.shader_list[this.current_shader]);
 
         // WINDOW MANAGEMENT
@@ -59,10 +73,16 @@ export class App
 
     init_shader(new_shader_id)
     {
+        this.shader_list[this.current_shader].fragment_shader = this.codeEditor.get_editor().getValue();
+        console.log(this.shader_list[this.current_shader].fragment_shader)
         this.current_shader = new_shader_id;
+        
         this.init_material();
         this.insert_inputs_in_HTML();
         this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
+        this.codeEditor.get_editor().setValue(this.shader_list[new_shader_id].fragment_shader);
+        
+
     }
 
     init_material(){

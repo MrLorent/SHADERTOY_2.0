@@ -41,8 +41,12 @@ function launch_App(shaders_as_text)
     {
         shader_list[i-1] = new Shader(shaders_json[i-1],shaders_as_text[0],shaders_as_text[i]);
     }
+    //console.log(shaders_as_text[3])
+    
 
     const app = new App(shader_list);
+
+    //console.log(app.shader_list[2].fragment_shader)
 
     function animate(){
         app.render()
@@ -54,7 +58,12 @@ function launch_App(shaders_as_text)
     //update 
     app.shader_list[app.current_shader].update("color", new THREE.Color('white'), SALLE)
     app.shader_list[app.current_shader].update("color", new THREE.Color('green'), BOX)
-    app.shader_list[app.current_shader].update("rotate_light",1)
+    app.shader_list[app.current_shader].update("rotate_light",0)
+
+
+    //this.codeEditor.getEditor().setValue(this.codeReader.analyzeText(this.codeEditor.getEditor().getValue(), this.shader_list[this.current_shader]));
+    // app.shader_list[app.current_shader].fragment_shader = app.codeEditor.get_editor().getValue();
+    // console.log(app.shader_list[app.current_shader].fragment_shader)
 }
 
 load_shaders(shaders_json,shaders_as_text,shaders_left);
