@@ -67,16 +67,12 @@ export class App
 
     init_shader(new_shader_id)
     {
-        this.shader_list[this.current_shader].fragment_shader = this.codeEditor.get_editor().getValue();
-        console.log(this.shader_list[this.current_shader].fragment_shader)
         this.current_shader = new_shader_id;
         
         this.init_material();
         this.insert_inputs_in_HTML();
         this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
         this.codeEditor.get_editor().setValue(this.shader_list[new_shader_id].fragment_shader);
-        
-
     }
 
     update_shader()
@@ -85,7 +81,8 @@ export class App
         user_shader_input = this.codeReader.analyzeText(user_shader_input, this.shader_list[this.current_shader]);
 
         // VERIF DE YAYOU
-        this.codeEditor.get_editor().setValue(user_shader_input);
+        this.shader_list[this.current_shader].fragment_shader = user_shader_input;
+        this.init_shader(this.current_shader);
     }
 
     init_material(){
