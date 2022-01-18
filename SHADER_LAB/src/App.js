@@ -87,7 +87,8 @@ export class App
         user_shader_input = this.codeReader.analyzeText(user_shader_input, this.shader_list[this.current_shader]);
 
         // VERIF DE YAYOU
-        this.codeEditor.get_editor().setValue(user_shader_input);
+        this.shader_list[this.current_shader].fragment_shader = user_shader_input;
+        this.init_shader(this.current_shader);
     }
 
     init_material(){
