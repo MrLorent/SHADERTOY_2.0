@@ -1,5 +1,7 @@
-html, h1
+html, body
 {
+    height: 100%;
+    width: 100%;
     margin: 0;
 }
 
@@ -12,7 +14,17 @@ body
 
 main
 {
+    height: 100%;
+    width: 100%;
+    display: flex;
     position: relative;
+    box-sizing: border-box;
+    padding: 10vh 0 7.5vh 0;
+}
+
+h1
+{
+    margin: 0;
 }
 
 header
@@ -27,7 +39,7 @@ header
     top: 0;
     box-sizing: border-box;
     padding: 0 1.5%;
-    z-index: 1;
+    z-index: 5;
 }
 
 #shader_list
@@ -41,13 +53,31 @@ header
     list-style: none;
     margin: 0 0 0 25px;
 }
+#webgl
+{
+    width: 50%;
+    height: 100%;
+}
 
 #interactive_window
 {
-    height: 100vh;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+#interactive_window  .container
+{
+    width: 200%;
+    height: 100%;
     display: flex;
-    box-sizing: border-box;
-    padding: calc(10vh + 1.5%) 1.5% 1.5% 1.5%;
+    flex-direction: row-reverse;
+}
+
+#interactive_window  .container > div
+{
+    width: 50%;
+    height: 100%;
+    overflow-y: scroll;
 }
 
 #inputs
@@ -57,5 +87,18 @@ header
 
 #glsl-editor
 {
-    height: 400px;
+    width: 100%;
+    height: 100%;
+}
+
+footer
+{
+    font-size: 14px;
+    width: 100%;
+    height: 7.5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
 }

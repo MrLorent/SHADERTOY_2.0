@@ -158,8 +158,8 @@ export class App
 
     on_window_resize(scene, current_shader)
     {
-        let SCREEN_WIDTH = 700;
-        let SCREEN_HEIGHT = 540;
+        let SCREEN_WIDTH = window.innerWidth * 0.4;
+        let SCREEN_HEIGHT = window.innerHeight * 0.825;
 
         scene.renderer.setPixelRatio(1);
         scene.renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -171,5 +171,7 @@ export class App
 
         scene.camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
         scene.camera.updateProjectionMatrix();
+
+        this.codeEditor.resize();
     }
 }

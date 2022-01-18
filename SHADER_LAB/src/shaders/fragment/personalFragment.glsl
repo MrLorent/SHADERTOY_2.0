@@ -1,12 +1,5 @@
 #include <uniforms_and_defines>
 
-/// slider uKs specular 0 1 0.01
-/// slider uKa ambiant 0 1 0.01
-/// slider uKd diffus 0 1 0.01
-/// slider uAlpha alpha 0 100 1
-/// color_picker uColors color
-/// checkbox uRotatingLight rotate_light
-
 in vec2 vertex_uv;
 
 #include <creation_scene>

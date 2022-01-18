@@ -20,15 +20,21 @@ export class CodeEditor {
             maxLines: Infinity,
 
             // Aesthetic
-            fontSize: "1em",
+            fontSize: "0.95em",
             tabSize: 4,
             showPrintMargin: false
         });
         this.#editor.$blockScrolling = 'Infinity';
         this.#editor.clearSelection();
+        this.#editor.resize();
     }
 
     get_editor() {
         return this.#editor;
+    }
+
+    resize()
+    {
+        this.#editor.resize();
     }
 }

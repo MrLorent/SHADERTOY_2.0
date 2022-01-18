@@ -99,15 +99,15 @@ export default class Shader
             this.specular[id]=value;
             this.uniforms.uKs.value = this.specular;
 
-        }else if(name==this.uniform1.get_name()){
+        }else if(name==this.#inputs[6].get_name()){
             this.uniform1[id]=value;
             this.uniforms.uUniform1.value = this.uniform1;
 
-        }else if(name==this.uniform2.get_name()){
+        }else if(name==this.#inputs[7].get_name()){
             this.uniform2[id]=value;
             this.uniforms.uUniform2.value = this.uniform2;
 
-        }else if(name==this.uniform3.get_name()){
+        }else if(name==this.#inputs[8].get_name()){
             this.uniform3[id]=value;
             this.uniforms.uUniform3.value = this.uniform3;
         }
