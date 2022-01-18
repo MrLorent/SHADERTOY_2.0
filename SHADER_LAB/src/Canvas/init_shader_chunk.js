@@ -1,4 +1,10 @@
 export default (shaderChunk) => {
+
+shaderChunk['test_compile']=`#version 300 es
+#define varying in
+out highp vec4 pc_fragColor;
+#define gl_FragColor pc_fragColor`
+
 shaderChunk['uniforms_and_defines']=`
 #ifdef GL_ES
 precision mediump float;
@@ -8,9 +14,11 @@ precision mediump float;
 #define SURF_DIST_MARCH .01
 #define EULER_APPROX_OFFSET .003
 
+precision highp float;
+precision highp int;
+
 #define N_MATERIALS 3
 #define N_RAY 5
-
 uniform float uTime;
 uniform vec3 uResolution;
 uniform vec3 uCameraPosition;

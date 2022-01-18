@@ -4,6 +4,7 @@ import { App } from './App.js';
 import * as THREE from 'three';
 import shaders_json from './shaders/shaders.json'
 import Shader from './Canvas/Shader';
+import CodeChecker from './CodeEditor/CodeChecker.js'
 
 let SALLE = 0
 let BOX = 1;
@@ -12,6 +13,7 @@ let SPHERE = 2;
 let shaders_as_text = [];
 let shader_list = [];
 let shaders_left = Object.keys(shaders_json).length;
+let code_checker = new CodeChecker();
 
 async function load_shaders(shaders_json,shaders_as_text,shaders_left)
 {
@@ -49,21 +51,21 @@ function launch_App(shaders_as_text)
     //console.log(app.shader_list[2].fragment_shader)
 
     function animate(){
+        
         app.render()
         requestAnimationFrame(animate)
     }
 
+    code_checker.check_compilation(app)
+
     animate();
     
-    //update 
-    app.shader_list[app.current_shader].update("color", new THREE.Color('white'), SALLE)
-    app.shader_list[app.current_shader].update("color", new THREE.Color('green'), BOX)
-    app.shader_list[app.current_shader].update("rotate_light",0)
+}
 
 
     //this.codeEditor.getEditor().setValue(this.codeReader.analyzeText(this.codeEditor.getEditor().getValue(), this.shader_list[this.current_shader]));
     // app.shader_list[app.current_shader].fragment_shader = app.codeEditor.get_editor().getValue();
     // console.log(app.shader_list[app.current_shader].fragment_shader)
-}
+
 
 load_shaders(shaders_json,shaders_as_text,shaders_left);
