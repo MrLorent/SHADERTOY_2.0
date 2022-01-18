@@ -138,30 +138,6 @@
                     "label": "Rotate light",
                     "name": "rotate_light",
                     "checked" : 0
-                },
-                {
-                    "type" : "slider",
-                    "label" : "",
-                    "name" : "uniform1",
-                    "min" : "0",
-                    "max" : "0",
-                    "step": "0"
-                },
-                {
-                    "type" : "slider",
-                    "label" : "",
-                    "name" : "uniform2",
-                    "min" : "0",
-                    "max" : "0",
-                    "step": "0"
-                },
-                {
-                    "type" : "slider",
-                    "label" : "",
-                    "name" : "uniform3",
-                    "min" : "0",
-                    "max" : "0",
-                    "step": "0"
                 }
             ]
         }

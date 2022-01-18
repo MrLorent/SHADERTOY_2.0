@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import input_factory from "../Inputs/inputFactory.js";
+import Slider from "../Inputs/Slider.jsx"
 
 export default class Shader
 {
@@ -112,17 +113,12 @@ export default class Shader
     }
 
     add_personal_input(uniform){
-        console.log(uniform)
-        for(let i=6; i<9; i++){
-            if(this.#inputs[i].get_label() == ""){
-                this.#inputs[i].set_name(uniform[0]);
-                this.#inputs[i].set_label(uniform[1]);
-                this.#inputs[i].set_min(uniform[2]);
-                this.#inputs[i].set_max(uniform[3]);
-                this.#inputs[i].set_step(uniform[4]);
-            }
-            
+        let i = this.#inputs.length;
+        if(i < 10){
+            this.#inputs.push(new Slider(uniform[1], uniform[0], uniform[2], uniform[3], uniform[4]));
         }
+
+        console.log(this.#inputs);
     }
 
 }
