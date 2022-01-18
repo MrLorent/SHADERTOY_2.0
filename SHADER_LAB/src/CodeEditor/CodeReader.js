@@ -50,7 +50,8 @@ export class CodeReader
             }
             new_text += element + "\n";
         });
-        
-        return new_text;
+
+        /* substr just remove the last enter */
+        return new_text.substr(0,new_text.length-1);
     }
 }
