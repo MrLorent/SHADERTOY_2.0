@@ -3,15 +3,7 @@
         {
             "nom" : "Flat Painting",
             "vertex" : "./shaders/vertex/vertexShader.glsl",
-            "fragment" : "./shaders/fragment/flatPainting.glsl",
-            "inputs" : [
-                {
-                    "type" : "color_picker",
-                    "label" : "Color",
-                    "name" : "color",
-                    "value": "#0DFF4F"
-                }
-            ]
+            "fragment" : "./shaders/fragment/flatPainting.glsl"
         }
     ],
 
@@ -19,21 +11,7 @@
         {
             "nom" : "Lambert",
             "vertex" : "./shaders/vertex/vertexShader.glsl",
-            "fragment" : "./shaders/fragment/lambert.glsl",
-            "inputs" : [
-                {
-                    "type" : "color_picker",
-                    "label" : "Color",
-                    "name" : "color",
-                    "value": "#0DFF4F"
-                },
-                {
-                    "type": "checkbox",
-                    "label": "Rotate light",
-                    "name": "rotate_light",
-                    "checked" : 0
-                }
-            ]
+            "fragment" : "./shaders/fragment/lambert.glsl"
         }
     ],
 
@@ -41,105 +19,14 @@
         {
             "nom" : "Blinn-Phong",
             "vertex" : "./shaders/vertex/vertexShader.glsl",
-            "fragment" : "./shaders/fragment/phongIllumination.glsl",
-            "inputs" : [
-                {
-                    "type" : "color_picker",
-                    "label" : "Color",
-                    "name" : "color",
-                    "value": "#0DFF4F"
-                },
-                {
-                    "type" : "slider",
-                    "label" : "Ambiant",
-                    "name" : "ambiant",
-                    "min" : "0",
-                    "max" : "1",
-                    "step": "0.01"
-                },
-                {
-                    "type" : "slider",
-                    "label" : "Diffus",
-                    "name" : "diffus",
-                    "min" : "0",
-                    "max" : "1",
-                    "step": "0.01"
-                },
-                {
-                    "type" : "slider",
-                    "label" : "Specular",
-                    "name" : "specular",
-                    "min" : "0",
-                    "max" : "1",
-                    "step": "0.01"
-                },
-                {
-                    "type" : "slider",
-                    "label" : "Alpha",
-                    "name" : "alpha",
-                    "min" : "0",
-                    "max" : "100",
-                    "step": "1"
-                },
-                {
-                    "type": "checkbox",
-                    "label": "Rotate light",
-                    "name": "rotate_light",
-                    "checked" : 0
-                }
-            ]
+            "fragment" : "./shaders/fragment/phongIllumination.glsl"
         }
     ],
     "3" : [
         {
-            "nom" : "personal",
+            "nom" : "Personal",
             "vertex" : "./shaders/vertex/vertexShader.glsl",
-            "fragment" : "./shaders/fragment/personalFragment.glsl",
-            "inputs" : [
-                {
-                    "type" : "color_picker",
-                    "label" : "Color",
-                    "name" : "color"
-                },
-                {
-                    "type" : "slider",
-                    "label" : "Ambiant",
-                    "name" : "ambiant",
-                    "min" : "0",
-                    "max" : "1",
-                    "step": "0.01"
-                },
-                {
-                    "type" : "slider",
-                    "label" : "Diffus",
-                    "name" : "diffus",
-                    "min" : "0",
-                    "max" : "1",
-                    "step": "0.01"
-                },
-                {
-                    "type" : "slider",
-                    "label" : "Specular",
-                    "name" : "specular",
-                    "min" : "0",
-                    "max" : "20",
-                    "step": "0.5"
-                },
-                {
-                    "type" : "slider",
-                    "label" : "Alpha",
-                    "name" : "alpha",
-                    "min" : "0",
-                    "max" : "100",
-                    "step": "1"
-                },
-                {
-                    "type": "checkbox",
-                    "label": "Rotate light",
-                    "name": "rotate_light",
-                    "checked" : 0
-                }
-            ]
+            "fragment" : "./shaders/fragment/personalFragment.glsl"
         }
 
     ]

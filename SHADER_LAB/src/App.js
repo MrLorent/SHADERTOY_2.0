@@ -135,6 +135,7 @@ export class App
 
         for(let k=1; k<=this.SCENE_ELEMENTS; k++)
         {
+            console.log(inputs);
             for(let i in inputs)
             {
                 HTML_container.append(inputs[i].get_as_HTML(k, shader));

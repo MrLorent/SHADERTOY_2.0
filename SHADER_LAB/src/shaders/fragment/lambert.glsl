@@ -1,5 +1,7 @@
 #include <uniforms_and_defines>
 
+/// color_picker uColors color
+/// checkbox uRotatingLight rotate_light 
 
 in vec2 vertex_uv;
 

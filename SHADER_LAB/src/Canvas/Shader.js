@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import input_factory from "../Inputs/inputFactory.js";
-import Slider from "../Inputs/Slider.jsx"
+import Input from "../Inputs/inputFactory.js";
+import { CodeReader } from '../CodeEditor/CodeReader.js';
 
 export default class Shader
 {
@@ -23,13 +23,14 @@ export default class Shader
 
     constructor(shader_details,vertex, fragment)
     {
+        let reader = new CodeReader();
         shader_details = shader_details[0];
 
         this.#name = shader_details['nom'];
         this.vertex_shader_path = shader_details['vertex'];
         this.fragment_shader_path = shader_details['fragment'];
         this.vertex_shader  = vertex;
-        this.fragment_shader = fragment;
+        this.fragment_shader = reader.analyzeText(fragment, this);
         this.alpha      =   [30, 20,50];
         this.color      =   [new THREE.Color('blue'), new THREE.Color('white'),new THREE.Color('orange')];
         this.ambiant    =   [0.9,0.4,0.5];
@@ -56,9 +57,9 @@ export default class Shader
         };
 
         // INPUT INSTANCIATION
-        for(let i in shader_details['inputs']){
-            this.#inputs.push(input_factory(shader_details['inputs'][i]));
-        }
+        // for(let i in shader_details['inputs']){
+        //     this.#inputs.push(Input(shader_details['inputs'][i]));
+        // }
     }
 
     get_name()
@@ -112,13 +113,11 @@ export default class Shader
         }
     }
 
-    add_personal_input(uniform){
+    add_input(uniform){
         let i = this.#inputs.length;
         if(i < 10){
-            this.#inputs.push(new Slider(uniform[1], uniform[0], uniform[2], uniform[3], uniform[4]));
+            this.#inputs.push(Input(uniform));
         }
-
-        console.log(this.#inputs);
     }
 
 }

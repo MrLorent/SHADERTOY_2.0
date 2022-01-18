@@ -14,13 +14,6 @@ precision mediump float;
 uniform float uTime;
 uniform vec3 uResolution;
 uniform vec3 uCameraPosition;
-
-uniform vec3 uColors[N_MATERIALS];
-uniform float uKs[N_MATERIALS];
-uniform float uKa[N_MATERIALS];
-uniform float uKd[N_MATERIALS];
-uniform float uAlpha[N_MATERIALS];
-uniform float uRotatingLight;
 `
     
 shaderChunk['creation_scene']=`
