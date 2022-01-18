@@ -74,7 +74,7 @@ export class App
     init_shader(new_shader_id)
     {
         this.shader_list[this.current_shader].fragment_shader = this.codeEditor.get_editor().getValue();
-        console.log(this.shader_list[this.current_shader].fragment_shader)
+        //console.log(this.shader_list[this.current_shader].fragment_shader)
         this.current_shader = new_shader_id;
         
         this.init_material();

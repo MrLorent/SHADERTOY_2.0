@@ -54,12 +54,6 @@ function launch_App(shaders_as_text)
     }
 
     animate();
-    
-    //update 
-    app.list_of_shaders[app.current_shader].update("color", new THREE.Color('white'), SALLE)
-    app.list_of_shaders[app.current_shader].update("color", new THREE.Color('green'), BOX)
-    app.list_of_shaders[app.current_shader].update("rotate_light",1)
-
 
     let modeles = ['main_flatPainting', 'main_lambert', 'main_phongIllumination'] //ajouter celle de l'utilisateur 
     let fs = THREE.ShaderChunk['test_compile'] + THREE.ShaderChunk['uniforms_and_defines'] + THREE.ShaderChunk['creation_scene'] + THREE.ShaderChunk['RayMarch'] + THREE.ShaderChunk['get_normal'] + THREE.ShaderChunk['rand'] +  app.scene.mesh.material.fragmentShader + THREE.ShaderChunk[modeles[app.current_shader]]
@@ -121,6 +115,6 @@ function launch_App(shaders_as_text)
     //this.codeEditor.getEditor().setValue(this.codeReader.analyzeText(this.codeEditor.getEditor().getValue(), this.shader_list[this.current_shader]));
     // app.shader_list[app.current_shader].fragment_shader = app.codeEditor.get_editor().getValue();
     // console.log(app.shader_list[app.current_shader].fragment_shader)
-}
+
 
 load_shaders(shaders_json,shaders_as_text,shaders_left);
