@@ -15,8 +15,8 @@ export default class Scene{
 
     constructor(){
         this.renderer = new THREE.WebGLRenderer({
-            canvas: document.querySelector('canvas.webgl'),
-            context: document.querySelector('canvas.webgl').getContext('webgl2')
+            canvas: document.getElementById('webgl_canvas'),
+            context: document.getElementById('webgl_canvas').getContext('webgl2')
         });
         this.renderer.debug.checkShaderErrors = true;
         this.renderer.autoClear = false;

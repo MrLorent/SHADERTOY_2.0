@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="https://rawgit.com/patriciogonzalezvivo/glslEditor/gh-pages/build/glslEditor.css">
     <title>SHADER LAB</title>
 </head>
@@ -13,13 +16,17 @@
     <main>
         <div id="interactive_window">
             <div class="container">
-                <div id="inputs"></div>
+                <div id="input_container"></div>
                 <div id="editor_container">
-                    <div id="glsl-editor"></div>
+                    <div class="editor_scroll_window">
+                        <div id="code_editor"></div>
+                    </div>
+                    <div id="code_editor_buttons">
+                    </div>
                 </div>
             </div>
         </div>
-        <canvas class="webgl"></canvas>
+        <canvas id="webgl_canvas"></canvas>
     </main>
     <footer>©Shader_Lab réalisé par Louise Delrieu, Tanguy Lorent, Jordan Roberty, Yaëlle Saralegui-Tran - 2022 - Tous droits réservés.</footer>
     <script type="application/javascript" src="https://rawgit.com/patriciogonzalezvivo/glslEditor/gh-pages/build/glslEditor.js"></script>

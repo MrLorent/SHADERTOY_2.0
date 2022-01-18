@@ -42,20 +42,16 @@ export class App
 
 
         // CODE_EDITOR
-        this.codeEditor = new CodeEditor('glsl-editor');
+        this.codeEditor = new CodeEditor('code_editor');
         this.codeReader = new CodeReader();
         this.insert_compile_button();
 
-        //initialisation shader
-        this.current_shader = 0;
+        // INIT CURRENT SHADER
+        this.init_shader(this.FLAT_PAINTING);
         this.init_material();
         this.insert_inputs_in_HTML();
         this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
-        this.codeEditor.get_editor().setValue(this.shader_list[this.current_shader].fragment_shader);
-
-
-        // INIT CURRENT SHADER
-        this.init_shader(this.LAMBERT);
+        this.codeEditor.set_value(this.shader_list[this.current_shader].fragment_shader);
         
         // WINDOW MANAGEMENT
         window.addEventListener(
@@ -72,12 +68,12 @@ export class App
         this.init_material();
         this.insert_inputs_in_HTML();
         this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
-        this.codeEditor.get_editor().setValue(this.shader_list[new_shader_id].fragment_shader);
+        this.codeEditor.set_value(this.shader_list[new_shader_id].fragment_shader);
     }
 
     update_shader()
     {
-        let user_shader_input = this.codeEditor.get_editor().getValue();
+        let user_shader_input = this.codeEditor.get_value();
         user_shader_input = this.codeReader.analyzeText(user_shader_input, this.shader_list[this.current_shader]);
 
         // VERIF DE YAYOU
@@ -105,8 +101,8 @@ export class App
 
     insert_compile_button()
     {
-        const editor_container = document.getElementById('editor_container');
-        editor_container.append(compile_button_as_HTML(this));
+        const code_editor_buttons = document.getElementById('code_editor_buttons');
+        code_editor_buttons.append(compile_button_as_HTML(this));
     }
 
     insert_shader_buttons_in_HTML()
@@ -126,7 +122,7 @@ export class App
 
     insert_inputs_in_HTML()
     {
-        const HTML_container = document.getElementById('inputs');
+        const HTML_container = document.getElementById('input_container');
         while(HTML_container.firstElementChild){
             HTML_container.removeChild(HTML_container.firstElementChild);
         }
@@ -135,7 +131,6 @@ export class App
 
         for(let k=1; k<=this.SCENE_ELEMENTS; k++)
         {
-            console.log(inputs);
             for(let i in inputs)
             {
                 HTML_container.append(inputs[i].get_as_HTML(k, shader));
@@ -158,7 +153,7 @@ export class App
 
     on_window_resize(scene, current_shader)
     {
-        let SCREEN_WIDTH = window.innerWidth * 0.4;
+        let SCREEN_WIDTH = window.innerWidth * 0.45;
         let SCREEN_HEIGHT = window.innerHeight * 0.825;
 
         scene.renderer.setPixelRatio(1);
