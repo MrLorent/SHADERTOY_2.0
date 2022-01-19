@@ -85,6 +85,16 @@ export class App
         this.init_shader(this.current_shader);
     }
 
+    update_shader()
+    {
+        let user_shader_input = this.codeEditor.get_value();
+        user_shader_input = this.codeReader.analyzeText(user_shader_input, this.shader_list[this.current_shader]);
+
+        // VERIF DE YAYOU
+        this.shader_list[this.current_shader].fragment_shader = user_shader_input;
+        this.init_shader(this.current_shader);
+    }
+
     init_material(){
         let material = new THREE.ShaderMaterial({
             uniforms: this.shader_list[this.current_shader].uniforms,

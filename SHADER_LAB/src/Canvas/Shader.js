@@ -19,6 +19,7 @@ export default class Shader
     uniform1=[];
     uniform2=[];
     uniform3=[];
+    count_uniform;
 
 
     constructor(shader_details,vertex, fragment)
@@ -36,9 +37,8 @@ export default class Shader
         this.ambiant    =   [0.9,0.4,0.5];
         this.diffus     =   [0.4,0.7,0.5];
         this.specular   =   [0.1,0.2,0.3];
-        this.uniform1   =   [0., 0., 0.];
-        this.uniform2   =   [0., 0., 0.];
-        this.uniform3   =   [0., 0., 0.];
+        this.uniform    =   []
+        this.count_uniform = 0;
         this.uniforms   =   {
             uTime: { type: "f", value: 0.0 },
             uResolution: { type: "v2", value: new THREE.Vector2() },
@@ -50,9 +50,6 @@ export default class Shader
             uKs:{value: this.specular},
             uKa:{value: this.ambiant},
             uAlpha:{value: this.alpha},
-            uUniform1:{value: this.uniform1},
-            uUniform2:{value: this.uniform2},
-            uUniform3:{value: this.uniform3}
 
         };
 
@@ -73,50 +70,74 @@ export default class Shader
     }
 
     update(name, value, id=0){
+
+        let update = false;
+
         if(name=="rotate_light"){
             this.uniforms.uRotatingLight.value = value;
+            update = true;
         }
         else if(name=="alpha"){
             this.alpha[id]=value;
             this.uniforms.uAlpha.value = this.alpha;
+            update = true;
         }
         else if (name=="color"){
             this.color[id]= new THREE.Color(value);
             this.uniforms.uColors.value = this.color;
+            update = true;
 
         }
         else if(name=="ambiant"){
             this.ambiant[id]=value;
             this.uniforms.uKa.value = this.ambiant;
+            update = true;
 
         }
         else if(name=="diffus"){
             this.diffus[id]=value;
             this.uniforms.uKd.value = this.diffus;
+            update = true;
 
         }
         else if(name=="specular"){
             this.specular[id]=value;
             this.uniforms.uKs.value = this.specular;
+            update = true;
 
-        }else if(name==this.#inputs[6].get_name()){
-            this.uniform1[id]=value;
-            this.uniforms.uUniform1.value = this.uniform1;
-
-        }else if(name==this.#inputs[7].get_name()){
-            this.uniform2[id]=value;
-            this.uniforms.uUniform2.value = this.uniform2;
-
-        }else if(name==this.#inputs[8].get_name()){
-            this.uniform3[id]=value;
-            this.uniforms.uUniform3.value = this.uniform3;
         }
+
+        else if( this.#name ==="Personal" & update === false)
+        {
+            for(let i = 0;i<this.count_uniform;i++)
+            {
+                if(name===this.#inputs[i].get_name())
+                {
+                    this.uniform[i][id]=value;
+                    console.log(this.uniforms[this.#inputs[i].get_name()].value)
+                    this.uniforms[this.#inputs[i].get_name()][value] = this.uniform1;
+                }
+            }
+        }
+
+
     }
 
     add_input(uniform){
         let i = this.#inputs.length;
         if(i < 10){
             this.#inputs.push(Input(uniform));
+            if(this.#name ==="Personal" & this.#inputs[this.#inputs.length-1].get_type()==="slider")
+            {
+                this.uniform[this.count_uniform] = [0,0.,1.]
+                this.uniforms[this.#inputs[this.#inputs.length-1].get_name()] = {value : this.uniform[this.count_uniform]}
+                
+                console.log(this.uniforms)
+                this.count_uniform ++;
+                console.log(this.#inputs.length)
+                this.update(this.#inputs[this.#inputs.length-1].get_name(),1,1);
+            }
+            
         }
     }
 
