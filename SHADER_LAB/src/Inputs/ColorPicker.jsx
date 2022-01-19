@@ -15,11 +15,11 @@ export default class colorPicker extends Input
 
     get_as_HTML(scene_element_id, current_shader)
     {
-        const name = super.get_name();
+        const label = super.get_label();
         const colorPicker = 
         <div className="input-container color-picker">
             <input
-            oninput = { function(){ current_shader.update(name, this.value, scene_element_id); }}
+            oninput = { function(){ current_shader.update(label, this.value, scene_element_id); }}
             type    = "color"
             id      = { super.get_name() }
             name    = { super.get_name() }

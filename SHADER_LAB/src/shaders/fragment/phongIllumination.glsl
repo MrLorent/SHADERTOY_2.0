@@ -1,5 +1,12 @@
 #include <uniforms_and_defines>
 
+/// slider uKs specular 0 1 0.01
+/// slider uKa ambiant 0 1 0.01
+/// slider uKd diffus 0 1 0.01
+/// slider uAlpha alpha 0 100 1
+/// color_picker uColors color
+/// checkbox uRotatingLight rotate_light
+
 in vec2 vertex_uv;
 
 #include <creation_scene>
@@ -7,7 +14,6 @@ in vec2 vertex_uv;
 #include <get_normal>
 #define GetNormal GetNormalEulerTwoSided
 #include <rand>
-
 
 vec3 PhongIllumination(in vec3 ray_position, in vec3 ray_origin, in int hit_object) {
     vec3 lightPosOffset = uRotatingLight*vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.; //light is turning

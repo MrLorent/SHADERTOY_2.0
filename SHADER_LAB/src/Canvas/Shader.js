@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import input_factory from "../Inputs/inputFactory.js";
+import Input from "../Inputs/inputFactory.js";
+import { CodeReader } from '../CodeEditor/CodeReader.js';
 
 export default class Shader
 {
@@ -22,13 +23,14 @@ export default class Shader
 
     constructor(shader_details,vertex, fragment)
     {
+        let reader = new CodeReader();
         shader_details = shader_details[0];
 
         this.#name = shader_details['nom'];
         this.vertex_shader_path = shader_details['vertex'];
         this.fragment_shader_path = shader_details['fragment'];
         this.vertex_shader  = vertex;
-        this.fragment_shader = fragment;
+        this.fragment_shader = reader.analyzeText(fragment, this);
         this.alpha      =   [30, 20,50];
         this.color      =   [new THREE.Color('blue'), new THREE.Color('white'),new THREE.Color('orange')];
         this.ambiant    =   [0.9,0.4,0.5];
@@ -55,9 +57,9 @@ export default class Shader
         };
 
         // INPUT INSTANCIATION
-        for(let i in shader_details['inputs']){
-            this.#inputs.push(input_factory(shader_details['inputs'][i]));
-        }
+        // for(let i in shader_details['inputs']){
+        //     this.#inputs.push(Input(shader_details['inputs'][i]));
+        // }
     }
 
     get_name()
@@ -97,30 +99,24 @@ export default class Shader
             this.specular[id]=value;
             this.uniforms.uKs.value = this.specular;
 
-        }else if(name==this.uniform1.get_name()){
+        }else if(name==this.#inputs[6].get_name()){
             this.uniform1[id]=value;
             this.uniforms.uUniform1.value = this.uniform1;
 
-        }else if(name==this.uniform2.get_name()){
+        }else if(name==this.#inputs[7].get_name()){
             this.uniform2[id]=value;
             this.uniforms.uUniform2.value = this.uniform2;
 
-        }else if(name==this.uniform3.get_name()){
+        }else if(name==this.#inputs[8].get_name()){
             this.uniform3[id]=value;
             this.uniforms.uUniform3.value = this.uniform3;
         }
     }
 
-    add_personal_input(uniform){
-        for(let i=6; i<9; i++){
-            if(this.#inputs[i].get_label() == ""){
-                this.#inputs[i].set_name(uniform[0]);
-                this.#inputs[i].set_label(uniform[1]);
-                this.#inputs[i].set_min(uniform[2]);
-                this.#inputs[i].set_max(uniform[3]);
-                this.#inputs[i].set_step(uniform[4]);
-            }
-            
+    add_input(uniform){
+        let i = this.#inputs.length;
+        if(i < 10){
+            this.#inputs.push(Input(uniform));
         }
     }
 

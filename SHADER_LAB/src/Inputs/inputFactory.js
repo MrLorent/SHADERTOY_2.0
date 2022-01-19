@@ -7,9 +7,9 @@ export default (input_details)=>{
     if(input_details['type'] == "checkbox")
     {
         return new Checkbox(
-            input_details[  'label'     ],
-            input_details[  'name'      ],
-            input_details[  'checked'   ]
+            input_details['label'],
+            input_details['name'],
+            input_details['checked']
         );
     }
     else if(input_details['type'] == "slider")

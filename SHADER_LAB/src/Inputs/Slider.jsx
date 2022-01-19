@@ -27,11 +27,11 @@ export default class Slider extends Input
 
     get_as_HTML(scene_element_id, current_shader)
     {
-        const name = super.get_name();
+        const label = super.get_label();
         const slider = 
         <div className='input-container slider'>
             <input
-                oninput = { function(){ current_shader.update(name, this.value, scene_element_id) }}
+                oninput = { function(){ current_shader.update(label, this.value, scene_element_id) }}
                 type    =   "range"
                 id      =   { super.get_name() }
                 name    =   { super.get_name() }

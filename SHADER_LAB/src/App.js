@@ -4,6 +4,7 @@ import Scene from './Canvas/Scene.js'
 import init_shader_chunk from "./Canvas/init_shader_chunk.js";
 
 import nav_bar_as_HTML from './nav_bar.jsx';
+import compile_button_as_HTML from './compile_button.jsx'
 
 import { CodeEditor } from './CodeEditor/CodeEditor.js';
 import { CodeReader } from './CodeEditor/CodeReader.js';
@@ -39,30 +40,19 @@ export class App
         this.shader_list = shader_list;
         this.insert_shader_buttons_in_HTML();
 
-        
-
 
         // CODE_EDITOR
-        this.codeEditor = new CodeEditor('glsl-editor');
+        this.codeEditor = new CodeEditor('code_editor');
         this.codeReader = new CodeReader();
-        //this.codeEditor.get_editor().setValue(this.shader_list[this.current_shader].fragment_shader);
-        //this.codeEditor.getEditor().setValue(this.codeReader.analyzeText(this.codeEditor.getEditor().getValue(), this.shader_list[this.current_shader]));
-        
+        this.insert_compile_button();
 
-        //initialisation shader
-        this.current_shader = 0;
+        // INIT CURRENT SHADER
+        this.init_shader(this.FLAT_PAINTING);
         this.init_material();
         this.insert_inputs_in_HTML();
         this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
-        this.codeEditor.get_editor().setValue(this.shader_list[this.current_shader].fragment_shader);
-
-
-        // INIT CURRENT SHADER
-        this.init_shader(this.LAMBERT);
+        this.codeEditor.set_value(this.shader_list[this.current_shader].fragment_shader);
         
-
-        THREE.ShaderChunk['main_personal']=this.codeReader.analyzeText(this.codeEditor.get_editor().getValue(), this.shader_list[this.current_shader]);
-
         // WINDOW MANAGEMENT
         window.addEventListener(
             'resize',
@@ -73,16 +63,22 @@ export class App
 
     init_shader(new_shader_id)
     {
-        this.shader_list[this.current_shader].fragment_shader = this.codeEditor.get_editor().getValue();
-        //console.log(this.shader_list[this.current_shader].fragment_shader)
         this.current_shader = new_shader_id;
         
         this.init_material();
         this.insert_inputs_in_HTML();
         this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
-        this.codeEditor.get_editor().setValue(this.shader_list[new_shader_id].fragment_shader);
-        
+        this.codeEditor.set_value(this.shader_list[new_shader_id].fragment_shader);
+    }
 
+    update_shader()
+    {
+        let user_shader_input = this.codeEditor.get_value();
+        user_shader_input = this.codeReader.analyzeText(user_shader_input, this.shader_list[this.current_shader]);
+
+        // VERIF DE YAYOU
+        this.shader_list[this.current_shader].fragment_shader = user_shader_input;
+        this.init_shader(this.current_shader);
     }
 
     init_material(){
@@ -103,6 +99,12 @@ export class App
 
     }
 
+    insert_compile_button()
+    {
+        const code_editor_buttons = document.getElementById('code_editor_buttons');
+        code_editor_buttons.append(compile_button_as_HTML(this));
+    }
+
     insert_shader_buttons_in_HTML()
     {
         const header = document.querySelector('header');
@@ -120,7 +122,7 @@ export class App
 
     insert_inputs_in_HTML()
     {
-        const HTML_container = document.getElementById('inputs');
+        const HTML_container = document.getElementById('input_container');
         while(HTML_container.firstElementChild){
             HTML_container.removeChild(HTML_container.firstElementChild);
         }
@@ -151,8 +153,8 @@ export class App
 
     on_window_resize(scene, current_shader)
     {
-        let SCREEN_WIDTH = 700;
-        let SCREEN_HEIGHT = 540;
+        let SCREEN_WIDTH = window.innerWidth * 0.45;
+        let SCREEN_HEIGHT = window.innerHeight * 0.825;
 
         scene.renderer.setPixelRatio(1);
         scene.renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -164,5 +166,7 @@ export class App
 
         scene.camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
         scene.camera.updateProjectionMatrix();
+
+        this.codeEditor.resize();
     }
 }

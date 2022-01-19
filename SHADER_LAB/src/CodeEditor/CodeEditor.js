@@ -2,7 +2,11 @@ import ace from 'brace';
 import 'brace/mode/glsl';
 import 'brace/ext/language_tools'
 import 'brace/snippets/glsl'
-import 'brace/theme/monokai';
+import 'brace/theme/chaos';
+
+// theme terminal : 8/10
+// theme twilight : 8/10
+// theme clouds_midnight : 6/10
 
 export class CodeEditor {
     #editor;
@@ -10,7 +14,8 @@ export class CodeEditor {
     constructor(container) {
         this.#editor = ace.edit(container);
         this.#editor.getSession().setMode('ace/mode/glsl');
-        this.#editor.setTheme('ace/theme/monokai');
+        this.#editor.getSession().setUseWrapMode(true);
+        this.#editor.setTheme('ace/theme/chaos');
 
         this.#editor.setOptions({
             enableBasicAutocompletion: true,
@@ -26,9 +31,21 @@ export class CodeEditor {
         });
         this.#editor.$blockScrolling = 'Infinity';
         this.#editor.clearSelection();
+        this.#editor.resize();
     }
 
-    get_editor() {
-        return this.#editor;
+    get_value() {
+        return this.#editor.getValue();
+    }
+
+    set_value(text)
+    {
+        this.#editor.setValue(text);
+        this.#editor.clearSelection();
+    }
+
+    resize()
+    {
+        this.#editor.resize();
     }
 }
