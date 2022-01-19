@@ -22,6 +22,7 @@ precision highp int;
 uniform float uTime;
 uniform vec3 uResolution;
 uniform vec3 uCameraPosition;
+uniform mat4 uViewMatrix;
 `
     
 shaderChunk['creation_scene']=`
@@ -42,8 +43,8 @@ shaderChunk['creation_scene']=`
     
     
     
-    Sphere sphere = Sphere(vec3(-1,1, 5), 0.5);
-    Box box = Box(vec3(1, 1, 5), vec3(0.5));
+    Sphere sphere = Sphere(vec3(-1,1,5), 0.5);
+    Box box = Box(vec3(1,1,5), vec3(0.5));
     
     PointLight light = PointLight(vec3(0, 5, 6),
                                         vec3(0.600,0.478,0.478));
@@ -133,8 +134,6 @@ shaderChunk['main_phongIllumination']=`
 
 void main()
 {
-    //sphere.origin=vec3((mat4(uSphereInvMatrix[0])* vec4(-1,1, 8, 1)).xyz);
-    //box.origin=vec3((mat4(uBoxInvMatrix[0])* vec4(1,1, 8, 1)).xyz);
     vec2 uv = vertex_uv-0.5;
     uv*=uResolution.xy/uResolution.y;
     vec3 color=vec3(0);

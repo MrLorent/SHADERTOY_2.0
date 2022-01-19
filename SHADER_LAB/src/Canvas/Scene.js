@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls'
 
 export default class Scene{
     renderer;
@@ -31,6 +32,10 @@ export default class Scene{
         this.camera.position.y=1;
         this.camera.fov = 31;
         this.scene.add(this.camera);
+
+        this.camera_controls = new TrackballControls(this.camera, this.renderer.domElement)
+        this.camera_controls.target.set(0,1,5);
+        this.camera_controls.rotateSpeed=0.2;
 
         this.clock = new THREE.Clock();
 

@@ -50,8 +50,9 @@ function launch_App(shaders_as_text)
 
     //console.log(app.shader_list[2].fragment_shader)
 
-    function animate(){
-        
+    function animate()
+    {
+        app.scene.camera_controls.update();
         app.render()
         requestAnimationFrame(animate)
     }
