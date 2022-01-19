@@ -5,7 +5,7 @@ export default class colorPicker extends Input
 {
     #value;
     constructor(label, name, value){
-        super("colorPicker",label, name);
+        super("color_picker",label, name);
         this.#value = value;
     }
 
@@ -19,7 +19,7 @@ export default class colorPicker extends Input
         const colorPicker = 
         <div className="input-container color-picker">
             <input
-            oninput = { function(){ current_shader.update(label, this.value, scene_element_id); }}
+            oninput = { function(){ current_shader.update(label, this.value,"color_picker", scene_element_id); }}
             type    = "color"
             id      = { super.get_name() }
             name    = { super.get_name() }
