@@ -4,7 +4,6 @@ import { App } from './App.js';
 import * as THREE from 'three';
 import shaders_json from './shaders/shaders.json'
 import Shader from './Canvas/Shader';
-import CodeChecker from './CodeEditor/CodeChecker.js'
 
 let SALLE = 0
 let BOX = 1;
@@ -13,7 +12,6 @@ let SPHERE = 2;
 let shaders_as_text = [];
 let shader_list = [];
 let shaders_left = Object.keys(shaders_json).length;
-let code_checker = new CodeChecker();
 
 async function load_shaders(shaders_json,shaders_as_text,shaders_left)
 {
@@ -55,8 +53,6 @@ function launch_App(shaders_as_text)
         app.render()
         requestAnimationFrame(animate)
     }
-
-    code_checker.check_compilation(app)
 
     animate();
     
