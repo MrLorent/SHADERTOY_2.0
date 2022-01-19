@@ -12,7 +12,7 @@ export class CodeChecker
         let message_to_display = "";
         let context = scene.context;
 
-        let fs = THREE.ShaderChunk['test_compile'] + THREE.ShaderChunk['uniforms_and_defines'] + THREE.ShaderChunk['creation_scene'] + THREE.ShaderChunk['RayMarch'] + THREE.ShaderChunk['get_normal'] + THREE.ShaderChunk['rand'] + shader_text;
+        let fs = THREE.ShaderChunk['test_compile'] + THREE.ShaderChunk['uniforms_and_defines'] + THREE.ShaderChunk['creation_scene'] + THREE.ShaderChunk['RayMarch'] + THREE.ShaderChunk['get_normal'] + THREE.ShaderChunk['rand'] + shader_text + THREE.ShaderChunk['main'];
         //console.log(fs)
         let status, log, shader, lines, error, details, i, line, message, true_error=true, warning = false;
         try{

@@ -15,7 +15,7 @@ in vec2 vertex_uv;
 #define GetNormal GetNormalEulerTwoSided
 #include <rand>
 
-vec3 PhongIllumination(in vec3 ray_position, in vec3 ray_origin, in int hit_object) {
+vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in int hit_object) {
     vec3 lightPosOffset = uRotatingLight*vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.; //light is turning
     vec3 lightPos = light.pos + lightPosOffset;
     
@@ -53,31 +53,4 @@ vec3 PhongIllumination(in vec3 ray_position, in vec3 ray_origin, in int hit_obje
     return col;
 }
 
-
-void main()
-{
-    vec2 uv = vertex_uv-0.5;
-    uv*=uResolution.xy/uResolution.y;
-    vec3 color=vec3(0);
-    
-    for(int i=0; i<N_RAY; i++){
-        // simplest camera
-        vec3 ray_origin = uCameraPosition;
-
-        // Casting a ray in a random place for each pixels
-        float offset = rand(vec2(i))/uResolution.y;
-        vec3 ray_direction = normalize(vec3(uv.xy+offset, 1));
-
-
-        // RayMarching stuff
-        int hit_object;
-        float distance_to_object = RayMarch(hit_object, ray_origin, ray_direction);
-        vec3 ray_position = ray_origin + ray_direction * distance_to_object;
-
-        color += PhongIllumination(ray_position, ray_origin, hit_object);
-    }
-
-   
-	pc_fragColor = clamp(vec4( pow(color/float(N_RAY), vec3(0.4545)), 1.0 ), 0.0, 1.0);//vec4(color/10.0, 1.0);
-
-}
+#include <main>

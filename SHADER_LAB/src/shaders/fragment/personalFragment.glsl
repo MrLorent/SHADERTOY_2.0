@@ -14,7 +14,9 @@ in vec2 vertex_uv;
 // /// checkbox uName name
 // /// slider uName name min max step
 
-void main()
-{
-    pc_fragColor = vec4(vec3(0., 1., 0.), 1.0);
+vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in int hit_object) {
+
+    return vec3(1.);
 }
+
+#include <main>
