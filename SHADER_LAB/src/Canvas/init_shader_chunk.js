@@ -22,6 +22,7 @@ precision highp int;
 uniform float uTime;
 uniform vec3 uResolution;
 uniform vec3 uCameraPosition;
+uniform mat4 uViewMatrix;
 `
     
 shaderChunk['creation_scene']=`
@@ -42,8 +43,8 @@ shaderChunk['creation_scene']=`
     
     
     
-    Sphere sphere = Sphere(vec3(-1,1, 5), 0.5);
-    Box box = Box(vec3(1, 1, 5), vec3(0.5));
+    Sphere sphere = Sphere(vec3(-1,1,5), 0.5);
+    Box box = Box(vec3(1,1,5), vec3(0.5));
     
     PointLight light = PointLight(vec3(0, 5, 6),
                                         vec3(0.600,0.478,0.478));
