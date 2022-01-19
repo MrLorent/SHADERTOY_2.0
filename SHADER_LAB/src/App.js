@@ -4,6 +4,7 @@ import Scene from './Canvas/Scene.js'
 import init_shader_chunk from "./Canvas/init_shader_chunk.js";
 
 import nav_bar_as_HTML from './nav_bar.jsx';
+import switch_input_panel_button from './switch_input_panel_button.jsx';
 import compile_button_as_HTML from './compile_button.jsx'
 
 import { CodeEditor } from './CodeEditor/CodeEditor.js';
@@ -32,6 +33,9 @@ export class App
     current_shader;
 
     constructor(shader_list){
+        // NAVIGATION
+        this.insert_switch_input_panel_button_in_HTML();
+
         // SCENE
         this.scene = new Scene();
 
@@ -99,9 +103,15 @@ export class App
 
     }
 
+    insert_switch_input_panel_button_in_HTML()
+    {
+        const navigation_panel = document.getElementById('navigation_panel');
+        navigation_panel.append(switch_input_panel_button());
+    }
+
     insert_compile_button()
     {
-        const code_editor_buttons = document.getElementById('code_editor_buttons');
+        const code_editor_buttons = document.getElementById('code_editor_panel');
         code_editor_buttons.append(compile_button_as_HTML(this));
     }
 
@@ -154,7 +164,7 @@ export class App
     on_window_resize(scene, current_shader)
     {
         let SCREEN_WIDTH = window.innerWidth * 0.45;
-        let SCREEN_HEIGHT = window.innerHeight * 0.825;
+        let SCREEN_HEIGHT = window.innerHeight * 0.9;
 
         scene.renderer.setPixelRatio(1);
         scene.renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
