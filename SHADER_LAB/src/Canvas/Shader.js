@@ -111,7 +111,7 @@ export default class Shader
         {
             for(let i = 0;i<this.count_uniform;i++)
             {
-                if(name===this.#inputs[i].get_name())
+                if(name===this.#inputs[i].get_label())
                 {
                     this.uniform[i][id]=value;
                     console.log(this.uniforms[this.#inputs[i].get_name()].value)
