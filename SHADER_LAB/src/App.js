@@ -83,7 +83,7 @@ export class App
 
     update_shader()
     {
-        let user_shader_input = this.codeEditor.get_editor().getValue();
+        let user_shader_input = this.codeEditor.get_value();
         user_shader_input = this.codeReader.analyzeText(user_shader_input, this.shader_list[this.current_shader]);
 
         // VERIF DE YAYOU
