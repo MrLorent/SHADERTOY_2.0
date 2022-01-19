@@ -9,6 +9,7 @@ import compile_button_as_HTML from './compile_button.jsx'
 
 import { CodeEditor } from './CodeEditor/CodeEditor.js';
 import { CodeReader } from './CodeEditor/CodeReader.js';
+import { CodeChecker } from './CodeEditor/CodeChecker.js';
 
 export class App
 {
@@ -28,6 +29,7 @@ export class App
 
     codeEditor;
     codeReader;
+    codeChecker;
 
     shader_list;
     current_shader;
@@ -48,6 +50,7 @@ export class App
         // CODE_EDITOR
         this.codeEditor = new CodeEditor('code_editor');
         this.codeReader = new CodeReader();
+        this.codeChecker = new CodeChecker();
         this.insert_compile_button();
 
         // INIT CURRENT SHADER
@@ -80,19 +83,18 @@ export class App
         let user_shader_input = this.codeEditor.get_value();
         user_shader_input = this.codeReader.analyzeText(user_shader_input, this.shader_list[this.current_shader]);
 
-        // VERIF DE YAYOU
-        this.shader_list[this.current_shader].fragment_shader = user_shader_input;
-        this.init_shader(this.current_shader);
-    }
+        const compilation_test = this.codeChecker.check_compilation(this.scene, user_shader_input);
+        if(compilation_test.compilation_state)
+        {
+            this.shader_list[this.current_shader].fragment_shader = user_shader_input;
+            this.init_shader(this.current_shader);
+        }
+        else
+        {
 
-    update_shader()
-    {
-        let user_shader_input = this.codeEditor.get_value();
-        user_shader_input = this.codeReader.analyzeText(user_shader_input, this.shader_list[this.current_shader]);
+        }
 
-        // VERIF DE YAYOU
-        this.shader_list[this.current_shader].fragment_shader = user_shader_input;
-        this.init_shader(this.current_shader);
+        document.getElementById('console').innerHTML = compilation_test.message;
     }
 
     init_material(){
