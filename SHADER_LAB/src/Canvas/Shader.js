@@ -42,6 +42,8 @@ export default class Shader
             uResolution: { type: "v2", value: new THREE.Vector2() },
             uCameraPosition: { type: "v3", value: new THREE.Vector3() },
             uRotatingLight: {value: 1},
+            uColorLight : {value : new THREE.Color('white')},
+            uLightPosition  : {value : new THREE.Vector3(0,5,6)},
 
             uColors:{value : this.color},
             uKd:{value: this.diffus},
@@ -50,6 +52,10 @@ export default class Shader
             uAlpha:{value: this.alpha},
 
         };
+        
+
+
+        
 
     
     }
@@ -95,6 +101,16 @@ export default class Shader
                 this.uniforms.uKs.value = this.specular;
 
             }
+            else if(name=="color_light"){
+                this.uniforms.uColorLight = new THREE.Color(value);
+
+            }
+            else if(name=="position_light"){
+                this.uniforms.uLightPosition = new THREE.Vector3(value);
+
+            }
+            
+
         }
         
         else if( this.#name ==="Personal")

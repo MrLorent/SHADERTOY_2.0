@@ -1,5 +1,8 @@
 #include <uniforms_and_defines>
 
+uniform vec3 uColorLight;
+uniform vec3 uLightPosition;
+
 /// color_picker uColors color
 /// checkbox uRotatingLight rotate_light 
 
@@ -14,7 +17,7 @@ in vec2 vertex_uv;
 
 vec3 Model_Illumination(in vec3 ray_position,in vec3 ray_origin ,in int hit_object){
     vec3 lightPosOffset = uRotatingLight*vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.;
-    vec3 lightPos = light.pos + lightPosOffset;
+    vec3 lightPos = uLightPosition + lightPosOffset;
     
     vec3 light_vector = normalize(lightPos - ray_position); 
     vec3 normal = GetNormal(ray_position); 
@@ -29,7 +32,7 @@ vec3 Model_Illumination(in vec3 ray_position,in vec3 ray_origin ,in int hit_obje
         diffuse *= .3; // no half-shadow because the light source is a point.    
     }
     
-    return diffuse * uColors[hit_object] * light.col;
+    return diffuse * uColors[hit_object] * uColorLight;
 }
 
 #include <main>
