@@ -7,6 +7,9 @@ import nav_bar_as_HTML from './nav_bar.jsx';
 import input_fieldset_as_HTML from './input_fieldset.jsx';
 import switch_input_panel_button from './switch_input_panel_button.jsx';
 import compile_button_as_HTML from './compile_button.jsx'
+import scene_1_button_as_HTML from './scene_1_button.jsx'
+import scene_2_button_as_HTML from './scene_2_button.jsx'
+
 
 import { CodeEditor } from './CodeEditor/CodeEditor.js';
 import { CodeReader } from './CodeEditor/CodeReader.js';
@@ -40,6 +43,8 @@ export class App
     constructor(shader_list){
         // NAVIGATION
         this.insert_switch_input_panel_button_in_HTML();
+        this.insert_scene_1_button_in_HTML();
+        this.insert_scene_2_button_in_HTML();
 
         // SCENE
         this.scene = new Scene();
@@ -83,7 +88,26 @@ export class App
 
     update_shader()
     {
-        this.NUMERO_PRESET =1;
+        let user_shader_input = this.codeEditor.get_value();
+        user_shader_input = this.codeReader.analyzeText(user_shader_input, this.shader_list[this.current_shader], this.NUMERO_PRESET);
+
+        const compilation_test = this.codeChecker.check_compilation(this.scene, user_shader_input, this.NUMERO_PRESET);
+        if(compilation_test.compilation_state)
+        {
+            this.shader_list[this.current_shader].fragment_shader = user_shader_input;
+            this.init_shader(this.current_shader);
+        }
+        else
+        {
+
+        }
+
+        document.getElementById('console').innerHTML = compilation_test.message;
+    }
+
+    update_preset(preset)
+    {
+        this.NUMERO_PRESET=preset;
         let user_shader_input = this.codeEditor.get_value();
         user_shader_input = this.codeReader.analyzeText(user_shader_input, this.shader_list[this.current_shader], this.NUMERO_PRESET);
 
@@ -117,6 +141,18 @@ export class App
         this.scene.scene.add(this.scene.mesh);
         this.scene.camera.add(this.scene.mesh);
 
+    }
+
+    insert_scene_1_button_in_HTML()
+    {
+        const navigation_panel = document.getElementById('navigation_panel');
+        navigation_panel.append(scene_1_button_as_HTML(this))
+    }
+
+    insert_scene_2_button_in_HTML()
+    {
+        const navigation_panel = document.getElementById('navigation_panel');
+        navigation_panel.append(scene_2_button_as_HTML(this))
     }
 
     insert_switch_input_panel_button_in_HTML()
