@@ -8,9 +8,7 @@ import input_fieldset_as_HTML from './input_fieldset.jsx';
 import switch_input_panel_button from './switch_input_panel_button.jsx';
 import compile_button_as_HTML from './compile_button.jsx'
 
-import { CodeEditor } from './CodeEditor/CodeEditor.js';
-import { CodeReader } from './CodeEditor/CodeReader.js';
-import { CodeChecker } from './CodeEditor/CodeChecker.js';
+import { CodeEditor } from './CodeEditor.js';
 
 export class App
 {
@@ -31,8 +29,6 @@ export class App
     scene;
 
     codeEditor;
-    codeReader;
-    codeChecker;
 
     shader_list;
     current_shader;
@@ -41,20 +37,22 @@ export class App
         // NAVIGATION
         this.insert_switch_input_panel_button_in_HTML();
 
+        // CODE_EDITOR
+        this.codeEditor = new CodeEditor('code_editor');
+        this.insert_compile_button();
+
         // SCENE
         this.scene = new Scene();
 
         // INIT LIST OF SHADERS
         init_shader_chunk(THREE.ShaderChunk);
         this.shader_list = shader_list;
+        for(let i in this.shader_list)
+        {
+            this.shader_list[i].set_fragment_shader(this.codeEditor.compile_inputed_uniforms(this.shader_list[i].fragment_shader, this.shader_list[i]));
+        }
         this.insert_shader_buttons_in_HTML();
 
-
-        // CODE_EDITOR
-        this.codeEditor = new CodeEditor('code_editor');
-        this.codeReader = new CodeReader();
-        this.codeChecker = new CodeChecker();
-        this.insert_compile_button();
 
         // INIT CURRENT SHADER
         this.init_shader(this.FLAT_PAINTING);
@@ -85,10 +83,11 @@ export class App
     {
         this.NUMERO_PRESET =1;
         let user_shader_input = this.codeEditor.get_value();
-        user_shader_input = this.codeReader.analyzeText(user_shader_input, this.shader_list[this.current_shader], this.NUMERO_PRESET);
+        user_shader_input = this.codeEditor.compile_inputed_uniforms(user_shader_input, this.shader_list[this.current_shader]);
 
-        const compilation_test = this.codeChecker.check_compilation(this.scene, user_shader_input, this.NUMERO_PRESET);
-        if(compilation_test.compilation_state)
+        const compilation_test = this.codeEditor.check_shader_compilitation(this.scene, user_shader_input);
+        
+        if(compilation_test.status === "success")
         {
             this.shader_list[this.current_shader].fragment_shader = user_shader_input;
             this.init_shader(this.current_shader);
