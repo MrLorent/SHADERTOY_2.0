@@ -14,6 +14,12 @@
 /// slider light uLightPositionZ positionZ_light -50 50 0.1
 
 
+/// color_picker light uColorLight2 color_light2
+/// slider light uLightPositionX2 positionX_light2 -50 50 0.1
+/// slider light uLightPositionY2 positionY_light2 -50 50 0.1
+/// slider light uLightPositionZ2 positionZ_light2 -50 50 0.1
+
+
 
 in vec2 vertex_uv;
 

@@ -45,9 +45,14 @@ export default class Shader
             uCameraPosition: { type: "v3", value: new THREE.Vector3() },
             uRotatingLight: {value: 1},
             uColorLight : {value : new THREE.Color('white')},
-            uLightPositionX  : {value : 0},
-            uLightPositionY  : {value : 5},
-            uLightPositionZ  : {value : 6},
+            uLightPositionX  : {value : -10},
+            uLightPositionY  : {value : 10},
+            uLightPositionZ  : {value : -2},
+            uColorLight2 : {value : new THREE.Color('green')},
+            uLightPositionX2  : {value : 10},
+            uLightPositionY2  : {value : 10},
+            uLightPositionZ2  : {value : -2},
+            uPreset : {value : 0},
             uCameraMatrix:{value : new THREE.Matrix4()},
 
             uColors:{value : this.color},
@@ -55,9 +60,10 @@ export default class Shader
             uKs:{value: this.specular},
             uKa:{value: this.ambiant},
             uAlpha:{value: this.alpha},
+            
 
         };
-        
+
 
 
         
@@ -131,6 +137,30 @@ export default class Shader
             else if(name=="positionZ_light"){
                 this.uniforms.uLightPositionZ.value = value;
 
+            }
+            else if(name=="color_light2"){
+                this.uniforms.uColorLight2.value = new THREE.Color(value);
+
+            }
+            else if(name=="positionX_light2"){
+                this.uniforms.uLightPositionX2.value = value;
+
+            }
+            else if(name=="positionY_light2"){
+                this.uniforms.uLightPositionY2.value = value;
+
+            }
+            else if(name=="positionZ_light2"){
+                this.uniforms.uLightPositionZ2.value = value;
+
+            }
+            else if(name =="preset")
+            {
+                this.uniforms.uPreset.value = value;
+                if(this.uniforms.uPreset.value === 1)
+                {
+                    this.uniforms.uColorLight.value = new THREE.Color("red");
+                }
             }
 
 
