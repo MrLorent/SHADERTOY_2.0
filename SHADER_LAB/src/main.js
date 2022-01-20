@@ -45,8 +45,6 @@ function launch_App(shaders_as_text)
     
 
     const app = new App(shader_list);
-    app.shader_list[app.current_shader].adapt_shader(4);
-
 
     //console.log(app.shader_list[2].fragment_shader)
 

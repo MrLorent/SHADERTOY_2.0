@@ -31,12 +31,12 @@ export default class Shader
         this.vertex_shader_path = shader_details['vertex'];
         this.fragment_shader_path = shader_details['fragment'];
         this.vertex_shader  = vertex;
-        this.fragment_shader = reader.analyzeText(fragment, this);
-        this.alpha      =   [30, 20,50,50];
-        this.color      =   [new THREE.Color('white'), new THREE.Color('purple'),new THREE.Color('orange'), new THREE.Color('green')];
-        this.ambiant    =   [0.9,0.4,0.5,1];
-        this.diffus     =   [0.4,0.7,0.5,1];
-        this.specular   =   [0.1,0.2,0.3,1];
+        this.fragment_shader = reader.analyzeText(fragment, this,0);
+        this.alpha      =   [30, 20,50,50,50,50];
+        this.color      =   [new THREE.Color('white'), new THREE.Color('purple'),new THREE.Color('orange'), new THREE.Color('green'), new THREE.Color('aqua'), new THREE.Color('pink')];
+        this.ambiant    =   [0.9,0.4,0.5,1,1,1];
+        this.diffus     =   [0.4,0.7,0.5,1,1,1];
+        this.specular   =   [0.1,0.2,0.3,1,1,1];
         this.uniform    =   []
         this.uniform_color = []
         this.uniforms   =   {
@@ -63,24 +63,6 @@ export default class Shader
         
 
     
-    }
-
-    adapt_shader(nb_obj){
-        let nb_obj_actuel = this.color.length
-        for(let i=nb_obj_actuel-1; i<nb_obj; i++){
-            console.log("oh ??", i);
-            this.color.push[new THREE.Color('aqua')];
-            this.ambiant.push(1);
-            this.diffus.push(1);
-            this.specular.push(1);
-            this.alpha.push(50);
-        }
-        this.uniforms.uColors.value = this.color;
-        this.uniforms.uKa.value = this.ambiant;
-        this.uniforms.uKd.value = this.diffus;
-        this.uniforms.uKs.value = this.specular;
-        this.uniforms.uAlpha.value = this.alpha;
-        console.log(this.uniforms);
     }
 
     get_name()

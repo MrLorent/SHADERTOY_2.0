@@ -4,7 +4,7 @@ export class CodeReader
 
     }
 
-    analyzeText(shader_text, shader){
+    analyzeText(shader_text, shader, numero_preset){
         let input_details;
         let new_text = "";
         const line = shader_text.split("\n");
@@ -95,6 +95,9 @@ export class CodeReader
                 }
 
                 shader.add_input(input_details);
+            }
+            else if (element.includes('creation_scene')){
+                element='#include <creation_scene_'+numero_preset+'>'
             }
             new_text += element + "\n";
         });

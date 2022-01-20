@@ -17,15 +17,16 @@ precision mediump float;
 precision highp float;
 precision highp int;
 
-#define N_MATERIALS 4
+#define N_MATERIALS 6
 #define N_RAY 5
 uniform float uTime;
 uniform vec3 uResolution;
 uniform vec3 uCameraPosition;
 uniform mat4 uCameraMatrix;
 `
+
     
-shaderChunk['creation_scene_1']=`
+shaderChunk['creation_scene_0']=`
 
     struct Sphere {
         vec3 origin;
@@ -80,7 +81,7 @@ shaderChunk['creation_scene_1']=`
         return d;
     }
     `
-    shaderChunk['creation_scene']=`
+shaderChunk['creation_scene_1']=`
     struct Sphere {
         vec3 origin;
         float radius;
