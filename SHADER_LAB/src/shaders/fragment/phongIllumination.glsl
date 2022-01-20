@@ -58,7 +58,7 @@ vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in int hit_obj
     vec3 light1DiffuseComponent = diffuse * uColorLight;
     vec3 light1SpecularComponent = vec3(pow(specular, uAlpha[hit_object]));
     
-    vec3 col = uKa[hit_object] * ambientDiffuse +  //ka
+    vec3 col = uKa[hit_object]  * ambientDiffuse +  //ka
                uKd[hit_object] * light1DiffuseComponent + //kd 
                uKs[hit_object] * light1SpecularComponent; //ks
     
