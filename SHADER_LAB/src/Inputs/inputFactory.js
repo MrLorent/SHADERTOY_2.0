@@ -1,4 +1,4 @@
-import Slider from './Slider.jsx';
+import Slider from './Slider.js';
 import Checkbox from './Checkbox.jsx';
 import ColorPicker from './ColorPicker.jsx';
 

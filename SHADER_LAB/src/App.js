@@ -8,7 +8,7 @@ import input_fieldset_as_HTML from './input_fieldset.jsx';
 import switch_input_panel_button from './switch_input_panel_button.jsx';
 import compile_button_as_HTML from './compile_button.jsx'
 
-import { CodeEditor } from './CodeEditor/CodeEditor.js';
+import { CodeEditor } from './CodeEditor.js';
 
 export class App
 {
