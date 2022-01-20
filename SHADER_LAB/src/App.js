@@ -26,6 +26,8 @@ export class App
     PHONG = 2;
     PERSONAL = 3;
 
+    NUMERO_PRESET=0;
+
     scene;
 
     codeEditor;
@@ -81,10 +83,11 @@ export class App
 
     update_shader()
     {
+        this.NUMERO_PRESET =1;
         let user_shader_input = this.codeEditor.get_value();
-        user_shader_input = this.codeReader.analyzeText(user_shader_input, this.shader_list[this.current_shader]);
+        user_shader_input = this.codeReader.analyzeText(user_shader_input, this.shader_list[this.current_shader], this.NUMERO_PRESET);
 
-        const compilation_test = this.codeChecker.check_compilation(this.scene, user_shader_input);
+        const compilation_test = this.codeChecker.check_compilation(this.scene, user_shader_input, this.NUMERO_PRESET);
         if(compilation_test.compilation_state)
         {
             this.shader_list[this.current_shader].fragment_shader = user_shader_input;

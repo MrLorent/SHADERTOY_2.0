@@ -35,6 +35,7 @@ export default class Scene{
 
         this.camera_controls = new TrackballControls(this.camera, this.renderer.domElement)
         this.camera_controls.target.set(0,1,5);
+        this.camera_controls.maxDistance=30;
 
         this.clock = new THREE.Clock();
 

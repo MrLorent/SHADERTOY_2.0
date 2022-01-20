@@ -4,7 +4,7 @@
 
 in vec2 vertex_uv;
 
-#include <creation_scene>
+#include <creation_scene_0>
 #include <RayMarch>
 #include <get_normal>
 #define GetNormal GetNormalEulerTwoSided

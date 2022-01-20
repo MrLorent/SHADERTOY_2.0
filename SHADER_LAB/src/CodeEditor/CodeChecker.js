@@ -8,11 +8,11 @@ export class CodeChecker
         this.modeles = ['main_flatPainting', 'main_lambert', 'main_phongIllumination']; //ajouter celle de l'utilisateur 
     }
 
-    check_compilation(scene, shader_text){
+    check_compilation(scene, shader_text, numero_preset){
         let message_to_display = "";
         let context = scene.context;
-
-        let fs = THREE.ShaderChunk['test_compile'] + THREE.ShaderChunk['uniforms_and_defines'] + THREE.ShaderChunk['creation_scene'] + THREE.ShaderChunk['RayMarch'] + THREE.ShaderChunk['get_normal'] + THREE.ShaderChunk['rand'] + shader_text + THREE.ShaderChunk['main'];
+        let creation_scene = "creation_scene_"+numero_preset
+        let fs = THREE.ShaderChunk['test_compile'] + THREE.ShaderChunk['uniforms_and_defines'] + THREE.ShaderChunk[creation_scene] + THREE.ShaderChunk['RayMarch'] + THREE.ShaderChunk['get_normal'] + THREE.ShaderChunk['rand'] + shader_text + THREE.ShaderChunk['main'];
         //console.log(fs)
         let status, log, shader, lines, error, details, i, line, message, true_error=true, warning = false;
         try{
