@@ -22,7 +22,39 @@ precision highp int;
 uniform float uTime;
 uniform vec3 uResolution;
 uniform vec3 uCameraPosition;
-uniform mat4 uViewMatrix;
+uniform mat4 uCameraMatrix;
+
+mat3 rotateX(float theta) {
+    float c = cos(theta);
+    float s = sin(theta);
+    return mat3(
+        vec3(1, 0, 0),
+        vec3(0, c, -s),
+        vec3(0, s, c)
+    );
+}
+
+// Rotation matrix around the Y axis.
+mat3 rotateY(float theta) {
+    float c = cos(theta);
+    float s = sin(theta);
+    return mat3(
+        vec3(c, 0, s),
+        vec3(0, 1, 0),
+        vec3(-s, 0, c)
+    );
+}
+
+// Rotation matrix around the Z axis.
+mat3 rotateZ(float theta) {
+    float c = cos(theta);
+    float s = sin(theta);
+    return mat3(
+        vec3(c, -s, 0),
+        vec3(s, c, 0),
+        vec3(0, 0, 1)
+    );
+}
 `
     
 shaderChunk['creation_scene']=`
@@ -134,17 +166,23 @@ shaderChunk['main']=`
 void main()
 {
     vec2 uv = vertex_uv-0.5;
-    uv*=uResolution.xy/uResolution.y;
     vec3 color=vec3(0);
     
+    vec3 camRight   = vec3( uCameraMatrix[0][0],  uCameraMatrix[0][1],  uCameraMatrix[0][2]);
+	vec3 camUp      = vec3( uCameraMatrix[1][0],  uCameraMatrix[1][1],  uCameraMatrix[1][2]);
+	vec3 camForward = vec3(-uCameraMatrix[2][0], -uCameraMatrix[2][1], -uCameraMatrix[2][2]);
+
     for(int i=0; i<N_RAY; i++){
         // simplest camera
         vec3 ray_origin = uCameraPosition;
 
         // Casting a ray in a random place for each pixels
         float offset = rand(vec2(i))/uResolution.y;
-        vec3 ray_direction = normalize(vec3(uv.xy+offset, 1));
 
+        uv = vertex_uv+offset-0.5;
+        uv*=uResolution.xy/uResolution.y;
+
+        vec3 ray_direction = normalize(uv.x*camRight+uv.y*camUp+camForward);
 
         // RayMarching stuff
         int hit_object;
