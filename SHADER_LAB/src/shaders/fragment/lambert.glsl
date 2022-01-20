@@ -2,9 +2,8 @@
 
 uniform vec3 uColorLight;
 uniform vec3 uLightPosition;
-
-/// color_picker uColors color
-/// checkbox uRotatingLight rotate_light 
+/// color_picker scene uColors color
+/// checkbox light uRotatingLight rotate_light 
 
 in vec2 vertex_uv;
 

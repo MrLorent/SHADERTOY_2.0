@@ -1,6 +1,6 @@
 #include <uniforms_and_defines>
 
-/// color_picker uColors color
+/// color_picker scene uColors color
 
 in vec2 vertex_uv;
 

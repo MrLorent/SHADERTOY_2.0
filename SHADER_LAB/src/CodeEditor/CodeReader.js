@@ -14,32 +14,35 @@ export class CodeReader
                 switch(word[1])
                 {
                     case "color_picker":
-                        element = element.replace(element, "uniform  vec3 "+word[2]+"[N_MATERIALS];");
+                        element = element.replace(element, "uniform  vec3 "+word[3]+"[N_MATERIALS];");
                         input_details = {
-                            "type": word[1],
-                            "label": word[3],
-                            "name": word[2],
+                            "target": word[2],
+                            "type": "color_picker",
+                            "label": word[4],
+                            "name": word[3],
                             "value": "#000000"
                         };
                         break;
                     case "checkbox":
-                        element = element.replace(element, "uniform  float "+word[2]+";");
+                        element = element.replace(element, "uniform  float "+word[3]+";");
                         input_details = {
-                            "type": word[1],
-                            "label": word[3],
-                            "name": word[2],
+                            "target": word[2],
+                            "type": "checkbox",
+                            "label": word[4],
+                            "name": word[3],
                             "checked": 1
                         };
                         break;
                     case "slider":
-                        element = element.replace(element, "uniform  float "+word[2]+"[N_MATERIALS];");
+                        element = element.replace(element, "uniform  float "+word[3]+"[N_MATERIALS];");
                         input_details = {
-                            "type": word[1],
-                            "label": word[3],
-                            "name": word[2],
-                            "min": word[4],
-                            "max": word[5],
-                            "step": word[6]
+                            "target": word[2],
+                            "type": "slider",
+                            "label": word[4],
+                            "name": word[3],
+                            "min": word[5],
+                            "max": word[6],
+                            "step": word[7]
                         };
                         break;
                     default:
