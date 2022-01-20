@@ -32,11 +32,11 @@ export default class Shader
         this.fragment_shader_path = shader_details['fragment'];
         this.vertex_shader  = vertex;
         this.fragment_shader = reader.analyzeText(fragment, this);
-        this.alpha      =   [30, 20,50];
+        this.alpha      =   [20, 20,50];
         this.color      =   [new THREE.Color('white'), new THREE.Color('purple'),new THREE.Color('orange')];
-        this.ambiant    =   [0.9,0.4,0.5];
-        this.diffus     =   [0.4,0.7,0.5];
-        this.specular   =   [0.1,0.2,0.3];
+        this.ambiant    =   [0.4,0.4,0.5];
+        this.diffus     =   [0.7,0.7,0.5];
+        this.specular   =   [0.2,0.2,0.3];
         this.uniform    =   []
         this.uniform_color = []
         this.uniforms   =   {
@@ -45,9 +45,14 @@ export default class Shader
             uCameraPosition: { type: "v3", value: new THREE.Vector3() },
             uRotatingLight: {value: 1},
             uColorLight : {value : new THREE.Color('white')},
-            uLightPositionX  : {value : 0},
-            uLightPositionY  : {value : 5},
-            uLightPositionZ  : {value : 6},
+            uLightPositionX  : {value : -10},
+            uLightPositionY  : {value : 10},
+            uLightPositionZ  : {value : -2},
+            uColorLight2 : {value : new THREE.Color('green')},
+            uLightPositionX2  : {value : 10},
+            uLightPositionY2  : {value : 10},
+            uLightPositionZ2  : {value : -2},
+            uPreset : {value : 0},
             uCameraMatrix:{value : new THREE.Matrix4()},
 
             uColors:{value : this.color},
@@ -55,9 +60,10 @@ export default class Shader
             uKs:{value: this.specular},
             uKa:{value: this.ambiant},
             uAlpha:{value: this.alpha},
+            
 
         };
-        
+
 
 
         
@@ -131,6 +137,30 @@ export default class Shader
             else if(name=="positionZ_light"){
                 this.uniforms.uLightPositionZ.value = value;
 
+            }
+            else if(name=="color_light2"){
+                this.uniforms.uColorLight2.value = new THREE.Color(value);
+
+            }
+            else if(name=="positionX_light2"){
+                this.uniforms.uLightPositionX2.value = value;
+
+            }
+            else if(name=="positionY_light2"){
+                this.uniforms.uLightPositionY2.value = value;
+
+            }
+            else if(name=="positionZ_light2"){
+                this.uniforms.uLightPositionZ2.value = value;
+
+            }
+            else if(name =="preset")
+            {
+                this.uniforms.uPreset.value = value;
+                if(this.uniforms.uPreset.value === 1)
+                {
+                    this.uniforms.uColorLight.value = new THREE.Color("red");
+                }
             }
 
 
