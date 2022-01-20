@@ -163,7 +163,6 @@ export default class Shader
 
             }
         }
-        console.log(this.#inputs)
     }
 
 }

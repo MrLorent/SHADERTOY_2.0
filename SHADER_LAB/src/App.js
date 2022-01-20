@@ -4,6 +4,7 @@ import Scene from './Canvas/Scene.js'
 import init_shader_chunk from "./Canvas/init_shader_chunk.js";
 
 import nav_bar_as_HTML from './nav_bar.jsx';
+import input_fieldset_as_HTML from './input_fieldset.jsx';
 import switch_input_panel_button from './switch_input_panel_button.jsx';
 import compile_button_as_HTML from './compile_button.jsx'
 
@@ -148,28 +149,42 @@ export class App
         while(HTML_container.firstElementChild){
             HTML_container.removeChild(HTML_container.firstElementChild);
         }
+        HTML_container.innerHTML = ""
 
         const shader = this.shader_list[this.current_shader];
         const light_inputs = shader.get_light_inputs();
-        let light_input_container = document.createElement('div');
-        light_input_container.classList.add('light_inputs');
 
-        for(let i in light_inputs)
+        if(light_inputs.length != 0)
         {
-            light_input_container.append(light_inputs[i].get_as_HTML(this.SCENE, shader));
+            let light_input_container = input_fieldset_as_HTML(light_inputs, "light parameters :");
+
+            for(let i in light_inputs)
+            {
+                light_input_container.append(light_inputs[i].get_as_HTML(this.SCENE, shader));
+            }
+            HTML_container.append(light_input_container);
         }
-        HTML_container.append(light_input_container);
 
         const scene_inputs = shader.get_scene_inputs();
-        for(let k=1; k<=this.SCENE_ELEMENTS; k++)
+
+        if(scene_inputs.length != 0)
         {
-            let scene_input_container = document.createElement('div')
-            scene_input_container.classList.add('scene_inputs');
-            for(let i in scene_inputs)
+            for(let k=1; k<=this.SCENE_ELEMENTS; k++)
             {
-                scene_input_container.append(scene_inputs[i].get_as_HTML(k, shader));
+                let legend="";
+                k==1 ? legend = "box parameters :" : legend = "sphere parameters";
+                let scene_input_container = input_fieldset_as_HTML(scene_inputs, legend)
+                for(let i in scene_inputs)
+                {
+                    scene_input_container.append(scene_inputs[i].get_as_HTML(k, shader));
+                }
+                HTML_container.append(scene_input_container);
             }
-            HTML_container.append(scene_input_container);
+        }
+
+        if(light_inputs.length == 0 && scene_inputs == 0)
+        {
+            HTML_container.innerHTML = "No input detected for this shader yet.";
         }
     }
 
