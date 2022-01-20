@@ -32,11 +32,11 @@ export default class Shader
         this.fragment_shader_path = shader_details['fragment'];
         this.vertex_shader  = vertex;
         this.fragment_shader = reader.analyzeText(fragment, this);
-        this.alpha      =   [30, 20,50];
+        this.alpha      =   [20, 20,50];
         this.color      =   [new THREE.Color('white'), new THREE.Color('purple'),new THREE.Color('orange')];
-        this.ambiant    =   [0.9,0.4,0.5];
-        this.diffus     =   [0.4,0.7,0.5];
-        this.specular   =   [0.1,0.2,0.3];
+        this.ambiant    =   [0.4,0.4,0.5];
+        this.diffus     =   [0.7,0.7,0.5];
+        this.specular   =   [0.2,0.2,0.3];
         this.uniform    =   []
         this.uniform_color = []
         this.uniforms   =   {
