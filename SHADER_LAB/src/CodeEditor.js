@@ -4,6 +4,7 @@ import 'brace/mode/glsl';
 import 'brace/ext/language_tools'
 import 'brace/snippets/glsl'
 import 'brace/theme/chaos';
+import { PerspectiveCamera } from 'three';
 
 // theme terminal : 8/10
 // theme twilight : 8/10
@@ -50,7 +51,7 @@ export class CodeEditor {
         this.#editor.resize();
     }
 
-    compile_inputed_uniforms(shader_text, shader){
+    compile_inputed_uniforms(shader_text, shader, numero_preset=0){
         let input_details;
         let new_text = "";
         const line = shader_text.split("\n");
@@ -102,8 +103,12 @@ export class CodeEditor {
                         console.log("Error: unknom input type.")
                         break;
                 }
+                
 
                 shader.add_input(input_details);
+            }
+            else if (element.includes('creation_scene')){
+                element='#include <creation_scene_'+numero_preset+'>'
             }
             new_text += element + "\n";
         });
@@ -112,13 +117,14 @@ export class CodeEditor {
         return new_text.substr(0,new_text.length-1);
     }
 
-    check_shader_compilitation(scene, shader_text){
+    check_shader_compilitation(scene, shader_text,preset){
         let message_to_display = "";
         let context = scene.context;
+        let creation = "creation_scene_"+preset;
 
         let fs  =    THREE.ShaderChunk['test_compile'] +
                      THREE.ShaderChunk['uniforms_and_defines'] +
-                     THREE.ShaderChunk['creation_scene'] +
+                     THREE.ShaderChunk[creation] +
                      THREE.ShaderChunk['RayMarch'] +
                      THREE.ShaderChunk['get_normal'] +
                      THREE.ShaderChunk['rand'] +

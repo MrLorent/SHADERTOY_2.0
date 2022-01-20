@@ -87,7 +87,7 @@ export class App
     update_shader()
     {
         let user_shader_input = this.codeEditor.get_value();
-        user_shader_input = this.codeReader.analyzeText(user_shader_input, this.shader_list[this.current_shader], this.NUMERO_PRESET);
+        user_shader_input = this.codeEditor.compile_inputed_uniforms(user_shader_input, this.shader_list[this.current_shader], this.NUMERO_PRESET);
 
         const compilation_test = this.codeChecker.check_compilation(this.scene, user_shader_input, this.NUMERO_PRESET);
         if(compilation_test.compilation_state)
@@ -107,9 +107,9 @@ export class App
     {
         this.NUMERO_PRESET=preset;
         let user_shader_input = this.codeEditor.get_value();
-        user_shader_input = this.codeEditor.compile_inputed_uniforms(user_shader_input, this.shader_list[this.current_shader]);
+        user_shader_input = this.codeEditor.compile_inputed_uniforms(user_shader_input, this.shader_list[this.current_shader], this.NUMERO_PRESET);
 
-        const compilation_test = this.codeEditor.check_shader_compilitation(this.scene, user_shader_input);
+        const compilation_test = this.codeEditor.check_shader_compilitation(this.scene, user_shader_input, this.NUMERO_PRESET);
         
         if(compilation_test.status === "success")
         {
