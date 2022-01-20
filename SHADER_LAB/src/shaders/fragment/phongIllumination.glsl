@@ -1,13 +1,17 @@
 #include <uniforms_and_defines>
 
-uniform vec3 uColorLight;
-uniform vec3 uLightPosition;
+
+
 /// slider scene uKs specular 0 1 0.01
 /// slider scene uKa ambiant 0 1 0.01
 /// slider scene uKd diffus 0 1 0.01
 /// slider scene uAlpha alpha 0 100 1
 /// color_picker scene uColors color
 /// checkbox light uRotatingLight rotate_light
+/// color_picker light uColorLight color_light
+/// slider light uLightPositionX positionX_light -50 50 0.1
+/// slider light uLightPositionY positionY_light -50 50 0.1
+/// slider light uLightPositionZ positionZ_light -50 50 0.1
 
 
 
@@ -25,7 +29,7 @@ in vec2 vertex_uv;
 
 vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in int hit_object) {
     vec3 lightPosOffset = uRotatingLight*vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.; //light is turning
-    vec3 lightPos =  uLightPosition+ lightPosOffset;
+    vec3 lightPos =  vec3(uLightPositionX,uLightPositionY,uLightPositionZ)+ lightPosOffset;
     
     vec3 light_vector = normalize(lightPos - ray_position);
     vec3 normal = GetNormal(ray_position);

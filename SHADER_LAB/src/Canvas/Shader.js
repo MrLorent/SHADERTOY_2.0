@@ -45,7 +45,9 @@ export default class Shader
             uCameraPosition: { type: "v3", value: new THREE.Vector3() },
             uRotatingLight: {value: 1},
             uColorLight : {value : new THREE.Color('white')},
-            uLightPosition  : {value : new THREE.Vector3(0,5,6)},
+            uLightPositionX  : {value : 0},
+            uLightPositionY  : {value : 5},
+            uLightPositionZ  : {value : 6},
 
             uColors:{value : this.color},
             uKd:{value: this.diffus},
@@ -114,13 +116,23 @@ export default class Shader
 
             }
             else if(name=="color_light"){
-                this.uniforms.uColorLight = new THREE.Color(value);
+                this.uniforms.uColorLight.value = new THREE.Color(value);
 
             }
-            else if(name=="position_light"){
-                this.uniforms.uLightPosition = new THREE.Vector3(value);
+            else if(name=="positionX_light"){
+                this.uniforms.uLightPositionX.value = value;
 
             }
+            else if(name=="positionY_light"){
+                this.uniforms.uLightPositionY.value = value;
+
+            }
+            else if(name=="positionZ_light"){
+                this.uniforms.uLightPositionZ.value = value;
+
+            }
+
+
             
 
         }
