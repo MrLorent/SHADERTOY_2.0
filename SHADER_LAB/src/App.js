@@ -89,7 +89,7 @@ export class App
         let user_shader_input = this.codeEditor.get_value();
         user_shader_input = this.codeEditor.compile_inputed_uniforms(user_shader_input, this.shader_list[this.current_shader], this.NUMERO_PRESET);
 
-        const compilation_test = this.codeChecker.check_compilation(this.scene, user_shader_input, this.NUMERO_PRESET);
+        const compilation_test = this.codeEditor.check_shader_compilitation(this.scene, user_shader_input, this.NUMERO_PRESET);
         if(compilation_test.compilation_state)
         {
             this.shader_list[this.current_shader].fragment_shader = user_shader_input;
