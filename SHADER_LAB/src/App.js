@@ -14,7 +14,7 @@ import { CodeChecker } from './CodeEditor/CodeChecker.js';
 export class App
 {
     // LIST OF SCENE ELEMENTS
-    SALLE = 0
+    SCENE = 0
     BOX = 1;
     SPHERE = 2;
     SCENE_ELEMENTS = 2;
@@ -148,15 +148,28 @@ export class App
         while(HTML_container.firstElementChild){
             HTML_container.removeChild(HTML_container.firstElementChild);
         }
-        const shader = this.shader_list[this.current_shader];
-        const inputs = shader.get_inputs();
 
+        const shader = this.shader_list[this.current_shader];
+        const light_inputs = shader.get_light_inputs();
+        let light_input_container = document.createElement('div');
+        light_input_container.classList.add('light_inputs');
+
+        for(let i in light_inputs)
+        {
+            light_input_container.append(light_inputs[i].get_as_HTML(this.SCENE, shader));
+        }
+        HTML_container.append(light_input_container);
+
+        const scene_inputs = shader.get_scene_inputs();
         for(let k=1; k<=this.SCENE_ELEMENTS; k++)
         {
-            for(let i in inputs)
+            let scene_input_container = document.createElement('div')
+            scene_input_container.classList.add('scene_inputs');
+            for(let i in scene_inputs)
             {
-                HTML_container.append(inputs[i].get_as_HTML(k, shader));
+                scene_input_container.append(scene_inputs[i].get_as_HTML(k, shader));
             }
+            HTML_container.append(scene_input_container);
         }
     }
 
