@@ -168,7 +168,7 @@ export class App
         this.shader_list[this.current_shader].uniforms.uTime.value = this.scene.elapsed_time;
         this.scene.camera.updateMatrixWorld(true);
         this.shader_list[this.current_shader].uniforms.uCameraPosition.value.copy(this.scene.camera.position);
-    
+        this.shader_list[this.current_shader].uniforms.uCameraMatrix.value.copy(this.scene.camera.matrixWorld);
         this.scene.renderer.setRenderTarget(null);
         this.scene.renderer.render(this.scene.scene, this.scene.camera);
     }
