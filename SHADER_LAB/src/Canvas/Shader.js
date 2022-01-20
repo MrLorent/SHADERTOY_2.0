@@ -91,12 +91,12 @@ export default class Shader
         return this.#inputs['scene']
     }
 
-    update(name, value, type,id=0){
+    update(name, value, type, id=0){
 
         if(this.#name != "Personal")
         {
             if(name=="rotate_light"){
-                this.uniforms.uRotatingLight.value = value;
+                this.uniforms.uRotatingLight.value == 1 ? this.uniforms.uRotatingLight.value = 0 : this.uniforms.uRotatingLight.value = 1;
             }
             else if(name=="alpha"){
                 this.alpha[id]=value;
@@ -222,7 +222,6 @@ export default class Shader
 
             }
         }
-        console.log(this.#inputs)
     }
 
 }
