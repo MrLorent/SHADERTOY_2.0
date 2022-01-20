@@ -48,6 +48,7 @@ export default class Shader
             uLightPositionX  : {value : 0},
             uLightPositionY  : {value : 5},
             uLightPositionZ  : {value : 6},
+            uCameraMatrix:{value : new THREE.Matrix4()},
 
             uColors:{value : this.color},
             uKd:{value: this.diffus},
