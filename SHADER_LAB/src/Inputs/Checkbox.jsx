@@ -15,9 +15,11 @@ export default class Checkbox extends Input
 
     get_as_HTML(scene_element_id, current_shader)
     {
+        const label = super.get_label();
         const checkbox = 
         <div className="input-container checkbox">
             <input
+            oninput = { function(){ current_shader.update(label, this.value, "checkbox", scene_element_id)}}
             type    = "checkbox"
             id      = { super.get_name() }
             name    = { super.get_name() }
