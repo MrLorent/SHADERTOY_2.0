@@ -156,11 +156,17 @@ export default class Shader
             }
             else if(name =="preset")
             {
-                this.uniforms.uPreset.value = value;
+                
+                this.uniforms.uPreset.value == 1 ? this.uniforms.uPreset.value = 0 : this.uniforms.uPreset.value = 1;
                 if(this.uniforms.uPreset.value === 1)
                 {
                     this.uniforms.uColorLight.value = new THREE.Color("red");
                 }
+                if(this.uniforms.uPreset.value === 0)
+                {
+                    this.uniforms.uColorLight.value = new THREE.Color("white");
+                }
+
             }
 
 
