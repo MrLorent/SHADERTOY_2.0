@@ -18,16 +18,40 @@
 
 in vec2 vertex_uv;
 
+#include <creation_object>
 #include <creation_scene_0>
 #include <RayMarch>
 #include <get_normal>
 #define GetNormal GetNormalEulerTwoSided
 #include <rand>
 
+void init_object(){
+    plane.mat.base_color=uColors[0];
+    if(SCENE == 0){
+        sphere1.origin=vec3(-1,1,5);
+        sphere1.radius=0.5;
+        sphere1.mat.base_color=uColors[2];
 
+        box1.origin=vec3(1,1,5);
+        box1.dimension=vec3(0.5);
+        box1.mat.base_color=uColors[1];
 
+    }else if(SCENE == 1){
+        sphere1.origin=vec3(-1,1,5);
+        sphere1.radius=0.5;
+        sphere1.mat.base_color=uColors[1];
 
-vec3 Model_Illumination(in vec3 ray_position,in vec3 ray_origin ,in int hit_object){
+        sphere2.origin=vec3(0,1,5);
+        sphere2.radius=0.5;
+        sphere2.mat.base_color=uColors[2];
+
+        sphere3.origin=vec3(1,1,5);
+        sphere3.radius=0.5;
+        sphere3.mat.base_color=uColors[3];
+    }
+}
+
+vec3 Model_Illumination(in vec3 ray_position,in vec3 ray_origin ,in Material hit_object){
     vec3 lightPosOffset = uRotatingLight*vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.;
     vec3 lightPos = vec3(uLightPositionX,uLightPositionY,uLightPositionZ) + lightPosOffset;
     vec3 lightPos2 = vec3(uLightPositionX2,uLightPositionY2,uLightPositionZ2) + lightPosOffset;
@@ -42,7 +66,7 @@ vec3 Model_Illumination(in vec3 ray_position,in vec3 ray_origin ,in int hit_obje
 
     // shadow stuff
     vec3 position_offset = normal * SURF_DIST_MARCH * 1.2; // move the point above a little
-    int _; //useless stuff but needed for the next RayMarch
+    Material _; //useless stuff but needed for the next RayMarch
     float d = RayMarch(_, ray_position + position_offset, light_vector);
     float d2 = RayMarch(_, ray_position + position_offset, light_vector2);
     if (d < length(lightPos - ray_position) || uPreset*d2 < uPreset*length(lightPos - ray_position)) { // If true then we've shaded a point on some object before, 
@@ -58,7 +82,7 @@ vec3 Model_Illumination(in vec3 ray_position,in vec3 ray_origin ,in int hit_obje
 
 
     
-    return (diffuse * uColors[hit_object] * uColorLight) +uPreset*(diffuse2 * uColors[hit_object] * uColorLight2); 
+    return (diffuse * hit_object.base_color * uColorLight) +uPreset*(diffuse2 * hit_object.base_color * uColorLight2); 
 }
 
 #include <main>

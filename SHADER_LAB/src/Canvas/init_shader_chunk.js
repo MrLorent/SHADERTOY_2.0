@@ -23,30 +23,56 @@ uniform float uTime;
 uniform vec3 uResolution;
 uniform vec3 uCameraPosition;
 uniform mat4 uCameraMatrix;
-`
 
-    
-shaderChunk['creation_scene_0']=`
+
+
+`
+shaderChunk['creation_object']=`
+    struct Material{
+        vec3 base_color;
+        float ka;
+        float kd;
+        float ks;
+        float shininess;
+        float subsurface;
+        float metallic;
+        float specularTint;
+        float roughness;
+        float anisotropic;
+        float sheen;
+        float sheenTint;
+        float clearcoat;
+        float clearcoatGloss;
+    };
+
 
     struct Sphere {
         vec3 origin;
         float radius;
+        Material mat;
     };
-    
+
     struct Box{
         vec3 origin;
         vec3 dimension; //{longueur, largeur, profondeur}
+        Material mat;
     };
-    
+
+    struct Plane{
+        Material mat;
+    };
+
     struct PointLight {
         vec3 pos;
         vec3 col;
-    };
+    };`
     
-    
-    
-    Sphere sphere = Sphere(vec3(-1,1,5), 0.5);
-    Box box = Box(vec3(1,1,5), vec3(0.5));
+shaderChunk['creation_scene_0']=`
+    #define SCENE 0
+
+    Sphere sphere1, sphere2, sphere3;
+    Box box1, box2;
+    Plane plane;
     
     PointLight light = PointLight(vec3(0, -5, -6),
                                         vec3(0.600,0.478,0.478));
@@ -63,38 +89,31 @@ shaderChunk['creation_scene_0']=`
     }
     
     
-    float SceneSDF(out int hitObject, in vec3 ray_position) { // sdf for the scene.
-        float sphereDist = SphereSDF(ray_position, sphere);  //Distance to our sphere
-        float boxDist = BoxSDF(ray_position, box);     //Distance to our box
+    float SceneSDF(out Material hit_object, in vec3 ray_position) { // sdf for the scene.
+        float sphereDist = SphereSDF(ray_position, sphere1);  //Distance to our sphere
+        float boxDist = BoxSDF(ray_position, box1);     //Distance to our box
         
         float minDist= min(sphereDist, boxDist);
         float planeDist = ray_position.y; // ground
         
         float d = min(planeDist, minDist);
-        //hitObject = minDist == d ? 1 : 0;
-        hitObject = d == planeDist ? 0 
-                    : minDist == boxDist ? 1 
-                    : 2;
-
-
-
+        if(d == planeDist){
+            hit_object = plane.mat;
+        }else if(d == sphereDist){
+            hit_object = sphere1.mat;
+        }else{
+            hit_object = box1.mat;
+        }
         return d;
     }
     `
 shaderChunk['creation_scene_1']=`
-    struct Sphere {
-        vec3 origin;
-        float radius;
-    };
-    
-    struct PointLight {
-        vec3 pos;
-        vec3 col;
-    };
-    
-    Sphere sphere1 = Sphere(vec3(-1,1,5), 0.5);
-    Sphere sphere2 = Sphere(vec3(0,2,5), 0.3);
-    Sphere sphere3 = Sphere(vec3(1,1,5),0.7);
+
+    #define SCENE 1
+
+    Sphere sphere1, sphere2, sphere3;
+    Box box1, box2;
+    Plane plane;
 
     PointLight light = PointLight(vec3(0, 5, 6),
                                         vec3(0.600,0.478,0.478));
@@ -104,7 +123,7 @@ shaderChunk['creation_scene_1']=`
         return length(ray_position - sphere.origin) - sphere.radius;
     }
                                         
-    float SceneSDF(out int hitObject, in vec3 ray_position) { // sdf for the scene.
+    float SceneSDF(out Material hit_object, in vec3 ray_position) { // sdf for the scene.
         float sphereDist1 = SphereSDF(ray_position, sphere1);  //Distance to our sphere
         float sphereDist2 = SphereSDF(ray_position, sphere2);  //Distance to our sphere
         float sphereDist3 = SphereSDF(ray_position, sphere3);  //Distance to our sphere
@@ -114,22 +133,27 @@ shaderChunk['creation_scene_1']=`
         float planeDist = ray_position.y; // ground
         
         float d = min(planeDist, minDist2);
-        hitObject = d == planeDist ? 0 
-                    : d == sphereDist1 ? 1 
-                    : d == sphereDist2 ? 2
-                    :3;
+        if(d == planeDist){
+            hit_object = plane.mat;
+        }else if(d == sphereDist1){
+            hit_object = sphere1.mat;
+        }else if(d == sphereDist2){
+            hit_object = sphere2.mat;
+        }else{
+            hit_object = sphere3.mat;
+        }
 
         return d;
     }
     `
     
 shaderChunk['RayMarch']=`
-    float RayMarch(out int hitObject, in vec3 ray_origin, in vec3 ray_direction) {
+    float RayMarch(out Material hit_object, in vec3 ray_origin, in vec3 ray_direction) {
         float distance_from_origin = 0.; // Distance I've marched from origin
     
         for (int i = 0; i < MAX_MARCH_STEPS; i++) {
             vec3 ray_position = ray_origin + ray_direction * distance_from_origin;
-            float distance_to_scene = SceneSDF(hitObject, ray_position);
+            float distance_to_scene = SceneSDF(hit_object, ray_position);
             distance_from_origin += distance_to_scene;  // Safe distance to march with
             if (distance_from_origin > MAX_MARCH_DIST || // Far-plane clipping
                 distance_to_scene < SURF_DIST_MARCH)  // Did we hit anything?
@@ -146,7 +170,7 @@ shaderChunk['get_normal'] = `
     
 vec3 GetNormalEulerTwoSided(in vec3 p) { // get surface normal using euler approx. method
     vec2 e = vec2(EULER_APPROX_OFFSET, 0);
-    int _;
+    Material _;
         
     vec3 left = vec3(SceneSDF(_, p),
                          SceneSDF(_, p - e.yxy),
@@ -179,7 +203,9 @@ void main()
     
     vec3 camRight   = vec3( uCameraMatrix[0][0],  uCameraMatrix[0][1],  uCameraMatrix[0][2]);
 	vec3 camUp      = vec3( uCameraMatrix[1][0],  uCameraMatrix[1][1],  uCameraMatrix[1][2]);
-	vec3 camForward = vec3(-uCameraMatrix[2][0], -uCameraMatrix[2][1], -uCameraMatrix[2][2]);
+    vec3 camForward = vec3(-uCameraMatrix[2][0], -uCameraMatrix[2][1], -uCameraMatrix[2][2]);
+    
+    init_object();
 
     for(int i=0; i<N_RAY; i++){
         // simplest camera
@@ -194,7 +220,7 @@ void main()
         vec3 ray_direction = normalize(uv.x*camRight+uv.y*camUp+camForward);
 
         // RayMarching stuff
-        int hit_object;
+        Material hit_object;
         float distance_to_object = RayMarch(hit_object, ray_origin, ray_direction);
         vec3 ray_position = ray_origin + ray_direction * distance_to_object;
 
