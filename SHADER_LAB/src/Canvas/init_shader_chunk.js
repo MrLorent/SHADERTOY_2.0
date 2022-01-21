@@ -206,6 +206,51 @@ void main()
 
 }
 `
+
+shaderChunk['main_test']=`
+void main()
+{
+    vec2 uv = vertex_uv-0.5;
+    vec3 color=vec3(0);
+    
+    vec3 camRight   = vec3( uCameraMatrix[0][0],  uCameraMatrix[0][1],  uCameraMatrix[0][2]);
+	vec3 camUp      = vec3( uCameraMatrix[1][0],  uCameraMatrix[1][1],  uCameraMatrix[1][2]);
+	vec3 camForward = vec3(-uCameraMatrix[2][0], -uCameraMatrix[2][1], -uCameraMatrix[2][2]);
+
+    for(int i=0; i<N_RAY; i++){
+        // simplest camera
+        vec3 ray_origin = uCameraPosition;
+
+        // Casting a ray in a random place for each pixels
+        float offset = rand(vec2(i))/uResolution.y;
+
+        uv = vertex_uv+offset-0.5;
+        uv*=uResolution.xy/uResolution.y;
+
+        vec3 ray_direction = normalize(uv.x*camRight+uv.y*camUp+camForward);
+
+        // RayMarching stuff
+        int hit_object;
+        float distance_to_object = RayMarch(hit_object, ray_origin, ray_direction);
+        vec3 ray_position = ray_origin + ray_direction * distance_to_object;
+        if(uPreset == 0.0)
+        {
+            color += Model_Illumination_one_light(ray_position, ray_origin, hit_object);
+        }
+        else if (uPreset ==1.0)
+        {
+            color += Model_Illumination_two_light(ray_position, ray_origin, hit_object);
+        }
+        
+        
+    }
+
+   
+	pc_fragColor = clamp(vec4( pow(color/float(N_RAY), vec3(0.4545)), 1.0 ), 0.0, 1.0);//vec4(color/10.0, 1.0);
+
+}
+`
+
 }
     
     
