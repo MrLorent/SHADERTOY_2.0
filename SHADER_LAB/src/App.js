@@ -41,10 +41,7 @@ export class App
     #material;
 
     constructor(shader_list){
-        // NAVIGATION
-        this.insert_switch_input_panel_button_in_HTML();
-        this.insert_scene_1_button_in_HTML();
-        this.insert_scene_2_button_in_HTML();
+        
         
 
 
@@ -64,6 +61,7 @@ export class App
 
         // INIT CURRENT SHADER
         this.current_shader = this.FLAT_PAINTING;
+
         this.insert_inputs_in_HTML();
         this.codeEditor.set_value(this.shader_list[this.current_shader].fragment_shader);
 
@@ -79,6 +77,13 @@ export class App
             () => { this.on_window_resize(this.scene, this.shader_list[this.current_shader]); },
             false
         );
+
+        // NAVIGATION
+        this.insert_switch_input_panel_button_in_HTML();
+        this.insert_scene_1_button_in_HTML();
+        this.insert_scene_2_button_in_HTML();
+        this.insert_one_light_button_in_HTML();
+        this.insert_two_light_button_in_HTML();
     }
 
     switch_shader(new_shader_id)
