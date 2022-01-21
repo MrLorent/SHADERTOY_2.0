@@ -5,9 +5,9 @@ export default class Shader
 {
     #name;
     #inputs = [];
-    uniforms;
     vertex_shader_path;
-    fragment_shader_path
+    fragment_shader_path;
+    uniforms;
     vertex_shader;
     fragment_shader;
     alpha = [];
@@ -17,6 +17,7 @@ export default class Shader
     specular=[];
     uniform;
     uniform_color;
+    #material;
 
 
     constructor(shader_details, vertex, fragment)
@@ -58,16 +59,12 @@ export default class Shader
             uKa:{value: this.ambiant},
             uAlpha:{value: this.alpha},
         };
+        this.#material = new THREE.ShaderMaterial();
     }
 
     get_name()
     {
         return this.#name;
-    }
-
-    get_inputs()
-    {
-        return this.#inputs;
     }
 
     get_light_inputs()
@@ -80,9 +77,26 @@ export default class Shader
         return this.#inputs['scene']
     }
 
+    get_material()
+    {
+        return this.#material;
+    }
+
     set_fragment_shader(fragment_shader_text)
     {
         this.fragment_shader = fragment_shader_text;
+    }
+
+    init_material()
+    {
+        this.#material.dispose();
+        this.#material = new THREE.ShaderMaterial({
+            uniforms: this.uniforms,
+            vertexShader: this.vertex_shader,
+            fragmentShader: this.fragment_shader,
+            depthTest: false,
+            depthWrite: false
+        });
     }
 
     update(name, value, type, id=0){

@@ -36,6 +36,8 @@ export class App
     shader_list;
     current_shader;
 
+    #material;
+
     constructor(shader_list){
         // NAVIGATION
         this.insert_switch_input_panel_button_in_HTML();
@@ -50,18 +52,18 @@ export class App
         this.scene = new Scene();
 
         // INIT LIST OF SHADERS
-        init_shader_chunk(THREE.ShaderChunk);
         this.shader_list = shader_list;
         for(let i in this.shader_list)
         {
             this.shader_list[i].set_fragment_shader(this.codeEditor.compile_inputed_uniforms(this.shader_list[i].fragment_shader, this.shader_list[i], this.NUMERO_PRESET));
+            this.shader_list[i].init_material();
         }
         this.insert_shader_buttons_in_HTML();
+        init_shader_chunk(THREE.ShaderChunk);
 
 
         // INIT CURRENT SHADER
         this.init_shader(this.FLAT_PAINTING);
-        this.init_material();
         this.insert_inputs_in_HTML();
         this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
         this.codeEditor.set_value(this.shader_list[this.current_shader].fragment_shader);
@@ -76,9 +78,19 @@ export class App
 
     init_shader(new_shader_id)
     {
+        /* We change the current shader id */
         this.current_shader = new_shader_id;
         
-        this.init_material();
+        this.shader_list[this.current_shader].init_material();
+
+        this.scene.mesh = new THREE.Mesh(
+            new THREE.PlaneBufferGeometry(2,2),
+            this.shader_list[this.current_shader].get_material()
+        );
+        this.scene.scene.add(this.scene.mesh);
+        this.scene.camera.add(this.scene.mesh);
+        this.scene.renderer.compile(this.scene.scene, this.scene.camera);
+
         this.insert_inputs_in_HTML();
         this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
         this.codeEditor.set_value(this.shader_list[new_shader_id].fragment_shader);
@@ -124,23 +136,6 @@ export class App
         document.getElementById('console').innerHTML = compilation_test.message;
     }
 
-    init_material(){
-        let material = new THREE.ShaderMaterial({
-            uniforms: this.shader_list[this.current_shader].uniforms,
-            vertexShader: this.shader_list[this.current_shader].vertex_shader,
-            fragmentShader: this.shader_list[this.current_shader].fragment_shader,
-            depthTest: false,
-            depthWrite: false
-        });
-    
-        this.scene.mesh = new THREE.Mesh(
-            new THREE.PlaneBufferGeometry(2,2),
-            material
-        );
-        this.scene.scene.add(this.scene.mesh);
-        this.scene.camera.add(this.scene.mesh);
-
-    }
 
     insert_scene_1_button_in_HTML()
     {
