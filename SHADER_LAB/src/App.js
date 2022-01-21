@@ -9,6 +9,8 @@ import switch_input_panel_button from './switch_input_panel_button.jsx';
 import compile_button_as_HTML from './compile_button.jsx'
 import scene_1_button_as_HTML from './scene_1_button.jsx'
 import scene_2_button_as_HTML from './scene_2_button.jsx'
+import one_light_button_as_HTML from './one_light_button.jsx'
+import two_light_button_as_HTML from './two_light_button.jsx'
 
 
 import { CodeEditor } from './CodeEditor.js';
@@ -43,6 +45,8 @@ export class App
         this.insert_switch_input_panel_button_in_HTML();
         this.insert_scene_1_button_in_HTML();
         this.insert_scene_2_button_in_HTML();
+        
+
 
         // CODE_EDITOR
         this.codeEditor = new CodeEditor('code_editor');
@@ -64,9 +68,16 @@ export class App
 
         // INIT CURRENT SHADER
         this.init_shader(this.FLAT_PAINTING);
+
+        this.insert_one_light_button_in_HTML();
+        this.insert_two_light_button_in_HTML();
+
+
         this.insert_inputs_in_HTML();
         this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
         this.codeEditor.set_value(this.shader_list[this.current_shader].fragment_shader);
+
+        
         
         // WINDOW MANAGEMENT
         window.addEventListener(
@@ -136,6 +147,19 @@ export class App
         document.getElementById('console').innerHTML = compilation_test.message;
     }
 
+    update_light(preset)
+    {
+        this.shader_list[this.current_shader].uniforms.uPreset.value = preset;
+        if(this.shader_list[this.current_shader].uniforms.uPreset.value === 1)
+        {
+            this.shader_list[this.current_shader].uniforms.uColorLight.value = new THREE.Color("red");
+        }
+        if(this.shader_list[this.current_shader].uniforms.uPreset.value === 0)
+        {
+           this.shader_list[this.current_shader].uniforms.uColorLight.value = new THREE.Color("white");
+        }
+        this.init_shader(this.current_shader);
+    }
 
     insert_scene_1_button_in_HTML()
     {
@@ -147,6 +171,16 @@ export class App
     {
         const navigation_panel = document.getElementById('navigation_panel');
         navigation_panel.append(scene_2_button_as_HTML(this))
+    }
+    insert_one_light_button_in_HTML()
+    {
+        const navigation_panel = document.getElementById('navigation_panel');
+        navigation_panel.append(one_light_button_as_HTML(this))
+    }
+    insert_two_light_button_in_HTML()
+    {
+        const navigation_panel = document.getElementById('navigation_panel');
+        navigation_panel.append(two_light_button_as_HTML(this))
     }
 
     insert_switch_input_panel_button_in_HTML()

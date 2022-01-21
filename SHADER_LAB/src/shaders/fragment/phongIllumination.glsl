@@ -36,6 +36,8 @@ in vec2 vertex_uv;
 //vec3(uLightx,uLighty,uLightz)
 //vec3(uLight[0],uLight[1],uLight[2])
 
+
+
 vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in int hit_object) {
     vec3 lightPosOffset = uRotatingLight*vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.; //light is turning
     vec3 lightPos =  vec3(uLightPositionX,uLightPositionY,uLightPositionZ)+ lightPosOffset;
