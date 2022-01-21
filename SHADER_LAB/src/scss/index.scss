@@ -83,6 +83,7 @@ header
     flex-direction: row-reverse;
     justify-content: end;
     overflow: scroll;
+    overflow-x: hidden;
 }
 
 #interactive_window  .container.code_editor
