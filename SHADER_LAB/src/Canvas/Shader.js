@@ -196,78 +196,71 @@ export default class Shader
             {
                 if(this.#inputs[uniform.target][i].get_type() === "slider")
                 {
-                    this.uniform[uniform.target][i] = [1.,1.,1.]
-                    this.uniforms[uniform.target][this.#inputs[uniform.target][i].get_name()] = {value : this.uniform[uniform.target][i]}
+                    this.uniform[i] = [1.,1.,1.]
+                    this.uniforms[this.#inputs[uniform.target][i].get_name()] = {value : this.uniform[i]}
                 }
 
                 else if(this.#inputs[uniform.target][i].get_type() === "checkbox")
                 {
-                    this.uniforms[uniform.target][this.#inputs[uniform.target][i].get_name()] = {value : 1.0}
+                    this.uniforms[this.#inputs[uniform.target][i].get_name()] = {value : 1.0}
                     
                     
                 }
                 else if (this.#inputs[uniform.target][i].get_type() === "color_picker")
                 {
                     this.uniform_color[i] = [new THREE.Color('white'), new THREE.Color('white'),new THREE.Color('white')];
-                    this.uniforms[uniform.target][this.#inputs[uniform.target][i].get_name()] = {value : this.uniform_color[i]}
+                    this.uniforms[this.#inputs[uniform.target][i].get_name()] = {value : this.uniform_color[i]}
 
                 }
             }
         }
         else if (uniform.label != "preset")
         {
+            
             this.#inputs[uniform.target][1].push(Input(uniform)); 
             let i = this.#inputs[uniform.target][1].length-1;
+
             if(this.#name === "Personal")
             {
-                if(this.#inputs[uniform.target][i].get_type() === "slider")
+                this.#inputs[uniform.target][0].push(Input(uniform)); 
+
+                let i = this.#inputs[uniform.target][1].length-1;
+                
+                if(this.#inputs[uniform.target][1][i].get_type() === "slider")
                 {
-                    this.uniform[uniform.target][i] = [1.,1.,1.]
-                    this.uniforms[uniform.target][this.#inputs[uniform.target][1][i].get_name()] = {value : this.uniform[uniform.target][i]}
+                    this.uniform[i] = [1.,1.,1.]
+                    this.uniforms[this.#inputs[uniform.target][1][i].get_name()] = {value : this.uniform[i]}
+                    this.uniforms[this.#inputs[uniform.target][0][i].get_name()] = {value : this.uniform[i]}
+
                 }
 
                 else if(this.#inputs[uniform.target][1][i].get_type() === "checkbox")
                 {
-                    this.uniforms[uniform.target][this.#inputs[uniform.target][1][i].get_name()] = {value : 1.0}
-                    
+                    this.uniforms[this.#inputs[uniform.target][1][i].get_name()] = {value : 1.0}
+                    this.uniforms[this.#inputs[uniform.target][0][i].get_name()] = {value : 1.0}
+
+
                     
                 }
                 else if (this.#inputs[uniform.target][1][i].get_type() === "color_picker")
                 {
                     this.uniform_color[i] = [new THREE.Color('white'), new THREE.Color('white'),new THREE.Color('white')];
-                    this.uniforms[uniform.target][this.#inputs[uniform.target][1][i].get_name()] = {value : this.uniform_color[i]}
+                    this.uniforms[this.#inputs[uniform.target][1][i].get_name()] = {value : this.uniform_color[i]}
+                    this.uniforms[this.#inputs[uniform.target][0][i].get_name()] = {value : this.uniform_color[i]}
+
+
 
                 }
             }  
         
-            if(uniform.label != "color_light2" & uniform.label != "positionX_light2" & uniform.label != "positionY_light2"& uniform.label != "positionZ_light2")
+            if(this.#name != "Personal" & uniform.label != "color_light2" & uniform.label != "positionX_light2" & uniform.label != "positionY_light2"& uniform.label != "positionZ_light2")
             {
                 this.#inputs[uniform.target][0].push(Input(uniform));
                 let i = this.#inputs[uniform.target][0].length-1;
-                if(this.#name === "Personal")
-                {
-                    if(this.#inputs[uniform.target][0][i].get_type() === "slider")
-                    {
-                        this.uniform[uniform.target][0][i] = [1.,1.,1.]
-                        this.uniforms[uniform.target][this.#inputs[uniform.target][0][i].get_name()] = {value : this.uniform[uniform.target][i]}
-                    }
-
-                    else if(this.#inputs[uniform.target][0][i].get_type() === "checkbox")
-                    {
-                        this.uniforms[uniform.target][this.#inputs[uniform.target][0][i].get_name()] = {value : 1.0}
-                        
-                        
-                    }
-                    else if (this.#inputs[uniform.target[0]][i].get_type() === "color_picker")
-                    {
-                        this.uniform_color[i] = [new THREE.Color('white'), new THREE.Color('white'),new THREE.Color('white')];
-                        this.uniforms[uniform.target][this.#inputs[uniform.target][0][i].get_name()] = {value : this.uniform_color[i]}
-
-                    }
-                }
+                
+                
             }
         }
-        console.log(this.#inputs)
         
     }
 

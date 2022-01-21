@@ -75,7 +75,7 @@ vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in int hit_obj
     float d2 = RayMarch(_, ray_position + position_offset, light_vector2);
 
 
-    if (d < length(lightPos - ray_position)|| uPreset*d2 < uPreset*length(lightPos2 - ray_position)) { // If true then we've shaded a point on some object before, 
+    if (d < length(lightPos - ray_position)|| uSecond_Light_on_off*d2 < uSecond_Light_on_off*length(lightPos2 - ray_position)) { // If true then we've shaded a point on some object before, 
                                     // so shade the currnet point as shodow.
         diffuse *= .3; // no half-shadow because the light source is a point.  
         diffuse2 *= .3;  
@@ -104,7 +104,7 @@ vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in int hit_obj
                uKd[hit_object] * light1DiffuseComponent2 + //kd 
                uKs[hit_object] * light1SpecularComponent2; //ks
     
-    vec3 col = col1 + uPreset *col2;
+    vec3 col = col1 + uSecond_Light_on_off *col2;
     return col;
 }
 
