@@ -52,4 +52,21 @@ export default class Scene{
         this.target.texture.generateMipmaps = false;
     
     }
+
+    init(material)
+    {
+        this.mesh = new THREE.Mesh(
+            new THREE.PlaneBufferGeometry(2,2),
+            material
+        );
+
+        this.scene.add(this.mesh);
+        this.camera.add(this.mesh);
+        this.renderer.compile(this.scene, this.camera);
+    }
+
+    update(material)
+    {
+        this.mesh.material = material;
+    }
 }

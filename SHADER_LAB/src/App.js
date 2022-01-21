@@ -48,9 +48,6 @@ export class App
         this.codeEditor = new CodeEditor('code_editor');
         this.insert_compile_button();
 
-        // SCENE
-        this.scene = new Scene();
-
         // INIT LIST OF SHADERS
         this.shader_list = shader_list;
         for(let i in this.shader_list)
@@ -58,17 +55,20 @@ export class App
             this.shader_list[i].set_fragment_shader(this.codeEditor.compile_inputed_uniforms(this.shader_list[i].fragment_shader, this.shader_list[i], this.NUMERO_PRESET));
             this.shader_list[i].init_material();
         }
-        this.insert_shader_buttons_in_HTML();
         init_shader_chunk(THREE.ShaderChunk);
-
+        this.insert_shader_buttons_in_HTML();
 
         // INIT CURRENT SHADER
-        this.init_shader(this.FLAT_PAINTING);
+        this.current_shader = this.FLAT_PAINTING;
         this.insert_inputs_in_HTML();
-        this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
         this.codeEditor.set_value(this.shader_list[this.current_shader].fragment_shader);
+
+        // SCENE
+        this.scene = new Scene();
+        this.scene.init(this.shader_list[this.current_shader].get_material());
         
         // WINDOW MANAGEMENT
+        this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
         window.addEventListener(
             'resize',
             () => { this.on_window_resize(this.scene, this.shader_list[this.current_shader]); },
@@ -76,24 +76,14 @@ export class App
         );
     }
 
-    init_shader(new_shader_id)
+    switch_shader(new_shader_id)
     {
         /* We change the current shader id */
         this.current_shader = new_shader_id;
-        
-        this.shader_list[this.current_shader].update_material();
-
-        this.scene.mesh = new THREE.Mesh(
-            new THREE.PlaneBufferGeometry(2,2),
-            this.shader_list[this.current_shader].get_material()
-        );
-        this.scene.scene.add(this.scene.mesh);
-        this.scene.camera.add(this.scene.mesh);
-        this.scene.renderer.compile(this.scene.scene, this.scene.camera);
-
+        this.scene.update(this.shader_list[this.current_shader].get_material());
         this.insert_inputs_in_HTML();
         this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
-        this.codeEditor.set_value(this.shader_list[new_shader_id].fragment_shader);
+        this.codeEditor.set_value(this.shader_list[this.current_shader].fragment_shader);
     }
 
     update_shader()
@@ -105,8 +95,8 @@ export class App
         if(compilation_test.status === "success")
         {
             this.shader_list[this.current_shader].fragment_shader = user_shader_input;
-            console.log(user_shader_input)
-            this.init_shader(this.current_shader);
+            this.shader_list[this.current_shader].update_material();
+            this.switch_shader(this.current_shader);
         }
         else
         {
@@ -127,7 +117,9 @@ export class App
         if(compilation_test.status === "success")
         {
             this.shader_list[this.current_shader].fragment_shader = user_shader_input;
-            this.init_shader(this.current_shader);
+            this.shader_list[this.current_shader].update_material();
+            this.switch_shader(this.current_shader);
+
         }
         else
         {
