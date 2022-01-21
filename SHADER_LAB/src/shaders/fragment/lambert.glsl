@@ -82,7 +82,7 @@ vec3 Model_Illumination(in vec3 ray_position,in vec3 ray_origin ,in Material hit
 
 
     
-    return (diffuse * hit_object.base_color * uColorLight) +uPreset*(diffuse2 * hit_object.base_color * uColorLight2); 
+    return (diffuse * hit_object.base_color * uColorLight) +uSecond_Light_on_off*(diffuse2 * hit_object.base_color * uColorLight2); 
 }
 
 #include <main>
