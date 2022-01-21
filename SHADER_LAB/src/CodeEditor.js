@@ -51,7 +51,7 @@ export class CodeEditor {
         this.#editor.resize();
     }
 
-    compile_inputed_uniforms(shader_text, shader, numero_preset=0){
+    compile_inputed_uniforms(shader_text, shader, numero_preset){
         let input_details;
         let new_text = "";
         const line = shader_text.split("\n");

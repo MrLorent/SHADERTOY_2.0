@@ -82,7 +82,7 @@ header
     display: flex;
     flex-direction: row-reverse;
     justify-content: end;
-    overflow: hidden;
+    overflow: scroll;
 }
 
 #interactive_window  .container.code_editor
