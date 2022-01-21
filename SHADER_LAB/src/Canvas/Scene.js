@@ -39,6 +39,8 @@ export default class Scene{
 
         this.clock = new THREE.Clock();
 
+        this.mesh = new THREE.Mesh();
+
         this.target = new THREE.WebGLRenderTarget(this.context.drawingBufferWidth, this.context.drawingBufferHeight, {
             minFilter: THREE.NearestFilter,
             magFilter: THREE.NearestFilter,
