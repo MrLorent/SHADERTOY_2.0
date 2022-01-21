@@ -59,7 +59,6 @@ export default class Shader
             uKa:{value: this.ambiant},
             uAlpha:{value: this.alpha},
         };
-        this.#material = new THREE.ShaderMaterial();
     }
 
     get_name()
@@ -89,7 +88,6 @@ export default class Shader
 
     init_material()
     {
-        this.#material.dispose();
         this.#material = new THREE.ShaderMaterial({
             uniforms: this.uniforms,
             vertexShader: this.vertex_shader,
@@ -97,6 +95,12 @@ export default class Shader
             depthTest: false,
             depthWrite: false
         });
+    }
+
+    update_material()
+    {
+        this.#material.fragmentShader = this.fragment_shader;
+        this.#material.needsUpdate = true;
     }
 
     update(name, value, type, id=0){

@@ -81,7 +81,7 @@ export class App
         /* We change the current shader id */
         this.current_shader = new_shader_id;
         
-        this.shader_list[this.current_shader].init_material();
+        this.shader_list[this.current_shader].update_material();
 
         this.scene.mesh = new THREE.Mesh(
             new THREE.PlaneBufferGeometry(2,2),
