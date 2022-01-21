@@ -19,7 +19,7 @@
 /// slider light uLightPositionY2 positionY_light2 -50 50 0.1
 /// slider light uLightPositionZ2 positionZ_light2 -50 50 0.1
 
-/// checkbox light uPreset preset 
+/// checkbox light uSecond_Light_on_off preset 
 
 
 

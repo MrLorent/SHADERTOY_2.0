@@ -13,7 +13,7 @@
 /// slider light uLightPositionY2 positionY_light2 -50 50 0.1
 /// slider light uLightPositionZ2 positionZ_light2 -50 50 0.1
 
-/// checkbox light uPreset preset 
+/// checkbox light uSecond_Light_on_off preset 
 
 
 in vec2 vertex_uv;
@@ -45,7 +45,7 @@ vec3 Model_Illumination(in vec3 ray_position,in vec3 ray_origin ,in int hit_obje
     int _; //useless stuff but needed for the next RayMarch
     float d = RayMarch(_, ray_position + position_offset, light_vector);
     float d2 = RayMarch(_, ray_position + position_offset, light_vector2);
-    if (d < length(lightPos - ray_position) || uPreset*d2 < uPreset*length(lightPos - ray_position)) { // If true then we've shaded a point on some object before, 
+    if (d < length(lightPos - ray_position) || uSecond_Light_on_off*d2 < uSecond_Light_on_off*length(lightPos - ray_position)) { // If true then we've shaded a point on some object before, 
     // If true then we've shaded a point on some object before, 
                                     // so shade the currnet point as shodow.
         diffuse *= .3;
@@ -58,7 +58,7 @@ vec3 Model_Illumination(in vec3 ray_position,in vec3 ray_origin ,in int hit_obje
 
 
     
-    return (diffuse * uColors[hit_object] * uColorLight) + uPreset*(diffuse2 * uColors[hit_object] * uColorLight2); 
+    return (diffuse * uColors[hit_object] * uColorLight) + uSecond_Light_on_off*(diffuse2 * uColors[hit_object] * uColorLight2); 
 }
 
 #include <main>

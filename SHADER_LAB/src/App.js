@@ -136,12 +136,12 @@ export class App
 
     update_light(preset)
     {
-        this.shader_list[this.current_shader].uniforms.uPreset.value = preset;
-        if(this.shader_list[this.current_shader].uniforms.uPreset.value === 1)
+        this.shader_list[this.current_shader].uniforms.uSecond_Light_on_off.value = preset;
+        if(this.shader_list[this.current_shader].uniforms.uSecond_Light_on_off.value === 1)
         {
             this.shader_list[this.current_shader].uniforms.uColorLight.value = new THREE.Color("red");
         }
-        if(this.shader_list[this.current_shader].uniforms.uPreset.value === 0)
+        if(this.shader_list[this.current_shader].uniforms.uSecond_Light_on_off.value === 0)
         {
            this.shader_list[this.current_shader].uniforms.uColorLight.value = new THREE.Color("white");
         }

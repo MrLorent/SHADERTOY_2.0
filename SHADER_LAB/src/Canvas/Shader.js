@@ -49,7 +49,7 @@ export default class Shader
             uLightPositionX2  : {value : 10},
             uLightPositionY2  : {value : 10},
             uLightPositionZ2  : {value : -2},
-            uPreset : {value : 0},
+            uSecond_Light_on_off : {value : 0},
             uCameraMatrix:{value : new THREE.Matrix4()},
 
             uColors:{value : this.color},
@@ -72,7 +72,7 @@ export default class Shader
 
     get_light_inputs()
     {
-        if(this.uniforms.uPreset.value === 0)
+        if(this.uniforms.uSecond_Light_on_off.value === 0)
         {
             return this.#inputs['light'][0];
         }
