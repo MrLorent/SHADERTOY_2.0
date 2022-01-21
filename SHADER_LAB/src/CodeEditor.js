@@ -124,6 +124,7 @@ export class CodeEditor {
 
         let fs  =    THREE.ShaderChunk['test_compile'] +
                      THREE.ShaderChunk['uniforms_and_defines'] +
+                     THREE.ShaderChunk['creation_object'] +
                      THREE.ShaderChunk[creation] +
                      THREE.ShaderChunk['RayMarch'] +
                      THREE.ShaderChunk['get_normal'] +
@@ -149,7 +150,7 @@ export class CodeEditor {
         }
         else{
             log = context.getShaderInfoLog(shader)
-            //console.log(log)
+            console.log(log)
             context.deleteShader(shader);
             lines = log.split('\n');
             for(let j =0, len = lines.length; j <len; j++){

@@ -5,7 +5,7 @@
 /// slider scene uKs specular 0 1 0.01
 /// slider scene uKa ambiant 0 1 0.01
 /// slider scene uKd diffus 0 1 0.01
-/// slider scene uAlpha alpha 0 100 1
+/// slider scene uShininess shininess 0 100 1
 /// color_picker scene uColors color
 /// checkbox light uRotatingLight rotate_light
 /// color_picker light uColorLight color_light
@@ -26,6 +26,8 @@
 
 in vec2 vertex_uv;
 
+
+#include <creation_object>
 #include <creation_scene_0>
 #include <RayMarch>
 #include <get_normal>
@@ -36,9 +38,59 @@ in vec2 vertex_uv;
 //vec3(uLightx,uLighty,uLightz)
 //vec3(uLight[0],uLight[1],uLight[2])
 
+void init_object(){
+    plane.mat.base_color= uColors[0];
+    plane.mat.ka= uKa[0];
+    plane.mat.kd= uKd[0];
+    plane.mat.ks= uKs[0];
+    plane.mat.shininess= uShininess[0];
+
+    if(SCENE == 0){
+        sphere1.origin=vec3(-1,1,5);
+        sphere1.radius=0.5;
+        sphere1.mat.base_color= uColors[2];
+        sphere1.mat.ka= uKa[2];
+        sphere1.mat.kd= uKd[2];
+        sphere1.mat.ks= uKs[2];
+        sphere1.mat.shininess= uShininess[2];
+
+        box1.origin=vec3(1,1,5);
+        box1.dimension=vec3(0.5);
+        box1.mat.base_color= uColors[1];
+        box1.mat.ka= uKa[1];
+        box1.mat.kd= uKd[1];
+        box1.mat.ks= uKs[1];
+        box1.mat.shininess= uShininess[1];
+
+    }else if(SCENE == 1){
+        sphere1.origin=vec3(-1,1,5);
+        sphere1.radius=0.5;
+        sphere1.mat.base_color= uColors[1];
+        sphere1.mat.ka= uKa[1];
+        sphere1.mat.kd= uKd[1];
+        sphere1.mat.ks= uKs[1];
+        sphere1.mat.shininess= uShininess[1];
+
+        sphere2.origin=vec3(0,1,5);
+        sphere2.radius=0.5;
+        sphere2.mat.base_color= uColors[2];
+        sphere2.mat.ka= uKa[2];
+        sphere2.mat.kd= uKd[2];
+        sphere2.mat.ks= uKs[2];
+        sphere2.mat.shininess= uShininess[2];
+
+        sphere3.origin=vec3(1,1,5);
+        sphere3.radius=0.5;
+        sphere3.mat.base_color= uColors[3];
+        sphere3.mat.ka= uKa[3];
+        sphere3.mat.kd= uKd[3];
+        sphere3.mat.ks= uKs[3];
+        sphere3.mat.shininess= uShininess[3];
+    }
+}
 
 
-vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in int hit_object) {
+vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in Material hit_object) {
     vec3 lightPosOffset = uRotatingLight*vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.; //light is turning
     vec3 lightPos =  vec3(uLightPositionX,uLightPositionY,uLightPositionZ)+ lightPosOffset;
     vec3 lightPos2 =  vec3(uLightPositionX2,uLightPositionY2,uLightPositionZ2)+ lightPosOffset;
@@ -70,7 +122,7 @@ vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in int hit_obj
 
     // shadow stuff
     vec3 position_offset = normal * SURF_DIST_MARCH * 1.2; // move the point above a little
-    int _; //useless stuff but needed for the next RayMarch
+    Material _; //useless stuff but needed for the next RayMarch
     float d = RayMarch(_, ray_position + position_offset, light_vector);
     float d2 = RayMarch(_, ray_position + position_offset, light_vector2);
 
@@ -85,24 +137,24 @@ vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in int hit_obj
 
 
     // Acutal Phong stuff
-    vec3 ambientDiffuse = uColorLight * uColors[hit_object];
-    vec3 ambientDiffuse2 = uColorLight2 * uColors[hit_object];
+    vec3 ambientDiffuse = uColorLight * hit_object.base_color;
+    vec3 ambientDiffuse2 = uColorLight2 * hit_object.base_color;
 
 
     vec3 light1DiffuseComponent = diffuse * uColorLight;
     vec3 light1DiffuseComponent2 = diffuse2 * uColorLight2;
 
-    vec3 light1SpecularComponent = vec3(pow(specular, uAlpha[hit_object]));
-    vec3 light1SpecularComponent2 = vec3(pow(specular2, uAlpha[hit_object]));
+    vec3 light1SpecularComponent = vec3(pow(specular, hit_object.shininess));
+    vec3 light1SpecularComponent2 = vec3(pow(specular2, hit_object.shininess));
 
     
-    vec3 col1 = uKa[hit_object] * ambientDiffuse +  //ka
-               uKd[hit_object] * light1DiffuseComponent + //kd 
-               uKs[hit_object] * light1SpecularComponent; //ks
+    vec3 col1 = hit_object.ka * ambientDiffuse +  //ka
+               hit_object.kd * light1DiffuseComponent + //kd 
+               hit_object.ks * light1SpecularComponent; //ks
 
-    vec3 col2 = uKa[hit_object] * ambientDiffuse2 +  //ka
-               uKd[hit_object] * light1DiffuseComponent2 + //kd 
-               uKs[hit_object] * light1SpecularComponent2; //ks
+    vec3 col2 = hit_object.ka * ambientDiffuse2 +  //ka
+               hit_object.kd * light1DiffuseComponent2 + //kd 
+               hit_object.ks * light1SpecularComponent2; //ks
     
     vec3 col = col1 + uPreset *col2;
     return col;
