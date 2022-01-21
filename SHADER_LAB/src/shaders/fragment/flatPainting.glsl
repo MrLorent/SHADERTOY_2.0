@@ -1,7 +1,7 @@
 #include <uniforms_and_defines>
 
 /// color_picker scene uColors color
-/// checkbox light uPreset preset 
+/// checkbox light uSecond_Light_on_off preset 
 
 
 in vec2 vertex_uv;

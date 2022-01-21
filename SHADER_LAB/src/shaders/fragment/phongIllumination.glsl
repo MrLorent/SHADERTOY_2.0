@@ -19,7 +19,7 @@
 /// slider light uLightPositionY2 positionY_light2 -50 50 0.1
 /// slider light uLightPositionZ2 positionZ_light2 -50 50 0.1
 
-/// checkbox light uPreset preset 
+/// checkbox light uSecond_Light_on_off preset 
 
 
 
@@ -127,7 +127,7 @@ vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in Material hi
     float d2 = RayMarch(_, ray_position + position_offset, light_vector2);
 
 
-    if (d < length(lightPos - ray_position)|| uPreset*d2 < uPreset*length(lightPos2 - ray_position)) { // If true then we've shaded a point on some object before, 
+    if (d < length(lightPos - ray_position)|| uSecond_Light_on_off*d2 < uSecond_Light_on_off*length(lightPos2 - ray_position)) { // If true then we've shaded a point on some object before, 
                                     // so shade the currnet point as shodow.
         diffuse *= .3; // no half-shadow because the light source is a point.  
         diffuse2 *= .3;  
@@ -156,7 +156,7 @@ vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in Material hi
                hit_object.kd * light1DiffuseComponent2 + //kd 
                hit_object.ks * light1SpecularComponent2; //ks
     
-    vec3 col = col1 + uPreset *col2;
+    vec3 col = col1 + uSecond_Light_on_off *col2;
     return col;
 }
 
