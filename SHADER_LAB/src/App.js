@@ -54,7 +54,7 @@ export class App
         this.shader_list = shader_list;
         for(let i in this.shader_list)
         {
-            this.shader_list[i].set_fragment_shader(this.codeEditor.compile_inputed_uniforms(this.shader_list[i].fragment_shader, this.shader_list[i]));
+            this.shader_list[i].set_fragment_shader(this.codeEditor.compile_inputed_uniforms(this.shader_list[i].fragment_shader, this.shader_list[i], this.NUMERO_PRESET));
         }
         this.insert_shader_buttons_in_HTML();
 
@@ -207,18 +207,38 @@ export class App
 
         if(scene_inputs.length != 0)
         {
-            for(let k=1; k<=this.SCENE_ELEMENTS; k++)
-            {
-                let legend="";
-                k==1 ? legend = "box parameters :" : legend = "sphere parameters";
-                let scene_input_container = input_fieldset_as_HTML(scene_inputs, legend)
-                for(let i in scene_inputs)
-                {
-                    scene_input_container.append(scene_inputs[i].get_as_HTML(k, shader));
+                switch (this.NUMERO_PRESET){
+                    case 0:
+                    this.SCENE_ELEMENTS=2;
+                    for(let k=1; k<=this.SCENE_ELEMENTS; k++)
+                    {
+                        let legend="";
+                        k==1 ? legend = "box parameters :" : legend = "sphere parameters";
+                        let scene_input_container = input_fieldset_as_HTML(scene_inputs, legend)
+                        for(let i in scene_inputs)
+                        {
+                            scene_input_container.append(scene_inputs[i].get_as_HTML(k, shader));
+                        }
+                        HTML_container.append(scene_input_container);
+                    }
+                    break;
+                    case 1:
+                    this.SCENE_ELEMENTS=3;
+                    for(let k=1; k<=this.SCENE_ELEMENTS; k++)
+                    {
+                        let legend="";
+                        k==1 ? legend = "sphere 1 parameters :" 
+                            : k==2 ? legend = "sphere 2 parameters"
+                            : legend = "sphere 3 parameters";
+                        let scene_input_container = input_fieldset_as_HTML(scene_inputs, legend)
+                        for(let i in scene_inputs)
+                        {
+                            scene_input_container.append(scene_inputs[i].get_as_HTML(k, shader));
+                        }
+                        HTML_container.append(scene_input_container);
+                    }
                 }
-                HTML_container.append(scene_input_container);
             }
-        }
 
         if(light_inputs.length == 0 && scene_inputs == 0)
         {
