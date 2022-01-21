@@ -5,18 +5,29 @@ export default class Shader
 {
     #name;
     #inputs = [];
-    uniforms;
     vertex_shader_path;
-    fragment_shader_path
+    fragment_shader_path;
+    uniforms;
     vertex_shader;
     fragment_shader;
-    alpha = [];
+    shininess = [];
     color=[];
     ambiant=[];
     diffus=[];
     specular=[];
+    subsurface=[];
+    metallic=[];
+    specularTint=[];
+    roughness=[];
+    anisotropic=[];
+    sheen=[];
+    sheenTint=[];
+    clearcoat=[];
+    clearcoatGloss=[];
+    
     uniform;
     uniform_color;
+    #material;
 
 
     constructor(shader_details, vertex, fragment)
@@ -29,11 +40,21 @@ export default class Shader
         this.fragment_shader_path = shader_details['fragment'];
         this.vertex_shader  = vertex;
         this.fragment_shader = fragment;
-        this.alpha      =   [30, 20,50,50,50,50];
-        this.color      =   [new THREE.Color('white'), new THREE.Color('purple'),new THREE.Color('orange'), new THREE.Color('green'), new THREE.Color('aqua'), new THREE.Color('pink')];
-        this.ambiant    =   [0.9,0.4,0.5,1,1,1];
-        this.diffus     =   [0.4,0.7,0.5,1,1,1];
-        this.specular   =   [0.1,0.2,0.3,1,1,1];
+        this.shininess      =   [30, 20,50,50,50,50, 50,50];
+        this.color      =   [new THREE.Color('white'), new THREE.Color('purple'),new THREE.Color('orange'), new THREE.Color('green'), new THREE.Color('aqua'), new THREE.Color('pink'), new THREE.Color('Light coral', new THREE.Color('#9370DB'))];
+        this.ambiant    =   [0.9,0.4,0.5,1,1,1,1,1];
+        this.diffus     =   [0.4,0.7,0.5,1,1,1,1,1];
+        this.specular   =   [0.1,0.2,0.3,1,1,1,1,1];
+        this.subsurface = [0,0.1,1,0.5,0,0.1,1,0.5]
+        this.metallic   = [0,0.1,1,0.5,0,0.1,1,0.5];
+        this.specularTint = [0,0.1,1,0.5,0,0.1,1,0.5];
+        this.roughness= [1,0.1,1,0.5,0,0.1,1,0.5];
+        this.anisotropic= [0,0.1,1,0.5,0,0.1,1,0.5];
+        this.sheen= [0,0.1,1,0.5,0,0.1,1,0.5];
+        this.sheenTint= [0,0.1,1,0.5,0,0.1,1,0.5];
+        this.clearcoat= [0,0.1,1,0.5,0,0.1,1,0.5];
+        this.clearcoatGloss= [0,0.1,1,0.5,0,0.1,1,0.5];
+
         this.uniform    =   []
         this.uniform_color = []
         this.uniforms   =   {
@@ -56,18 +77,14 @@ export default class Shader
             uKd:{value: this.diffus},
             uKs:{value: this.specular},
             uKa:{value: this.ambiant},
-            uAlpha:{value: this.alpha},
+            uShininess:{value: this.shininess},
         };
+        this.#material = new THREE.ShaderMaterial();
     }
 
     get_name()
     {
         return this.#name;
-    }
-
-    get_inputs()
-    {
-        return this.#inputs;
     }
 
     get_light_inputs()
@@ -87,9 +104,26 @@ export default class Shader
         return this.#inputs['scene']
     }
 
+    get_material()
+    {
+        return this.#material;
+    }
+
     set_fragment_shader(fragment_shader_text)
     {
         this.fragment_shader = fragment_shader_text;
+    }
+
+    init_material()
+    {
+        this.#material.dispose();
+        this.#material = new THREE.ShaderMaterial({
+            uniforms: this.uniforms,
+            vertexShader: this.vertex_shader,
+            fragmentShader: this.fragment_shader,
+            depthTest: false,
+            depthWrite: false
+        });
     }
 
     update(name, value, type, id=0){
@@ -99,9 +133,9 @@ export default class Shader
             if(name=="rotate_light"){
                 this.uniforms.uRotatingLight.value == 1 ? this.uniforms.uRotatingLight.value = 0 : this.uniforms.uRotatingLight.value = 1;
             }
-            else if(name=="alpha"){
-                this.alpha[id]=value;
-                this.uniforms.uAlpha.value = this.alpha;
+            else if(name=="shininess"){
+                this.shininess[id]=value;
+                this.uniforms.uShininess.value = this.shininess;
             }
             else if (name=="color"){
                 this.color[id]= new THREE.Color(value);

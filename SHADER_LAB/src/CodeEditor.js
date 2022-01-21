@@ -51,7 +51,7 @@ export class CodeEditor {
         this.#editor.resize();
     }
 
-    compile_inputed_uniforms(shader_text, shader, numero_preset=0){
+    compile_inputed_uniforms(shader_text, shader, numero_preset){
         let input_details;
         let new_text = "";
         const line = shader_text.split("\n");
@@ -124,6 +124,7 @@ export class CodeEditor {
 
         let fs  =    THREE.ShaderChunk['test_compile'] +
                      THREE.ShaderChunk['uniforms_and_defines'] +
+                     THREE.ShaderChunk['creation_object'] +
                      THREE.ShaderChunk[creation] +
                      THREE.ShaderChunk['RayMarch'] +
                      THREE.ShaderChunk['get_normal'] +
@@ -149,7 +150,6 @@ export class CodeEditor {
         }
         else{
             log = context.getShaderInfoLog(shader)
-            //console.log(log)
             context.deleteShader(shader);
             lines = log.split('\n');
             for(let j =0, len = lines.length; j <len; j++){
