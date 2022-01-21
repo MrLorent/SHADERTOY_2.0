@@ -1,6 +1,6 @@
-import Slider from './Slider.jsx';
-import Checkbox from './Checkbox.jsx';
-import ColorPicker from './ColorPicker.jsx';
+import Slider from './Slider.js';
+import Checkbox from './Checkbox.js';
+import ColorPicker from './ColorPicker.js';
 
 export default (input_details)=>{
     let new_input;

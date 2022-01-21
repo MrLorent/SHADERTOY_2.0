@@ -17,15 +17,17 @@ precision mediump float;
 precision highp float;
 precision highp int;
 
-#define N_MATERIALS 3
+#define N_MATERIALS 6
 #define N_RAY 5
 uniform float uTime;
 uniform vec3 uResolution;
 uniform vec3 uCameraPosition;
 uniform mat4 uCameraMatrix;
 `
+
     
-shaderChunk['creation_scene']=`
+shaderChunk['creation_scene_0']=`
+
     struct Sphere {
         vec3 origin;
         float radius;
@@ -49,8 +51,6 @@ shaderChunk['creation_scene']=`
     PointLight light = PointLight(vec3(0, -5, -6),
                                         vec3(0.600,0.478,0.478));
                                                                       
-    
-    
     
     
     float SphereSDF(in vec3 ray_position, in Sphere sphere) {
@@ -77,6 +77,47 @@ shaderChunk['creation_scene']=`
                     : 2;
 
 
+
+        return d;
+    }
+    `
+shaderChunk['creation_scene_1']=`
+    struct Sphere {
+        vec3 origin;
+        float radius;
+    };
+    
+    struct PointLight {
+        vec3 pos;
+        vec3 col;
+    };
+    
+    Sphere sphere1 = Sphere(vec3(-1,1,5), 0.5);
+    Sphere sphere2 = Sphere(vec3(0,2,5), 0.3);
+    Sphere sphere3 = Sphere(vec3(1,1,5),0.7);
+
+    PointLight light = PointLight(vec3(0, 5, 6),
+                                        vec3(0.600,0.478,0.478));
+                                                                      
+     
+    float SphereSDF(in vec3 ray_position, in Sphere sphere) {
+        return length(ray_position - sphere.origin) - sphere.radius;
+    }
+                                        
+    float SceneSDF(out int hitObject, in vec3 ray_position) { // sdf for the scene.
+        float sphereDist1 = SphereSDF(ray_position, sphere1);  //Distance to our sphere
+        float sphereDist2 = SphereSDF(ray_position, sphere2);  //Distance to our sphere
+        float sphereDist3 = SphereSDF(ray_position, sphere3);  //Distance to our sphere
+
+        float minDist = min(sphereDist1, sphereDist2);
+        float minDist2 = min(minDist, sphereDist3);
+        float planeDist = ray_position.y; // ground
+        
+        float d = min(planeDist, minDist2);
+        hitObject = d == planeDist ? 0 
+                    : d == sphereDist1 ? 1 
+                    : d == sphereDist2 ? 2
+                    :3;
 
         return d;
     }
