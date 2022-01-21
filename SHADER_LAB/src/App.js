@@ -116,7 +116,7 @@ export class App
         if(compilation_test.status === "success")
         {
             this.shader_list[this.current_shader].fragment_shader = user_shader_input;
-            console.log(user_shader_input)
+            //console.log(user_shader_input)
             this.init_shader(this.current_shader);
         }
         else
