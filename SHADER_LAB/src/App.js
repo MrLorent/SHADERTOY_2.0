@@ -150,7 +150,7 @@ export class App
         {
            this.shader_list[this.current_shader].uniforms.uColorLight.value = new THREE.Color("white");
         }
-        this.init_shader(this.current_shader);
+        this.switch_shader(this.current_shader);
     }
 
     insert_scene_1_button_in_HTML()
