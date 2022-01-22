@@ -41,11 +41,12 @@ in vec2 vertex_uv;
 
 
 vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in Material hit_object) {
+    //Turning light
     vec3 lightPosOffset = uRotatingLight*vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.; //light is turning
     vec3 lightPos =  vec3(uLightPositionX,uLightPositionY,uLightPositionZ)+ lightPosOffset;
     vec3 lightPos2 =  vec3(uLightPositionX2,uLightPositionY2,uLightPositionZ2)+ lightPosOffset;
 
-    
+    // some Maths stuff
     vec3 light_vector = normalize(lightPos - ray_position);
     vec3 light_vector2 = normalize(lightPos2 - ray_position);
 
@@ -86,25 +87,24 @@ vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in Material hi
     }
 
 
-    // Acutal Phong stuff
+    // Blinn-Phong stuff
     vec3 ambientDiffuse = uColorLight * hit_object.base_color;
     vec3 ambientDiffuse2 = uColorLight2 * hit_object.base_color;
 
 
-    vec3 light1DiffuseComponent = diffuse * uColorLight;
-    vec3 light1DiffuseComponent2 = diffuse2 * uColorLight2;
+    float light1DiffuseComponent = diffuse ;//* uColorLight;
+    float light1DiffuseComponent2 = diffuse2 ; //* uColorLight2;
 
-    vec3 light1SpecularComponent = vec3(pow(specular, hit_object.shininess));
-    vec3 light1SpecularComponent2 = vec3(pow(specular2, hit_object.shininess));
+    float light1SpecularComponent = pow(specular, hit_object.shininess);
+    float light1SpecularComponent2 = pow(specular2, hit_object.shininess);
 
-    
-    vec3 col1 = hit_object.ka * ambientDiffuse +  //ka
-               hit_object.kd * light1DiffuseComponent + //kd 
-               hit_object.ks * light1SpecularComponent; //ks
+    float diffusComponent1=hit_object.kd * light1DiffuseComponent;
+    float specularComponent1= hit_object.ks* light1SpecularComponent;
+    vec3 col1=(diffusComponent1 + specularComponent1)* ambientDiffuse;
 
-    vec3 col2 = hit_object.ka * ambientDiffuse2 +  //ka
-               hit_object.kd * light1DiffuseComponent2 + //kd 
-               hit_object.ks * light1SpecularComponent2; //ks
+    float diffusComponent2=hit_object.kd * light1DiffuseComponent2;
+    float specularComponent2= hit_object.ks* light1SpecularComponent2;
+    vec3 col2=(diffusComponent2 + specularComponent2)* ambientDiffuse2;
     
     vec3 col = col1 + uSecond_Light_on_off *col2;
     return col;
