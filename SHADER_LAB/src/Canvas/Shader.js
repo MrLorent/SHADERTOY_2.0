@@ -12,7 +12,6 @@ export default class Shader
     fragment_shader;
     shininess = [];
     color=[];
-    ambiant=[];
     diffus=[];
     specular=[];
     subsurface=[];
@@ -42,7 +41,6 @@ export default class Shader
         this.fragment_shader = fragment;
         this.shininess      =   [30, 20,50,50,50,50, 50,50];
         this.color      =   [new THREE.Color('white'), new THREE.Color('purple'),new THREE.Color('orange'), new THREE.Color('green'), new THREE.Color('aqua'), new THREE.Color('pink'), new THREE.Color('Light coral', new THREE.Color('#9370DB'))];
-        this.ambiant    =   [0.9,0.4,0.5,1,1,1,1,1];
         this.diffus     =   [0.4,0.7,0.5,1,1,1,1,1];
         this.specular   =   [0.1,0.2,0.3,1,1,1,1,1];
         this.subsurface = [0,0.1,1,0.5,0,0.1,1,0.5]
@@ -76,7 +74,6 @@ export default class Shader
             uColors:{value : this.color},
             uKd:{value: this.diffus},
             uKs:{value: this.specular},
-            uKa:{value: this.ambiant},
             uShininess:{value: this.shininess},
         };
     }
@@ -144,11 +141,6 @@ export default class Shader
             else if (name=="color"){
                 this.color[id]= new THREE.Color(value);
                 this.uniforms.uColors.value = this.color;
-
-            }
-            else if(name=="ambiant"){
-                this.ambiant[id]=value;
-                this.uniforms.uKa.value = this.ambiant;
 
             }
             else if(name=="diffus"){

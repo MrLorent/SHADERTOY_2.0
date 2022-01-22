@@ -30,7 +30,6 @@ uniform mat4 uCameraMatrix;
 shaderChunk['creation_object']=`
     struct Material{
         vec3 base_color;
-        float ka;
         float kd;
         float ks;
         float shininess;
