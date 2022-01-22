@@ -3,7 +3,6 @@
 
 
 /// slider scene uKs specular 0 1 0.01
-/// slider scene uKa ambiant 0 1 0.01
 /// slider scene uKd diffus 0 1 0.01
 /// slider scene uShininess shininess 0 100 1
 /// color_picker scene uColors color

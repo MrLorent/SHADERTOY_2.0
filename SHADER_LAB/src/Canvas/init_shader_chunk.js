@@ -133,7 +133,6 @@ shaderChunk['init_object_phong']=`void init_object(){
 shaderChunk['creation_object']=`
     struct Material{
         vec3 base_color;
-        float ka;
         float kd;
         float ks;
         float shininess;
