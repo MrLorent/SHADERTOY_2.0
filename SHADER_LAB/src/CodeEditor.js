@@ -117,21 +117,25 @@ export class CodeEditor {
         return new_text.substr(0,new_text.length-1);
     }
 
+    copy_shader_to_check(shader){
+        let new_text = THREE.ShaderChunk['test_compile'];
+        const line = shader.split("\n");
+        line.forEach(element => {
+            if (element.includes('#include')){
+                let shader_chunk_part = element.split('<')[1].slice(0,-1);
+                element=THREE.ShaderChunk[shader_chunk_part];
+            }
+            new_text += element + "\n";
+        });
+
+        /* substr just remove the last enter */
+        return new_text.substr(0,new_text.length-1);
+    }
+
     check_shader_compilitation(scene, shader_text,preset){
+        let fs = this.copy_shader_to_check(shader_text)
         let message_to_display = "";
         let context = scene.context;
-        let creation = "creation_scene_"+preset;
-
-        let fs  =    THREE.ShaderChunk['test_compile'] +
-                     THREE.ShaderChunk['uniforms_and_defines'] +
-                     THREE.ShaderChunk['creation_object'] +
-                     THREE.ShaderChunk[creation] +
-                     THREE.ShaderChunk['RayMarch'] +
-                     THREE.ShaderChunk['get_normal'] +
-                     THREE.ShaderChunk['rand'] +
-                     shader_text +
-                     THREE.ShaderChunk['main'];
-
         let status, log, shader, lines, error, details, i, line, message, true_error=true, warning = false;
         try{
             shader = context.createShader(context.FRAGMENT_SHADER);

@@ -27,6 +27,109 @@ uniform mat4 uCameraMatrix;
 
 
 `
+shaderChunk['init_object_flat_painting']=`
+void init_object(){
+    plane.mat.base_color=uColors[0];
+    if(SCENE == 0){
+        sphere1.origin=vec3(-1,1,5);
+        sphere1.radius=0.5;
+        sphere1.mat.base_color=uColors[2];
+
+        box1.origin=vec3(1,1,5);
+        box1.dimension=vec3(0.5);
+        box1.mat.base_color=uColors[1];
+
+    }else if(SCENE == 1){
+        sphere1.origin=vec3(-1,1,5);
+        sphere1.radius=0.5;
+        sphere1.mat.base_color=uColors[1];
+
+        sphere2.origin=vec3(0,1,5);
+        sphere2.radius=0.5;
+        sphere2.mat.base_color=uColors[2];
+
+        sphere3.origin=vec3(1,1,5);
+        sphere3.radius=0.5;
+        sphere3.mat.base_color=uColors[3];
+    }
+}`
+
+shaderChunk['init_object_lambert']=`void init_object(){
+    plane.mat.base_color=uColors[0];
+    if(SCENE == 0){
+        sphere1.origin=vec3(-1,1,5);
+        sphere1.radius=0.5;
+        sphere1.mat.base_color=uColors[2];
+
+        box1.origin=vec3(1,1,5);
+        box1.dimension=vec3(0.5);
+        box1.mat.base_color=uColors[1];
+
+    }else if(SCENE == 1){
+        sphere1.origin=vec3(-1,1,5);
+        sphere1.radius=0.5;
+        sphere1.mat.base_color=uColors[1];
+
+        sphere2.origin=vec3(0,1,5);
+        sphere2.radius=0.5;
+        sphere2.mat.base_color=uColors[2];
+
+        sphere3.origin=vec3(1,1,5);
+        sphere3.radius=0.5;
+        sphere3.mat.base_color=uColors[3];
+    }
+}
+`
+shaderChunk['init_object_phong']=`void init_object(){
+    plane.mat.base_color= uColors[0];
+    plane.mat.ka= uKa[0];
+    plane.mat.kd= uKd[0];
+    plane.mat.ks= uKs[0];
+    plane.mat.shininess= uShininess[0];
+
+    if(SCENE == 0){
+        sphere1.origin=vec3(-1,1,5);
+        sphere1.radius=0.5;
+        sphere1.mat.base_color= uColors[2];
+        sphere1.mat.ka= uKa[2];
+        sphere1.mat.kd= uKd[2];
+        sphere1.mat.ks= uKs[2];
+        sphere1.mat.shininess= uShininess[2];
+
+        box1.origin=vec3(1,1,5);
+        box1.dimension=vec3(0.5);
+        box1.mat.base_color= uColors[1];
+        box1.mat.ka= uKa[1];
+        box1.mat.kd= uKd[1];
+        box1.mat.ks= uKs[1];
+        box1.mat.shininess= uShininess[1];
+
+    }else if(SCENE == 1){
+        sphere1.origin=vec3(-1,1,5);
+        sphere1.radius=0.5;
+        sphere1.mat.base_color= uColors[1];
+        sphere1.mat.ka= uKa[1];
+        sphere1.mat.kd= uKd[1];
+        sphere1.mat.ks= uKs[1];
+        sphere1.mat.shininess= uShininess[1];
+
+        sphere2.origin=vec3(0,1,5);
+        sphere2.radius=0.5;
+        sphere2.mat.base_color= uColors[2];
+        sphere2.mat.ka= uKa[2];
+        sphere2.mat.kd= uKd[2];
+        sphere2.mat.ks= uKs[2];
+        sphere2.mat.shininess= uShininess[2];
+
+        sphere3.origin=vec3(1,1,5);
+        sphere3.radius=0.5;
+        sphere3.mat.base_color= uColors[3];
+        sphere3.mat.ka= uKa[3];
+        sphere3.mat.kd= uKd[3];
+        sphere3.mat.ks= uKs[3];
+        sphere3.mat.shininess= uShininess[3];
+    }
+}`
 shaderChunk['creation_object']=`
     struct Material{
         vec3 base_color;
