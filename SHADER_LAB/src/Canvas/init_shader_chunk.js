@@ -13,11 +13,12 @@ precision mediump float;
 #define MAX_MARCH_DIST 100.
 #define SURF_DIST_MARCH .01
 #define EULER_APPROX_OFFSET .003
+#define PI 3.1415926
 
 precision highp float;
 precision highp int;
 
-#define N_MATERIALS 6
+#define N_MATERIALS 8
 #define N_RAY 5
 uniform float uTime;
 uniform vec3 uResolution;
@@ -82,7 +83,6 @@ shaderChunk['init_object_lambert']=`void init_object(){
 `
 shaderChunk['init_object_phong']=`void init_object(){
     plane.mat.base_color= uColors[0];
-    plane.mat.ka= uKa[0];
     plane.mat.kd= uKd[0];
     plane.mat.ks= uKs[0];
     plane.mat.shininess= uShininess[0];
@@ -91,7 +91,6 @@ shaderChunk['init_object_phong']=`void init_object(){
         sphere1.origin=vec3(-1,1,5);
         sphere1.radius=0.5;
         sphere1.mat.base_color= uColors[2];
-        sphere1.mat.ka= uKa[2];
         sphere1.mat.kd= uKd[2];
         sphere1.mat.ks= uKs[2];
         sphere1.mat.shininess= uShininess[2];
@@ -99,7 +98,6 @@ shaderChunk['init_object_phong']=`void init_object(){
         box1.origin=vec3(1,1,5);
         box1.dimension=vec3(0.5);
         box1.mat.base_color= uColors[1];
-        box1.mat.ka= uKa[1];
         box1.mat.kd= uKd[1];
         box1.mat.ks= uKs[1];
         box1.mat.shininess= uShininess[1];
@@ -108,7 +106,6 @@ shaderChunk['init_object_phong']=`void init_object(){
         sphere1.origin=vec3(-1,1,5);
         sphere1.radius=0.5;
         sphere1.mat.base_color= uColors[1];
-        sphere1.mat.ka= uKa[1];
         sphere1.mat.kd= uKd[1];
         sphere1.mat.ks= uKs[1];
         sphere1.mat.shininess= uShininess[1];
@@ -116,7 +113,6 @@ shaderChunk['init_object_phong']=`void init_object(){
         sphere2.origin=vec3(0,1,5);
         sphere2.radius=0.5;
         sphere2.mat.base_color= uColors[2];
-        sphere2.mat.ka= uKa[2];
         sphere2.mat.kd= uKd[2];
         sphere2.mat.ks= uKs[2];
         sphere2.mat.shininess= uShininess[2];
@@ -124,10 +120,74 @@ shaderChunk['init_object_phong']=`void init_object(){
         sphere3.origin=vec3(1,1,5);
         sphere3.radius=0.5;
         sphere3.mat.base_color= uColors[3];
-        sphere3.mat.ka= uKa[3];
         sphere3.mat.kd= uKd[3];
         sphere3.mat.ks= uKs[3];
         sphere3.mat.shininess= uShininess[3];
+    }
+}`
+
+shaderChunk['init_object_lambert']=`void init_object(){
+    plane.mat.base_color=uColors[0];
+    if(SCENE == 0){
+        sphere1.origin=vec3(-1,1,5);
+        sphere1.radius=0.5;
+        sphere1.mat.base_color=uColors[2];
+
+        box1.origin=vec3(1,1,5);
+        box1.dimension=vec3(0.5);
+        box1.mat.base_color=uColors[1];
+
+    }else if(SCENE == 1){
+        sphere1.origin=vec3(-1,1,5);
+        sphere1.radius=0.5;
+        sphere1.mat.base_color=uColors[1];
+
+        sphere2.origin=vec3(0,1,5);
+        sphere2.radius=0.5;
+        sphere2.mat.base_color=uColors[2];
+
+        sphere3.origin=vec3(1,1,5);
+        sphere3.radius=0.5;
+        sphere3.mat.base_color=uColors[3];
+    }
+}
+`
+shaderChunk['init_object_cook_torrance']=`void init_object(){
+    plane.mat.base_color= uColors[0];
+    plane.mat.ks= uKs[0];
+    plane.mat.roughness= uRoughness[0];
+
+    if(SCENE == 0){
+        sphere1.origin=vec3(-1,1,5);
+        sphere1.radius=0.5;
+        sphere1.mat.base_color= uColors[2];
+        sphere1.mat.ks= uKs[2];
+        sphere1.mat.roughness= uRoughness[2];
+
+        box1.origin=vec3(1,1,5);
+        box1.dimension=vec3(0.5);
+        box1.mat.base_color= uColors[1];
+        box1.mat.ks= uKs[1];
+        box1.mat.roughness= uRoughness[1];
+
+    }else if(SCENE == 1){
+        sphere1.origin=vec3(-1,1,5);
+        sphere1.radius=0.5;
+        sphere1.mat.base_color= uColors[1];
+        sphere1.mat.ks= uKs[1];
+        sphere1.mat.roughness= uRoughness[1];
+
+        sphere2.origin=vec3(0,1,5);
+        sphere2.radius=0.5;
+        sphere2.mat.base_color= uColors[2];
+        sphere2.mat.ks= uKs[2];
+        sphere2.mat.roughness= uRoughness[2];
+
+        sphere3.origin=vec3(1,1,5);
+        sphere3.radius=0.5;
+        sphere3.mat.base_color= uColors[3];
+        sphere3.mat.ks= uKs[3];
+        sphere3.mat.roughness= uRoughness[3];
     }
 }`
 shaderChunk['creation_object']=`
@@ -286,6 +346,33 @@ vec3 GetNormalEulerTwoSided(in vec3 p) { // get surface normal using euler appro
 }
     
     
+`
+
+shaderChunk['fresnel']=`
+vec3 fresnel ( in vec3 f0, in float product ) // what is f0??
+{
+	product = clamp ( product, 0.0, 1.0 );		// saturate
+	
+	return mix ( f0, vec3 (1.0), pow(1.0 - product, 5.0) );
+}
+`
+
+shaderChunk['beckmann_distribution']=`
+float D_beckmann ( in float roughness, in float NdH )
+{
+	float m    = roughness * roughness;
+	float m2   = m * m;
+	float NdH2 = NdH * NdH;
+	
+	return exp( (NdH2 - 1.0) / (m2 * NdH2) ) / (PI * m2 * NdH2 * NdH2);
+}
+`
+
+shaderChunk['geometry_function']=`
+float G_default ( in float nl, in float nh, in float nv, in float vh )
+{
+	return min ( 1.0, min ( 2.0*nh*nv/vh, 2.0*nh*nl/vh ) );
+}
 `
     
 shaderChunk['rand']=`

@@ -24,8 +24,8 @@ in vec2 vertex_uv;
 #include <get_normal>
 #define GetNormal GetNormalEulerTwoSided
 #include <rand>
-
 #include <init_object_lambert>
+
 
 vec3 Model_Illumination(in vec3 ray_position,in vec3 ray_origin ,in Material hit_object){
     vec3 lightPosOffset = uRotatingLight*vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.;

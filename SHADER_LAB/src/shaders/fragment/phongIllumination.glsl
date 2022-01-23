@@ -31,12 +31,13 @@ in vec2 vertex_uv;
 #include <get_normal>
 #define GetNormal GetNormalEulerTwoSided
 #include <rand>
+#include <init_object_phong>
 
 //vec3 lightvec3 = vec3(uPositionLight[0],uPositionLight[1],uPositionLight[2]);
 //vec3(uLightx,uLighty,uLightz)
 //vec3(uLight[0],uLight[1],uLight[2])
 
-#include <init_object_phong>
+
 
 
 vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in Material hit_object) {

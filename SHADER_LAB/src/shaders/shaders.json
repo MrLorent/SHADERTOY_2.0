@@ -29,5 +29,13 @@
             "fragment" : "./shaders/fragment/personalFragment.glsl"
         }
 
+    ],
+    "4" : [
+        {
+            "nom" : "Cook-Torrance",
+            "vertex" : "./shaders/vertex/vertexShader.glsl",
+            "fragment" : "./shaders/fragment/cook_torrance.glsl"
+        }
+
     ]
 }

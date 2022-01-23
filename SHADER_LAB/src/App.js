@@ -28,6 +28,7 @@ export class App
     LAMBERT = 1;
     PHONG = 2;
     PERSONAL = 3;
+    COOK_TORRANCE = 4;
 
     NUMERO_PRESET=0;
 
