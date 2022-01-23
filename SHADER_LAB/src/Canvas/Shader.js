@@ -78,6 +78,15 @@ export default class Shader
             uKs:{value: this.specular},
             uKa:{value: this.ambiant},
             uShininess:{value: this.shininess},
+            uSubsurface:{value: this.subsurface},
+            uMetallic:{value: this.metallic},
+            uSpecularTint:{value:this.specularTint},
+            uRoughness:{value:this.roughness},
+            uAniosotropic:{value:this.anisotropic},
+            uSheen:{value:this.sheen},
+            uSheenTint:{value:this.sheenTint},
+            uClearCoat:{value:this.clearcoat},
+            uClearCoatGloss:{value:this.clearcoatGloss}
         };
     }
 
@@ -161,6 +170,43 @@ export default class Shader
                 this.uniforms.uKs.value = this.specular;
 
             }
+            else if(name=="subsurface"){
+                this.subsurface[id]=value;
+                this.uniform.uSubsurface.value=this.subsurface;
+            }
+            else if(name=="metallic"){
+                this.metallic[id]=value;
+                this.uniform.uMetallic.value=this.metallic;
+            }
+            else if(name=="specularTint"){
+                this.specularTint[id]=value;
+                this.uniform.uSpecularTint.value=this.specularTint;
+            }
+            else if(name=="roughness"){
+                this.roughness[id]=value;
+                this.uniform.uRoughness.value=this.roughness;
+            }
+            else if(name=="aniosotropic"){
+                this.aniosotropic[id]=value;
+                this.uniform.uAniosotropic.value=this.aniosotropic;
+            }
+            else if(name=="sheen"){
+                this.sheen[id]=value;
+                this.uniform.uSheen.value=this.sheen;
+            }
+            else if(name=="sheenTint"){
+                this.sheenTint[id]=value;
+                this.uniform.uSheenTint.value=this.sheenTint;
+            }
+            else if(name=="clearcoat"){
+                this.clearcoat[id]=value;
+                this.uniform.uClearCoat.value=this.clearcoat;
+            }
+            else if(name=="clearcoatGloss"){
+                this.clearcoatGloss[id]=value;
+                this.uniform.uClearCoatGloss.value=this.clearcoatGloss;
+            }
+            
             else if(name=="color_light"){
                 this.uniforms.uColorLight.value = new THREE.Color(value);
 
