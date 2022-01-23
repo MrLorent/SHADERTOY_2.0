@@ -42,29 +42,29 @@ vec3 Model_Illumination( in vec3 p, in vec3 ro, in Material hit_object )
 
 	
     //some math stuff
-    vec3  l  = normalize( lightPos - p );
-    vec3  v  = normalize( ro - p );
-    vec3  n  = GetNormal( p);
-    float nl = max ( 0.0, dot ( n, l ) );
-    vec3  h  = normalize ( l + v );
-    float hn = max ( 0.0, dot ( h, n ) );
+    vec3  l  = normalize( lightPos - p);
+    vec3  v  = normalize(ro - p);
+    vec3  n  = GetNormal(p);
+    float nl = max ( 0.0, dot(n, l));
+    vec3  h  = normalize(l + v);
+    float hn = max ( 0.0, dot(h, n));
     float nv   = dot (n, v);
 	float vh   = dot (v, h);
 	
 	// compute Beckman
-   	float d = D_beckmann(hit_object.roughness, hn );
+   	float d = D_beckmann(hit_object.roughness, hn);
 
     // compute Fresnel
-    vec3 f = fresnel(ro, nv );
+    vec3 f = fresnel(ro, nv);
 	
     // default G
-    float g = G_default(nl, hn, nv, vh );
+    float g = G_default(nl, hn, nv, vh);
 	
 	// resulting color
-	vec3  ct   = f*f*(0.25 * d * g / nv);
+	vec3  ct   = f*(0.25 * d * g / nv);
 	float diff = max(nl, 0.0);
 
-	return vec3 ( diff * hit_object.base_color + hit_object.ks * ct);
+	return vec3 ( diff * hit_object.base_color + hit_object.ks * ct)* uColorLight;
 }
 
 
