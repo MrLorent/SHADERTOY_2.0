@@ -15,7 +15,7 @@ in vec2 vertex_uv;
 
 #include <init_object_flat_painting>
 
-vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin,in Material hit_object){
+vec3 Model_Illumination(in vec3 ray_intersect, in vec3 ray_origin,in Material hit_object){
     return hit_object.base_color;
 }
 

@@ -36,7 +36,7 @@ void init_object(){
     }
 }
 
-vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in Material hit_object) {
+vec3 Model_Illumination(in vec3 ray_intersect, in vec3 ray_origin, in Material hit_object) {
 
     return vec3(1.);
 }
