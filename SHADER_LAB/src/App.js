@@ -7,8 +7,7 @@ import nav_bar_as_HTML from './nav_bar.jsx';
 import input_fieldset_as_HTML from './input_fieldset.jsx';
 import switch_input_panel_button from './switch_input_panel_button.jsx';
 import compile_button_as_HTML from './compile_button.jsx'
-import scene_1_button_as_HTML from './scene_1_button.jsx'
-import scene_2_button_as_HTML from './scene_2_button.jsx'
+import scene_button_as_HTML from './scene_button.jsx'
 import one_light_button_as_HTML from './one_light_button.jsx'
 import two_light_button_as_HTML from './two_light_button.jsx'
 
@@ -76,8 +75,7 @@ export class App
 
         // NAVIGATION
         this.insert_switch_input_panel_button_in_HTML();
-        this.insert_scene_1_button_in_HTML();
-        this.insert_scene_2_button_in_HTML();
+        this.insert_scene_button_in_HTML();
         this.insert_one_light_button_in_HTML();
         this.insert_two_light_button_in_HTML();
     }
@@ -136,17 +134,13 @@ export class App
         this.switch_shader(this.current_shader);
     }
 
-    insert_scene_1_button_in_HTML()
+    insert_scene_button_in_HTML()
     {
         const navigation_panel = document.getElementById('navigation_panel');
-        navigation_panel.append(scene_1_button_as_HTML(this))
+        navigation_panel.append(scene_button_as_HTML(this,0));
+        navigation_panel.append(scene_button_as_HTML(this,1));
     }
 
-    insert_scene_2_button_in_HTML()
-    {
-        const navigation_panel = document.getElementById('navigation_panel');
-        navigation_panel.append(scene_2_button_as_HTML(this))
-    }
     insert_one_light_button_in_HTML()
     {
         const navigation_panel = document.getElementById('navigation_panel');
