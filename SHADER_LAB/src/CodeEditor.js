@@ -107,14 +107,19 @@ export class CodeEditor {
 
                 shader.add_input(input_details);
             }
-            else if (element.includes('creation_scene')){
-                element='#include <creation_scene_'+numero_preset+'>'
-            }
+
             new_text += element + "\n";
         });
 
         /* substr just remove the last enter */
         return new_text.substr(0,new_text.length-1);
+    }
+
+    change_scene_include(previous_preset, new_preset)
+    {
+        let shader_text = this.#editor.getValue();
+        shader_text = shader_text.replace("#include <scene_preset_"+previous_preset+">", "#include <scene_preset_"+new_preset+">");
+        return shader_text;
     }
 
     copy_shader_to_check(shader){

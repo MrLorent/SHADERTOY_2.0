@@ -41,7 +41,6 @@ export class App
     #material;
 
     constructor(shader_list){
-        
         // CODE_EDITOR
         this.codeEditor = new CodeEditor('code_editor');
         this.insert_compile_button();
@@ -115,23 +114,12 @@ export class App
 
     update_preset(preset)
     {
-        this.NUMERO_PRESET=preset;
-        let user_shader_input = this.codeEditor.get_value();
-        user_shader_input = this.codeEditor.compile_inputed_uniforms(user_shader_input, this.shader_list[this.current_shader], this.NUMERO_PRESET);
+        let new_text = this.codeEditor.change_scene_include(this.NUMERO_PRESET, preset);
+        this.NUMERO_PRESET = preset;
 
-        const compilation_test = this.codeEditor.check_shader_compilation(this.scene, user_shader_input, this.NUMERO_PRESET);
-        
-        if(compilation_test.status === "success")
-        {
-            this.shader_list[this.current_shader].fragment_shader = user_shader_input;
-            this.shader_list[this.current_shader].update_material();
-            this.switch_shader(this.current_shader);
-
-        }
-        else
-        {
-
-        }
+        this.shader_list[this.current_shader].fragment_shader = new_text;
+        this.shader_list[this.current_shader].update_material();
+        this.switch_shader(this.current_shader);
     }
 
     update_light(preset)

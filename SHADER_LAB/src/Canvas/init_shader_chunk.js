@@ -170,7 +170,7 @@ shaderChunk['creation_object']=`
         vec3 col;
     };`
     
-shaderChunk['creation_scene_0']=`
+shaderChunk['scene_preset_0']=`
     #define SCENE 0
 
     Sphere sphere1, sphere2, sphere3;
@@ -210,7 +210,7 @@ shaderChunk['creation_scene_0']=`
         return d;
     }
     `
-shaderChunk['creation_scene_1']=`
+shaderChunk['scene_preset_1']=`
 
     #define SCENE 1
 
