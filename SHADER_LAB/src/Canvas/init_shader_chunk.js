@@ -264,9 +264,7 @@ shaderChunk['RayMarch']=`
     }
     
     return distance_from_origin;
-}
-    
-    
+}   
 `
     
 shaderChunk['get_normal'] = `
