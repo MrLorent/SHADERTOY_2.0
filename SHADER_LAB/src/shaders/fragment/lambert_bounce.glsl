@@ -30,14 +30,13 @@ in vec2 vertex_uv;
 
 
 
-bool intersect(vec3 ray_direction,vec3 ray_position ,vec3 ray_position2,vec3 ray_origin2)
+bool intersect(vec3 ray_origin,vec3 ray_position,vec3 ray_direction )
 {
     float sphereDist = SphereSDF(ray_position, sphere1);  //Distance to our sphere
     float boxDist = BoxSDF(ray_position, box1);     //Distance to our box
         
     float minDist= min(sphereDist, boxDist);
     float planeDist = ray_position.y; // ground
-    vec3 ray_direction2 = 2. * dot(GetNormal(ray_position),ray_direction)*GetNormal(ray_position) -ray_direction;
 
         
     float d = min(planeDist, minDist);
@@ -45,13 +44,13 @@ bool intersect(vec3 ray_direction,vec3 ray_position ,vec3 ray_position2,vec3 ray
 
         return false;
     }else if(d == sphereDist){ 
-        ray_origin2 = ray_position;
-        ray_position2 =  ray_origin2 + ray_direction2 * d;
+        //ray_origin2 = ray_position;
+        //ray_position =  ray_origin + ray_direction * d;
         return true;
     }
     else{
-        ray_origin2 = ray_position;
-        ray_position2 =  ray_origin2+ ray_direction2 * d;
+        //ray_origin2 = ray_position;
+        //ray_position =  ray_origin+ ray_direction * d;
         return true;
     }
 }
@@ -116,9 +115,8 @@ void main()
     vec3 ray_position2;
     vec3 ray_origin2;
     vec3 ray_direction2;
-    vec3 ray_position3;
-    vec3 ray_origin3;
-    vec3 ray_direction3;
+    float distance_to_object2;
+        
 
 
 
@@ -139,19 +137,27 @@ void main()
         Material hit_object;
         float distance_to_object = RayMarch(hit_object, ray_origin, ray_direction);
         vec3 ray_position = ray_origin + ray_direction * distance_to_object;
-        
-        
+       
 
 
         if(nb_bounce ==0.0)
         {
             color += Model_Illumination(ray_position, ray_origin, hit_object);
-            if(intersect(ray_direction,ray_position,ray_position2,ray_origin2))
+
+            ray_origin2 = ray_position;
+            ray_direction2 = 2. * dot(GetNormal(ray_origin2),ray_direction)*GetNormal(ray_position) -ray_direction;
+            distance_to_object2 = RayMarch(hit_object, ray_origin2, ray_direction2);
+            ray_position2= ray_origin2 + ray_direction2 * distance_to_object2;
+            if(intersect(ray_origin2,ray_position2,ray_direction2))
             {
+                
                 color += Model_Illumination(ray_position2,ray_origin2 , hit_object);
                 nb_bounce =1.0;
 
             }
+            // else{
+            //     color+=vec3(1.,0.,0.);
+            // }
         }
         if(nb_bounce ==1.0)
         {
