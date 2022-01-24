@@ -75,7 +75,6 @@ export default class Shader
             uColors:{value : this.color},
             uKd:{value: this.diffus},
             uKs:{value: this.specular},
-            uKa:{value: this.ambiant},
             uShininess:{value: this.shininess},
             uSubsurface:{value: this.subsurface},
             uMetallic:{value: this.metallic},
@@ -152,11 +151,6 @@ export default class Shader
             else if (name=="color"){
                 this.color[id]= new THREE.Color(value);
                 this.uniforms.uColors.value = this.color;
-
-            }
-            else if(name=="ambiant"){
-                this.ambiant[id]=value;
-                this.uniforms.uKa.value = this.ambiant;
 
             }
             else if(name=="diffus"){
