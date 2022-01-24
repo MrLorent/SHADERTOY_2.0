@@ -8,8 +8,7 @@ import input_fieldset_as_HTML from './input_fieldset.jsx';
 import switch_input_panel_button from './switch_input_panel_button.jsx';
 import compile_button_as_HTML from './compile_button.jsx'
 import scene_button_as_HTML from './scene_button.jsx'
-import one_light_button_as_HTML from './one_light_button.jsx'
-import two_light_button_as_HTML from './two_light_button.jsx'
+import light_button_as_HTML from './light_button.jsx'
 
 
 import { CodeEditor } from './CodeEditor.js';
@@ -56,13 +55,16 @@ export class App
 
         // INIT CURRENT SHADER
         this.current_shader = this.FLAT_PAINTING;
-
         this.insert_inputs_in_HTML();
-        this.codeEditor.set_value(this.shader_list[this.current_shader].fragment_shader);
 
         // SCENE
         this.scene = new Scene();
         this.scene.init(this.shader_list[this.current_shader].get_material());
+
+        // SETUP CURRENT SHADER
+        this.codeEditor.set_value(this.shader_list[this.current_shader].fragment_shader);
+        this.update_shader();
+
         
         
         // WINDOW MANAGEMENT
@@ -75,9 +77,8 @@ export class App
 
         // NAVIGATION
         this.insert_switch_input_panel_button_in_HTML();
-        this.insert_scene_button_in_HTML();
-        this.insert_one_light_button_in_HTML();
-        this.insert_two_light_button_in_HTML();
+        this.insert_scene_buttons_in_HTML();
+        this.insert_light_buttons_in_HTML();
     }
 
     switch_shader(new_shader_id)
@@ -92,6 +93,7 @@ export class App
 
     update_shader()
     {
+        let console = document.getElementById('console');
         let user_shader_input = this.codeEditor.get_value();
         user_shader_input = this.codeEditor.compile_inputed_uniforms(user_shader_input, this.shader_list[this.current_shader], this.NUMERO_PRESET);
 
@@ -101,13 +103,14 @@ export class App
             this.shader_list[this.current_shader].fragment_shader = user_shader_input;
             this.shader_list[this.current_shader].update_material();
             this.switch_shader(this.current_shader);
+            console.classList.remove('fail');
         }
         else
         {
-
+            console.classList.add('fail');
         }
 
-        document.getElementById('console').innerHTML = compilation_test.message;
+        console.innerHTML = "\\> " + compilation_test.message;
     }
 
     update_preset(preset)
@@ -134,22 +137,18 @@ export class App
         this.switch_shader(this.current_shader);
     }
 
-    insert_scene_button_in_HTML()
+    insert_scene_buttons_in_HTML()
     {
-        const navigation_panel = document.getElementById('navigation_panel');
+        const navigation_panel = document.querySelector('#visual_window .input_container.scene');
         navigation_panel.append(scene_button_as_HTML(this,0));
         navigation_panel.append(scene_button_as_HTML(this,1));
     }
 
-    insert_one_light_button_in_HTML()
+    insert_light_buttons_in_HTML()
     {
-        const navigation_panel = document.getElementById('navigation_panel');
-        navigation_panel.append(one_light_button_as_HTML(this))
-    }
-    insert_two_light_button_in_HTML()
-    {
-        const navigation_panel = document.getElementById('navigation_panel');
-        navigation_panel.append(two_light_button_as_HTML(this))
+        const navigation_panel = document.querySelector('#visual_window .input_container.light');
+        navigation_panel.append(light_button_as_HTML(this, 0));
+        navigation_panel.append(light_button_as_HTML(this, 1));
     }
 
     insert_switch_input_panel_button_in_HTML()
@@ -181,7 +180,7 @@ export class App
 
     insert_inputs_in_HTML()
     {
-        const HTML_container = document.getElementById('input_container');
+        const HTML_container = document.querySelector('#interactive_window .input_container');
         while(HTML_container.firstElementChild){
             HTML_container.removeChild(HTML_container.firstElementChild);
         }
