@@ -11,7 +11,7 @@ precision mediump float;
 #endif
 #define MAX_MARCH_STEPS 128
 #define MAX_MARCH_DIST 100.
-#define SURF_DIST_MARCH .01
+#define SURF_DIST_MARCH .001
 #define EULER_APPROX_OFFSET .003
 
 precision highp float;
@@ -82,7 +82,6 @@ shaderChunk['init_object_lambert']=`void init_object(){
 `
 shaderChunk['init_object_phong']=`void init_object(){
     plane.mat.base_color= uColors[0];
-    plane.mat.ka= uKa[0];
     plane.mat.kd= uKd[0];
     plane.mat.ks= uKs[0];
     plane.mat.shininess= uShininess[0];
@@ -91,7 +90,6 @@ shaderChunk['init_object_phong']=`void init_object(){
         sphere1.origin=vec3(-1,1,5);
         sphere1.radius=0.5;
         sphere1.mat.base_color= uColors[2];
-        sphere1.mat.ka= uKa[2];
         sphere1.mat.kd= uKd[2];
         sphere1.mat.ks= uKs[2];
         sphere1.mat.shininess= uShininess[2];
@@ -99,7 +97,6 @@ shaderChunk['init_object_phong']=`void init_object(){
         box1.origin=vec3(1,1,5);
         box1.dimension=vec3(0.5);
         box1.mat.base_color= uColors[1];
-        box1.mat.ka= uKa[1];
         box1.mat.kd= uKd[1];
         box1.mat.ks= uKs[1];
         box1.mat.shininess= uShininess[1];
@@ -108,7 +105,6 @@ shaderChunk['init_object_phong']=`void init_object(){
         sphere1.origin=vec3(-1,1,5);
         sphere1.radius=0.5;
         sphere1.mat.base_color= uColors[1];
-        sphere1.mat.ka= uKa[1];
         sphere1.mat.kd= uKd[1];
         sphere1.mat.ks= uKs[1];
         sphere1.mat.shininess= uShininess[1];
@@ -116,7 +112,6 @@ shaderChunk['init_object_phong']=`void init_object(){
         sphere2.origin=vec3(0,1,5);
         sphere2.radius=0.5;
         sphere2.mat.base_color= uColors[2];
-        sphere2.mat.ka= uKa[2];
         sphere2.mat.kd= uKd[2];
         sphere2.mat.ks= uKs[2];
         sphere2.mat.shininess= uShininess[2];
@@ -124,7 +119,6 @@ shaderChunk['init_object_phong']=`void init_object(){
         sphere3.origin=vec3(1,1,5);
         sphere3.radius=0.5;
         sphere3.mat.base_color= uColors[3];
-        sphere3.mat.ka= uKa[3];
         sphere3.mat.kd= uKd[3];
         sphere3.mat.ks= uKs[3];
         sphere3.mat.shininess= uShininess[3];
@@ -264,26 +258,21 @@ shaderChunk['RayMarch']=`
     }
     
     return distance_from_origin;
-}
-    
-    
+}   
 `
     
 shaderChunk['get_normal'] = `
     
 vec3 GetNormalEulerTwoSided(in vec3 p) { // get surface normal using euler approx. method
-    vec2 e = vec2(EULER_APPROX_OFFSET, 0);
-    Material _;
-        
-    vec3 left = vec3(SceneSDF(_, p),
-                         SceneSDF(_, p - e.yxy),
-                         SceneSDF(_, p - e.yyx)),
-     right = vec3(SceneSDF(_, p + e.xyy),
-                         SceneSDF(_, p + e.yxy),
-                         SceneSDF(_, p + e.yyx));
-            
-    vec3 n = normalize(-left + right);
-    return n;
+      Material _;
+      float d=SceneSDF(_,p);
+      vec2 e = vec2(.001, 0);
+      vec3 n = d - vec3(
+        SceneSDF(_,p-e.xyy),
+        SceneSDF(_, p-e.yxy),
+        SceneSDF(_, p-e.yyx));
+    
+    return normalize(n);
 }
     
     
@@ -331,7 +320,7 @@ void main()
     }
 
    
-	pc_fragColor = clamp(vec4( pow(color/float(N_RAY), vec3(0.4545)), 1.0 ), 0.0, 1.0);//vec4(color/10.0, 1.0);
+	pc_fragColor = vec4(color/float(N_RAY), 1.0 );
 
 }
 `

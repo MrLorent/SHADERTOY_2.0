@@ -127,7 +127,8 @@ export class CodeEditor {
         const line = shader.split("\n");
         line.forEach(element => {
             if (element.includes('#include')){
-                let shader_chunk_part = element.split('<')[1].slice(0,-1);
+                let shader_chunk_part = element.split('<')[1];
+                shader_chunk_part=shader_chunk_part.split(" ")[0].slice(0,-1);
                 element=THREE.ShaderChunk[shader_chunk_part];
             }
             new_text += element + "\n";
@@ -137,8 +138,22 @@ export class CodeEditor {
         return new_text.substr(0,new_text.length-1);
     }
 
+    get_start(shader){
+        const line = shader.split("\n");
+        let lineStart = 0;
+        for(let i =0; i<line.length;i++){
+            if(line[i].includes("vec3 Model_Illumination")){
+                break;
+            }
+            lineStart++;
+        }
+        return lineStart+1;
+    }
+
     check_shader_compilation(scene, shader_text,preset){
         let fs = this.copy_shader_to_check(shader_text)
+        let shortStart = this.get_start(shader_text);
+        let longStart = this.get_start(fs);
         let message_to_display = "";
         let context = scene.context;
         let status, log, shader, lines, error, details, i, line, message, true_error=true, warning = false;
@@ -191,7 +206,7 @@ export class CodeEditor {
                 }
                 line = details[2];
                 message = details.splice(3).join(':')
-                message_to_display = "Line : "+parseInt(line-118)+" : "+message
+                message_to_display = "Line : "+parseInt(line-(longStart-shortStart))+" : "+message
                 
                 if (warning) message_to_display = "(WARNING) "+message_to_display
                 return {status:"failed", message: message_to_display};

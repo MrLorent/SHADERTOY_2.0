@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 export default class Scene{
     renderer;
@@ -33,9 +33,11 @@ export default class Scene{
         this.camera.fov = 31;
         this.scene.add(this.camera);
 
-        this.camera_controls = new TrackballControls(this.camera, this.renderer.domElement)
+        this.camera_controls = new OrbitControls(this.camera, this.renderer.domElement)
         this.camera_controls.target.set(0,1,5);
         this.camera_controls.maxDistance=30;
+        this.camera_controls.minDistance=3;
+        this.camera_controls.minPolarAngle=this.camera_controls.maxPolarAngle=1.57079
 
         this.clock = new THREE.Clock();
 
