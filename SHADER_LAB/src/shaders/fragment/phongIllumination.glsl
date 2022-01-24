@@ -40,24 +40,24 @@ in vec2 vertex_uv;
 
 
 
-vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in Material hit_object) {
+vec3 Model_Illumination(in vec3 ray_intersect, in vec3 ray_origin, in Material hit_object) {
     //Turning light
     vec3 lightPosOffset = uRotatingLight*vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.; //light is turning
     vec3 lightPos =  vec3(uLightPositionX,uLightPositionY,uLightPositionZ)+ lightPosOffset;
     vec3 lightPos2 =  vec3(uLightPositionX2,uLightPositionY2,uLightPositionZ2)+ lightPosOffset;
 
     // some Maths stuff
-    vec3 light_vector = normalize(lightPos - ray_position);
-    vec3 light_vector2 = normalize(lightPos2 - ray_position);
+    vec3 light_vector = normalize(lightPos - ray_intersect);
+    vec3 light_vector2 = normalize(lightPos2 - ray_intersect);
 
 
-    vec3 normal = GetNormal(ray_position);
+    vec3 normal = GetNormal(ray_intersect);
 
     // vec3 reflect = reflect(light_vector, normal);
     // vec3 reflect2 = reflect(light_vector2, normal);
 
 
-    vec3 ray_vector = normalize(ray_origin - ray_position);
+    vec3 ray_vector = normalize(ray_origin - ray_intersect);
     
     vec3 half_vector = normalize(light_vector + ray_vector); // the `half-angle` vector
     vec3 half_vector2 = normalize(light_vector2 + ray_vector); // the `half-angle` vector
@@ -74,11 +74,11 @@ vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in Material hi
     // shadow stuff
     vec3 position_offset = normal * SURF_DIST_MARCH * 1.2; // move the point above a little
     Material _; //useless stuff but needed for the next RayMarch
-    float d = RayMarch(_, ray_position + position_offset, light_vector);
-    float d2 = RayMarch(_, ray_position + position_offset, light_vector2);
+    float d = RayMarch(_, ray_intersect + position_offset, light_vector);
+    float d2 = RayMarch(_, ray_intersect + position_offset, light_vector2);
 
 
-    if (d < length(lightPos - ray_position)|| uSecond_Light_on_off*d2 < uSecond_Light_on_off*length(lightPos2 - ray_position)) { // If true then we've shaded a point on some object before, 
+    if (d < length(lightPos - ray_intersect)|| uSecond_Light_on_off*d2 < uSecond_Light_on_off*length(lightPos2 - ray_intersect)) { // If true then we've shaded a point on some object before, 
                                     // so shade the currnet point as shodow.
         diffuse *= .3; // no half-shadow because the light source is a point.  
         diffuse2 *= .3;  

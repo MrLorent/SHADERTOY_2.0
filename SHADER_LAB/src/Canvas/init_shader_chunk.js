@@ -17,7 +17,7 @@ precision mediump float;
 precision highp float;
 precision highp int;
 
-#define N_MATERIALS 6
+#define N_MATERIALS 8
 #define N_RAY 5
 uniform float uTime;
 uniform vec3 uResolution;
@@ -176,22 +176,22 @@ shaderChunk['creation_scene_0']=`
                                                                       
     
     
-    float SphereSDF(in vec3 ray_position, in Sphere sphere) {
-        return length(ray_position - sphere.origin) - sphere.radius;
+    float SphereSDF(in vec3 ray_intersect, in Sphere sphere) {
+        return length(ray_intersect - sphere.origin) - sphere.radius;
     }
                                         
-    float BoxSDF(in vec3 ray_position, in Box box ){
-        vec3 q = abs(ray_position - box.origin) - box.dimension;
+    float BoxSDF(in vec3 ray_intersect, in Box box ){
+        vec3 q = abs(ray_intersect - box.origin) - box.dimension;
         return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0);
     }
     
     
-    float SceneSDF(out Material hit_object, in vec3 ray_position) { // sdf for the scene.
-        float sphereDist = SphereSDF(ray_position, sphere1);  //Distance to our sphere
-        float boxDist = BoxSDF(ray_position, box1);     //Distance to our box
+    float SceneSDF(out Material hit_object, in vec3 ray_intersect) { // sdf for the scene.
+        float sphereDist = SphereSDF(ray_intersect, sphere1);  //Distance to our sphere
+        float boxDist = BoxSDF(ray_intersect, box1);     //Distance to our box
         
         float minDist= min(sphereDist, boxDist);
-        float planeDist = ray_position.y; // ground
+        float planeDist = ray_intersect.y; // ground
         
         float d = min(planeDist, minDist);
         if(d == planeDist){
@@ -216,18 +216,18 @@ shaderChunk['creation_scene_1']=`
                                         vec3(0.600,0.478,0.478));
                                                                       
      
-    float SphereSDF(in vec3 ray_position, in Sphere sphere) {
-        return length(ray_position - sphere.origin) - sphere.radius;
+    float SphereSDF(in vec3 ray_intersect, in Sphere sphere) {
+        return length(ray_intersect - sphere.origin) - sphere.radius;
     }
                                         
-    float SceneSDF(out Material hit_object, in vec3 ray_position) { // sdf for the scene.
-        float sphereDist1 = SphereSDF(ray_position, sphere1);  //Distance to our sphere
-        float sphereDist2 = SphereSDF(ray_position, sphere2);  //Distance to our sphere
-        float sphereDist3 = SphereSDF(ray_position, sphere3);  //Distance to our sphere
+    float SceneSDF(out Material hit_object, in vec3 ray_intersect) { // sdf for the scene.
+        float sphereDist1 = SphereSDF(ray_intersect, sphere1);  //Distance to our sphere
+        float sphereDist2 = SphereSDF(ray_intersect, sphere2);  //Distance to our sphere
+        float sphereDist3 = SphereSDF(ray_intersect, sphere3);  //Distance to our sphere
 
         float minDist = min(sphereDist1, sphereDist2);
         float minDist2 = min(minDist, sphereDist3);
-        float planeDist = ray_position.y; // ground
+        float planeDist = ray_intersect.y; // ground
         
         float d = min(planeDist, minDist2);
         if(d == planeDist){
@@ -249,8 +249,8 @@ shaderChunk['RayMarch']=`
         float distance_from_origin = 0.; // Distance I've marched from origin
     
         for (int i = 0; i < MAX_MARCH_STEPS; i++) {
-            vec3 ray_position = ray_origin + ray_direction * distance_from_origin;
-            float distance_to_scene = SceneSDF(hit_object, ray_position);
+            vec3 ray_intersect = ray_origin + ray_direction * distance_from_origin;
+            float distance_to_scene = SceneSDF(hit_object, ray_intersect);
             distance_from_origin += distance_to_scene;  // Safe distance to march with
             if (distance_from_origin > MAX_MARCH_DIST || // Far-plane clipping
                 distance_to_scene < SURF_DIST_MARCH)  // Did we hit anything?
@@ -263,14 +263,14 @@ shaderChunk['RayMarch']=`
     
 shaderChunk['get_normal'] = `
     
-vec3 GetNormalEulerTwoSided(in vec3 p) { // get surface normal using euler approx. method
+vec3 GetNormalEulerTwoSided(in vec3 ray_intersect) { // get surface normal using euler approx. method
       Material _;
-      float d=SceneSDF(_,p);
+      float d=SceneSDF(_,ray_intersect);
       vec2 e = vec2(.001, 0);
       vec3 n = d - vec3(
-        SceneSDF(_,p-e.xyy),
-        SceneSDF(_, p-e.yxy),
-        SceneSDF(_, p-e.yyx));
+        SceneSDF(_,ray_intersect-e.xyy),
+        SceneSDF(_, ray_intersect-e.yxy),
+        SceneSDF(_, ray_intersect-e.yyx));
     
     return normalize(n);
 }
@@ -314,9 +314,9 @@ void main()
         // RayMarching stuff
         Material hit_object;
         float distance_to_object = RayMarch(hit_object, ray_origin, ray_direction);
-        vec3 ray_position = ray_origin + ray_direction * distance_to_object;
+        vec3 ray_intersect = ray_origin + ray_direction * distance_to_object;
 
-        color += Model_Illumination(ray_position, ray_origin, hit_object);
+        color += Model_Illumination(ray_intersect, ray_origin, hit_object);
     }
 
    
