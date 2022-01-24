@@ -320,7 +320,7 @@ void main()
     }
 
    
-	pc_fragColor = clamp(vec4( pow(color/float(N_RAY), vec3(0.4545)), 1.0 ), 0.0, 1.0);//vec4(color/10.0, 1.0);
+	pc_fragColor = vec4(color/float(N_RAY), 1.0 );
 
 }
 `
