@@ -11,7 +11,7 @@ precision mediump float;
 #endif
 #define MAX_MARCH_STEPS 128
 #define MAX_MARCH_DIST 100.
-#define SURF_DIST_MARCH .01
+#define SURF_DIST_MARCH .001
 #define EULER_APPROX_OFFSET .003
 
 precision highp float;
@@ -168,6 +168,7 @@ shaderChunk['creation_object']=`
     struct PointLight {
         vec3 pos;
         vec3 col;
+        vec3 vector;
     };`
     
 shaderChunk['creation_scene_0']=`
@@ -177,8 +178,8 @@ shaderChunk['creation_scene_0']=`
     Box box1, box2;
     Plane plane;
     
-    PointLight light = PointLight(vec3(0, -5, -6),
-                                        vec3(0.600,0.478,0.478));
+    // PointLight light = PointLight(vec3(0, -5, -6),
+                                        // vec3(0.600,0.478,0.478));
                                                                       
     
     
@@ -328,10 +329,11 @@ void main()
         vec3 ray_position = ray_origin + ray_direction * distance_to_object;
 
         color += Model_Illumination(ray_position, ray_origin, hit_object);
+
     }
 
    
-	pc_fragColor = clamp(vec4( pow(color/float(N_RAY), vec3(0.4545)), 1.0 ), 0.0, 1.0);//vec4(color/10.0, 1.0);
+	pc_fragColor = vec4(color/float(N_RAY), 1.0);//vec4(color/10.0, 1.0);
 
     //pc_fragColor = vec4(color/float(N_RAY),1.0);
 

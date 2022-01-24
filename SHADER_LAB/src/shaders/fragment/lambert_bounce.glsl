@@ -5,12 +5,12 @@
 /// checkbox light uRotatingLight rotate_light 
 /// color_picker light uColorLight color_light
 /// slider light uLightPositionX positionX_light -50 50 0.1
-/// slider light uLightPositionY positionY_light -50 50 0.1
+/// slider light uLightPositionY positionY_light 1 50 0.1
 /// slider light uLightPositionZ positionZ_light -50 50 0.1
 
 /// color_picker light uColorLight2 color_light2
 /// slider light uLightPositionX2 positionX_light2 -50 50 0.1
-/// slider light uLightPositionY2 positionY_light2 -25 25 0.1
+/// slider light uLightPositionY2 positionY_light2 1 50 0.1
 /// slider light uLightPositionZ2 positionZ_light2 -50 50 0.1
 
 /// checkbox light uSecond_Light_on_off preset 
@@ -28,48 +28,60 @@ in vec2 vertex_uv;
 #include <init_object_lambert>
 
 
-bool intersect(vec3 ray_direction,float nb_bounce,vec3 ray_position,vec3 ray_position2,vec3 ray_origin2)
+
+
+bool intersect(vec3 ray_direction,vec3 ray_position ,vec3 ray_position2,vec3 ray_origin2)
 {
     float sphereDist = SphereSDF(ray_position, sphere1);  //Distance to our sphere
     float boxDist = BoxSDF(ray_position, box1);     //Distance to our box
         
     float minDist= min(sphereDist, boxDist);
     float planeDist = ray_position.y; // ground
+    vec3 ray_direction2 = 2. * dot(GetNormal(ray_position),ray_direction)*GetNormal(ray_position) -ray_direction;
+
         
     float d = min(planeDist, minDist);
     if(d == planeDist){
+
         return false;
     }else if(d == sphereDist){ 
         ray_origin2 = ray_position;
-        ray_position2 =  ray_origin2 + ray_direction * d;
+        ray_position2 =  ray_origin2 + ray_direction2 * d;
         return true;
-    }else{
+    }
+    else{
         ray_origin2 = ray_position;
-
-        ray_position2 =  ray_origin2+ ray_direction * d;
+        ray_position2 =  ray_origin2+ ray_direction2 * d;
         return true;
     }
 }
 
 vec3 Model_Illumination(in vec3 ray_position,in vec3 ray_origin ,in Material hit_object){
+    PointLight light1 = PointLight(vec3(uLightPositionX,uLightPositionY,uLightPositionZ),uColorLight,vec3(0.));
+    PointLight light2 = PointLight(vec3(uLightPositionX2,uLightPositionY2,uLightPositionZ2),uColorLight2,vec3(0.));
+
+
     vec3 lightPosOffset = uRotatingLight*vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.;
-    vec3 lightPos = vec3(uLightPositionX,uLightPositionY,uLightPositionZ) + lightPosOffset;
-    vec3 lightPos2 = vec3(uLightPositionX2,uLightPositionY2,uLightPositionZ2) + lightPosOffset;
+    light1.pos = light1.pos + lightPosOffset;
+    light2.pos = light2.pos + lightPosOffset;
+
+    light1.vector = normalize(light1.pos - ray_position); 
+    light2.vector = normalize(light2.pos - ray_position); 
 
 
-    vec3 light_vector = normalize(lightPos - ray_position); 
-    vec3 light_vector2 = normalize(lightPos2 - ray_position); 
+    
+    //vec3 light_vector2 = normalize(lightPos2 - ray_position); 
 
     vec3 normal = GetNormal(ray_position); 
-    float diffuse  = clamp(dot(light_vector, normal), 0., 1.);
-    float diffuse2  = clamp(dot(light_vector2, normal), 0., 1.);
+    float diffuse  = clamp(dot(light1.vector, normal), 0., 1.);
+    float diffuse2  = clamp(dot(light2.vector, normal), 0., 1.);
 
     // shadow stuff
     vec3 position_offset = normal * SURF_DIST_MARCH * 1.2; // move the point above a little
     Material _; //useless stuff but needed for the next RayMarch
-    float d = RayMarch(_, ray_position + position_offset, light_vector);
-    float d2 = RayMarch(_, ray_position + position_offset, light_vector2);
-    if (d < length(lightPos - ray_position) || uSecond_Light_on_off*d2 < uSecond_Light_on_off*length(lightPos - ray_position)) { // If true then we've shaded a point on some object before, 
+    float d = RayMarch(_, ray_position + position_offset, light1.vector);
+    float d2 = RayMarch(_, ray_position + position_offset, light2.vector);
+    if (d < length(light1.pos - ray_position)|| uSecond_Light_on_off*d2 < uSecond_Light_on_off*length(light2.pos - ray_position)) { // If true then we've shaded a point on some object before, 
     // If true then we've shaded a point on some object before, 
                                     // so shade the currnet point as shodow.
         diffuse *= .3;
@@ -82,11 +94,14 @@ vec3 Model_Illumination(in vec3 ray_position,in vec3 ray_origin ,in Material hit
 
 
     
-    return (diffuse * hit_object.base_color * uColorLight) +uSecond_Light_on_off*(diffuse2 * hit_object.base_color * uColorLight2); 
+    return (diffuse * hit_object.base_color * light1.col)+uSecond_Light_on_off*(diffuse2 * hit_object.base_color * light2.col); 
 }
 
 void main()
 {
+    
+
+
     vec2 uv = vertex_uv-0.5;
     vec3 color=vec3(0);
     
@@ -97,6 +112,16 @@ void main()
     init_object();
 
     float nb_bounce =0.0;
+
+    vec3 ray_position2;
+    vec3 ray_origin2;
+    vec3 ray_direction2;
+    vec3 ray_position3;
+    vec3 ray_origin3;
+    vec3 ray_direction3;
+
+
+
 
     for(int i=0; i<N_RAY; i++){
         // simplest camera
@@ -114,30 +139,35 @@ void main()
         Material hit_object;
         float distance_to_object = RayMarch(hit_object, ray_origin, ray_direction);
         vec3 ray_position = ray_origin + ray_direction * distance_to_object;
-        vec3 ray_position2;
-        vec3 ray_origin2;
+        
+        
+
 
         if(nb_bounce ==0.0)
         {
             color += Model_Illumination(ray_position, ray_origin, hit_object);
-            if(intersect( ray_direction,nb_bounce, ray_position, ray_position2,ray_origin2))
+            if(intersect(ray_direction,ray_position,ray_position2,ray_origin2))
             {
                 color += Model_Illumination(ray_position2,ray_origin2 , hit_object);
+                nb_bounce =1.0;
 
             }
-            nb_bounce +=1.0;
-
         }
         if(nb_bounce ==1.0)
         {
-            color += Model_Illumination(ray_position2, ray_origin2, hit_object);
+
+            
+            color += Model_Illumination(ray_position2,ray_origin2 , hit_object);
+
+            nb_bounce =0.0;
+        
 
         }
 
     }
 
    
-	pc_fragColor = clamp(vec4( pow(color/float(N_RAY), vec3(0.4545)), 1.0 ), 0.0, 1.0);//vec4(color/10.0, 1.0);
-    //pc_fragColor = clamp(vec4(color/float(N_RAY),1.0),0.0,1.0);
+	pc_fragColor = vec4(color/(float(N_RAY)*2.) , 1.0);//vec4(color/10.0, 1.0);
+    //pc_fragColor = clamp(vec4(color,1.0),0.0,1.0);
     
 }
