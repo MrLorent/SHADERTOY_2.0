@@ -135,23 +135,26 @@ void main()
 
         // RayMarching stuff
         Material hit_object;
+        Material hit_object2;
         float distance_to_object = RayMarch(hit_object, ray_origin, ray_direction);
         vec3 ray_position = ray_origin + ray_direction * distance_to_object;
        
+        // vec3 normal_position = GetNormal(ray_position);
+        // vec3 new_ray_direction = ray_direction-2. * dot(GetNormal(ray_position),ray_direction)*GetNormal(ray_position);//ray_direction - 2 * dot(normal_position, ray_direction)*normal_position;
+        // float new_distance_to_object = RayMarch(hit_object2, ray_position+new_ray_direction*0.01,new_ray_direction);
 
-
+        // color+=Model_Illumination(ray_position+new_ray_direction*new_distance_to_object, ray_position, hit_object2);
         if(nb_bounce ==0.0)
         {
             color += Model_Illumination(ray_position, ray_origin, hit_object);
 
             ray_origin2 = ray_position;
-            ray_direction2 = 2. * dot(GetNormal(ray_origin2),ray_direction)*GetNormal(ray_position) -ray_direction;
-            distance_to_object2 = RayMarch(hit_object, ray_origin2, ray_direction2);
+            ray_direction2 = -2. * dot(GetNormal(ray_position),ray_direction)*GetNormal(ray_position)+ray_direction;
+            distance_to_object2 = RayMarch(hit_object2, ray_origin2+GetNormal(ray_position)*0.1, ray_direction2);
             ray_position2= ray_origin2 + ray_direction2 * distance_to_object2;
             if(intersect(ray_origin2,ray_position2,ray_direction2))
             {
-                
-                color += Model_Illumination(ray_position2,ray_origin2 , hit_object);
+                color += Model_Illumination(ray_position2,ray_origin2 , hit_object2);
                 nb_bounce =1.0;
 
             }
@@ -163,7 +166,7 @@ void main()
         {
 
             
-            color += Model_Illumination(ray_position2,ray_origin2 , hit_object);
+            color += Model_Illumination(ray_position2,ray_origin2 , hit_object2);
 
             nb_bounce =0.0;
         
@@ -173,7 +176,7 @@ void main()
     }
 
    
-	pc_fragColor = vec4(color/(float(N_RAY)*2.) , 1.0);//vec4(color/10.0, 1.0);
+	pc_fragColor = vec4(color/(float(N_RAY)*3.) , 1.0);//vec4(color/10.0, 1.0);
     //pc_fragColor = clamp(vec4(color,1.0),0.0,1.0);
     
 }
