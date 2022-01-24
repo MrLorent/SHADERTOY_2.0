@@ -29,7 +29,6 @@ export default class Shader
     uniform_color;
     #material;
 
-
     constructor(shader_details, vertex, fragment)
     {
         shader_details = shader_details[0];

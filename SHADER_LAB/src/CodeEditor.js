@@ -132,7 +132,7 @@ export class CodeEditor {
         return new_text.substr(0,new_text.length-1);
     }
 
-    check_shader_compilitation(scene, shader_text,preset){
+    check_shader_compilation(scene, shader_text,preset){
         let fs = this.copy_shader_to_check(shader_text)
         let message_to_display = "";
         let context = scene.context;
