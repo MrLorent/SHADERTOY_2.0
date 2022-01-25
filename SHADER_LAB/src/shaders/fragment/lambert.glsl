@@ -16,8 +16,6 @@
 /// checkbox light uSecond_Light_on_off preset 
 
 
-in vec2 vertex_uv;
-
 #include <creation_object>
 #include <scene_preset_0>
 #include <RayMarch>

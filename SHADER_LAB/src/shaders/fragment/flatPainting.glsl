@@ -4,8 +4,6 @@
 /// checkbox light uSecond_Light_on_off preset 
 
 
-in vec2 vertex_uv;
-
 #include <creation_object>
 #include <scene_preset_0>
 #include <RayMarch>
@@ -18,7 +16,6 @@ in vec2 vertex_uv;
 vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin,in Material hit_object){
     return hit_object.base_color;
 }
-
 
 
 #include <main>

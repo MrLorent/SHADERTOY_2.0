@@ -22,9 +22,6 @@
 
 
 
-in vec2 vertex_uv;
-
-
 #include <creation_object>
 #include <scene_preset_0>
 #include <RayMarch>
@@ -32,11 +29,6 @@ in vec2 vertex_uv;
 #define GetNormal GetNormalEulerTwoSided
 #include <rand>
 #include <init_object_phong>
-
-//vec3 lightvec3 = vec3(uPositionLight[0],uPositionLight[1],uPositionLight[2]);
-//vec3(uLightx,uLighty,uLightz)
-//vec3(uLight[0],uLight[1],uLight[2])
-
 
 
 
@@ -52,9 +44,6 @@ vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in Material hi
 
 
     vec3 normal = GetNormal(ray_position);
-
-    // vec3 reflect = reflect(light_vector, normal);
-    // vec3 reflect2 = reflect(light_vector2, normal);
 
 
     vec3 ray_vector = normalize(ray_origin - ray_position);

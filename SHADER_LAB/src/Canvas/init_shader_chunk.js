@@ -24,6 +24,8 @@ uniform vec3 uResolution;
 uniform vec3 uCameraPosition;
 uniform mat4 uCameraMatrix;
 
+in vec2 vertex_uv;
+
 
 
 `
@@ -162,6 +164,7 @@ shaderChunk['creation_object']=`
     struct PointLight {
         vec3 pos;
         vec3 col;
+        vec3 vector;
     };`
     
 shaderChunk['scene_preset_0']=`
@@ -171,8 +174,8 @@ shaderChunk['scene_preset_0']=`
     Box box1, box2;
     Plane plane;
     
-    PointLight light = PointLight(vec3(0, -5, -6),
-                                        vec3(0.600,0.478,0.478));
+    // PointLight light = PointLight(vec3(0, -5, -6),
+                                        // vec3(0.600,0.478,0.478));
                                                                       
     
     
@@ -287,6 +290,31 @@ float rand(vec2 co){
     
 `  
 
+shaderChunk['intersect']=`
+bool intersect(vec3 ray_origin,vec3 ray_position,vec3 ray_direction )
+{
+    float sphereDist = SphereSDF(ray_position, sphere1);  //Distance to our sphere
+    float boxDist = BoxSDF(ray_position, box1);     //Distance to our box
+        
+    float minDist= min(sphereDist, boxDist);
+    float planeDist = ray_position.y; // ground
+
+        
+    float d = min(planeDist, minDist);
+    if(d == planeDist){
+
+        return false;
+    }else if(d == sphereDist){ 
+        return true;
+    }
+    else{
+        return true;
+    }
+}
+
+`
+
+
 shaderChunk['main']=`
 void main()
 {
@@ -317,10 +345,13 @@ void main()
         vec3 ray_position = ray_origin + ray_direction * distance_to_object;
 
         color += Model_Illumination(ray_position, ray_origin, hit_object);
+
     }
 
    
 	pc_fragColor = vec4(color/float(N_RAY), 1.0 );
+
+    //pc_fragColor = vec4(color/float(N_RAY),1.0);
 
 }
 `
