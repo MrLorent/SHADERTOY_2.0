@@ -23,6 +23,14 @@ table
     overflow-y: scroll;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
+    transform: translateX(45vw);
+    transition: 0.25s ease-in;
+}
+
+#documentation.display
+{
+    transform: translateX(0);
+    transition: 0.25s ease-out;
 }
 
 #documentation::-webkit-scrollbar
@@ -33,4 +41,11 @@ table
 .doc_container
 {
     padding: 5%;
+}
+
+#doc_button
+{
+    width: 50px;
+    height: 50px;
+    background: url("./img/doc.svg") no-repeat center, #1dd4f4;
 }

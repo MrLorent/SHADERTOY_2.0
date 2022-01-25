@@ -7,8 +7,9 @@ import nav_bar_as_HTML from './nav_bar.jsx';
 import input_fieldset_as_HTML from './input_fieldset.jsx';
 import switch_input_panel_button from './switch_input_panel_button.jsx';
 import compile_button_as_HTML from './compile_button.jsx'
-import scene_button_as_HTML from './scene_button.jsx'
-import light_button_as_HTML from './light_button.jsx'
+import doc_button_as_HTML from './doc_button.jsx';
+import scene_button_as_HTML from './scene_button.jsx';
+import light_button_as_HTML from './light_button.jsx';
 
 
 import { CodeEditor } from './CodeEditor.js';
@@ -24,8 +25,9 @@ export class App
     // LIST OF SHADERS
     FLAT_PAINTING = 0;
     LAMBERT = 1;
-    PHONG = 2;
-    PERSONAL = 3;
+    LAMBERT_WITH_BOUNCE = 2;
+    PHONG = 3;
+    PERSONAL = 4;
 
     NUMERO_PRESET=0;
 
@@ -89,6 +91,18 @@ export class App
         this.insert_inputs_in_HTML();
         this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
         this.codeEditor.set_value(this.shader_list[this.current_shader].fragment_shader);
+        
+        let doc_button = document.querySelector('#doc_button');
+        if(this.current_shader == this.PERSONAL && !doc_button)
+        {
+            console.log("hello")
+            let console_container = document.querySelector('#code_editor_panel');
+            console_container.append(doc_button_as_HTML());
+        }
+        else if(this.current_shader != this.PERSONAL && doc_button)
+        {
+            doc_button.remove();
+        }
     }
 
     update_shader()
