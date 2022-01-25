@@ -16,8 +16,6 @@
 /// checkbox light uSecond_Light_on_off preset 
 
 
-in vec2 vertex_uv;
-
 #include <creation_object>
 #include <creation_scene_0>
 #include <RayMarch>
@@ -26,34 +24,8 @@ in vec2 vertex_uv;
 #include <rand>
 
 #include <init_object_lambert>
+#include <intersect>
 
-
-
-
-bool intersect(vec3 ray_origin,vec3 ray_position,vec3 ray_direction )
-{
-    float sphereDist = SphereSDF(ray_position, sphere1);  //Distance to our sphere
-    float boxDist = BoxSDF(ray_position, box1);     //Distance to our box
-        
-    float minDist= min(sphereDist, boxDist);
-    float planeDist = ray_position.y; // ground
-
-        
-    float d = min(planeDist, minDist);
-    if(d == planeDist){
-
-        return false;
-    }else if(d == sphereDist){ 
-        //ray_origin2 = ray_position;
-        //ray_position =  ray_origin + ray_direction * d;
-        return true;
-    }
-    else{
-        //ray_origin2 = ray_position;
-        //ray_position =  ray_origin+ ray_direction * d;
-        return true;
-    }
-}
 
 vec3 Model_Illumination(in vec3 ray_position,in vec3 ray_origin ,in Material hit_object){
     PointLight light1 = PointLight(vec3(uLightPositionX,uLightPositionY,uLightPositionZ),uColorLight,vec3(0.));
@@ -68,8 +40,6 @@ vec3 Model_Illumination(in vec3 ray_position,in vec3 ray_origin ,in Material hit
     light2.vector = normalize(light2.pos - ray_position); 
 
 
-    
-    //vec3 light_vector2 = normalize(lightPos2 - ray_position); 
 
     vec3 normal = GetNormal(ray_position); 
     float diffuse  = clamp(dot(light1.vector, normal), 0., 1.);
@@ -96,10 +66,9 @@ vec3 Model_Illumination(in vec3 ray_position,in vec3 ray_origin ,in Material hit
     return (diffuse * hit_object.base_color * light1.col)+uSecond_Light_on_off*(diffuse2 * hit_object.base_color * light2.col); 
 }
 
+
 void main()
 {
-    
-
 
     vec2 uv = vertex_uv-0.5;
     vec3 color=vec3(0);
@@ -117,10 +86,6 @@ void main()
     vec3 ray_direction2;
     float distance_to_object2;
         
-
-
-
-
     for(int i=0; i<N_RAY; i++){
         // simplest camera
         vec3 ray_origin = uCameraPosition;
@@ -139,11 +104,6 @@ void main()
         float distance_to_object = RayMarch(hit_object, ray_origin, ray_direction);
         vec3 ray_position = ray_origin + ray_direction * distance_to_object;
        
-        // vec3 normal_position = GetNormal(ray_position);
-        // vec3 new_ray_direction = ray_direction-2. * dot(GetNormal(ray_position),ray_direction)*GetNormal(ray_position);//ray_direction - 2 * dot(normal_position, ray_direction)*normal_position;
-        // float new_distance_to_object = RayMarch(hit_object2, ray_position+new_ray_direction*0.01,new_ray_direction);
-
-        // color+=Model_Illumination(ray_position+new_ray_direction*new_distance_to_object, ray_position, hit_object2);
         if(nb_bounce ==0.0)
         {
             color += Model_Illumination(ray_position, ray_origin, hit_object);
@@ -154,29 +114,21 @@ void main()
             ray_position2= ray_origin2 + ray_direction2 * distance_to_object2;
             if(intersect(ray_origin2,ray_position2,ray_direction2))
             {
-                color += Model_Illumination(ray_position2,ray_origin2 , hit_object2);
+                color += Model_Illumination(ray_position2,ray_origin2 , hit_object2)/2.0;
                 nb_bounce =1.0;
 
             }
-            // else{
-            //     color+=vec3(1.,0.,0.);
-            // }
         }
         if(nb_bounce ==1.0)
         {
-
-            
             color += Model_Illumination(ray_position2,ray_origin2 , hit_object2);
 
             nb_bounce =0.0;
         
-
         }
 
     }
 
    
-	pc_fragColor = vec4(color/(float(N_RAY)*3.) , 1.0);//vec4(color/10.0, 1.0);
-    //pc_fragColor = clamp(vec4(color,1.0),0.0,1.0);
-    
+	pc_fragColor = vec4(color/(float(N_RAY))/2.0 , 1.0);
 }

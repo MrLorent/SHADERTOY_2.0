@@ -24,6 +24,8 @@ uniform vec3 uResolution;
 uniform vec3 uCameraPosition;
 uniform mat4 uCameraMatrix;
 
+in vec2 vertex_uv;
+
 
 
 `
@@ -298,6 +300,31 @@ float rand(vec2 co){
     
     
 `  
+
+shaderChunk['intersect']=`
+bool intersect(vec3 ray_origin,vec3 ray_position,vec3 ray_direction )
+{
+    float sphereDist = SphereSDF(ray_position, sphere1);  //Distance to our sphere
+    float boxDist = BoxSDF(ray_position, box1);     //Distance to our box
+        
+    float minDist= min(sphereDist, boxDist);
+    float planeDist = ray_position.y; // ground
+
+        
+    float d = min(planeDist, minDist);
+    if(d == planeDist){
+
+        return false;
+    }else if(d == sphereDist){ 
+        return true;
+    }
+    else{
+        return true;
+    }
+}
+
+`
+
 
 shaderChunk['main']=`
 void main()

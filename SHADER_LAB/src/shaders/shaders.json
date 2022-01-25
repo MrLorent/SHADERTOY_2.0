@@ -14,27 +14,29 @@
             "fragment" : "./shaders/fragment/lambert.glsl"
         }
     ],
-
     "2" : [
+        {
+            "nom" : "Lambert with bounce",
+            "vertex" : "./shaders/vertex/vertexShader.glsl",
+            "fragment" : "./shaders/fragment/lambert_bounce.glsl"
+        }
+
+    ],
+
+    "3" : [
         {
             "nom" : "Blinn-Phong",
             "vertex" : "./shaders/vertex/vertexShader.glsl",
             "fragment" : "./shaders/fragment/phongIllumination.glsl"
         }
     ],
-    "3" : [
+    
+    
+    "4" : [
         {
             "nom" : "Personal",
             "vertex" : "./shaders/vertex/vertexShader.glsl",
             "fragment" : "./shaders/fragment/personalFragment.glsl"
-        }
-
-    ],
-    "4" : [
-        {
-            "nom" : "Lambert with bounce",
-            "vertex" : "./shaders/vertex/vertexShader.glsl",
-            "fragment" : "./shaders/fragment/lambert_bounce.glsl"
         }
 
     ]

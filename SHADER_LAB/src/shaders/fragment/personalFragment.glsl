@@ -1,15 +1,10 @@
 #include <uniforms_and_defines>
-
-
-
-
-in vec2 vertex_uv;
-
-
 #include <creation_object>
 #include <creation_scene_0>
 #include <RayMarch>   
 #include <rand>
+
+
 
 // To create an uniform value and to get a slider linked to it : 
 // /// color_picker light||scene uName name
