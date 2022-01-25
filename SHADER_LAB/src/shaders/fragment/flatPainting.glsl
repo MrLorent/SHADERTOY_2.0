@@ -4,9 +4,6 @@
 /// checkbox light uSecond_Light_on_off preset 
 
 
-in vec2 vertex_uv;
-
-
 #include <creation_object>
 #include <dot2>
 #include <scene_preset_0>

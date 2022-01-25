@@ -349,23 +349,23 @@ shaderChunk['scene_preset_0']=`
 
     }
 
-    bool intersect(vec3 ray_origin,vec3 ray_position,vec3 ray_direction )
+    bool intersect(vec3 ray_origin, vec3 ray_intersect, vec3 ray_direction )
     {
-        float sphereDist = SphereSDF(ray_position, sphere1);  //Distance to our sphere
-        float boxDist = BoxSDF(ray_position, box1);     //Distance to our box
-            
-        float minDist= min(sphereDist, boxDist);
-        float planeDist = ray_position.y; // ground
+        float sphere_dist = SphereSDF(ray_intersect, sphere1);  //Distance to our sphere
+        float box_dist = BoxSDF(ray_intersect, box1);     //Distance to our box
+        
+        float nearest_object= min(sphere_dist, box_dist);
 
-            
-        float d = min(planeDist, minDist);
-        if(d == planeDist){
+        float bottom_wall_dist= QuadSDF(ray_intersect, bottom_wall);
+        float left_wall_dist= QuadSDF(ray_intersect, left_wall);
+        float right_wall_dist= QuadSDF(ray_intersect, right_wall);
+        float back_wall_dist= QuadSDF(ray_intersect, back_wall);
 
-            return false;
-        }
-        else{
-            return true;
-        }
+        float nearest_wall= min(bottom_wall_dist, left_wall_dist);
+        nearest_wall= min(nearest_wall, right_wall_dist);
+        nearest_wall= min(nearest_wall, back_wall_dist);
+
+        return (min(nearest_wall,nearest_object) == nearest_object);
     }
     `
 shaderChunk['scene_preset_1']=`
@@ -375,17 +375,13 @@ shaderChunk['scene_preset_1']=`
     Sphere sphere1, sphere2, sphere3;
     Box box1, box2;
     Quad back_wall, left_wall, right_wall, bottom_wall;
-
-
-    PointLight light = PointLight(vec3(0, 5, 6),
-                                        vec3(0.600,0.478,0.478));
                                                                       
      
     float SphereSDF(in vec3 ray_intersect, in Sphere sphere) {
         return length(ray_intersect - sphere.origin) - sphere.radius;
     }
 
-    float QuadSDF( vec3 p, Wall w){
+    float QuadSDF( vec3 p, Quad w){
         vec3 v1=w.a;
         vec3 v2=w.b;
         vec3 v3=w.c;
@@ -419,7 +415,6 @@ shaderChunk['scene_preset_1']=`
     }
                                         
     float SceneSDF(out Material hit_object, in vec3 ray_intersect) { // sdf for the scene.
-        Sphere neareast_sphere;
         float sphere_dist1 = SphereSDF(ray_intersect, sphere1);  //Distance to our sphere
         float sphere_dist2 = SphereSDF(ray_intersect, sphere2);  //Distance to our sphere
         float sphere_dist3 = SphereSDF(ray_intersect, sphere3);  //Distance to our sphere
@@ -457,25 +452,26 @@ shaderChunk['scene_preset_1']=`
         return d;
     }
 
-    bool intersect(vec3 ray_origin,vec3 ray_position,vec3 ray_direction )
+    bool intersect(vec3 ray_origin,vec3 ray_intersect,vec3 ray_direction )
     {
-        float sphere1Dist = SphereSDF(ray_position, sphere1);  //Distance to our sphere
-        float sphere2Dist = SphereSDF(ray_position, sphere2);  //Distance to our sphere
-        float sphere3Dist = SphereSDF(ray_position, sphere3);  //Distance to our sphere
-            
-        float minDist = min(sphere1Dist, sphere2Dist);
-        float minDist2 = min(minDist, sphere3Dist);
-        float planeDist = ray_position.y; // ground
+        Sphere neareast_sphere;
+        float sphere_dist1 = SphereSDF(ray_intersect, sphere1);  //Distance to our sphere
+        float sphere_dist2 = SphereSDF(ray_intersect, sphere2);  //Distance to our sphere
+        float sphere_dist3 = SphereSDF(ray_intersect, sphere3);  //Distance to our sphere
 
-            
-        float d = min(planeDist, minDist2);
-        if(d == planeDist){
+        float nearest_object = min(sphere_dist1, sphere_dist2);
+        nearest_object = min(nearest_object, sphere_dist3);
 
-            return false;
-        }
-        else{
-            return true;
-        }
+        float bottom_wall_dist= QuadSDF(ray_intersect, bottom_wall);
+        float left_wall_dist= QuadSDF(ray_intersect, left_wall);
+        float right_wall_dist= QuadSDF(ray_intersect, right_wall);
+        float back_wall_dist= QuadSDF(ray_intersect, back_wall);
+
+        float nearest_wall= min(bottom_wall_dist, left_wall_dist);
+        nearest_wall= min(nearest_wall, right_wall_dist);
+        nearest_wall= min(nearest_wall, back_wall_dist);
+
+        return (min(nearest_wall, nearest_object) == nearest_object);
     }
     `
     
