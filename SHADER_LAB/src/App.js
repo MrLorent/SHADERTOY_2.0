@@ -160,19 +160,21 @@ export class App
     update_preset(preset)
     {
         let new_text = "";
-        this.NUMERO_PRESET = preset;
+        
 
         if(this.shader_list[this.current_shader].get_name()==="Personal")
         {
             
             
             new_text = this.codeEditor.change_scene_include(this.NUMERO_PRESET, preset);
+            this.NUMERO_PRESET = preset;
             new_text = this.codeEditor.add_include_personal(new_text,this.NUMERO_PRESET)
             new_text+="\n"+ "#include <main>"
         }
         else
         {
             new_text = this.codeEditor.change_scene_include(this.NUMERO_PRESET, preset);
+            this.NUMERO_PRESET = preset;
 
         }
     
