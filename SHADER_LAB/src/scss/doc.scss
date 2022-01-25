@@ -5,6 +5,7 @@ th
 {
     border-collapse: collapse;
     border: 1px solid white;
+    text-align: center;
 }
 
 table
@@ -47,4 +48,33 @@ table
 {
     background-image: url("./img/doc.svg");
 
+}
+
+h2.doc_main_title{
+    font-size: 2em;
+}
+
+h3.doc_title{
+    font-size: 1.5em;
+}
+
+ul.structure {
+    list-style-type: none;
+}
+
+.commentary{
+    color:#1dd4f4;
+}
+
+.example{
+    color:#1dd4f4;
+    border: solid #1dd4f4;
+    padding:2%;
+    border-width:thin;
+}
+
+.final_example{
+    color:#1dd4f4;
+    border: thick double #1dd4f4;
+    padding:2%;
 }

@@ -40,165 +40,269 @@
         </section>
         <section id="documentation">
             <div class="doc_container">
-                <p>Cette page d'aide couvre uniquement les parties de GLSL ES pertinentes pour Shadertoy. Pour la documentation complète, veuillez vous référer à la <a href="https://www.khronos.org/registry/OpenGL/specs/es/3.0/GLSL_ES_Specification_3.00.pdf">spécification GLSL ES</a></p>
-
-                <h2 class="doc_title">Build-in Functions</h2>
+                <h2 class="doc_main_title">All you need to know to create your wonderful shader !</h2>
+                <!-- <p>This page Cette page d'aide couvre uniquement les parties de GLSL ES pertinentes pour Shadertoy. Pour la documentation complète, veuillez vous référer à la <a href="https://www.khronos.org/registry/OpenGL/specs/es/3.0/GLSL_ES_Specification_3.00.pdf">spécification GLSL ES</a></p> -->
                 <hr>
+                <h3 class="doc_title">Scenes</h3>
                 <table>
                     <thead>
                         <tr>
-                            <th>Prototype</th>
-                            <th>return description</th>
+                            <th>SCENE 1</th>
+                            <th>SCENE 2</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>vec3 get_normal(vec3 intersection)</td>
-                            <td>return the normal of the given intersection.</td>
+                            <td>box1</td>
+                            <td>sphere1</td>
                         </tr>
                         <tr>
-                            <td>float rand(vec2 input)</td>
-                            <td>return a random value based on the input.</td>
+                            <td>sphere1</td>
+                            <td>sphere2</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>sphere3</td>
                         </tr>
                     </tbody>
                 </table>
-                
-                <h2 class="doc_title">How-to</h2>
+
+                <h4>Objects</h4>
+                <p>Box</p>
+                <ul class="structure">
+                    <li>
+                        <span class="type">vec3</span>
+                        <span class="name">origin</span>
+                    </li>
+                        <span class="type">vec3</span>
+                        <span class="name">dimensions (depth, width, height)</span>
+                    </li>
+                    <li>
+                        <span class="type">Material</span>
+                        <span class="name">mat</span>
+                    </li>
+                </ul>
+
+                <p>Sphere</p>
+                <ul class="structure">
+                    <li>
+                        <span class="type">vec3</span>
+                        <span class="name">origin</span>
+                    </li>
+                        <span class="type">float</span>
+                        <span class="name">radius</span>
+                    </li>
+                    <li>
+                        <span class="type">Material</span>
+                        <span class="name">mat</span>
+                    </li>
+                </ul>
+
+                <h4>How to access object attributes ?</h4>
+                <p>name_object.attribute = value;</p>
+                <div class="example"><p><b>ex : </b>box1.origin = vec3(1,1,5);</p></div>
+
+                <h4 class="commentary">If you change an object position, be careful ! The camera points at the position (0,1,5).. Plus, be aware that the x axis is inverted...</h4>
+
+                <h4>And for materials ?</h4>
+                <p>Material</p>
+                <ul class="structure">
+                    <li>
+                        <span class="type">vec3</span>
+                        <span class="name">base_color</span>
+                    </li>
+                        <span class="type">float</span>
+                        <span class="name">kd</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span>
+                        <span class="name">ks</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span>
+                        <span class="name">shininess</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span>
+                        <span class="name">subsurface</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span>
+                        <span class="name">metallic</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span>
+                        <span class="name">specularTint</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span>
+                        <span class="name">roughness</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span>
+                        <span class="name">anisotropic</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span>
+                        <span class="name">sheen</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span>
+                        <span class="name">sheenTint</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span>
+                        <span class="name">clearcoat</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span>
+                        <span class="name">clearcoatGloss</span>
+                    </li>
+                </ul>
+
+                <div class="example"><p> <b>ex : </b>sphere1.mat.base_color = vec3(1,0,0);</p></div>
+
+
                 <hr>
-                <div class="how_to_subdivision">
-                    <h3 class="how_to_title">All the variables you need to know and use (hit_object)</h3>
-                    <p class="how_to_description">
-                        La description là !
-                    </p>
+                <h3 class="doc_title">Lights</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>LIGHT PRESET 1</th>
+                            <th>LIGHT PRESET 2</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>light1 (white)</td>
+                            <td>light1 (red)</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>light2 (green)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>Light</p>
+                <ul class="structure">
+                    <li>
+                        <span class="type">vec3</span>
+                        <span class="name">pos (position)</span>
+                    </li>
+                        <span class="type">vec3</span>
+                        <span class="name">col (color)</span>
+                    </li>
+                    <li>
+                        <span class="type">vec3</span>
+                        <span class="name">vector (direction)</span>
+                    </li>
+                </ul>
+
+                <p>If you want to change light parameters, just use inputs ! To have acces to them :</p>
+                <div class="example"><p><b>ex : </b> vec3 light_position = light1.pos;</p></div>
+
+                <hr>
+                <h3 class="doc_title">How to create an input ?</h3>
+
+                <p>Light</p>
+                <ul>
+                    <li>
+                        <p><b>color_picker</b></p>
+                        <p>/// color_picker scene uColor color</p>
+                        <p>result : uniform vec3 uColor[N_MATERIALS]</p>
+                    </li>
+                    <li>
+                        <p><b>slider</b></p>
+                        <p>/// slider scene uName name min max step</p>
+                    </li>
+                </ul>
+                <div class="example"><p><b>ex : </b>/// slider scene uPosX posX 0 1 0.1</p>
+                    <p>result : uniform float uPosX[N_MATERIALS]</p></div>
+
+                <h4>How to use an input in your code :</h4>
+                <div class="example">
+                    <p><b>ex : </b> /// color_picker scene uColor color</p>
+                    <p>result : uniform vec3 uColor[N_MATERIALS]</p></p>
+                    <p>vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin, in Material hit_object) {<br>  sphere1.mat.base_color = uColor[1];<br> return hit_object.base_color;}</p>
                 </div>
 
-                <h2 class="doc_title">Be careful !</h2>
-                <hr>
-                <p>there is 8 max materials (N_MATERIALS=8)</p>
+                <h4>N_MATERIALS explanation</h4>
+                <p>N_MATERIALS represents the total number of materials in the scene. In scene 1, you can access to 2 materials and in scene 2 you can access 3 materials.</p>
 
-                <h2 class="doc_title">Shader Lab Inputs</h2>
-                <hr>
-                <p>C'est quoi les inputs ?</p>
-                <ul>
-                    <li>
-                        <span class="type">vec2</span> 
-                        <span class="name">uResolution</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span> 
-                        <span class="name">uTime</span>
-                    </li>
-                    <li>
-                        <span class="type">mat4</span> 
-                        <span class="name">uCameraMatrix</span>
-                    </li>
-                    <li>
-                        <span class="type">vec3</span> 
-                        <span class="name">uCameraPosition</span>
-                    </li>
-                </ul>
-                <ul>
-                    <li>
-                        <span class="type">vec4</span> 
-                        <span class="name">uColors[N_MATERIALS]</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span> 
-                        <span class="name">uKd</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span> 
-                        <span class="name">uKs</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span> 
-                        <span class="name">uShininess</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span> 
-                        <span class="name">uSubsurface</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span> 
-                        <span class="name">uMetallic</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span> 
-                        <span class="name">uSpecularTint</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span> 
-                        <span class="name">uRoughness</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span> 
-                        <span class="name">uAniosropic</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span> 
-                        <span class="name">uSheen</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span> 
-                        <span class="name">uSheenTint</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span> 
-                        <span class="name">uClearCoat</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span> 
-                        <span class="name">uClearCoatGloss</span>
-                    </li>
-                </ul>
-                <ul>
-                    <li>
-                        <span class="type">vec3</span> 
-                        <span class="name">uColorLight</span>
-                    </li>
-                    <li>
-                        <span class="type">vec3</span> 
-                        <span class="name">uColorLight2</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span> 
-                        <span class="name">uLightPositionX</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span> 
-                        <span class="name">uLightPositionX2</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span> 
-                        <span class="name">uLightPositionY</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span> 
-                        <span class="name">uLightPositionY2</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span> 
-                        <span class="name">uLightPositionZ</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span> 
-                        <span class="name">uLightPositionZ2</span>
-                    </li>
-                    <li>
-                        <span class="type">int</span> 
-                        <span class="name">uRotatingLight</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span> 
-                        <span class="name">uSecond_Light_on_off</span>
-                    </li>
-                </ul>
+ <table>
+                    <thead>
+                        <tr>
+                            <th>N_MATERIALS</th>
+                            <th>SCENE 1</th>
+                            <th>SCENE 2</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0</td>
+                            <td>box1</td>
+                            <td>sphere1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>sphere1</td>
+                            <td>sphere2</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>x</td>
+                            <td>sphere3</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>x</td>
+                            <td>x</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>x</td>
+                            <td>x</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>white wall</td>
+                            <td>white wall</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>green wall</td>
+                            <td>green wall</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>red wall</td>
+                            <td>red wall</td>
+                        </tr>
+                    </tbody>
+                </table>
 
-                <h2 class="doc_title">Shader Lab Outpouts</h2>
+                <p>The input created are linked to this indexes, for example if you want the box1 parameter in a uColor input you created, uColor[0] is what you are looking for!</p>
+
                 <hr>
-                <p>Image shaders: pc_fragColor is used as output channel. It is not, for now, mandatory but recommended to leave the alpha channel to 1.0.
-                </p>
+                <h3 class="doc_title">What is hit_object ?</h3>
+                <p>hit_object contains the material of the intersected object (ie : the material of the first object that the ray intersects)</p>
+
+                <hr>
+                <div class="final_example">
+                    <h3 class="doc_title">Example of a simple code</h3>
+                    <p>If you want to use flat painting on the first scene preset and move the sphere on y axis, for example, you can try this :</p>
+                    <p>/// color_picker scene uColors colors
+                    <br>/// slider scene uSpherePositionY sphere_position_y 0 1 0.1
+                    <br>vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin,in Material hit_object){
+                    <br>box1.mat.base_color = uColors[0];
+                    <br>sphere1.mat.base_color = uColors[1];
+                    <br>sphere1.origin = vec3(-1,uSpherePositionY[1],5);
+                    <br>return hit_object.base_color;}
+                </div>
             </div>
+        
         </section>
     </main>
 </body>
