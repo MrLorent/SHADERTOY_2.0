@@ -138,12 +138,72 @@ export default class Shader
     }
 
     update(name, value, type, id=0){
-        if(this.#name != "Personal")
+        if(name=="rotate_light"){
+            this.uniforms.uRotatingLight.value == 1 ? this.uniforms.uRotatingLight.value = 0 : this.uniforms.uRotatingLight.value = 1;
+        }
+        else if(name=="color_light"){
+            this.uniforms.uColorLight.value = new THREE.Color(value);
+
+        }
+        else if(name=="positionX_light"){
+            this.uniforms.uLightPositionX.value = value;
+
+        }
+        else if(name=="positionY_light"){
+            this.uniforms.uLightPositionY.value = value;
+
+        }
+        else if(name=="positionZ_light"){
+            this.uniforms.uLightPositionZ.value = value;
+
+        }
+        else if(name=="color_light2"){
+            this.uniforms.uColorLight2.value = new THREE.Color(value);
+
+        }
+        else if(name=="positionX_light2"){
+            this.uniforms.uLightPositionX2.value = value;
+
+        }
+        else if(name=="positionY_light2"){
+            this.uniforms.uLightPositionY2.value = value;
+
+        }
+        else if(name=="positionZ_light2"){
+            this.uniforms.uLightPositionZ2.value = value;
+
+        }
+        
+        else if( this.#name ==="Personal")
         {
-            if(name=="rotate_light"){
-                this.uniforms.uRotatingLight.value == 1 ? this.uniforms.uRotatingLight.value = 0 : this.uniforms.uRotatingLight.value = 1;
+            for(let i = 0;i<this.#inputs['scene'].length;i++)
+            {
+                if(type ==="slider" & name===this.#inputs['scene'][i].get_label())
+                {
+                    this.uniform[i][id]=value;
+                    this.uniforms[this.#inputs['scene'][i].get_name()][value] = this.uniform[i];
+                    console.log("slider : ", this.#inputs['scene'][i].get_name())
+                }
+                if(type==="checkbox" & name === this.#inputs['scene'][i].get_label())
+                {
+                    this.uniforms[this.#inputs['scene'][i].get_name()].value = value;
+                    console.log("check : ", this.#inputs['scene'][i].get_name())
+
+                }
+                if(type==="color_picker" & name === this.#inputs['scene'][i].get_label())
+                {
+                    this.uniform_color[i][id] = new THREE.Color(value);
+                    this.uniforms[this.#inputs['scene'][i].get_name()][value] = this.uniform_color[i];
+                    console.log("color : ", this.#inputs['scene'][i].get_name())
+
+                }
+                
             }
-            else if(name=="shininess"){
+            
+        }
+
+        else{
+            if(name=="shininess"){
                 this.shininess[id]=value;
                 this.uniforms.uShininess.value = this.shininess;
             }
@@ -198,92 +258,6 @@ export default class Shader
                 this.clearcoatGloss[id]=value;
                 this.uniforms.uClearCoatGloss.value=this.clearcoatGloss;
             }
-            
-            else if(name=="color_light"){
-                this.uniforms.uColorLight.value = new THREE.Color(value);
-
-            }
-            else if(name=="positionX_light"){
-                this.uniforms.uLightPositionX.value = value;
-
-            }
-            else if(name=="positionY_light"){
-                this.uniforms.uLightPositionY.value = value;
-
-            }
-            else if(name=="positionZ_light"){
-                this.uniforms.uLightPositionZ.value = value;
-
-            }
-            else if(name=="color_light2"){
-                this.uniforms.uColorLight2.value = new THREE.Color(value);
-
-            }
-            else if(name=="positionX_light2"){
-                this.uniforms.uLightPositionX2.value = value;
-
-            }
-            else if(name=="positionY_light2"){
-                this.uniforms.uLightPositionY2.value = value;
-
-            }
-            else if(name=="positionZ_light2"){
-                this.uniforms.uLightPositionZ2.value = value;
-
-            }
-        }
-        
-        else if( this.#name ==="Personal")
-        {
-            // for(let i = 0; i<this.#inputs['light'][1].length;i++){
-            //     console.log(this.uniforms[this.#inputs['light'][1][i].get_name()][value]);
-
-            //     console.log("LIGHY");
-            //     console.log(type)
-            //     if(type ==="slider" & name===this.#inputs['light'][1][i].get_label())
-            //     {
-            //         this.uniform[i][id]=value;
-            //         this.uniforms[this.#inputs['light'][1][i].get_name()][value] = this.uniform[i];
-            //     }
-            //     if(type==="checkbox" & name === this.#inputs['light'][1][i].get_label())
-            //     {
-            //         this.uniforms[this.#inputs['light'][1][i].get_name()].value = value;
-                    
-            //     }
-            //     if(type==="color_picker" & name === this.#inputs['light'][1][i].get_label())
-            //     {
-            //         this.uniform_color[i][id] = new THREE.Color(value);
-            //         this.uniforms[this.#inputs['light'][1][i].get_name()][value] = this.uniform_color[i];
-            //         console.log("name uniform : ", this.#inputs['light'][1][i].get_name())
-            //         console.log(this.uniforms[this.#inputs['light'][1][i].get_name()][value])
-            //         console.log("color : ",this.uniform_color[i] )
-
-            //     } 
-            // }
-            for(let i = 0;i<this.#inputs['scene'].length;i++)
-            {
-                if(type ==="slider" & name===this.#inputs['scene'][i].get_label())
-                {
-                    this.uniform[i][id]=value;
-                    this.uniforms[this.#inputs['scene'][i].get_name()][value] = this.uniform[i];
-                    console.log("slider : ", this.#inputs['scene'][i].get_name())
-                }
-                if(type==="checkbox" & name === this.#inputs['scene'][i].get_label())
-                {
-                    this.uniforms[this.#inputs['scene'][i].get_name()].value = value;
-                    console.log("check : ", this.#inputs['scene'][i].get_name())
-
-                }
-                if(type==="color_picker" & name === this.#inputs['scene'][i].get_label())
-                {
-                    this.uniform_color[i][id] = new THREE.Color(value);
-                    this.uniforms[this.#inputs['scene'][i].get_name()][value] = this.uniform_color[i];
-                    console.log("color : ", this.#inputs['scene'][i].get_name())
-
-                }
-                
-            }
-            
         }
 
 
