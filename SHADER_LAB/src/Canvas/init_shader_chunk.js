@@ -126,6 +126,26 @@ shaderChunk['init_object_phong']=`void init_object(){
         sphere3.mat.shininess= uShininess[3];
     }
 }`
+
+shaderChunk['init_object_personal']=`void init_object(){
+    if(SCENE == 0){
+        sphere1.origin=vec3(-1,1,5);
+        sphere1.radius=0.5;
+
+        box1.origin=vec3(1,1,5);
+        box1.dimension=vec3(0.5);
+
+    }else if(SCENE == 1){
+        sphere1.origin=vec3(-1,1,5);
+        sphere1.radius=0.5;
+
+        sphere2.origin=vec3(0,1,5);
+        sphere2.radius=0.5;
+
+        sphere3.origin=vec3(1,1,5);
+        sphere3.radius=0.5;
+    }
+}`
 shaderChunk['creation_object']=`
     struct Material{
         vec3 base_color;
