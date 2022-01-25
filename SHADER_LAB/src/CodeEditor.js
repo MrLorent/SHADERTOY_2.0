@@ -152,6 +152,7 @@ export class CodeEditor {
 
     check_shader_compilation(scene, shader_text,preset){
         let fs = this.copy_shader_to_check(shader_text)
+        console.log(fs)
         let shortStart = this.get_start(shader_text);
         let longStart = this.get_start(fs);
         let message_to_display = "";
@@ -212,5 +213,38 @@ export class CodeEditor {
                 return {status:"failed", message: message_to_display};
             }
         }
+        
+    }
+
+    remove_include_personal(shader_text)
+    {
+        const line = shader_text.split("\n");
+        let new_text = "";
+        line.forEach(element => {
+            let word=element.split(" ");
+            if(word[0] === "#include"){
+                element  = element.replace(element, "");
+                new_text += element;
+            }  
+            else
+            {
+                new_text += element + "\n";
+            }
+            
+        });
+        
+        return new_text;
+
+    }
+    add_include_personal(shader_text, preset)
+    {
+        let text_include  = "#include <uniforms_and_defines>" + "\n" + 
+                        "#include <creation_object>" + "\n" + 
+                        "#include <scene_preset_"+preset+">"+ "\n" + 
+                        "#include <RayMarch> " + "\n" +
+                        "#include <rand>" + "\n"
+                        + "#include <init_object_personal>"+"\n";
+        return text_include + shader_text ;
+
     }
 }

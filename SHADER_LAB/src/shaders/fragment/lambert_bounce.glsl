@@ -17,14 +17,14 @@
 
 
 #include <creation_object>
-#include <creation_scene_0>
+#include <scene_preset_0>
 #include <RayMarch>
 #include <get_normal>
 #define GetNormal GetNormalEulerTwoSided
 #include <rand>
 
 #include <init_object_lambert>
-#include <intersect>
+
 
 
 vec3 Model_Illumination(in vec3 ray_position,in vec3 ray_origin ,in Material hit_object){
