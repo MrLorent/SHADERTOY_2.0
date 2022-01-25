@@ -1,4 +1,5 @@
-import './scss/index.scss';
+import './scss/app.scss';
+import './scss/doc.scss';
 
 import { App } from './App.js';
 import * as THREE from 'three';

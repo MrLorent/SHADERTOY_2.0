@@ -1,7 +1,11 @@
-html, body
+/*------------- GENERAL -------------*/
+
+html,
+body
 {
     height: 100%;
     width: 100%;
+    overflow-x: hidden;
     margin: 0;
 }
 
@@ -21,6 +25,12 @@ main
     position: relative;
     box-sizing: border-box;
     padding: 10vh 0 0 0;
+}
+
+section
+{
+    width: 100%;
+    display: flex;
 }
 
 h1
@@ -57,7 +67,7 @@ button:active
     background-color: #10879c;
 }
 
-/*------------------NAV-----------------*/
+/*------------------ NAV -----------------*/
 #shader_list
 {
     display: flex;
@@ -70,6 +80,7 @@ button:active
     margin: 0 0 0 25px;
 }
 
+/*---------- APPLICATION SECTION ----------*/
 #webgl_canvas
 {
     width: 50%;
@@ -135,8 +146,29 @@ fieldset:not(:first-child)
 
 .one_input_container
 {
+    width: 100%;
     display: flex;
     align-items: center;
+}
+
+.one_input_container label{
+    text-align: center;
+    min-width: 150px;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 10px 15px;
+}
+
+input[type = range],
+input[type = color]
+{
+    flex-grow: 1;
+}
+
+input[type = color]
+{
+    border: none !important;
+    padding: 0;
 }
 
 #editor_container

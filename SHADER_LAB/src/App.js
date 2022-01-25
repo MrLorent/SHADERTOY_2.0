@@ -7,8 +7,9 @@ import nav_bar_as_HTML from './nav_bar.jsx';
 import input_fieldset_as_HTML from './input_fieldset.jsx';
 import switch_input_panel_button from './switch_input_panel_button.jsx';
 import compile_button_as_HTML from './compile_button.jsx'
-import scene_button_as_HTML from './scene_button.jsx'
-import light_button_as_HTML from './light_button.jsx'
+import doc_button_as_HTML from './doc_button.jsx';
+import scene_button_as_HTML from './scene_button.jsx';
+import light_button_as_HTML from './light_button.jsx';
 
 
 import { CodeEditor } from './CodeEditor.js';
@@ -24,8 +25,9 @@ export class App
     // LIST OF SHADERS
     FLAT_PAINTING = 0;
     LAMBERT = 1;
-    PHONG = 2;
-    PERSONAL = 3;
+    LAMBERT_WITH_BOUNCE = 2;
+    PHONG = 3;
+    PERSONAL = 4;
 
     NUMERO_PRESET=0;
 
@@ -49,6 +51,8 @@ export class App
         {
             this.shader_list[i].set_fragment_shader(this.codeEditor.compile_inputed_uniforms(this.shader_list[i].fragment_shader, this.shader_list[i], this.NUMERO_PRESET));
             this.shader_list[i].init_material();
+            
+            
         }
         init_shader_chunk(THREE.ShaderChunk);
         this.insert_shader_buttons_in_HTML();
@@ -89,13 +93,53 @@ export class App
         this.insert_inputs_in_HTML();
         this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
         this.codeEditor.set_value(this.shader_list[this.current_shader].fragment_shader);
+        
+        let doc_button = document.querySelector('#doc_button');
+        if(this.current_shader == this.PERSONAL && !doc_button)
+        {
+            console.log("hello")
+            let console_container = document.querySelector('#code_editor_panel');
+            console_container.append(doc_button_as_HTML());
+        }
+        else if(this.current_shader != this.PERSONAL && doc_button)
+        {
+            doc_button.remove();
+        }
+        
+        if(this.shader_list[this.current_shader].get_name()==="Personal")
+        {
+            this.codeEditor.set_value(this.codeEditor.remove_include_personal(this.shader_list[this.current_shader].fragment_shader));
+            this.shader_list[this.current_shader].fragment_shader = this.codeEditor.add_include_personal(this.shader_list[this.current_shader].fragment_shader, this.NUMERO_PRESET)
+        }
+        else
+        {
+            this.codeEditor.set_value(this.shader_list[this.current_shader].fragment_shader);
+
+        }
+        
+        
     }
 
     update_shader()
     {
-        let console = document.getElementById('console');
+        
+        let console_ = document.getElementById('console');
         let user_shader_input = this.codeEditor.get_value();
+
+
+        
+        if(this.shader_list[this.current_shader].get_name()==="Personal")
+        {
+            
+            
+            user_shader_input = this.codeEditor.add_include_personal(user_shader_input, this.NUMERO_PRESET)
+            user_shader_input+="\n"+ "#include <main>"
+        }
+
+        
         user_shader_input = this.codeEditor.compile_inputed_uniforms(user_shader_input, this.shader_list[this.current_shader], this.NUMERO_PRESET);
+        
+        
 
         const compilation_test = this.codeEditor.check_shader_compilation(this.scene, user_shader_input, this.NUMERO_PRESET);
         if(compilation_test.status === "success")
@@ -103,21 +147,37 @@ export class App
             this.shader_list[this.current_shader].fragment_shader = user_shader_input;
             this.shader_list[this.current_shader].update_material();
             this.switch_shader(this.current_shader);
-            console.classList.remove('fail');
+            console_.classList.remove('fail');
         }
         else
         {
-            console.classList.add('fail');
+            console_.classList.add('fail');
         }
 
-        console.innerHTML = "\\> " + compilation_test.message;
+        console_.innerHTML = "\\> " + compilation_test.message;
     }
 
     update_preset(preset)
     {
-        let new_text = this.codeEditor.change_scene_include(this.NUMERO_PRESET, preset);
-        this.NUMERO_PRESET = preset;
+        let new_text = "";
+        
 
+        if(this.shader_list[this.current_shader].get_name()==="Personal")
+        {
+            
+            
+            new_text = this.codeEditor.change_scene_include(this.NUMERO_PRESET, preset);
+            this.NUMERO_PRESET = preset;
+            new_text = this.codeEditor.add_include_personal(new_text,this.NUMERO_PRESET)
+            new_text+="\n"+ "#include <main>"
+        }
+        else
+        {
+            new_text = this.codeEditor.change_scene_include(this.NUMERO_PRESET, preset);
+            this.NUMERO_PRESET = preset;
+
+        }
+    
         this.shader_list[this.current_shader].fragment_shader = new_text;
         this.shader_list[this.current_shader].update_material();
         this.switch_shader(this.current_shader);

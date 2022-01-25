@@ -24,6 +24,8 @@ uniform vec3 uResolution;
 uniform vec3 uCameraPosition;
 uniform mat4 uCameraMatrix;
 
+in vec2 vertex_uv;
+
 
 
 `
@@ -124,6 +126,27 @@ shaderChunk['init_object_phong']=`void init_object(){
         sphere3.mat.shininess= uShininess[3];
     }
 }`
+
+shaderChunk['init_object_personal']=`
+void init_object(){
+    if(SCENE == 0){
+        sphere1.origin=vec3(-1,1,5);
+        sphere1.radius=0.5;
+
+        box1.origin=vec3(1,1,5);
+        box1.dimension=vec3(0.5);
+
+    }else if(SCENE == 1){
+        sphere1.origin=vec3(-1,1,5);
+        sphere1.radius=0.5;
+
+        sphere2.origin=vec3(0,1,5);
+        sphere2.radius=0.5;
+
+        sphere3.origin=vec3(1,1,5);
+        sphere3.radius=0.5;
+    }
+}`
 shaderChunk['creation_object']=`
     struct Material{
         vec3 base_color;
@@ -162,6 +185,7 @@ shaderChunk['creation_object']=`
     struct PointLight {
         vec3 pos;
         vec3 col;
+        vec3 vector;
     };`
     
 shaderChunk['scene_preset_0']=`
@@ -171,9 +195,7 @@ shaderChunk['scene_preset_0']=`
     Box box1, box2;
     Plane plane;
     
-    PointLight light = PointLight(vec3(0, -5, -6),
-                                        vec3(0.600,0.478,0.478));
-                                                                      
+   
     
     
     float SphereSDF(in vec3 ray_intersect, in Sphere sphere) {
@@ -203,6 +225,25 @@ shaderChunk['scene_preset_0']=`
         }
         return d;
     }
+
+    bool intersect(vec3 ray_origin,vec3 ray_position,vec3 ray_direction )
+    {
+        float sphereDist = SphereSDF(ray_position, sphere1);  //Distance to our sphere
+        float boxDist = BoxSDF(ray_position, box1);     //Distance to our box
+            
+        float minDist= min(sphereDist, boxDist);
+        float planeDist = ray_position.y; // ground
+
+            
+        float d = min(planeDist, minDist);
+        if(d == planeDist){
+
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
     `
 shaderChunk['scene_preset_1']=`
 
@@ -212,8 +253,6 @@ shaderChunk['scene_preset_1']=`
     Box box1, box2;
     Plane plane;
 
-    PointLight light = PointLight(vec3(0, 5, 6),
-                                        vec3(0.600,0.478,0.478));
                                                                       
      
     float SphereSDF(in vec3 ray_intersect, in Sphere sphere) {
@@ -241,6 +280,27 @@ shaderChunk['scene_preset_1']=`
         }
 
         return d;
+    }
+
+    bool intersect(vec3 ray_origin,vec3 ray_position,vec3 ray_direction )
+    {
+        float sphere1Dist = SphereSDF(ray_position, sphere1);  //Distance to our sphere
+        float sphere2Dist = SphereSDF(ray_position, sphere2);  //Distance to our sphere
+        float sphere3Dist = SphereSDF(ray_position, sphere3);  //Distance to our sphere
+            
+        float minDist = min(sphere1Dist, sphere2Dist);
+        float minDist2 = min(minDist, sphere3Dist);
+        float planeDist = ray_position.y; // ground
+
+            
+        float d = min(planeDist, minDist2);
+        if(d == planeDist){
+
+            return false;
+        }
+        else{
+            return true;
+        }
     }
     `
     
@@ -287,6 +347,7 @@ float rand(vec2 co){
     
 `  
 
+
 shaderChunk['main']=`
 void main()
 {
@@ -321,6 +382,8 @@ void main()
 
    
 	pc_fragColor = vec4(color/float(N_RAY), 1.0 );
+
+    //pc_fragColor = vec4(color/float(N_RAY),1.0);
 
 }
 `

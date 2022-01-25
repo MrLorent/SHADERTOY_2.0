@@ -13,25 +13,189 @@
         <h1>SHADER LAB</h1>
     </header>
     <main>
-        <div id="interactive_window">
-            <div id="navigation_panel"></div>
-            <div class="container">
-                <div class="input_container"></div>
-                <div id="editor_container">
-                    <div class="editor_scroll_window">
-                        <div id="code_editor"></div>
-                    </div>
-                    <div id="code_editor_panel">
-                        <div id="console">Bonjour je suis la console de débug</div>
+        <section id="application">
+            <div id="interactive_window">
+                <div id="navigation_panel"></div>
+                <div class="container">
+                    <div class="input_container"></div>
+                    <div id="editor_container">
+                        <div class="editor_scroll_window">
+                            <div id="code_editor"></div>
+                        </div>
+                        <div id="code_editor_panel">
+                            <div id="console">Bonjour je suis la console de débug</div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="visual_window">
-            <div class="input_container light"></div>
-            <canvas id="webgl_canvas"></canvas>
-            <div class="input_container scene"></div>
-        </div>
+            <div id="visual_window">
+                <div class="input_container light"></div>
+                <canvas id="webgl_canvas"></canvas>
+                <div class="input_container scene"></div>
+            </div>
+        </section>
+        <section id="documentation">
+            <div class="doc_container">
+                <p>Cette page d'aide couvre uniquement les parties de GLSL ES pertinentes pour Shadertoy. Pour la documentation complète, veuillez vous référer à la <a href="https://www.khronos.org/registry/OpenGL/specs/es/3.0/GLSL_ES_Specification_3.00.pdf">spécification GLSL ES</a></p>
+
+                <h2 class="doc_title">Build-in Functions</h2>
+                <hr>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Prototype</th>
+                            <th>return description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>vec3 get_normal(vec3 intersection)</td>
+                            <td>return the normal of the given intersection.</td>
+                        </tr>
+                        <tr>
+                            <td>float rand(vec2 input)</td>
+                            <td>return a random value based on the input.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h2 class="doc_title">How-to</h2>
+                <hr>
+                <div class="how_to_subdivision">
+                    <h3 class="how_to_title">All the variables you need to know and use (hit_object)</h3>
+                    <p class="how_to_description">
+                        La description là !
+                    </p>
+                </div>
+
+                <h2 class="doc_title">Be careful !</h2>
+                <hr>
+                <p>there is 8 max materials (N_MATERIALS=8)</p>
+
+                <h2 class="doc_title">Shader Lab Inputs</h2>
+                <hr>
+                <p>C'est quoi les inputs ?</p>
+                <ul>
+                    <li>
+                        <span class="type">vec2</span> 
+                        <span class="name">uResolution</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span> 
+                        <span class="name">uTime</span>
+                    </li>
+                    <li>
+                        <span class="type">mat4</span> 
+                        <span class="name">uCameraMatrix</span>
+                    </li>
+                    <li>
+                        <span class="type">vec3</span> 
+                        <span class="name">uCameraPosition</span>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <span class="type">vec4</span> 
+                        <span class="name">uColors[N_MATERIALS]</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span> 
+                        <span class="name">uKd</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span> 
+                        <span class="name">uKs</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span> 
+                        <span class="name">uShininess</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span> 
+                        <span class="name">uSubsurface</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span> 
+                        <span class="name">uMetallic</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span> 
+                        <span class="name">uSpecularTint</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span> 
+                        <span class="name">uRoughness</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span> 
+                        <span class="name">uAniosropic</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span> 
+                        <span class="name">uSheen</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span> 
+                        <span class="name">uSheenTint</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span> 
+                        <span class="name">uClearCoat</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span> 
+                        <span class="name">uClearCoatGloss</span>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <span class="type">vec3</span> 
+                        <span class="name">uColorLight</span>
+                    </li>
+                    <li>
+                        <span class="type">vec3</span> 
+                        <span class="name">uColorLight2</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span> 
+                        <span class="name">uLightPositionX</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span> 
+                        <span class="name">uLightPositionX2</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span> 
+                        <span class="name">uLightPositionY</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span> 
+                        <span class="name">uLightPositionY2</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span> 
+                        <span class="name">uLightPositionZ</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span> 
+                        <span class="name">uLightPositionZ2</span>
+                    </li>
+                    <li>
+                        <span class="type">int</span> 
+                        <span class="name">uRotatingLight</span>
+                    </li>
+                    <li>
+                        <span class="type">float</span> 
+                        <span class="name">uSecond_Light_on_off</span>
+                    </li>
+                </ul>
+
+                <h2 class="doc_title">Shader Lab Outpouts</h2>
+                <hr>
+                <p>Image shaders: pc_fragColor is used as output channel. It is not, for now, mandatory but recommended to leave the alpha channel to 1.0.
+                </p>
+            </div>
+        </section>
     </main>
 </body>
 </html>
