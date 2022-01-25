@@ -24,7 +24,7 @@
 #include <rand>
 
 #include <init_object_lambert>
-#include <intersect>
+
 
 
 vec3 Model_Illumination(in vec3 ray_position,in vec3 ray_origin ,in Material hit_object){
