@@ -296,7 +296,7 @@ export default class Shader
             this.#inputs[uniform.target][1].push(Input(uniform)); 
             let i = this.#inputs[uniform.target][1].length-1;
 
-            if(this.#name === "Personal")
+            if(this.#name === "Personal" && uniform.target=="scene")
             {
                 this.#inputs[uniform.target][0].push(Input(uniform)); 
 
@@ -329,7 +329,7 @@ export default class Shader
                 }
             }  
         
-            if(this.#name != "Personal" & uniform.label != "color_light2" & uniform.label != "positionX_light2" & uniform.label != "positionY_light2"& uniform.label != "positionZ_light2")
+            if(uniform.label != "color_light2" & uniform.label != "positionX_light2" & uniform.label != "positionY_light2"& uniform.label != "positionZ_light2")
             {
                 this.#inputs[uniform.target][0].push(Input(uniform));
                 let i = this.#inputs[uniform.target][0].length-1;
