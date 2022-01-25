@@ -127,7 +127,8 @@ shaderChunk['init_object_phong']=`void init_object(){
     }
 }`
 
-shaderChunk['init_object_personal']=`void init_object(){
+shaderChunk['init_object_personal']=`
+void init_object(){
     if(SCENE == 0){
         sphere1.origin=vec3(-1,1,5);
         sphere1.radius=0.5;

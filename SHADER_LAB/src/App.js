@@ -95,7 +95,7 @@ export class App
         if(this.shader_list[this.current_shader].get_name()==="Personal")
         {
             this.codeEditor.set_value(this.codeEditor.remove_include_personal(this.shader_list[this.current_shader].fragment_shader));
-            this.shader_list[this.current_shader].fragment_shader = this.codeEditor.add_include_personal(this.shader_list[this.current_shader].fragment_shader)
+            this.shader_list[this.current_shader].fragment_shader = this.codeEditor.add_include_personal(this.shader_list[this.current_shader].fragment_shader, this.NUMERO_PRESET)
         }
         else
         {
@@ -118,7 +118,7 @@ export class App
         {
             
             
-            user_shader_input = this.codeEditor.add_include_personal(user_shader_input)
+            user_shader_input = this.codeEditor.add_include_personal(user_shader_input, this.NUMERO_PRESET)
             user_shader_input+="\n"+ "#include <main>"
         }
 
@@ -146,12 +146,14 @@ export class App
     update_preset(preset)
     {
         let new_text = "";
+        this.NUMERO_PRESET = preset;
+
         if(this.shader_list[this.current_shader].get_name()==="Personal")
         {
             
             
             new_text = this.codeEditor.change_scene_include(this.NUMERO_PRESET, preset);
-            new_text = this.codeEditor.add_include_personal(new_text)
+            new_text = this.codeEditor.add_include_personal(new_text,this.NUMERO_PRESET)
             new_text+="\n"+ "#include <main>"
         }
         else
@@ -159,9 +161,7 @@ export class App
             new_text = this.codeEditor.change_scene_include(this.NUMERO_PRESET, preset);
 
         }
-        
-        this.NUMERO_PRESET = preset;
-
+    
         this.shader_list[this.current_shader].fragment_shader = new_text;
         this.shader_list[this.current_shader].update_material();
         this.switch_shader(this.current_shader);
