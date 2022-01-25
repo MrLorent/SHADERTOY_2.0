@@ -38,8 +38,6 @@ export class App
     shader_list;
     current_shader;
 
-    #material;
-
     constructor(shader_list){
         // CODE_EDITOR
         this.codeEditor = new CodeEditor('code_editor');
@@ -51,8 +49,6 @@ export class App
         {
             this.shader_list[i].set_fragment_shader(this.codeEditor.compile_inputed_uniforms(this.shader_list[i].fragment_shader, this.shader_list[i], this.NUMERO_PRESET));
             this.shader_list[i].init_material();
-            
-            
         }
         init_shader_chunk(THREE.ShaderChunk);
         this.insert_shader_buttons_in_HTML();
@@ -83,6 +79,14 @@ export class App
         this.insert_switch_input_panel_button_in_HTML();
         this.insert_scene_buttons_in_HTML();
         this.insert_light_buttons_in_HTML();
+
+        document.querySelector('abbr.light_list').addEventListener('click',() => {
+            document.querySelector('.input_container.light').classList.toggle('unwrap');
+        });
+
+        document.querySelector('abbr.scene_list').addEventListener('click',() => {
+            document.querySelector('.input_container.scene').classList.toggle('unwrap');
+        })
     }
 
     switch_shader(new_shader_id)
@@ -160,20 +164,18 @@ export class App
     update_preset(preset)
     {
         let new_text = "";
-        this.NUMERO_PRESET = preset;
 
         if(this.shader_list[this.current_shader].get_name()==="Personal")
         {
-            
-            
             new_text = this.codeEditor.change_scene_include(this.NUMERO_PRESET, preset);
+            this.NUMERO_PRESET = preset;
             new_text = this.codeEditor.add_include_personal(new_text,this.NUMERO_PRESET)
             new_text+="\n"+ "#include <main>"
         }
         else
         {
             new_text = this.codeEditor.change_scene_include(this.NUMERO_PRESET, preset);
-
+            this.NUMERO_PRESET = preset;
         }
     
         this.shader_list[this.current_shader].fragment_shader = new_text;
@@ -198,15 +200,15 @@ export class App
     insert_scene_buttons_in_HTML()
     {
         const navigation_panel = document.querySelector('#visual_window .input_container.scene');
-        navigation_panel.append(scene_button_as_HTML(this,0));
-        navigation_panel.append(scene_button_as_HTML(this,1));
+        navigation_panel.insertBefore(scene_button_as_HTML(this,1), navigation_panel.firstChild);
+        navigation_panel.insertBefore(scene_button_as_HTML(this,0), navigation_panel.firstChild);
     }
 
     insert_light_buttons_in_HTML()
     {
         const navigation_panel = document.querySelector('#visual_window .input_container.light');
-        navigation_panel.append(light_button_as_HTML(this, 0));
-        navigation_panel.append(light_button_as_HTML(this, 1));
+        navigation_panel.insertBefore(light_button_as_HTML(this, 1), navigation_panel.firstChild);
+        navigation_panel.insertBefore(light_button_as_HTML(this, 0), navigation_panel.firstChild);
     }
 
     insert_switch_input_panel_button_in_HTML()

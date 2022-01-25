@@ -6,8 +6,15 @@ export default (shaders_name, shaders_id, app) => {
         <ul id="shader_list">
             {shaders_name.map(name => (
                 <li
-                onclick = {() => { app.switch_shader(shaders_id[name]); app.update_preset(app.NUMERO_PRESET)}}
-                className="shader_link"
+                onclick = {function(){ 
+                    app.switch_shader(shaders_id[name]);
+                    app.update_preset(app.NUMERO_PRESET);
+                    
+                    let previous = document.querySelector('.shader_link.current');
+                    previous.classList.remove('current');
+                    this.classList.add('current');
+                }}
+                className={shaders_id[name] == 0 ? "shader_link current" : "shader_link"}
                 >{ name }</li>
             ))}
         </ul>

@@ -38,6 +38,28 @@ h1
     margin: 0;
 }
 
+ul
+{
+    padding: 0;
+    margin: 0;
+}
+
+button
+{
+    cursor: pointer;
+    background-color: #1dd4f4;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-size: 50%;
+    color: white;
+    font-weight: bold;
+    width: 50px;
+    height: 50px;
+    border: none;
+}
+
+/*---------------- HEADER ----------------*/
 header
 {
     background: #000000;
@@ -49,35 +71,41 @@ header
     position: fixed;
     top: 0;
     box-sizing: border-box;
-    padding: 0 1.5%;
     z-index: 5;
 }
 
-button
+h1
 {
-    cursor: pointer;
-    background-color: #1dd4f4;
-    color: white;
-    font-weight: bold;
-    border: none;
-}
-
-button:active
-{
-    background-color: #10879c;
+    margin: 0 1.5%;
 }
 
 /*------------------ NAV -----------------*/
+nav
+{
+    height: 100%;
+}
+
 #shader_list
 {
+    height: 100%;
     display: flex;
+    align-items: center;
 }
 
 .shader_link
 {
     cursor: pointer;
     list-style: none;
-    margin: 0 0 0 25px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 12.5px;
+}
+
+.shader_link.current
+{
+    border-bottom: 2px solid white;
 }
 
 /*---------- APPLICATION SECTION ----------*/
@@ -224,22 +252,19 @@ input[type = color]
 
 #compile_button
 {
-    width: 50px;
-    height: 50px;
-    background: url("./img/play.svg") no-repeat center, #1dd4f4;
-    padding: 0 5px 0 27.5px;
+    background-image: url("./img/play.svg");
+    background-size: 45%;
 }
 
 #switch_input_panel_button
 {
-    width: 50px;
-    height: 50px;
-    background: url("./img/code.svg") no-repeat center, #1dd4f4;
+    background-image: url("./img/code.svg");
 }
 
 #switch_input_panel_button.code_editor
 {
-    background: url("./img/inputs.svg") no-repeat center, #1dd4f4;
+    background-image: url("./img/inputs.svg");
+    background-size: 45%;
 }
 
 #visual_window
@@ -251,10 +276,22 @@ input[type = color]
 
 #visual_window .input_container
 {
-    height: 50px;
+    width: 70px;
+    height: 70px;
     display: flex;
+    justify-content: flex-end;
     position: absolute;
     right: 0;
+    overflow: hidden;
+    padding: 10px;
+    box-sizing: border-box;
+    transition: 0.25s ease-out;
+}
+
+#visual_window .input_container.unwrap
+{
+    width: 100%;
+    transition: 0.25s ease-in;
 }
 
 .input_container.light
@@ -270,9 +307,38 @@ input[type = color]
 .scene_button,
 .light_button
 {
+    white-space: nowrap;
     height: 100%;
+    width: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0 17.5px;
+}
+
+abbr.button
+{
+    cursor: pointer;
+    background-color: #1dd4f4;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-size: 50%;
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
+    margin: 0 0 0 10px;
+}
+
+abbr.button.light_list
+{
+    background-image: url("./img/light.svg");
+    border-radius: 50%;
+}
+
+abbr.button.scene_list
+{
+    background-image: url("./img/box.svg");
+    border-radius: 50%;
 }

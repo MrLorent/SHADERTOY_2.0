@@ -2,9 +2,7 @@ import createElement from "./Inputs/createElement.js";
 
 export default () => {
     const doc_button = 
-    <abbr 
-        title="documentation"
-    >
+    <abbr title="documentation">
         <button
             id="doc_button"
             onclick={() => {
