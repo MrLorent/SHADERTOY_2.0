@@ -138,7 +138,6 @@ export default class Shader
     }
 
     update(name, value, type, id=0){
-
         if(this.#name != "Personal")
         {
             if(name=="rotate_light"){
@@ -165,23 +164,23 @@ export default class Shader
             }
             else if(name=="subsurface"){
                 this.subsurface[id]=value;
-                this.uniform.uSubsurface.value=this.subsurface;
+                this.uniforms.uSubsurface.value=this.subsurface;
             }
             else if(name=="metallic"){
                 this.metallic[id]=value;
-                this.uniform.uMetallic.value=this.metallic;
+                this.uniforms.uMetallic.value=this.metallic;
             }
             else if(name=="specularTint"){
                 this.specularTint[id]=value;
-                this.uniform.uSpecularTint.value=this.specularTint;
+                this.uniforms.uSpecularTint.value=this.specularTint;
             }
             else if(name=="roughness"){
                 this.roughness[id]=value;
-                this.uniform.uRoughness.value=this.roughness;
+                this.uniforms.uRoughness.value=this.roughness;
             }
             else if(name=="aniosotropic"){
                 this.aniosotropic[id]=value;
-                this.uniform.uAniosotropic.value=this.aniosotropic;
+                this.uniforms.uAniosotropic.value=this.aniosotropic;
             }
             else if(name=="sheen"){
                 this.sheen[id]=value;
@@ -189,15 +188,15 @@ export default class Shader
             }
             else if(name=="sheenTint"){
                 this.sheenTint[id]=value;
-                this.uniform.uSheenTint.value=this.sheenTint;
+                this.uniforms.uSheenTint.value=this.sheenTint;
             }
             else if(name=="clearcoat"){
                 this.clearcoat[id]=value;
-                this.uniform.uClearCoat.value=this.clearcoat;
+                this.uniforms.uClearCoat.value=this.clearcoat;
             }
             else if(name=="clearcoatGloss"){
                 this.clearcoatGloss[id]=value;
-                this.uniform.uClearCoatGloss.value=this.clearcoatGloss;
+                this.uniforms.uClearCoatGloss.value=this.clearcoatGloss;
             }
             
             else if(name=="color_light"){
@@ -236,25 +235,51 @@ export default class Shader
         
         else if( this.#name ==="Personal")
         {
-            for(let i = 0;i<this.#inputs.length;i++)
+            // for(let i = 0; i<this.#inputs['light'][1].length;i++){
+            //     console.log(this.uniforms[this.#inputs['light'][1][i].get_name()][value]);
+
+            //     console.log("LIGHY");
+            //     console.log(type)
+            //     if(type ==="slider" & name===this.#inputs['light'][1][i].get_label())
+            //     {
+            //         this.uniform[i][id]=value;
+            //         this.uniforms[this.#inputs['light'][1][i].get_name()][value] = this.uniform[i];
+            //     }
+            //     if(type==="checkbox" & name === this.#inputs['light'][1][i].get_label())
+            //     {
+            //         this.uniforms[this.#inputs['light'][1][i].get_name()].value = value;
+                    
+            //     }
+            //     if(type==="color_picker" & name === this.#inputs['light'][1][i].get_label())
+            //     {
+            //         this.uniform_color[i][id] = new THREE.Color(value);
+            //         this.uniforms[this.#inputs['light'][1][i].get_name()][value] = this.uniform_color[i];
+            //         console.log("name uniform : ", this.#inputs['light'][1][i].get_name())
+            //         console.log(this.uniforms[this.#inputs['light'][1][i].get_name()][value])
+            //         console.log("color : ",this.uniform_color[i] )
+
+            //     } 
+            // }
+            for(let i = 0;i<this.#inputs['scene'].length;i++)
             {
-                
-                if(type ==="slider" & name===this.#inputs[i].get_label())
+                if(type ==="slider" & name===this.#inputs['scene'][i].get_label())
                 {
                     this.uniform[i][id]=value;
-                    this.uniforms[this.#inputs[i].get_name()][value] = this.uniform[i];
+                    this.uniforms[this.#inputs['scene'][i].get_name()][value] = this.uniform[i];
+                    console.log("slider : ", this.#inputs['scene'][i].get_name())
                 }
-                if(type==="checkbox" & name === this.#inputs[i].get_label())
+                if(type==="checkbox" & name === this.#inputs['scene'][i].get_label())
                 {
-    
-                    this.uniforms[this.#inputs[i].get_name()].value = value;
-                    
+                    this.uniforms[this.#inputs['scene'][i].get_name()].value = value;
+                    console.log("check : ", this.#inputs['scene'][i].get_name())
+
                 }
-                if(type==="color_picker" & name === this.#inputs[i].get_label())
+                if(type==="color_picker" & name === this.#inputs['scene'][i].get_label())
                 {
-                
                     this.uniform_color[i][id] = new THREE.Color(value);
-                    this.uniforms[this.#inputs[i].get_name()][value] = this.uniform_color[i];
+                    this.uniforms[this.#inputs['scene'][i].get_name()][value] = this.uniform_color[i];
+                    console.log("color : ", this.#inputs['scene'][i].get_name())
+
                 }
                 
             }
