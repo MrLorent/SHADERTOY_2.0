@@ -1,0 +1,36 @@
+/*---------- GENERAL ----------*/
+table,
+td,
+th
+{
+    border-collapse: collapse;
+    border: 1px solid white;
+}
+
+table
+{
+    width: 100%;
+}
+
+/*---------- DOCUMENTATION SECTION ----------*/
+#documentation
+{
+    width: 45vw;
+    height: 90%;
+    background-color: #121212;
+    position: absolute;
+    right: 0;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+#documentation::-webkit-scrollbar
+{
+    display: none;
+}
+
+.doc_container
+{
+    padding: 5%;
+}
