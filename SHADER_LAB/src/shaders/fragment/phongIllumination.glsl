@@ -23,10 +23,10 @@
 
 
 #include <creation_object>
+#include <dot2>
 #include <scene_preset_0>
 #include <RayMarch>
 #include <get_normal>
-#define GetNormal GetNormalEulerTwoSided
 #include <rand>
 #include <init_object_phong>
 
@@ -42,9 +42,7 @@ vec3 Model_Illumination(in vec3 ray_intersect, in vec3 ray_origin, in Material h
     vec3 light_vector = normalize(lightPos - ray_intersect);
     vec3 light_vector2 = normalize(lightPos2 - ray_intersect);
 
-
-    vec3 normal = GetNormal(ray_intersect);
-
+    vec3 normal = get_normal(ray_intersect);
 
     vec3 ray_vector = normalize(ray_origin - ray_intersect);
     
@@ -77,26 +75,14 @@ vec3 Model_Illumination(in vec3 ray_intersect, in vec3 ray_origin, in Material h
 
 
     // Blinn-Phong stuff
-    vec3 ambientDiffuse = uColorLight * hit_object.base_color;
-    vec3 ambientDiffuse2 = uColorLight2 * hit_object.base_color;
+    vec3 col1 = uColorLight * hit_object.base_color;
+    col1 = col1 * hit_object.kd * diffuse + hit_object.ks * pow(specular, hit_object.shininess);
 
-
-    float light1DiffuseComponent = diffuse ;//* uColorLight;
-    float light1DiffuseComponent2 = diffuse2 ; //* uColorLight2;
-
-    float light1SpecularComponent = pow(specular, hit_object.shininess);
-    float light1SpecularComponent2 = pow(specular2, hit_object.shininess);
-
-    float diffusComponent1=hit_object.kd * light1DiffuseComponent;
-    float specularComponent1= hit_object.ks* light1SpecularComponent;
-    vec3 col1=(diffusComponent1 + specularComponent1)* ambientDiffuse;
-
-    float diffusComponent2=hit_object.kd * light1DiffuseComponent2;
-    float specularComponent2= hit_object.ks* light1SpecularComponent2;
-    vec3 col2=(diffusComponent2 + specularComponent2)* ambientDiffuse2;
+    vec3 col2 = uColorLight2 * hit_object.base_color;
+    col2 = col2 * hit_object.kd * diffuse2 + hit_object.ks * pow(specular2, hit_object.shininess);
     
     vec3 col = col1 + uSecond_Light_on_off *col2;
-    return col;
+    return pow(col,vec3(0.8)); //Gama correction
 }
 
 #include <main>

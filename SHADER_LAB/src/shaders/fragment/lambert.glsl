@@ -17,12 +17,11 @@
 
 
 #include <creation_object>
+#include <dot2>
 #include <scene_preset_0>
 #include <RayMarch>
 #include <get_normal>
-#define GetNormal GetNormalEulerTwoSided
 #include <rand>
-
 #include <init_object_lambert>
 
 vec3 Model_Illumination(in vec3 ray_intersect,in vec3 ray_origin ,in Material hit_object){
@@ -34,7 +33,7 @@ vec3 Model_Illumination(in vec3 ray_intersect,in vec3 ray_origin ,in Material hi
     vec3 light_vector = normalize(lightPos - ray_intersect); 
     vec3 light_vector2 = normalize(lightPos2 - ray_intersect); 
 
-    vec3 normal = GetNormal(ray_intersect); 
+    vec3 normal = get_normal(ray_intersect); 
     float diffuse  = clamp(dot(light_vector, normal), 0., 1.);
     float diffuse2  = clamp(dot(light_vector2, normal), 0., 1.);
 
