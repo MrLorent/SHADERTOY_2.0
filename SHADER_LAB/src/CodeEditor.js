@@ -212,5 +212,37 @@ export class CodeEditor {
                 return {status:"failed", message: message_to_display};
             }
         }
+        
+    }
+
+    remove_include_personal(shader_text)
+    {
+        const line = shader_text.split("\n");
+        let new_text = "";
+        line.forEach(element => {
+            let word=element.split(" ");
+            if(word[0] === "#include"){
+                element  = element.replace(element, "");
+                new_text += element;
+            }  
+            else
+            {
+                new_text += element + "\n";
+            }
+            
+        });
+        
+        return new_text;
+
+    }
+    add_include_personal(shader_text)
+    {
+        let text_include  = "#include <uniforms_and_defines>" + "\n" + 
+                        "#include <creation_object>" + "\n" + 
+                        "#include <scene_preset_0>"+ "\n" + 
+                        "#include <RayMarch> " + "\n" +
+                        "#include <rand>" + "\n";
+        return text_include + shader_text ;
+
     }
 }
