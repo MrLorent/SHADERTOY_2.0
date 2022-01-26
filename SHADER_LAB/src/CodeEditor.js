@@ -110,7 +110,6 @@ export class CodeEditor {
 
             new_text += element + "\n";
         });
-
         /* substr just remove the last enter */
         return new_text.substr(0,new_text.length-1);
     }

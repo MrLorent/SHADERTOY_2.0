@@ -7,10 +7,6 @@
 #include <rand>
 #include <init_object_personal>
 
-// To create an uniform value and to get a slider linked to it : 
-// /// color_picker light||scene uName name
-// /// checkbox light||scene uName name
-// /// slider light||scene uName name min max step
 
 /// color_picker light uColorLight color_light
 /// checkbox light uRotatingLight rotate_light
@@ -25,6 +21,7 @@
 /// slider light uLightPositionZ2 positionZ_light2 1 5 0.1
 
 /// checkbox light uSecond_Light_on_off preset 
+
 
 // To create an uniform value and to get a slider linked to it : 
 // /// color_picker scene uName name

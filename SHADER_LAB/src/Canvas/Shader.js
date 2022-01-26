@@ -42,15 +42,15 @@ export default class Shader
         this.color      =   [new THREE.Color('#729FCF'), new THREE.Color('#ECA5A5'),new THREE.Color('#F9EB73'), new THREE.Color('green'), new THREE.Color('aqua'), new THREE.Color('white'), new THREE.Color('#e36c44'), new THREE.Color('#8ab8a5')];
         this.diffus     =   [0.7,0.5,0.7,1,1,1,1,1];
         this.specular   =   [0.1,0.2,0.3,1,1,0,0,0];
-        this.subsurface = [0,0.1,1,0.5,0,0.1,1,0.5]
-        this.metallic   = [0,0.1,1,0.5,0,0.1,1,0.5];
+        this.subsurface =   [0,0.1,1,0.5,0,0.1,1,0.5]
+        this.metallic   =   [0,0.1,1,0.5,0,0.1,1,0.5];
         this.specularTint = [0,0.1,1,0.5,0,0.1,1,0.5];
-        this.roughness= [1,0.1,1,0.5,0,0.1,1,0.5];
-        this.anisotropic= [0,0.1,1,0.5,0,0.1,1,0.5];
-        this.sheen= [0,0.1,1,0.5,0,0.1,1,0.5];
-        this.sheenTint= [0,0.1,1,0.5,0,0.1,1,0.5];
-        this.clearcoat= [0,0.1,1,0.5,0,0.1,1,0.5];
-        this.clearcoatGloss= [0,0.1,1,0.5,0,0.1,1,0.5];
+        this.roughness=     [1,0.1,1,0.5,0,0.1,1,0.5];
+        this.anisotropic=   [0,0.1,1,0.5,0,0.1,1,0.5];
+        this.sheen=         [0,0.1,1,0.5,0,0.1,1,0.5];
+        this.sheenTint=     [0,0.1,1,0.5,0,0.1,1,0.5];
+        this.clearcoat=     [0,0.1,1,0.5,0,0.1,1,0.5];
+        this.clearcoatGloss=[0,0.1,1,0.5,0,0.1,1,0.5];
 
         this.uniform    =   []
         this.uniform_color = []
@@ -84,6 +84,7 @@ export default class Shader
             uClearCoat:{value:this.clearcoat},
             uClearCoatGloss:{value:this.clearcoatGloss}
         };
+    
     }
 
     get_name()
@@ -131,8 +132,10 @@ export default class Shader
 
     update_material()
     {
+        
         this.#material.fragmentShader = this.fragment_shader;
         this.#material.needsUpdate = true;
+        
     }
 
     update(name, value, type, id=0){
@@ -266,7 +269,7 @@ export default class Shader
             {
                 if(this.#inputs[uniform.target][i].get_type() === "slider")
                 {
-                    this.uniform[i] = [1.,1.,1.]
+                    this.uniform[i] = [1.,1.,1.,1.,1.,1.,1.,1.]
                     this.uniforms[this.#inputs[uniform.target][i].get_name()] = {value : this.uniform[i]}
                 }
 
@@ -278,7 +281,7 @@ export default class Shader
                 }
                 else if (this.#inputs[uniform.target][i].get_type() === "color_picker")
                 {
-                    this.uniform_color[i] = [new THREE.Color('#9cb6f0'), new THREE.Color('#9cb6f0'),new THREE.Color('#9cb6f0')];
+                    this.uniform_color[i] = [new THREE.Color('#9cb6f0'), new THREE.Color('#9cb6f0'),new THREE.Color('#9cb6f0'),new THREE.Color('#9cb6f0'),new THREE.Color('#9cb6f0'),new THREE.Color('#9cb6f0'),new THREE.Color('#9cb6f0'),new THREE.Color('#9cb6f0')];
                     this.uniforms[this.#inputs[uniform.target][i].get_name()] = {value : this.uniform_color[i]}
 
                 }
@@ -298,7 +301,7 @@ export default class Shader
                 
                 if(this.#inputs[uniform.target][1][i].get_type() === "slider")
                 {
-                    this.uniform[i] = [1.,1.,1.]
+                    this.uniform[i] = [1.,1.,1.,1.,1.,1.,1.,1.]
                     this.uniforms[this.#inputs[uniform.target][1][i].get_name()] = {value : this.uniform[i]}
                     this.uniforms[this.#inputs[uniform.target][0][i].get_name()] = {value : this.uniform[i]}
 
@@ -314,7 +317,7 @@ export default class Shader
                 }
                 else if (this.#inputs[uniform.target][1][i].get_type() === "color_picker")
                 {
-                    this.uniform_color[i] = [new THREE.Color('#9cb6f0'), new THREE.Color('#9cb6f0'),new THREE.Color('#9cb6f0')];
+                    this.uniform_color[i] = [new THREE.Color('#9cb6f0'), new THREE.Color('#9cb6f0'),new THREE.Color('#9cb6f0'),new THREE.Color('#9cb6f0'),new THREE.Color('#9cb6f0'),new THREE.Color('#9cb6f0'),new THREE.Color('#9cb6f0'),new THREE.Color('#9cb6f0')];
                     this.uniforms[this.#inputs[uniform.target][1][i].get_name()] = {value : this.uniform_color[i]}
                     this.uniforms[this.#inputs[uniform.target][0][i].get_name()] = {value : this.uniform_color[i]}
 

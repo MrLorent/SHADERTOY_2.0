@@ -114,6 +114,7 @@ export class App
         {
             this.codeEditor.set_value(this.codeEditor.remove_include_personal(this.shader_list[this.current_shader].fragment_shader));
             this.shader_list[this.current_shader].fragment_shader = this.codeEditor.add_include_personal(this.shader_list[this.current_shader].fragment_shader, this.NUMERO_PRESET)
+            
         }
         else
         {
@@ -214,6 +215,7 @@ export class App
 
     insert_compile_button()
     {
+        
         const code_editor_buttons = document.getElementById('code_editor_panel');
         code_editor_buttons.append(compile_button_as_HTML(this));
     }
