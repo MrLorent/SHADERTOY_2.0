@@ -57,6 +57,10 @@ h3.doc_title{
     font-size: 1.5em;
 }
 
+ul{
+    list-style-type: none;
+}
+
 ul.structure {
     list-style-type: none;
     margin-left:8%;
@@ -67,15 +71,37 @@ ul.structure {
     color:#1dd4f4;
 }
 
-.example{
-    color:#1dd4f4;
-    border: solid #1dd4f4;
-    padding:2%;
-    border-width:thin;
+pre{
+    //background: #f4f4f4;
+    border: 1px solid #ddd;
+    border-left: 3px solid #1dd4f4;
+    color: rgb(255, 255, 255);
+    page-break-inside: avoid;
+    font-family: monospace;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 1.6em;
+    max-width: 100%;
+    overflow: auto;
+    padding: 1em 1.5em;
+    display: block;
+    word-wrap: break-word;
 }
 
-.final_example{
+.code{
+    font-family: monospace;
+    font-size: 15px;
+}
+
+hr{
     color:#1dd4f4;
-    border: thick double #1dd4f4;
-    padding:2%;
+}
+
+.little-transition{
+    margin-top: 5%;
+    border-style: dashed;
+}
+
+.code-list{
+    padding-bottom: 2%;
 }
