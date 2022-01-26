@@ -10,6 +10,7 @@ import compile_button_as_HTML from './compile_button.jsx'
 import doc_button_as_HTML from './doc_button.jsx';
 import scene_button_as_HTML from './scene_button.jsx';
 import light_button_as_HTML from './light_button.jsx';
+import about_button_as_HTML from './about_button.jsx';
 
 
 import { CodeEditor } from './CodeEditor.js';
@@ -76,7 +77,7 @@ export class App
         );
 
         // NAVIGATION
-        this.insert_switch_input_panel_button_in_HTML();
+        this.insert_navigation_panel_buttons_in_HTML();
         this.insert_scene_buttons_in_HTML();
         this.insert_light_buttons_in_HTML();
 
@@ -211,10 +212,11 @@ export class App
         navigation_panel.insertBefore(light_button_as_HTML(this, 0), navigation_panel.firstChild);
     }
 
-    insert_switch_input_panel_button_in_HTML()
+    insert_navigation_panel_buttons_in_HTML()
     {
         const navigation_panel = document.getElementById('navigation_panel');
         navigation_panel.append(switch_input_panel_button());
+        navigation_panel.append(about_button_as_HTML());
     }
 
     insert_compile_button()
