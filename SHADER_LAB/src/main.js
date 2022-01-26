@@ -42,12 +42,10 @@ function launch_App(shaders_as_text)
     {
         shader_list[i-1] = new Shader(shaders_json[i-1],shaders_as_text[0],shaders_as_text[i]);
     }
-    //console.log(shaders_as_text[3])
     
 
     const app = new App(shader_list);
 
-    //console.log(app.shader_list[2].fragment_shader)
 
     function animate()
     {
