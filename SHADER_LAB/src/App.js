@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 
 import Scene from './Canvas/Scene.js'
+import Shader from './Canvas/Shader.js';
 import init_shader_chunk from "./Canvas/init_shader_chunk.js";
 
 import nav_bar_as_HTML from './nav_bar.jsx';
@@ -18,9 +19,9 @@ import { CodeEditor } from './CodeEditor.js';
 export class App
 {
     // LIST OF SCENE ELEMENTS
-    SCENE = 0
-    BOX = 1;
-    SPHERE = 2;
+    FLOOR = 0
+    PRESET_1_SPHERE = 1;
+    PRESET_1_BOX = 2;
     SCENE_ELEMENTS = 2;
 
     // LIST OF SHADERS
@@ -168,8 +169,6 @@ export class App
         }
     
         this.shader_list[this.current_shader].fragment_shader = new_text;
-        console.log(new_text);
-        console.log(this.NUMERO_PRESET);
         this.shader_list[this.current_shader].update_material();
         this.switch_shader(this.current_shader);
     }
@@ -256,19 +255,40 @@ export class App
 
         if(scene_inputs.length != 0)
         {
-                switch (this.NUMERO_PRESET){
+                switch (this.NUMERO_PRESET)
+                {
                     case 0:
-                    this.SCENE_ELEMENTS=2;
-                    for(let k=1; k<=this.SCENE_ELEMENTS; k++)
+                    this.SCENE_ELEMENTS = 2;
+                    for(let ELEMENT=1; ELEMENT <= this.SCENE_ELEMENTS; ELEMENT++)
                     {
-                        let legend="";
-                        k==1 ? legend = "box parameters :" : legend = "sphere parameters";
-                        let scene_input_container = input_fieldset_as_HTML(scene_inputs, legend)
-                        for(let i in scene_inputs)
+                        let legend = "";
+                        let scene_input_container;
+
+                        switch (ELEMENT)
                         {
-                            scene_input_container.append(scene_inputs[i].get_as_HTML(k, shader));
+                            case this.PRESET_1_SPHERE:
+                                legend = "sphere parameters :";
+                                scene_input_container = input_fieldset_as_HTML("scene_inputs", legend)
+                                for(let i in scene_inputs)
+                                {
+                                    scene_input_container.append(scene_inputs[i].get_as_HTML(ELEMENT, shader));
+                                }
+                                HTML_container.append(scene_input_container);
+                                break;
+                            case this.PRESET_1_BOX:
+                                legend = "box parameters :";
+                                scene_input_container = input_fieldset_as_HTML(scene_inputs, legend)
+                                for(let i in scene_inputs)
+                                {
+                                    scene_input_container.append(scene_inputs[i].get_as_HTML(ELEMENT, shader));
+                                }
+                                HTML_container.append(scene_input_container);
+                                break;
+                            default:
+                                break;
                         }
-                        HTML_container.append(scene_input_container);
+                        
+                        
                     }
                     break;
                     case 1:

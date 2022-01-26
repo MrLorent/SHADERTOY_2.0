@@ -1,4 +1,5 @@
-export default class Input {
+export default class Input
+{
     #type;
     #label;
     #name;
