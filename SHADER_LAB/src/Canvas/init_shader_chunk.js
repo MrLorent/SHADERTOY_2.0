@@ -17,7 +17,7 @@ precision mediump float;
 precision highp float;
 precision highp int;
 
-#define N_MATERIALS 6
+#define N_MATERIALS 8
 #define N_RAY 5
 uniform float uTime;
 uniform vec3 uResolution;
@@ -29,9 +29,33 @@ in vec2 vertex_uv;
 
 
 `
-shaderChunk['init_object_flat_painting']=`
-void init_object(){
-    plane.mat.base_color=uColors[0];
+
+shaderChunk['init_object_flat_painting']=`void init_object(){
+
+    back_wall.a=vec3(14., 0., 7.);
+    back_wall.b=vec3(-14., 0., 7.);
+    back_wall.c=vec3(14., 14., 7.);
+    back_wall.d=vec3(-14., 14., 7.);
+    back_wall.mat.base_color=uColors[5];
+
+    bottom_wall.a=vec3(-3., 0., 0.);
+    bottom_wall.b=vec3(-3., 0., 7.);
+    bottom_wall.c=vec3(3., 0., 0.);
+    bottom_wall.d=vec3(3., 0., 7.);
+    bottom_wall.mat.base_color=uColors[5];
+
+    right_wall.a=vec3(3., 0., 0.);
+    right_wall.b=vec3(3., 5., 0.);
+    right_wall.c=vec3(3., 0., 7.);
+    right_wall.d=vec3(3., 5., 7.);
+    right_wall.mat.base_color=uColors[6];
+
+    left_wall.a=vec3(-3., 0., 0.);
+    left_wall.b=vec3(-3., 5., 0.);
+    left_wall.c=vec3(-3., 0., 7.);
+    left_wall.d=vec3(-3., 5., 7.);
+    left_wall.mat.base_color=uColors[7];
+
     if(SCENE == 0){
         sphere1.origin=vec3(-1,1,5);
         sphere1.radius=0.5;
@@ -57,7 +81,30 @@ void init_object(){
 }`
 
 shaderChunk['init_object_lambert']=`void init_object(){
-    plane.mat.base_color=uColors[0];
+    back_wall.a=vec3(14., 0., 7.);
+    back_wall.b=vec3(-14., 0., 7.);
+    back_wall.c=vec3(14., 14., 7.);
+    back_wall.d=vec3(-14., 14., 7.);
+    back_wall.mat.base_color=uColors[5];
+
+    bottom_wall.a=vec3(-3., 0., 0.);
+    bottom_wall.b=vec3(-3., 0., 7.);
+    bottom_wall.c=vec3(3., 0., 0.);
+    bottom_wall.d=vec3(3., 0., 7.);
+    bottom_wall.mat.base_color=uColors[5];
+
+    right_wall.a=vec3(3., 0., 0.);
+    right_wall.b=vec3(3., 5., 0.);
+    right_wall.c=vec3(3., 0., 7.);
+    right_wall.d=vec3(3., 5., 7.);
+    right_wall.mat.base_color=uColors[6];
+
+    left_wall.a=vec3(-3., 0., 0.);
+    left_wall.b=vec3(-3., 5., 0.);
+    left_wall.c=vec3(-3., 0., 7.);
+    left_wall.d=vec3(-3., 5., 7.);
+    left_wall.mat.base_color=uColors[7];
+
     if(SCENE == 0){
         sphere1.origin=vec3(-1,1,5);
         sphere1.radius=0.5;
@@ -87,10 +134,35 @@ shaderChunk['init_object_lambert']=`void init_object(){
 }
 `
 shaderChunk['init_object_phong']=`void init_object(){
-    plane.mat.base_color= uColors[0];
-    plane.mat.kd= uKd[0];
-    plane.mat.ks= uKs[0];
-    plane.mat.shininess= uShininess[0];
+    
+    back_wall.a=vec3(14., 0., 7.);
+    back_wall.b=vec3(-14., 0., 7.);
+    back_wall.c=vec3(14., 14., 7.);
+    back_wall.d=vec3(-14., 14., 7.);
+    back_wall.mat.base_color=uColors[5];
+    back_wall.mat.kd=uKd[5];
+
+    bottom_wall.a=vec3(-3., 0., 0.);
+    bottom_wall.b=vec3(-3., 0., 7.);
+    bottom_wall.c=vec3(3., 0., 0.);
+    bottom_wall.d=vec3(3., 0., 7.);
+    bottom_wall.mat.base_color=uColors[5];
+    bottom_wall.mat.kd=uKd[5];
+
+    right_wall.a=vec3(3., 0., 0.);
+    right_wall.b=vec3(3., 5., 0.);
+    right_wall.c=vec3(3., 0., 7.);
+    right_wall.d=vec3(3., 5., 7.);
+    right_wall.mat.base_color=uColors[6];
+    right_wall.mat.kd=uKd[6];
+
+    left_wall.a=vec3(-3., 0., 0.);
+    left_wall.b=vec3(-3., 5., 0.);
+    left_wall.c=vec3(-3., 0., 7.);
+    left_wall.d=vec3(-3., 5., 7.);
+    left_wall.mat.base_color=uColors[7];
+    left_wall.mat.kd=uKd[7];
+
 
     if(SCENE == 0){
         sphere1.origin=vec3(-1,1,5);
@@ -182,7 +254,8 @@ shaderChunk['creation_object']=`
         Material mat;
     };
 
-    struct Plane{
+    struct Quad{
+        vec3 a,b,c,d;
         Material mat;
     };
 
@@ -197,55 +270,106 @@ shaderChunk['scene_preset_0']=`
 
     Sphere sphere1, sphere2, sphere3;
     Box box1, box2;
-    Plane plane;
+    Quad back_wall, left_wall, right_wall, bottom_wall;
+
     
    
     
-    float SphereSDF(in vec3 ray_position, in Sphere sphere) {
-        return length(ray_position - sphere.origin) - sphere.radius;
+    
+    float SphereSDF(in vec3 ray_intersect, in Sphere sphere) {
+        return length(ray_intersect - sphere.origin) - sphere.radius;
     }
                                         
-    float BoxSDF(in vec3 ray_position, in Box box ){
-        vec3 q = abs(ray_position - box.origin) - box.dimension;
+    float BoxSDF(in vec3 ray_intersect, in Box box ){
+        vec3 q = abs(ray_intersect - box.origin) - box.dimension;
         return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0);
     }
     
-    
-    float SceneSDF(out Material hit_object, in vec3 ray_position) { // sdf for the scene.
-        float sphereDist = SphereSDF(ray_position, sphere1);  //Distance to our sphere
-        float boxDist = BoxSDF(ray_position, box1);     //Distance to our box
-        
-        float minDist= min(sphereDist, boxDist);
-        float planeDist = ray_position.y; // ground
-        
-        float d = min(planeDist, minDist);
-        if(d == planeDist){
-            hit_object = plane.mat;
-        }else if(d == sphereDist){
-            hit_object = sphere1.mat;
-        }else{
-            hit_object = box1.mat;
+    float QuadSDF( vec3 p, Quad w){
+        vec3 v1=w.a;
+        vec3 v2=w.b;
+        vec3 v3=w.c;
+        vec3 v4=w.d;
+        #if 1 //handle ill formed quads
+        if( dot( cross( v2-v1, v4-v1 ), cross( v4-v3, v2-v3 )) < 0.0 ){
+            vec3 tmp = v3;
+            v3 = v4;
+            v4 = tmp;
         }
+        #endif
+
+        vec3 v21 = v2 - v1; vec3 p1 = p - v1;
+        vec3 v32 = v3 - v2; vec3 p2 = p - v2;
+        vec3 v43 = v4 - v3; vec3 p3 = p - v3;
+        vec3 v14 = v1 - v4; vec3 p4 = p - v4;
+
+        vec3 nor = cross( v21, v14 );
+
+        return sqrt( (sign(dot(cross(v21,nor),p1)) + 
+                    sign(dot(cross(v32,nor),p2)) + 
+                    sign(dot(cross(v43,nor),p3)) + 
+                    sign(dot(cross(v14,nor),p4))<3.0) 
+                    ?
+                    min( min( dot2(v21*clamp(dot(v21,p1)/dot2(v21),0.0,1.0)-p1), 
+                                dot2(v32*clamp(dot(v32,p2)/dot2(v32),0.0,1.0)-p2) ), 
+                        min( dot2(v43*clamp(dot(v43,p3)/dot2(v43),0.0,1.0)-p3),
+                                dot2(v14*clamp(dot(v14,p4)/dot2(v14),0.0,1.0)-p4) ))
+                    :
+                    dot(nor,p1)*dot(nor,p1)/dot2(nor) )- 0.001;
+    }
+    
+    float SceneSDF(out Material hit_object, in vec3 ray_intersect) { // sdf for the scene.
+        float sphere_dist = SphereSDF(ray_intersect, sphere1);  //Distance to our sphere
+        float box_dist = BoxSDF(ray_intersect, box1);     //Distance to our box
+        
+        float nearest_object= min(sphere_dist, box_dist);
+
+        float bottom_wall_dist= QuadSDF(ray_intersect, bottom_wall);
+        float left_wall_dist= QuadSDF(ray_intersect, left_wall);
+        float right_wall_dist= QuadSDF(ray_intersect, right_wall);
+        float back_wall_dist= QuadSDF(ray_intersect, back_wall);
+
+        float nearest_wall= min(bottom_wall_dist, left_wall_dist);
+        nearest_wall= min(nearest_wall, right_wall_dist);
+        nearest_wall= min(nearest_wall, back_wall_dist);
+
+        float d = min(nearest_wall, nearest_object);
+
+        if(d == sphere_dist){
+            hit_object = sphere1.mat; 
+        }else if(d == box_dist){
+            hit_object = box1.mat; 
+        }else if(d == bottom_wall_dist){
+            hit_object = bottom_wall.mat;
+        }else if(d == left_wall_dist){
+            hit_object = left_wall.mat;
+        }else if(d == right_wall_dist){
+            hit_object = right_wall.mat;
+        }else if(d == back_wall_dist){
+            hit_object = back_wall.mat;
+        }
+
         return d;
+
     }
 
-    bool intersect(vec3 ray_origin,vec3 ray_position,vec3 ray_direction )
+    bool intersect(vec3 ray_origin, vec3 ray_intersect, vec3 ray_direction )
     {
-        float sphereDist = SphereSDF(ray_position, sphere1);  //Distance to our sphere
-        float boxDist = BoxSDF(ray_position, box1);     //Distance to our box
-            
-        float minDist= min(sphereDist, boxDist);
-        float planeDist = ray_position.y; // ground
+        float sphere_dist = SphereSDF(ray_intersect, sphere1);  //Distance to our sphere
+        float box_dist = BoxSDF(ray_intersect, box1);     //Distance to our box
+        
+        float nearest_object= min(sphere_dist, box_dist);
 
-            
-        float d = min(planeDist, minDist);
-        if(d == planeDist){
+        float bottom_wall_dist= QuadSDF(ray_intersect, bottom_wall);
+        float left_wall_dist= QuadSDF(ray_intersect, left_wall);
+        float right_wall_dist= QuadSDF(ray_intersect, right_wall);
+        float back_wall_dist= QuadSDF(ray_intersect, back_wall);
 
-            return false;
-        }
-        else{
-            return true;
-        }
+        float nearest_wall= min(bottom_wall_dist, left_wall_dist);
+        nearest_wall= min(nearest_wall, right_wall_dist);
+        nearest_wall= min(nearest_wall, back_wall_dist);
+
+        return (min(nearest_wall,nearest_object) == nearest_object);
     }
     `
 shaderChunk['scene_preset_1']=`
@@ -254,58 +378,104 @@ shaderChunk['scene_preset_1']=`
 
     Sphere sphere1, sphere2, sphere3;
     Box box1, box2;
-    Plane plane;
-
+    Quad back_wall, left_wall, right_wall, bottom_wall;
                                                                       
      
-    float SphereSDF(in vec3 ray_position, in Sphere sphere) {
-        return length(ray_position - sphere.origin) - sphere.radius;
+    float SphereSDF(in vec3 ray_intersect, in Sphere sphere) {
+        return length(ray_intersect - sphere.origin) - sphere.radius;
+    }
+
+    float QuadSDF( vec3 p, Quad w){
+        vec3 v1=w.a;
+        vec3 v2=w.b;
+        vec3 v3=w.c;
+        vec3 v4=w.d;
+        #if 1 //handle ill formed quads
+        if( dot( cross( v2-v1, v4-v1 ), cross( v4-v3, v2-v3 )) < 0.0 ){
+            vec3 tmp = v3;
+            v3 = v4;
+            v4 = tmp;
+        }
+        #endif
+
+        vec3 v21 = v2 - v1; vec3 p1 = p - v1;
+        vec3 v32 = v3 - v2; vec3 p2 = p - v2;
+        vec3 v43 = v4 - v3; vec3 p3 = p - v3;
+        vec3 v14 = v1 - v4; vec3 p4 = p - v4;
+
+        vec3 nor = cross( v21, v14 );
+
+        return sqrt( (sign(dot(cross(v21,nor),p1)) + 
+                    sign(dot(cross(v32,nor),p2)) + 
+                    sign(dot(cross(v43,nor),p3)) + 
+                    sign(dot(cross(v14,nor),p4))<3.0) 
+                    ?
+                    min( min( dot2(v21*clamp(dot(v21,p1)/dot2(v21),0.0,1.0)-p1), 
+                                dot2(v32*clamp(dot(v32,p2)/dot2(v32),0.0,1.0)-p2) ), 
+                        min( dot2(v43*clamp(dot(v43,p3)/dot2(v43),0.0,1.0)-p3),
+                                dot2(v14*clamp(dot(v14,p4)/dot2(v14),0.0,1.0)-p4) ))
+                    :
+                    dot(nor,p1)*dot(nor,p1)/dot2(nor) )-0.001;
     }
                                         
-    float SceneSDF(out Material hit_object, in vec3 ray_position) { // sdf for the scene.
+    float SceneSDF(out Material hit_object, in vec3 ray_intersect) { // sdf for the scene.
+        float sphere_dist1 = SphereSDF(ray_intersect, sphere1);  //Distance to our sphere
+        float sphere_dist2 = SphereSDF(ray_intersect, sphere2);  //Distance to our sphere
+        float sphere_dist3 = SphereSDF(ray_intersect, sphere3);  //Distance to our sphere
 
-       
-        float sphereDist1 = SphereSDF(ray_position, sphere1);  //Distance to our sphere
-        float sphereDist2 = SphereSDF(ray_position, sphere2);  //Distance to our sphere
-        float sphereDist3 = SphereSDF(ray_position, sphere3);  //Distance to our sphere
+        float nearest_object = min(sphere_dist1, sphere_dist2);
+        nearest_object = min(nearest_object, sphere_dist3);
 
-        float minDist = min(sphereDist1, sphereDist2);
-        float minDist2 = min(minDist, sphereDist3);
-        float planeDist = ray_position.y; // ground
-        
-        float d = min(planeDist, minDist2);
-        if(d == planeDist){
-            hit_object = plane.mat;
-        }else if(d == sphereDist1){
+        float bottom_wall_dist= QuadSDF(ray_intersect, bottom_wall);
+        float left_wall_dist= QuadSDF(ray_intersect, left_wall);
+        float right_wall_dist= QuadSDF(ray_intersect, right_wall);
+        float back_wall_dist= QuadSDF(ray_intersect, back_wall);
+
+        float nearest_wall= min(bottom_wall_dist, left_wall_dist);
+        nearest_wall= min(nearest_wall, right_wall_dist);
+        nearest_wall= min(nearest_wall, back_wall_dist);
+
+        float d = min(nearest_wall, nearest_object);
+
+        if(d == sphere_dist1){
             hit_object = sphere1.mat;
-        }else if(d == sphereDist2){
+        }else if(d == sphere_dist2){
             hit_object = sphere2.mat;
-        }else{
+        }else if(d == sphere_dist3){
             hit_object = sphere3.mat;
+        }else if(d == bottom_wall_dist){
+            hit_object = bottom_wall.mat;
+        }else if(d == left_wall_dist){
+            hit_object = left_wall.mat;
+        }else if(d == right_wall_dist){
+            hit_object = right_wall.mat;
+        }else if(d == back_wall_dist){
+            hit_object = back_wall.mat;
         }
 
         return d;
     }
 
-    bool intersect(vec3 ray_origin,vec3 ray_position,vec3 ray_direction )
+    bool intersect(vec3 ray_origin,vec3 ray_intersect,vec3 ray_direction )
     {
-        float sphere1Dist = SphereSDF(ray_position, sphere1);  //Distance to our sphere
-        float sphere2Dist = SphereSDF(ray_position, sphere2);  //Distance to our sphere
-        float sphere3Dist = SphereSDF(ray_position, sphere3);  //Distance to our sphere
-            
-        float minDist = min(sphere1Dist, sphere2Dist);
-        float minDist2 = min(minDist, sphere3Dist);
-        float planeDist = ray_position.y; // ground
+        Sphere neareast_sphere;
+        float sphere_dist1 = SphereSDF(ray_intersect, sphere1);  //Distance to our sphere
+        float sphere_dist2 = SphereSDF(ray_intersect, sphere2);  //Distance to our sphere
+        float sphere_dist3 = SphereSDF(ray_intersect, sphere3);  //Distance to our sphere
 
-            
-        float d = min(planeDist, minDist2);
-        if(d == planeDist){
+        float nearest_object = min(sphere_dist1, sphere_dist2);
+        nearest_object = min(nearest_object, sphere_dist3);
 
-            return false;
-        }
-        else{
-            return true;
-        }
+        float bottom_wall_dist= QuadSDF(ray_intersect, bottom_wall);
+        float left_wall_dist= QuadSDF(ray_intersect, left_wall);
+        float right_wall_dist= QuadSDF(ray_intersect, right_wall);
+        float back_wall_dist= QuadSDF(ray_intersect, back_wall);
+
+        float nearest_wall= min(bottom_wall_dist, left_wall_dist);
+        nearest_wall= min(nearest_wall, right_wall_dist);
+        nearest_wall= min(nearest_wall, back_wall_dist);
+
+        return (min(nearest_wall, nearest_object) == nearest_object);
     }
     `
     
@@ -314,8 +484,8 @@ shaderChunk['RayMarch']=`
         float distance_from_origin = 0.; // Distance I've marched from origin
     
         for (int i = 0; i < MAX_MARCH_STEPS; i++) {
-            vec3 ray_position = ray_origin + ray_direction * distance_from_origin;
-            float distance_to_scene = SceneSDF(hit_object, ray_position);
+            vec3 ray_intersect = ray_origin + ray_direction * distance_from_origin;
+            float distance_to_scene = SceneSDF(hit_object, ray_intersect);
             distance_from_origin += distance_to_scene;  // Safe distance to march with
             if (distance_from_origin > MAX_MARCH_DIST || // Far-plane clipping
                 distance_to_scene < SURF_DIST_MARCH)  // Did we hit anything?
@@ -328,14 +498,14 @@ shaderChunk['RayMarch']=`
     
 shaderChunk['get_normal'] = `
     
-vec3 GetNormalEulerTwoSided(in vec3 p) { // get surface normal using euler approx. method
+vec3 get_normal(in vec3 ray_intersect) { // get surface normal using euler approx. method
       Material _;
-      float d=SceneSDF(_,p);
+      float d=SceneSDF(_,ray_intersect);
       vec2 e = vec2(.001, 0);
       vec3 n = d - vec3(
-        SceneSDF(_,p-e.xyy),
-        SceneSDF(_, p-e.yxy),
-        SceneSDF(_, p-e.yyx));
+        SceneSDF(_,ray_intersect-e.xyy),
+        SceneSDF(_, ray_intersect-e.yxy),
+        SceneSDF(_, ray_intersect-e.yyx));
     
     return normalize(n);
 }
@@ -352,6 +522,12 @@ float rand(vec2 co){
     
 `  
 
+shaderChunk['dot2']=`
+float dot2(in vec3 v){
+    return dot(v,v);
+}
+
+`
 
 shaderChunk['main']=`
 
@@ -387,11 +563,9 @@ void main()
         // RayMarching stuff
         Material hit_object;
         float distance_to_object = RayMarch(hit_object, ray_origin, ray_direction);
-        vec3 ray_position = ray_origin + ray_direction * distance_to_object;
+        vec3 ray_intersect = ray_origin + ray_direction * distance_to_object;
 
-
-        color += Model_Illumination(ray_position, ray_origin, hit_object);
-
+        color += Model_Illumination(ray_intersect, ray_origin, hit_object);
     }
 
    

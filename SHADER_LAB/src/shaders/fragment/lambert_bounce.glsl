@@ -17,10 +17,10 @@
 
 
 #include <creation_object>
+#include <dot2>
 #include <scene_preset_0>
 #include <RayMarch>
 #include <get_normal>
-#define GetNormal GetNormalEulerTwoSided
 #include <rand>
 
 #include <init_object_lambert>
@@ -41,7 +41,7 @@ vec3 Model_Illumination(in vec3 ray_position,in vec3 ray_origin ,in Material hit
 
 
 
-    vec3 normal = GetNormal(ray_position); 
+    vec3 normal = get_normal(ray_position); 
     float diffuse  = clamp(dot(light1.vector, normal), 0., 1.);
     float diffuse2  = clamp(dot(light2.vector, normal), 0., 1.);
 
@@ -109,12 +109,12 @@ void main()
             color += Model_Illumination(ray_position, ray_origin, hit_object);
 
             ray_origin2 = ray_position;
-            ray_direction2 = -2. * dot(GetNormal(ray_position),ray_direction)*GetNormal(ray_position)+ray_direction;
-            distance_to_object2 = RayMarch(hit_object2, ray_origin2+GetNormal(ray_position)*0.1, ray_direction2);
+            ray_direction2 = -2. * dot(get_normal(ray_position),ray_direction)*get_normal(ray_position)+ray_direction;
+            distance_to_object2 = RayMarch(hit_object2, ray_origin2+get_normal(ray_position)*0.1, ray_direction2);
             ray_position2= ray_origin2 + ray_direction2 * distance_to_object2;
             if(intersect(ray_origin2,ray_position2,ray_direction2))
             {
-                color += Model_Illumination(ray_position2,ray_origin2 , hit_object2)/2.0;
+                //color += Model_Illumination(ray_position2,ray_origin2 , hit_object2)/2.0;
                 nb_bounce =1.0;
 
             }

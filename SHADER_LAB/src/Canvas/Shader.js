@@ -12,7 +12,6 @@ export default class Shader
     fragment_shader;
     shininess = [];
     color=[];
-    ambiant=[];
     diffus=[];
     specular=[];
     subsurface=[];
@@ -39,11 +38,10 @@ export default class Shader
         this.fragment_shader_path = shader_details['fragment'];
         this.vertex_shader  = vertex;
         this.fragment_shader = fragment;
-        this.shininess      =   [30, 20,50,50,50,50, 50,50];
-        this.color      =   [new THREE.Color('white'), new THREE.Color('purple'),new THREE.Color('orange'), new THREE.Color('green'), new THREE.Color('aqua'), new THREE.Color('pink'), new THREE.Color('Light coral', new THREE.Color('#9370DB'))];
-        this.ambiant    =   [0.9,0.4,0.5,1,1,1,1,1];
+        this.shininess      =   [30, 20,50,50,50,0, 0,0];
+        this.color      =   [new THREE.Color('white'), new THREE.Color('purple'),new THREE.Color('orange'), new THREE.Color('green'), new THREE.Color('aqua'), new THREE.Color('white'), new THREE.Color('green'), new THREE.Color('red')];
         this.diffus     =   [0.4,0.7,0.5,1,1,1,1,1];
-        this.specular   =   [0.1,0.2,0.3,1,1,1,1,1];
+        this.specular   =   [0.1,0.2,0.3,1,1,0,0,0];
         this.subsurface = [0,0.1,1,0.5,0,0.1,1,0.5]
         this.metallic   = [0,0.1,1,0.5,0,0.1,1,0.5];
         this.specularTint = [0,0.1,1,0.5,0,0.1,1,0.5];
