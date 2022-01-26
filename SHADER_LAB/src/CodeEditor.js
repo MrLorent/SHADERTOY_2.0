@@ -69,7 +69,7 @@ export class CodeEditor {
                         input_details = {
                             "target": word[2],
                             "type": "color_picker",
-                            "label": word[4],
+                            "label": word[4].slice(0, -1),
                             "name": word[3],
                             "value": "#000000"
                         };
@@ -96,8 +96,9 @@ export class CodeEditor {
                             "name": word[3],
                             "min": word[5],
                             "max": word[6],
-                            "step": word[7]
+                            "step": word[7].slice(0, -1)
                         };
+                        console.log(element)
                         break;
                     default:
                         console.log("Error: unknom input type.")

@@ -5,13 +5,13 @@
 /// checkbox light uRotatingLight rotate_light
 
 /// color_picker light uColorLight color_light
-/// slider light uLightPositionX positionX_light -2. 2. 0.1
-/// slider light uLightPositionY positionY_light 1 4. 0.1
+/// slider light uLightPositionX positionX_light -2 2 0.1
+/// slider light uLightPositionY positionY_light 1 4 0.1
 /// slider light uLightPositionZ positionZ_light 1 5 0.1
 
 /// color_picker light uColorLight2 color_light2
-/// slider light uLightPositionX2 positionX_light2 -2. 2. 0.1
-/// slider light uLightPositionY2 positionY_light2 1 4. 0.1
+/// slider light uLightPositionX2 positionX_light2 -2 2 0.1
+/// slider light uLightPositionY2 positionY_light2 1 4 0.1
 /// slider light uLightPositionZ2 positionZ_light2 1 5 0.1
 
 /// checkbox light uSecond_Light_on_off preset 
