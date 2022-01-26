@@ -51,7 +51,7 @@ export class CodeEditor {
         this.#editor.resize();
     }
 
-    compile_inputed_uniforms(shader_text, shader, numero_preset){
+    compile_inputed_uniforms(shader_text, shader){
         let input_details;
         let new_text = "";
         const line = shader_text.split("\n");
@@ -115,10 +115,10 @@ export class CodeEditor {
         return new_text.substr(0,new_text.length-1);
     }
 
-    change_scene_include(previous_preset, new_preset)
+    change_scene_include(new_preset)
     {
         let shader_text = this.#editor.getValue();
-        shader_text = shader_text.replace("#include <scene_preset_"+previous_preset+">", "#include <scene_preset_"+new_preset+">");
+        shader_text = shader_text.replace(/\#include <scene_preset_(0|1)/, "#include <scene_preset_"+new_preset);
         return shader_text;
     }
 
@@ -150,9 +150,8 @@ export class CodeEditor {
         return lineStart+1;
     }
 
-    check_shader_compilation(scene, shader_text,preset){
-        let fs = this.copy_shader_to_check(shader_text)
-        console.log(fs)
+    check_shader_compilation(scene, shader_text){
+        let fs = this.copy_shader_to_check(shader_text);
         let shortStart = this.get_start(shader_text)-6; //6 correspond à text_include (les lignes #include qui sont cachées à l'utilisateur)
         let longStart = this.get_start(fs);
         let message_to_display = "";
