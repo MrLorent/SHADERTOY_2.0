@@ -153,7 +153,7 @@ export class CodeEditor {
     check_shader_compilation(scene, shader_text,preset){
         let fs = this.copy_shader_to_check(shader_text)
         console.log(fs)
-        let shortStart = this.get_start(shader_text);
+        let shortStart = this.get_start(shader_text)-6; //6 correspond à text_include (les lignes #include qui sont cachées à l'utilisateur)
         let longStart = this.get_start(fs);
         let message_to_display = "";
         let context = scene.context;
