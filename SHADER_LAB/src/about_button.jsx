@@ -2,15 +2,14 @@ import createElement from "./Inputs/createElement.js";
 
 export default () => {
     const about_button = 
-    <abbr title="About Shader Lab">
-        <button
-            onclick={() => { 
-                document.querySelector('section#about').classList.toggle('display');
-            }}
-            id="about_button"
-        >
-        </button>
-    </abbr>
+    <button
+        id="about_button"
+        className="nav_button"
+        onclick={function(){ 
+            document.querySelector('section#about').classList.toggle('display');
+        }}
+    >
+    </button>
 
     return about_button;
 }

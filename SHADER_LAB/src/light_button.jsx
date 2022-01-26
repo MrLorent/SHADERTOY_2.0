@@ -4,9 +4,11 @@ export default (app, light_preset_id) => {
     const light_button = 
     <button
         onclick={() => { app.update_light( light_preset_id ); }}
-        className="light_button"
+        className="preset_button light"
         id = { "preset_light_" + light_preset_id }
-    >{"Light preset "+ (light_preset_id + 1)}</button>
+    >
+        {"Light preset "+ (light_preset_id + 1)}
+    </button>
 
     return light_button;
 }
