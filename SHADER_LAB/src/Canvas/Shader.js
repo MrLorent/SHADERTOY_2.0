@@ -204,7 +204,7 @@ export default class Shader
                 this.shininess[id]=value;
                 this.uniforms.uShininess.value = this.shininess;
             }
-            else if (name=="color"){
+            else if (name.includes("color")){
                 this.color[id]= new THREE.Color(value);
                 this.uniforms.uColors.value = this.color;
 
