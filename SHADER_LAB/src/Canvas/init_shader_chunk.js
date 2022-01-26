@@ -337,35 +337,31 @@ shaderChunk['scene_preset_0']=`
         return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0);
     }
     
-    float QuadSDF( vec3 p, Quad w){
-        vec3 v1=w.a;
-        vec3 v2=w.b;
-        vec3 v3=w.c;
-        vec3 v4=w.d;
+    float QuadSDF(in vec3 p, in Quad w){
         #if 1 //handle ill formed quads
-        if( dot( cross( v2-v1, v4-v1 ), cross( v4-v3, v2-v3 )) < 0.0 ){
-            vec3 tmp = v3;
-            v3 = v4;
-            v4 = tmp;
+        if( dot( cross( w.b-w.a, w.d-w.a ), cross( w.d-w.c, w.b-w.c )) < 0.0 ){
+            vec3 tmp = w.c;
+            w.c = w.d;
+            w.d = tmp;
         }
         #endif
 
-        vec3 v21 = v2 - v1; vec3 p1 = p - v1;
-        vec3 v32 = v3 - v2; vec3 p2 = p - v2;
-        vec3 v43 = v4 - v3; vec3 p3 = p - v3;
-        vec3 v14 = v1 - v4; vec3 p4 = p - v4;
+        vec3 v1 = w.b - w.a; vec3 p1 = p - w.a;
+        vec3 v2 = w.c - w.b; vec3 p2 = p - w.b;
+        vec3 v3 = w.d - w.c; vec3 p3 = p - w.c;
+        vec3 v4 = w.a - w.d; vec3 p4 = p - w.d;
 
-        vec3 nor = cross( v21, v14 );
+        vec3 nor = cross( v1, v4 );
 
-        return sqrt( (sign(dot(cross(v21,nor),p1)) + 
-                    sign(dot(cross(v32,nor),p2)) + 
-                    sign(dot(cross(v43,nor),p3)) + 
-                    sign(dot(cross(v14,nor),p4))<3.0) 
+        return sqrt( (sign(dot(cross(v1,nor),p1)) + 
+                    sign(dot(cross(v2,nor),p2)) + 
+                    sign(dot(cross(v3,nor),p3)) + 
+                    sign(dot(cross(v4,nor),p4))<3.0) 
                     ?
-                    min( min( dot2(v21*clamp(dot(v21,p1)/dot2(v21),0.0,1.0)-p1), 
-                                dot2(v32*clamp(dot(v32,p2)/dot2(v32),0.0,1.0)-p2) ), 
-                        min( dot2(v43*clamp(dot(v43,p3)/dot2(v43),0.0,1.0)-p3),
-                                dot2(v14*clamp(dot(v14,p4)/dot2(v14),0.0,1.0)-p4) ))
+                    min( min( dot2(v1*clamp(dot(v1,p1)/dot2(v1),0.0,1.0)-p1), 
+                                dot2(v2*clamp(dot(v2,p2)/dot2(v2),0.0,1.0)-p2) ), 
+                        min( dot2(v3*clamp(dot(v3,p3)/dot2(v3),0.0,1.0)-p3),
+                                dot2(v4*clamp(dot(v4,p4)/dot2(v4),0.0,1.0)-p4) ))
                     :
                     dot(nor,p1)*dot(nor,p1)/dot2(nor) )- 0.001;
     }
@@ -410,7 +406,7 @@ shaderChunk['scene_preset_0']=`
 
     }
 
-    bool intersect(vec3 ray_origin, vec3 ray_intersect, vec3 ray_direction )
+    bool intersect(in vec3 ray_origin, in vec3 ray_intersect, in vec3 ray_direction )
     {
         float sphere_dist = SphereSDF(ray_intersect, sphere1);  //Distance to our sphere
         float box_dist = BoxSDF(ray_intersect, box1);     //Distance to our box
@@ -444,35 +440,31 @@ shaderChunk['scene_preset_1']=`
         return length(ray_intersect - sphere.origin) - sphere.radius;
     }
 
-    float QuadSDF( vec3 p, Quad w){
-        vec3 v1=w.a;
-        vec3 v2=w.b;
-        vec3 v3=w.c;
-        vec3 v4=w.d;
+    float QuadSDF(in vec3 p, in Quad w){
         #if 1 //handle ill formed quads
-        if( dot( cross( v2-v1, v4-v1 ), cross( v4-v3, v2-v3 )) < 0.0 ){
-            vec3 tmp = v3;
-            v3 = v4;
-            v4 = tmp;
+        if( dot( cross( w.b-w.a, w.d-w.a ), cross( w.d-w.c, w.b-w.c )) < 0.0 ){
+            vec3 tmp = w.c;
+            w.c = w.d;
+            w.d = tmp;
         }
         #endif
 
-        vec3 v21 = v2 - v1; vec3 p1 = p - v1;
-        vec3 v32 = v3 - v2; vec3 p2 = p - v2;
-        vec3 v43 = v4 - v3; vec3 p3 = p - v3;
-        vec3 v14 = v1 - v4; vec3 p4 = p - v4;
+        vec3 v1 = w.b - w.a; vec3 p1 = p - w.a;
+        vec3 v2 = w.c - w.b; vec3 p2 = p - w.b;
+        vec3 v3 = w.d - w.c; vec3 p3 = p - w.c;
+        vec3 v4 = w.a - w.d; vec3 p4 = p - w.d;
 
-        vec3 nor = cross( v21, v14 );
+        vec3 nor = cross( v1, v4 );
 
-        return sqrt( (sign(dot(cross(v21,nor),p1)) + 
-                    sign(dot(cross(v32,nor),p2)) + 
-                    sign(dot(cross(v43,nor),p3)) + 
-                    sign(dot(cross(v14,nor),p4))<3.0) 
+        return sqrt( (sign(dot(cross(v1,nor),p1)) + 
+                    sign(dot(cross(v2,nor),p2)) + 
+                    sign(dot(cross(v3,nor),p3)) + 
+                    sign(dot(cross(v4,nor),p4))<3.0) 
                     ?
-                    min( min( dot2(v21*clamp(dot(v21,p1)/dot2(v21),0.0,1.0)-p1), 
-                                dot2(v32*clamp(dot(v32,p2)/dot2(v32),0.0,1.0)-p2) ), 
-                        min( dot2(v43*clamp(dot(v43,p3)/dot2(v43),0.0,1.0)-p3),
-                                dot2(v14*clamp(dot(v14,p4)/dot2(v14),0.0,1.0)-p4) ))
+                    min( min( dot2(v1*clamp(dot(v1,p1)/dot2(v1),0.0,1.0)-p1), 
+                                dot2(v2*clamp(dot(v2,p2)/dot2(v2),0.0,1.0)-p2) ), 
+                        min( dot2(v3*clamp(dot(v3,p3)/dot2(v3),0.0,1.0)-p3),
+                                dot2(v4*clamp(dot(v4,p4)/dot2(v4),0.0,1.0)-p4) ))
                     :
                     dot(nor,p1)*dot(nor,p1)/dot2(nor) )-0.001;
     }
@@ -520,7 +512,7 @@ shaderChunk['scene_preset_1']=`
         return d;
     }
 
-    bool intersect(vec3 ray_origin,vec3 ray_intersect,vec3 ray_direction )
+    bool intersect(in vec3 ray_origin, in vec3 ray_intersect, in vec3 ray_direction )
     {
         Sphere neareast_sphere;
         float sphere_dist1 = SphereSDF(ray_intersect, sphere1);  //Distance to our sphere
@@ -581,7 +573,7 @@ vec3 get_normal(in vec3 ray_intersect) { // get surface normal using euler appro
     
 shaderChunk['rand']=`
     
-float rand(vec2 co){
+float rand(in vec2 co){
      return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453)-0.5;
 }
     

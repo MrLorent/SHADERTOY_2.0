@@ -180,20 +180,16 @@ export default class Shader
                 {
                     this.uniform[i][id]=value;
                     this.uniforms[this.#inputs['scene'][i].get_name()][value] = this.uniform[i];
-                    console.log("slider : ", this.#inputs['scene'][i].get_name())
                 }
                 if(type==="checkbox" & name === this.#inputs['scene'][i].get_label())
                 {
                     this.uniforms[this.#inputs['scene'][i].get_name()].value = value;
-                    console.log("check : ", this.#inputs['scene'][i].get_name())
 
                 }
                 if(type==="color_picker" & name === this.#inputs['scene'][i].get_label())
                 {
                     this.uniform_color[i][id] = new THREE.Color(value);
                     this.uniforms[this.#inputs['scene'][i].get_name()][value] = this.uniform_color[i];
-                    console.log("color : ", this.#inputs['scene'][i].get_name())
-
                 }
                 
             }

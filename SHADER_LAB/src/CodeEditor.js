@@ -152,7 +152,6 @@ export class CodeEditor {
 
     check_shader_compilation(scene, shader_text,preset, shader_name){
         let fs = this.copy_shader_to_check(shader_text)
-        console.log(fs)
         let shortStart = this.get_start(shader_text);
         if(shader_name.get_name()==="Personal"){
             shortStart-=7; //6 correspond à text_include (les lignes #include qui sont cachées à l'utilisateur)
