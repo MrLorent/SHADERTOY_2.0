@@ -1,14 +1,15 @@
 import * as THREE from 'three';
 
 import Scene from './Canvas/Scene.js'
-import Shader from './Canvas/Shader.js';
 import init_shader_chunk from "./Canvas/init_shader_chunk.js";
 
 import nav_bar_as_HTML from './nav_bar.jsx';
 import input_fieldset_as_HTML from './input_fieldset.jsx';
-import switch_input_panel_button from './switch_input_panel_button.jsx';
-import compile_button_as_HTML from './compile_button.jsx'
+import shader_inputs_button_as_HTML from './inputs_button.jsx';
+import code_editor_button_as_HTML from './code_editor_button.jsx';
 import doc_button_as_HTML from './doc_button.jsx';
+import compile_button_as_HTML from './compile_button.jsx'
+
 import scene_button_as_HTML from './scene_button.jsx';
 import light_button_as_HTML from './light_button.jsx';
 import about_button_as_HTML from './about_button.jsx';
@@ -82,33 +83,32 @@ export class App
         this.insert_scene_buttons_in_HTML();
         this.insert_light_buttons_in_HTML();
 
-        document.querySelector('abbr.light_list').addEventListener('click',() => {
+        document.querySelector('button.displayer.light_list').addEventListener('click',() => {
             document.querySelector('.input_container.light').classList.toggle('unwrap');
         });
 
-        document.querySelector('abbr.scene_list').addEventListener('click',() => {
+        document.querySelector('button.displayer.scene_list').addEventListener('click',() => {
             document.querySelector('.input_container.scene').classList.toggle('unwrap');
         })
     }
 
     switch_shader(new_shader_id)
     {
+        let light_button = document.querySelector('.input_container.light');
+        if(new_shader_id == this.FLAT_PAINTING)
+        {
+            light_button.style.display = "none";
+        }
+        else
+        {
+            light_button.style.display = "flex";
+        }
+
         /* We change the current shader id */
         this.current_shader = new_shader_id;
         this.scene.update(this.shader_list[this.current_shader].get_material());
         this.insert_inputs_in_HTML();
         this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
-        
-        let doc_button = document.querySelector('#doc_button');
-        if(this.current_shader == this.PERSONAL && !doc_button)
-        {
-            let console_container = document.querySelector('#code_editor_panel');
-            console_container.append(doc_button_as_HTML());
-        }
-        else if(this.current_shader != this.PERSONAL && doc_button)
-        {
-            doc_button.remove();
-        }
         
         if(this.shader_list[this.current_shader].get_name()==="Personal")
         {
@@ -204,7 +204,11 @@ export class App
     insert_navigation_panel_buttons_in_HTML()
     {
         const navigation_panel = document.getElementById('navigation_panel');
-        navigation_panel.append(switch_input_panel_button());
+        let inputs_button = shader_inputs_button_as_HTML();
+        inputs_button.classList.add('active');
+        navigation_panel.append(inputs_button);
+        navigation_panel.append(code_editor_button_as_HTML());
+        navigation_panel.append(doc_button_as_HTML());
         navigation_panel.append(about_button_as_HTML());
     }
 

@@ -5,8 +5,10 @@ export default (app, preset_id) => {
     <button
         onclick={() => { app.update_preset(preset_id); }}
         id={ "preset_" + preset_id }
-        className="scene_button"
-    >{"Scene " + (preset_id+1) }</button>
+        className="preset_button scene"
+    >
+        {"Scene " + (preset_id+1) }
+    </button>
 
     return scene_button;
 }
