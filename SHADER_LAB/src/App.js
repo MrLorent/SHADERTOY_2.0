@@ -262,13 +262,13 @@ export class App
                 switch (this.NUMERO_PRESET)
                 {
                     case 0:
-                    this.SCENE_ELEMENTS = 2;
-                    for(let ELEMENT=1; ELEMENT <= this.SCENE_ELEMENTS; ELEMENT++)
+                    this.SCENE_ELEMENTS=2;
+                    for(let k=0; k<this.SCENE_ELEMENTS; k++)
                     {
-                        let legend = "";
-                        let scene_input_container;
-
-                        switch (ELEMENT)
+                        let legend="";
+                        k==0 ? legend = "box parameters :" : legend = "sphere parameters";
+                        let scene_input_container = input_fieldset_as_HTML(scene_inputs, legend)
+                        for(let i in scene_inputs)
                         {
                             case this.PRESET_1_SPHERE:
                                 legend = "sphere parameters :";
@@ -297,11 +297,11 @@ export class App
                     break;
                     case 1:
                     this.SCENE_ELEMENTS=3;
-                    for(let k=1; k<=this.SCENE_ELEMENTS; k++)
+                    for(let k=0; k<this.SCENE_ELEMENTS; k++)
                     {
                         let legend="";
-                        k==1 ? legend = "sphere 1 parameters :" 
-                            : k==2 ? legend = "sphere 2 parameters"
+                        k==0 ? legend = "sphere 1 parameters :" 
+                            : k==1 ? legend = "sphere 2 parameters"
                             : legend = "sphere 3 parameters";
                         let scene_input_container = input_fieldset_as_HTML(scene_inputs, legend)
                         for(let i in scene_inputs)

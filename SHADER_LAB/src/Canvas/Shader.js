@@ -39,7 +39,7 @@ export default class Shader
         this.vertex_shader  = vertex;
         this.fragment_shader = fragment;
         this.shininess      =   [20, 50,50,50,50,0, 0,0];
-        this.color      =   [new THREE.Color('purple'), new THREE.Color('orange'),new THREE.Color('aqua'), new THREE.Color('green'), new THREE.Color('aqua'), new THREE.Color('white'), new THREE.Color('green'), new THREE.Color('red')];
+        this.color      =   [new THREE.Color('#729FCF'), new THREE.Color('#ECA5A5'),new THREE.Color('#F9EB73'), new THREE.Color('green'), new THREE.Color('aqua'), new THREE.Color('white'), new THREE.Color('#e36c44'), new THREE.Color('#8ab8a5')];
         this.diffus     =   [0.7,0.5,0.7,1,1,1,1,1];
         this.specular   =   [0.1,0.2,0.3,1,1,0,0,0];
         this.subsurface = [0,0.1,1,0.5,0,0.1,1,0.5]
