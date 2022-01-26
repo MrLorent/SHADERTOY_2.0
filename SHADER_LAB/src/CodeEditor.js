@@ -150,9 +150,13 @@ export class CodeEditor {
         return lineStart+1;
     }
 
-    check_shader_compilation(scene, shader_text){
-        let fs = this.copy_shader_to_check(shader_text);
-        let shortStart = this.get_start(shader_text)-6; //6 correspond à text_include (les lignes #include qui sont cachées à l'utilisateur)
+    check_shader_compilation(scene, shader_text,preset, shader_name){
+        let fs = this.copy_shader_to_check(shader_text)
+        console.log(fs)
+        let shortStart = this.get_start(shader_text);
+        if(shader_name.get_name()==="Personal"){
+            shortStart-=6; //6 correspond à text_include (les lignes #include qui sont cachées à l'utilisateur)
+        }
         let longStart = this.get_start(fs);
         let message_to_display = "";
         let context = scene.context;

@@ -134,7 +134,7 @@ export class App
 
         user_shader_input = this.codeEditor.compile_inputed_uniforms(user_shader_input, this.shader_list[this.current_shader]);
 
-        const compilation_test = this.codeEditor.check_shader_compilation(this.scene, user_shader_input);
+        const compilation_test = this.codeEditor.check_shader_compilation(this.scene, user_shader_input, this.NUMERO_PRESET, this.shader_list[this.current_shader]);
         if(compilation_test.status === "success")
         {
             this.shader_list[this.current_shader].fragment_shader = user_shader_input;
