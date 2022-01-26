@@ -282,7 +282,7 @@ export default class Shader
                 }
                 else if (this.#inputs[uniform.target][i].get_type() === "color_picker")
                 {
-                    this.uniform_color[i] = [new THREE.Color('white'), new THREE.Color('white'),new THREE.Color('white')];
+                    this.uniform_color[i] = [new THREE.Color('#9cb6f0'), new THREE.Color('#9cb6f0'),new THREE.Color('#9cb6f0')];
                     this.uniforms[this.#inputs[uniform.target][i].get_name()] = {value : this.uniform_color[i]}
 
                 }
@@ -318,7 +318,7 @@ export default class Shader
                 }
                 else if (this.#inputs[uniform.target][1][i].get_type() === "color_picker")
                 {
-                    this.uniform_color[i] = [new THREE.Color('white'), new THREE.Color('white'),new THREE.Color('white')];
+                    this.uniform_color[i] = [new THREE.Color('#9cb6f0'), new THREE.Color('#9cb6f0'),new THREE.Color('#9cb6f0')];
                     this.uniforms[this.#inputs[uniform.target][1][i].get_name()] = {value : this.uniform_color[i]}
                     this.uniforms[this.#inputs[uniform.target][0][i].get_name()] = {value : this.uniform_color[i]}
 

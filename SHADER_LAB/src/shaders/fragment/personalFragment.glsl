@@ -27,6 +27,10 @@
 // /// color_picker scene uName name
 // /// slider scene uName name min max step
 
+void set_objects(){
+
+}
+
 vec3 Model_Illumination(in vec3 ray_intersect, in vec3 ray_origin, in Material hit_object) {
 
     return vec3(1.);

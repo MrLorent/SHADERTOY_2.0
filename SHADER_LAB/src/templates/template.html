@@ -250,11 +250,10 @@
                 <pre>
 <b>ex : </b> /// color_picker scene uColor color
 result : uniform vec3 uColor[N_MATERIALS]
-vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin,  
-    in Material hit_object) {  
+void set_objects() {  
     sphere1.mat.base_color = uColor[1];
-    return hit_object.base_color;
 }</pre>
+<p class="commentary">To change object attributes, you should use set_objects() !</p>
 
                 <hr class="little-transition">
                 <h4>N_MATERIALS explanation</h4>
@@ -285,30 +284,6 @@ vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin,
                             <td>sphere3</td>
                         </tr>
                         <tr>
-                            <td>3</td>
-                            <td>x</td>
-                            <td>x</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>x</td>
-                            <td>x</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>white wall</td>
-                            <td>white wall</td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td>green wall</td>
-                            <td>green wall</td>
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <td>red wall</td>
-                            <td>red wall</td>
-                        </tr>
                     </tbody>
                 </table>
 
@@ -332,13 +307,16 @@ vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin,
 <pre>
 /// color_picker scene uColors colors
 /// slider scene uSpherePositionY sphere_position_y 0 1 0.1
-vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin,
-    in Material hit_object){ 
+void set_objects(){
     box1.mat.base_color = uColors[0]; 
     sphere1.mat.base_color = uColors[1]; 
     sphere1.origin = vec3(-1,uSpherePositionY[1],5); 
+}
+
+vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin,
+    in Material hit_object){ 
     return hit_object.base_color;
-    }
+}
 </pre>
             </div>
         

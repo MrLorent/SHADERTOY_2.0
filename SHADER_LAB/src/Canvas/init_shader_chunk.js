@@ -30,7 +30,8 @@ in vec2 vertex_uv;
 
 `
 
-shaderChunk['init_object_flat_painting']=`void init_object(){
+shaderChunk['init_object_flat_painting']=`void set_objects(){}
+void init_object(){
 
     back_wall.a=vec3(3., 0., 9.);
     back_wall.b=vec3(-3., 0., 9.);
@@ -86,7 +87,8 @@ shaderChunk['init_object_flat_painting']=`void init_object(){
     }
 }`
 
-shaderChunk['init_object_lambert']=`void init_object(){
+shaderChunk['init_object_lambert']=`void set_objects(){}
+void init_object(){
     back_wall.a=vec3(3., 0., 9.);
     back_wall.b=vec3(-3., 0., 9.);
     back_wall.c=vec3(3., 5., 9.);
@@ -145,7 +147,8 @@ shaderChunk['init_object_lambert']=`void init_object(){
     }
 }
 `
-shaderChunk['init_object_phong']=`void init_object(){
+shaderChunk['init_object_phong']=`void set_objects(){}
+void init_object(){
     
     back_wall.a=vec3(3., 0., 9.);
     back_wall.b=vec3(-3., 0., 9.);
@@ -224,6 +227,36 @@ shaderChunk['init_object_phong']=`void init_object(){
 
 shaderChunk['init_object_personal']=`
 void init_object(){
+    back_wall.a=vec3(3., 0., 9.);
+    back_wall.b=vec3(-3., 0., 9.);
+    back_wall.c=vec3(3., 5., 9.);
+    back_wall.d=vec3(-3., 5., 9.);
+    back_wall.mat.base_color=vec3(1.0, 1., 1.);
+
+    bottom_wall.a=vec3(-3., 0., -9.);
+    bottom_wall.b=vec3(-3., 0., 9.);
+    bottom_wall.c=vec3(3., 0., -9.);
+    bottom_wall.d=vec3(3., 0., 9.);
+    bottom_wall.mat.base_color=vec3(1,1.,1.);
+
+    top_wall.a=vec3(-3., 5., -9.);
+    top_wall.b=vec3(-3., 5., 9.);
+    top_wall.c=vec3(3., 5., -9.);
+    top_wall.d=vec3(3., 5., 9.);
+    top_wall.mat.base_color=vec3(1.,1.,1.);
+
+    right_wall.a=vec3(3., 0., -9.);
+    right_wall.b=vec3(3., 5., -9.);
+    right_wall.c=vec3(3., 0., 9.);
+    right_wall.d=vec3(3., 5., 9.);
+    right_wall.mat.base_color=vec3(227.0/255., 108.0/255., 68.0/255.);
+
+    left_wall.a=vec3(-3., 0., -9.);
+    left_wall.b=vec3(-3., 5., -9.);
+    left_wall.c=vec3(-3., 0., 9.);
+    left_wall.d=vec3(-3., 5., 9.);
+    left_wall.mat.base_color=vec3(138.0/255., 184.0/255., 165.0/255.);
+
     if(SCENE == 0){
         sphere1.origin=vec3(-1,1,6);
         sphere1.radius=0.5;
@@ -564,7 +597,6 @@ float dot2(in vec3 v){
 
 shaderChunk['main']=`
 
-
 void main()
 {
     vec2 uv = vertex_uv-0.5;
@@ -580,6 +612,7 @@ void main()
 
     
     init_object();
+    set_objects();
 
     for(int i=0; i<N_RAY; i++){
         // simplest camera
