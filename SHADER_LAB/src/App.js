@@ -259,8 +259,7 @@ export class App
 
         if(scene_inputs.length != 0)
         {
-                switch (this.NUMERO_PRESET)
-                {
+                switch (this.NUMERO_PRESET){
                     case 0:
                     this.SCENE_ELEMENTS=2;
                     for(let k=0; k<this.SCENE_ELEMENTS; k++)
@@ -270,29 +269,9 @@ export class App
                         let scene_input_container = input_fieldset_as_HTML(scene_inputs, legend)
                         for(let i in scene_inputs)
                         {
-                            case this.PRESET_1_SPHERE:
-                                legend = "sphere parameters :";
-                                scene_input_container = input_fieldset_as_HTML("scene_inputs", legend)
-                                for(let i in scene_inputs)
-                                {
-                                    scene_input_container.append(scene_inputs[i].get_as_HTML(ELEMENT, shader));
-                                }
-                                HTML_container.append(scene_input_container);
-                                break;
-                            case this.PRESET_1_BOX:
-                                legend = "box parameters :";
-                                scene_input_container = input_fieldset_as_HTML(scene_inputs, legend)
-                                for(let i in scene_inputs)
-                                {
-                                    scene_input_container.append(scene_inputs[i].get_as_HTML(ELEMENT, shader));
-                                }
-                                HTML_container.append(scene_input_container);
-                                break;
-                            default:
-                                break;
+                            scene_input_container.append(scene_inputs[i].get_as_HTML(k, shader));
                         }
-                        
-                        
+                        HTML_container.append(scene_input_container);
                     }
                     break;
                     case 1:
@@ -318,6 +297,8 @@ export class App
             HTML_container.innerHTML = "No input detected for this shader yet.";
         }
     }
+
+
 
     render()
     {
