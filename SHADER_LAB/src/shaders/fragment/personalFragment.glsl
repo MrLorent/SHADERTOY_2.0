@@ -1,6 +1,7 @@
 #include <uniforms_and_defines>
 #include <creation_object>
 #include <dot2>
+#include <get_normal>
 #include <scene_preset_0>
 #include <RayMarch>   
 #include <rand>
@@ -12,6 +13,8 @@
 // /// slider light||scene uName name min max step
 
 /// color_picker light uColorLight color_light
+/// checkbox light uRotatingLight rotate_light
+
 /// slider light uLightPositionX positionX_light -2. 2. 0.1
 /// slider light uLightPositionY positionY_light 1 4. 0.1
 /// slider light uLightPositionZ positionZ_light 1 5 0.1
