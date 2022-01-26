@@ -6,8 +6,6 @@
 #include <rand>
 #include <init_object_personal>
 
-
-
 // To create an uniform value and to get a slider linked to it : 
 // /// color_picker light||scene uName name
 // /// checkbox light||scene uName name

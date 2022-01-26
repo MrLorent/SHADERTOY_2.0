@@ -155,7 +155,7 @@ export class CodeEditor {
         console.log(fs)
         let shortStart = this.get_start(shader_text);
         if(shader_name.get_name()==="Personal"){
-            shortStart-=6; //6 correspond à text_include (les lignes #include qui sont cachées à l'utilisateur)
+            shortStart-=7; //6 correspond à text_include (les lignes #include qui sont cachées à l'utilisateur)
         }
         let longStart = this.get_start(fs);
         let message_to_display = "";
@@ -243,6 +243,7 @@ export class CodeEditor {
     {
         let text_include  = "#include <uniforms_and_defines>" + "\n" + 
                         "#include <creation_object>" + "\n" + 
+                        "#include <dot2>"+"\n"+
                         "#include <scene_preset_"+preset+">"+ "\n" + 
                         "#include <RayMarch> " + "\n" +
                         "#include <rand>" + "\n"
