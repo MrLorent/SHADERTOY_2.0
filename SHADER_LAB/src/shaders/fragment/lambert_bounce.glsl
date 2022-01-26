@@ -2,16 +2,17 @@
 
 
 /// color_picker scene uColors color
-/// checkbox light uRotatingLight rotate_light 
+/// checkbox light uRotatingLight rotate_light
+
 /// color_picker light uColorLight color_light
-/// slider light uLightPositionX positionX_light -50 50 0.1
-/// slider light uLightPositionY positionY_light 1 50 0.1
-/// slider light uLightPositionZ positionZ_light -50 50 0.1
+/// slider light uLightPositionX positionX_light -2. 2. 0.1
+/// slider light uLightPositionY positionY_light 1 4. 0.1
+/// slider light uLightPositionZ positionZ_light 1 5 0.1
 
 /// color_picker light uColorLight2 color_light2
-/// slider light uLightPositionX2 positionX_light2 -50 50 0.1
-/// slider light uLightPositionY2 positionY_light2 1 50 0.1
-/// slider light uLightPositionZ2 positionZ_light2 -50 50 0.1
+/// slider light uLightPositionX2 positionX_light2 -2. 2. 0.1
+/// slider light uLightPositionY2 positionY_light2 1 4. 0.1
+/// slider light uLightPositionZ2 positionZ_light2 1 5 0.1
 
 /// checkbox light uSecond_Light_on_off preset 
 
@@ -32,7 +33,7 @@ vec3 Model_Illumination(in vec3 ray_position,in vec3 ray_origin ,in Material hit
     PointLight light2 = PointLight(vec3(uLightPositionX2,uLightPositionY2,uLightPositionZ2),uColorLight2,vec3(0.));
 
 
-    vec3 lightPosOffset = uRotatingLight*vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.;
+    vec3 lightPosOffset = uRotatingLight*vec3(sin(2. * uTime), 0, cos(2. * uTime))*0.5; //* 3.;
     light1.pos = light1.pos + lightPosOffset;
     light2.pos = light2.pos + lightPosOffset;
 

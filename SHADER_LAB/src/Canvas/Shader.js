@@ -38,9 +38,9 @@ export default class Shader
         this.fragment_shader_path = shader_details['fragment'];
         this.vertex_shader  = vertex;
         this.fragment_shader = fragment;
-        this.shininess      =   [30, 20,50,50,50,0, 0,0];
-        this.color      =   [new THREE.Color('white'), new THREE.Color('purple'),new THREE.Color('orange'), new THREE.Color('green'), new THREE.Color('aqua'), new THREE.Color('white'), new THREE.Color('green'), new THREE.Color('red')];
-        this.diffus     =   [0.4,0.7,0.5,1,1,1,1,1];
+        this.shininess      =   [20, 50,50,50,50,0, 0,0];
+        this.color      =   [new THREE.Color('purple'), new THREE.Color('orange'),new THREE.Color('aqua'), new THREE.Color('green'), new THREE.Color('aqua'), new THREE.Color('white'), new THREE.Color('green'), new THREE.Color('red')];
+        this.diffus     =   [0.7,0.5,0.7,1,1,1,1,1];
         this.specular   =   [0.1,0.2,0.3,1,1,0,0,0];
         this.subsurface = [0,0.1,1,0.5,0,0.1,1,0.5]
         this.metallic   = [0,0.1,1,0.5,0,0.1,1,0.5];
@@ -60,13 +60,13 @@ export default class Shader
             uCameraPosition: { type: "v3", value: new THREE.Vector3() },
             uRotatingLight: {value: 1},
             uColorLight : {value : new THREE.Color('white')},
-            uLightPositionX  : {value : -10},
-            uLightPositionY  : {value : 10},
-            uLightPositionZ  : {value : -2},
+            uLightPositionX  : {value : -2},
+            uLightPositionY  : {value : 4},
+            uLightPositionZ  : {value : 3},
             uColorLight2 : {value : new THREE.Color('green')},
-            uLightPositionX2  : {value : 10},
-            uLightPositionY2  : {value : 10},
-            uLightPositionZ2  : {value : -2},
+            uLightPositionX2  : {value : 2},
+            uLightPositionY2  : {value : 4},
+            uLightPositionZ2  : {value : 4},
             uSecond_Light_on_off : {value : 0},
             uCameraMatrix:{value : new THREE.Matrix4()},
 

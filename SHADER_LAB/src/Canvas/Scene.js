@@ -35,7 +35,7 @@ export default class Scene{
 
         this.camera_controls = new OrbitControls(this.camera, this.renderer.domElement)
         this.camera_controls.target.set(0,1,5);
-        this.camera_controls.maxDistance=30;
+        this.camera_controls.maxDistance=10;
         this.camera_controls.minDistance=3;
         this.camera_controls.minPolarAngle=this.camera_controls.maxPolarAngle=1.57079
 

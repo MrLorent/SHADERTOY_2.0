@@ -3,15 +3,16 @@
 
 /// color_picker scene uColors color
 /// checkbox light uRotatingLight rotate_light 
+
 /// color_picker light uColorLight color_light
-/// slider light uLightPositionX positionX_light -50 50 0.1
-/// slider light uLightPositionY positionY_light -50 50 0.1
-/// slider light uLightPositionZ positionZ_light -50 50 0.1
+/// slider light uLightPositionX positionX_light -2. 2. 0.1
+/// slider light uLightPositionY positionY_light 1 4. 0.1
+/// slider light uLightPositionZ positionZ_light 1 5 0.1
 
 /// color_picker light uColorLight2 color_light2
-/// slider light uLightPositionX2 positionX_light2 -50 50 0.1
-/// slider light uLightPositionY2 positionY_light2 -50 50 0.1
-/// slider light uLightPositionZ2 positionZ_light2 -50 50 0.1
+/// slider light uLightPositionX2 positionX_light2 -2. 2. 0.1
+/// slider light uLightPositionY2 positionY_light2 1 4. 0.1
+/// slider light uLightPositionZ2 positionZ_light2 1 5 0.1
 
 /// checkbox light uSecond_Light_on_off preset 
 
@@ -25,7 +26,7 @@
 #include <init_object_lambert>
 
 vec3 Model_Illumination(in vec3 ray_intersect,in vec3 ray_origin ,in Material hit_object){
-    vec3 lightPosOffset = uRotatingLight*vec3(sin(2. * uTime), 0, cos(2. * uTime)) * 3.;
+    vec3 lightPosOffset = uRotatingLight*vec3(sin(2. * uTime), 0, cos(2. * uTime))*0.5;// * 3.;
     vec3 lightPos = vec3(uLightPositionX,uLightPositionY,uLightPositionZ) + lightPosOffset;
     vec3 lightPos2 = vec3(uLightPositionX2,uLightPositionY2,uLightPositionZ2) + lightPosOffset;
 

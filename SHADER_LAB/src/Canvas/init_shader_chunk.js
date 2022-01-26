@@ -32,100 +32,112 @@ in vec2 vertex_uv;
 
 shaderChunk['init_object_flat_painting']=`void init_object(){
 
-    back_wall.a=vec3(14., 0., 7.);
-    back_wall.b=vec3(-14., 0., 7.);
-    back_wall.c=vec3(14., 14., 7.);
-    back_wall.d=vec3(-14., 14., 7.);
+    back_wall.a=vec3(3., 0., 9.);
+    back_wall.b=vec3(-3., 0., 9.);
+    back_wall.c=vec3(3., 5., 9.);
+    back_wall.d=vec3(-3., 5., 9.);
     back_wall.mat.base_color=uColors[5];
 
-    bottom_wall.a=vec3(-3., 0., 0.);
-    bottom_wall.b=vec3(-3., 0., 7.);
-    bottom_wall.c=vec3(3., 0., 0.);
-    bottom_wall.d=vec3(3., 0., 7.);
+    bottom_wall.a=vec3(-3., 0., -9.);
+    bottom_wall.b=vec3(-3., 0., 9.);
+    bottom_wall.c=vec3(3., 0., -9.);
+    bottom_wall.d=vec3(3., 0., 9.);
     bottom_wall.mat.base_color=uColors[5];
 
-    right_wall.a=vec3(3., 0., 0.);
-    right_wall.b=vec3(3., 5., 0.);
-    right_wall.c=vec3(3., 0., 7.);
-    right_wall.d=vec3(3., 5., 7.);
+    top_wall.a=vec3(-3., 5., -9.);
+    top_wall.b=vec3(-3., 5., 9.);
+    top_wall.c=vec3(3., 5., -9.);
+    top_wall.d=vec3(3., 5., 9.);
+    top_wall.mat.base_color=uColors[5];
+
+    right_wall.a=vec3(3., 0., -9.);
+    right_wall.b=vec3(3., 5., -9.);
+    right_wall.c=vec3(3., 0., 9);
+    right_wall.d=vec3(3., 5., 9.);
     right_wall.mat.base_color=uColors[6];
 
-    left_wall.a=vec3(-3., 0., 0.);
-    left_wall.b=vec3(-3., 5., 0.);
-    left_wall.c=vec3(-3., 0., 7.);
-    left_wall.d=vec3(-3., 5., 7.);
+    left_wall.a=vec3(-3., 0., -9.);
+    left_wall.b=vec3(-3., 5., -9.);
+    left_wall.c=vec3(-3., 0., 9.);
+    left_wall.d=vec3(-3., 5., 9.);
     left_wall.mat.base_color=uColors[7];
 
     if(SCENE == 0){
         sphere1.origin=vec3(-1,1,5);
         sphere1.radius=0.5;
-        sphere1.mat.base_color=uColors[2];
+        sphere1.mat.base_color=uColors[1];
 
         box1.origin=vec3(1,1,5);
         box1.dimension=vec3(0.5);
-        box1.mat.base_color=uColors[1];
+        box1.mat.base_color=uColors[0];
 
     }else if(SCENE == 1){
         sphere1.origin = vec3(-1,1.2,5);
         sphere1.radius=0.5;
-        sphere1.mat.base_color=uColors[1];
+        sphere1.mat.base_color=uColors[0];
 
         sphere2.origin = vec3(0.5,1.5,6);
         sphere2.radius = 1.;
-        sphere2.mat.base_color=uColors[2];
+        sphere2.mat.base_color=uColors[1];
 
         sphere3.origin=vec3(1,0.8,4.5);
         sphere3.radius=0.5;
-        sphere3.mat.base_color=uColors[3];
+        sphere3.mat.base_color=uColors[2];
     }
 }`
 
 shaderChunk['init_object_lambert']=`void init_object(){
-    back_wall.a=vec3(14., 0., 7.);
-    back_wall.b=vec3(-14., 0., 7.);
-    back_wall.c=vec3(14., 14., 7.);
-    back_wall.d=vec3(-14., 14., 7.);
+    back_wall.a=vec3(3., 0., 9.);
+    back_wall.b=vec3(-3., 0., 9.);
+    back_wall.c=vec3(3., 5., 9.);
+    back_wall.d=vec3(-3., 5., 9.);
     back_wall.mat.base_color=uColors[5];
 
-    bottom_wall.a=vec3(-3., 0., 0.);
-    bottom_wall.b=vec3(-3., 0., 7.);
-    bottom_wall.c=vec3(3., 0., 0.);
-    bottom_wall.d=vec3(3., 0., 7.);
+    bottom_wall.a=vec3(-3., 0., -9.);
+    bottom_wall.b=vec3(-3., 0., 9.);
+    bottom_wall.c=vec3(3., 0., -9.);
+    bottom_wall.d=vec3(3., 0., 9.);
     bottom_wall.mat.base_color=uColors[5];
 
-    right_wall.a=vec3(3., 0., 0.);
-    right_wall.b=vec3(3., 5., 0.);
-    right_wall.c=vec3(3., 0., 7.);
-    right_wall.d=vec3(3., 5., 7.);
+    top_wall.a=vec3(-3., 5., -9.);
+    top_wall.b=vec3(-3., 5., 9.);
+    top_wall.c=vec3(3., 5., -9.);
+    top_wall.d=vec3(3., 5., 9.);
+    top_wall.mat.base_color=uColors[5];
+
+    right_wall.a=vec3(3., 0., -9.);
+    right_wall.b=vec3(3., 5., -9.);
+    right_wall.c=vec3(3., 0., 9.);
+    right_wall.d=vec3(3., 5., 9.);
     right_wall.mat.base_color=uColors[6];
 
-    left_wall.a=vec3(-3., 0., 0.);
-    left_wall.b=vec3(-3., 5., 0.);
-    left_wall.c=vec3(-3., 0., 7.);
-    left_wall.d=vec3(-3., 5., 7.);
+    left_wall.a=vec3(-3., 0., -9.);
+    left_wall.b=vec3(-3., 5., -9.);
+    left_wall.c=vec3(-3., 0., 9.);
+    left_wall.d=vec3(-3., 5., 9.);
     left_wall.mat.base_color=uColors[7];
 
     if(SCENE == 0){
         sphere1.origin=vec3(-1,1,5);
         sphere1.radius=0.5;
-        sphere1.mat.base_color=uColors[2];
+        sphere1.mat.base_color=uColors[1];
 
         box1.origin=vec3(1,1,5);
         box1.dimension=vec3(0.5);
-        box1.mat.base_color=uColors[1];
+        box1.mat.base_color=uColors[0];
 
     }else if(SCENE == 1){
         sphere1.origin = vec3(-1,1.2,5);
         sphere1.radius=0.5;
-        sphere1.mat.base_color=uColors[1];
+        sphere1.mat.base_color=uColors[0];
 
         sphere2.origin = vec3(0.5,1.5,6);
         sphere2.radius = 1.;
-        sphere2.mat.base_color=uColors[2];
+        sphere2.mat.base_color=uColors[1];
 
         sphere3.origin=vec3(1,0.8,4.5);
         sphere3.radius=0.5;
-        sphere3.mat.base_color=uColors[3];
+        sphere3.mat.base_color=uColors[2];
 
         
         
@@ -135,91 +147,98 @@ shaderChunk['init_object_lambert']=`void init_object(){
 `
 shaderChunk['init_object_phong']=`void init_object(){
     
-    back_wall.a=vec3(14., 0., 7.);
-    back_wall.b=vec3(-14., 0., 7.);
-    back_wall.c=vec3(14., 14., 7.);
-    back_wall.d=vec3(-14., 14., 7.);
+    back_wall.a=vec3(3., 0., 9.);
+    back_wall.b=vec3(-3., 0., 9.);
+    back_wall.c=vec3(3., 5., 9.);
+    back_wall.d=vec3(-3., 5., 9.);
     back_wall.mat.base_color=uColors[5];
     back_wall.mat.kd=uKd[5];
 
-    bottom_wall.a=vec3(-3., 0., 0.);
-    bottom_wall.b=vec3(-3., 0., 7.);
-    bottom_wall.c=vec3(3., 0., 0.);
-    bottom_wall.d=vec3(3., 0., 7.);
+    bottom_wall.a=vec3(-3., 0., -9.);
+    bottom_wall.b=vec3(-3., 0., 9.);
+    bottom_wall.c=vec3(3., 0., -9.);
+    bottom_wall.d=vec3(3., 0., 9.);
     bottom_wall.mat.base_color=uColors[5];
     bottom_wall.mat.kd=uKd[5];
 
-    right_wall.a=vec3(3., 0., 0.);
-    right_wall.b=vec3(3., 5., 0.);
-    right_wall.c=vec3(3., 0., 7.);
-    right_wall.d=vec3(3., 5., 7.);
+    top_wall.a=vec3(-3., 5., -9.);
+    top_wall.b=vec3(-3., 5., 9.);
+    top_wall.c=vec3(3., 5., -9.);
+    top_wall.d=vec3(3., 5., 9.);
+    top_wall.mat.base_color=uColors[5];
+    top_wall.mat.kd=uKd[5];
+
+
+    right_wall.a=vec3(3., 0., -9.);
+    right_wall.b=vec3(3., 5., -9.);
+    right_wall.c=vec3(3., 0., 9.);
+    right_wall.d=vec3(3., 5., 9.);
     right_wall.mat.base_color=uColors[6];
     right_wall.mat.kd=uKd[6];
 
-    left_wall.a=vec3(-3., 0., 0.);
-    left_wall.b=vec3(-3., 5., 0.);
-    left_wall.c=vec3(-3., 0., 7.);
-    left_wall.d=vec3(-3., 5., 7.);
+    left_wall.a=vec3(-3., 0., -9.);
+    left_wall.b=vec3(-3., 5., -9.);
+    left_wall.c=vec3(-3., 0., 9.);
+    left_wall.d=vec3(-3., 5., 9.);
     left_wall.mat.base_color=uColors[7];
-    left_wall.mat.kd=uKd[7];
 
 
     if(SCENE == 0){
         sphere1.origin=vec3(-1,1,5);
-        sphere1.radius=0.5;
-        sphere1.mat.base_color= uColors[2];
-        sphere1.mat.kd= uKd[2];
-        sphere1.mat.ks= uKs[2];
-        sphere1.mat.shininess= uShininess[2];
-
-        box1.origin=vec3(1,1,5);
-        box1.dimension=vec3(0.5);
-        box1.mat.base_color= uColors[1];
-        box1.mat.kd= uKd[1];
-        box1.mat.ks= uKs[1];
-        box1.mat.shininess= uShininess[1];
-
-    }else if(SCENE == 1){
-        sphere1.origin = vec3(-1,1.2,5);
         sphere1.radius=0.5;
         sphere1.mat.base_color= uColors[1];
         sphere1.mat.kd= uKd[1];
         sphere1.mat.ks= uKs[1];
         sphere1.mat.shininess= uShininess[1];
 
+        box1.origin=vec3(1,1,5);
+        box1.dimension=vec3(0.5);
+        box1.mat.base_color= uColors[0];
+        box1.mat.kd= uKd[0];
+        box1.mat.ks= uKs[0];
+        box1.mat.shininess= uShininess[0];
+
+    }else if(SCENE == 1){
+        sphere1.origin = vec3(-1,1.2,5);
+        sphere1.radius=0.5;
+        sphere1.mat.base_color= uColors[0];
+        sphere1.mat.kd= uKd[0];
+        sphere1.mat.ks= uKs[0];
+        sphere1.mat.shininess= uShininess[0];
+
         sphere2.origin = vec3(0.5,1.5,6);
         sphere2.radius=1.;
-        sphere2.mat.base_color= uColors[2];
-        sphere2.mat.kd= uKd[2];
-        sphere2.mat.ks= uKs[2];
-        sphere2.mat.shininess= uShininess[2];
+        sphere2.mat.base_color= uColors[1];
+        sphere2.mat.kd= uKd[1];
+        sphere2.mat.ks= uKs[1];
+        sphere2.mat.shininess= uShininess[1];
 
         sphere3.origin=vec3(1,0.8,4.5);
         sphere3.radius=0.5;
-        sphere3.mat.base_color= uColors[3];
-        sphere3.mat.kd= uKd[3];
-        sphere3.mat.ks= uKs[3];
-        sphere3.mat.shininess= uShininess[3];
+        sphere3.mat.base_color= uColors[2];
+        sphere3.mat.kd= uKd[2];
+        sphere3.mat.ks= uKs[2];
+        sphere3.mat.shininess= uShininess[2];
     }
 }`
 
 shaderChunk['init_object_personal']=`
 void init_object(){
     if(SCENE == 0){
-        sphere1.origin=vec3(-1,1,5);
+        sphere1.origin=vec3(-1,1,6);
         sphere1.radius=0.5;
 
-        box1.origin=vec3(1,1,5);
+        box1.origin=vec3(1,1,6);
         box1.dimension=vec3(0.5);
 
     }else if(SCENE == 1){
-        sphere1.origin=vec3(-1,1,5);
+        sphere1.origin = vec3(-1,1.2,5);
         sphere1.radius=0.5;
 
-        sphere2.origin=vec3(0,1,5);
-        sphere2.radius=0.5;
+        sphere2.origin = vec3(0.5,1.5,6);
+        sphere2.radius = 1.;
 
-        sphere3.origin=vec3(1,1,5);
+        sphere3.origin=vec3(1,0.8,4.5);
         sphere3.radius=0.5;
     }
 }`
@@ -270,7 +289,7 @@ shaderChunk['scene_preset_0']=`
 
     Sphere sphere1, sphere2, sphere3;
     Box box1, box2;
-    Quad back_wall, left_wall, right_wall, bottom_wall;
+    Quad back_wall, left_wall, right_wall, bottom_wall, top_wall;
 
     
    
@@ -328,10 +347,13 @@ shaderChunk['scene_preset_0']=`
         float left_wall_dist= QuadSDF(ray_intersect, left_wall);
         float right_wall_dist= QuadSDF(ray_intersect, right_wall);
         float back_wall_dist= QuadSDF(ray_intersect, back_wall);
+        float top_wall_dist= QuadSDF(ray_intersect, top_wall);
+        
 
         float nearest_wall= min(bottom_wall_dist, left_wall_dist);
         nearest_wall= min(nearest_wall, right_wall_dist);
         nearest_wall= min(nearest_wall, back_wall_dist);
+        nearest_wall= min(nearest_wall, top_wall_dist);
 
         float d = min(nearest_wall, nearest_object);
 
@@ -347,6 +369,8 @@ shaderChunk['scene_preset_0']=`
             hit_object = right_wall.mat;
         }else if(d == back_wall_dist){
             hit_object = back_wall.mat;
+        }else if(d == top_wall_dist){
+            hit_object = top_wall.mat;
         }
 
         return d;
@@ -364,10 +388,12 @@ shaderChunk['scene_preset_0']=`
         float left_wall_dist= QuadSDF(ray_intersect, left_wall);
         float right_wall_dist= QuadSDF(ray_intersect, right_wall);
         float back_wall_dist= QuadSDF(ray_intersect, back_wall);
+        float top_wall_dist= QuadSDF(ray_intersect, top_wall);
 
         float nearest_wall= min(bottom_wall_dist, left_wall_dist);
         nearest_wall= min(nearest_wall, right_wall_dist);
         nearest_wall= min(nearest_wall, back_wall_dist);
+        nearest_wall= min(nearest_wall, top_wall_dist);
 
         return (min(nearest_wall,nearest_object) == nearest_object);
     }
@@ -378,7 +404,7 @@ shaderChunk['scene_preset_1']=`
 
     Sphere sphere1, sphere2, sphere3;
     Box box1, box2;
-    Quad back_wall, left_wall, right_wall, bottom_wall;
+    Quad back_wall, left_wall, right_wall, bottom_wall, top_wall;
                                                                       
      
     float SphereSDF(in vec3 ray_intersect, in Sphere sphere) {
@@ -430,10 +456,13 @@ shaderChunk['scene_preset_1']=`
         float left_wall_dist= QuadSDF(ray_intersect, left_wall);
         float right_wall_dist= QuadSDF(ray_intersect, right_wall);
         float back_wall_dist= QuadSDF(ray_intersect, back_wall);
+        float top_wall_dist= QuadSDF(ray_intersect, top_wall);
+
 
         float nearest_wall= min(bottom_wall_dist, left_wall_dist);
         nearest_wall= min(nearest_wall, right_wall_dist);
         nearest_wall= min(nearest_wall, back_wall_dist);
+        nearest_wall= min(nearest_wall, top_wall_dist);
 
         float d = min(nearest_wall, nearest_object);
 
@@ -451,6 +480,8 @@ shaderChunk['scene_preset_1']=`
             hit_object = right_wall.mat;
         }else if(d == back_wall_dist){
             hit_object = back_wall.mat;
+        }else if(d == top_wall_dist){
+            hit_object = top_wall.mat;
         }
 
         return d;
@@ -470,10 +501,12 @@ shaderChunk['scene_preset_1']=`
         float left_wall_dist= QuadSDF(ray_intersect, left_wall);
         float right_wall_dist= QuadSDF(ray_intersect, right_wall);
         float back_wall_dist= QuadSDF(ray_intersect, back_wall);
+        float top_wall_dist= QuadSDF(ray_intersect, top_wall);
 
         float nearest_wall= min(bottom_wall_dist, left_wall_dist);
         nearest_wall= min(nearest_wall, right_wall_dist);
         nearest_wall= min(nearest_wall, back_wall_dist);
+        nearest_wall= min(nearest_wall, top_wall_dist);
 
         return (min(nearest_wall, nearest_object) == nearest_object);
     }
