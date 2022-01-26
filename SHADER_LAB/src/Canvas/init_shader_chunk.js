@@ -42,15 +42,15 @@ void init_object(){
         box1.mat.base_color=uColors[1];
 
     }else if(SCENE == 1){
-        sphere1.origin=vec3(-1,1,5);
+        sphere1.origin = vec3(-1,1.2,5);
         sphere1.radius=0.5;
         sphere1.mat.base_color=uColors[1];
 
-        sphere2.origin=vec3(0,1,5);
-        sphere2.radius=0.5;
+        sphere2.origin = vec3(0.5,1.5,6);
+        sphere2.radius = 1.;
         sphere2.mat.base_color=uColors[2];
 
-        sphere3.origin=vec3(1,1,5);
+        sphere3.origin=vec3(1,0.8,4.5);
         sphere3.radius=0.5;
         sphere3.mat.base_color=uColors[3];
     }
@@ -68,17 +68,21 @@ shaderChunk['init_object_lambert']=`void init_object(){
         box1.mat.base_color=uColors[1];
 
     }else if(SCENE == 1){
-        sphere1.origin=vec3(-1,1,5);
+        sphere1.origin = vec3(-1,1.2,5);
         sphere1.radius=0.5;
         sphere1.mat.base_color=uColors[1];
 
-        sphere2.origin=vec3(0,1,5);
-        sphere2.radius=0.5;
+        sphere2.origin = vec3(0.5,1.5,6);
+        sphere2.radius = 1.;
         sphere2.mat.base_color=uColors[2];
 
-        sphere3.origin=vec3(1,1,5);
+        sphere3.origin=vec3(1,0.8,4.5);
         sphere3.radius=0.5;
         sphere3.mat.base_color=uColors[3];
+
+        
+        
+        
     }
 }
 `
@@ -104,21 +108,21 @@ shaderChunk['init_object_phong']=`void init_object(){
         box1.mat.shininess= uShininess[1];
 
     }else if(SCENE == 1){
-        sphere1.origin=vec3(-1,1,5);
+        sphere1.origin = vec3(-1,1.2,5);
         sphere1.radius=0.5;
         sphere1.mat.base_color= uColors[1];
         sphere1.mat.kd= uKd[1];
         sphere1.mat.ks= uKs[1];
         sphere1.mat.shininess= uShininess[1];
 
-        sphere2.origin=vec3(0,1,5);
-        sphere2.radius=0.5;
+        sphere2.origin = vec3(0.5,1.5,6);
+        sphere2.radius=1.;
         sphere2.mat.base_color= uColors[2];
         sphere2.mat.kd= uKd[2];
         sphere2.mat.ks= uKs[2];
         sphere2.mat.shininess= uShininess[2];
 
-        sphere3.origin=vec3(1,1,5);
+        sphere3.origin=vec3(1,0.8,4.5);
         sphere3.radius=0.5;
         sphere3.mat.base_color= uColors[3];
         sphere3.mat.kd= uKd[3];
@@ -259,6 +263,8 @@ shaderChunk['scene_preset_1']=`
     }
                                         
     float SceneSDF(out Material hit_object, in vec3 ray_position) { // sdf for the scene.
+
+       
         float sphereDist1 = SphereSDF(ray_position, sphere1);  //Distance to our sphere
         float sphereDist2 = SphereSDF(ray_position, sphere2);  //Distance to our sphere
         float sphereDist3 = SphereSDF(ray_position, sphere3);  //Distance to our sphere
@@ -348,6 +354,8 @@ float rand(vec2 co){
 
 
 shaderChunk['main']=`
+
+
 void main()
 {
     vec2 uv = vertex_uv-0.5;
@@ -356,6 +364,11 @@ void main()
     vec3 camRight   = vec3( uCameraMatrix[0][0],  uCameraMatrix[0][1],  uCameraMatrix[0][2]);
 	vec3 camUp      = vec3( uCameraMatrix[1][0],  uCameraMatrix[1][1],  uCameraMatrix[1][2]);
     vec3 camForward = vec3(-uCameraMatrix[2][0], -uCameraMatrix[2][1], -uCameraMatrix[2][2]);
+
+    //vec3 SpherePosOffset = vec3(cos(uTime), 0, sin(uTime))/150.;
+    vec3 SpherePosOffset = vec3(cos(uTime), 0,sin(uTime))/150.;
+
+
     
     init_object();
 
@@ -375,6 +388,7 @@ void main()
         Material hit_object;
         float distance_to_object = RayMarch(hit_object, ray_origin, ray_direction);
         vec3 ray_position = ray_origin + ray_direction * distance_to_object;
+
 
         color += Model_Illumination(ray_position, ray_origin, hit_object);
 
