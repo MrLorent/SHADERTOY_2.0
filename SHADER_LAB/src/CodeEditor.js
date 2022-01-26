@@ -126,8 +126,7 @@ export class CodeEditor {
         const line = shader.split("\n");
         line.forEach(element => {
             if (element.includes('#include')){
-                let shader_chunk_part = element.split('<')[1];
-                shader_chunk_part=shader_chunk_part.split(" ")[0].slice(0,-1);
+                let shader_chunk_part = element.split('<').pop().split('>')[0];
                 element=THREE.ShaderChunk[shader_chunk_part];
             }
             new_text += element + "\n";
