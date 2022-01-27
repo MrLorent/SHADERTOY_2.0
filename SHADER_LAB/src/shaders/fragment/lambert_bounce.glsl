@@ -131,5 +131,5 @@ void main()
     }
 
    
-	pc_fragColor = vec4(color/(float(N_RAY))/2.0 , 1.0);
+	pc_fragColor = vec4(color/(float(N_RAY)) , 1.0);
 }
