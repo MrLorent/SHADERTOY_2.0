@@ -5,6 +5,7 @@ export default (app) => {
     <button
         onclick={() => { app.update_shader();}}
         id="compile_button"
+        title = "Compilation"
     >
     </button>
     

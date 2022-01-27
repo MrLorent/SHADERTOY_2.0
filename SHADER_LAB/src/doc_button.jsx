@@ -9,6 +9,7 @@ export default () => {
             let doc = document.querySelector('#documentation');
             doc.classList.toggle('display');
         }}
+    title  = "Documentation"
     >
     </button>
 
