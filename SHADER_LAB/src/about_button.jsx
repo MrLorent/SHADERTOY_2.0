@@ -8,6 +8,7 @@ export default () => {
         onclick={function(){ 
             document.querySelector('section#about').classList.toggle('display');
         }}
+        title = "Information"
     >
     </button>
 

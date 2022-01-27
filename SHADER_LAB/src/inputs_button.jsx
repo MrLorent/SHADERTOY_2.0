@@ -12,6 +12,7 @@ export default () => {
                 document.querySelector('.nav_button.active').classList.remove('active');
                 this.classList.add('active');
             }}
+            title = "Inputs"
         >
         </button>
 
