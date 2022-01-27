@@ -4,7 +4,7 @@
 
 /// slider scene uKs specular 0 1 0.01
 /// slider scene uKd diffus 0 1 0.01
-/// slider scene uShininess shininess 0 100 1
+/// slider scene uShininess shininess 16 100 1
 /// color_picker scene uColors color
 /// checkbox light uRotatingLight rotate_light
 
@@ -19,6 +19,7 @@
 /// slider light uLightPositionZ2 positionZ_light2 1 5 0.1
 
 /// checkbox light uSecond_Light_on_off preset 
+/// checkbox light uShadow shadow_on_off 
 
 
 
@@ -66,13 +67,14 @@ vec3 Model_Illumination(in vec3 ray_intersect, in vec3 ray_origin, in Material h
     float d2 = RayMarch(_, ray_intersect + position_offset, light_vector2);
 
 
-    if (d < length(lightPos - ray_intersect)|| uSecond_Light_on_off*d2 < uSecond_Light_on_off*length(lightPos2 - ray_intersect)) { // If true then we've shaded a point on some object before, 
+    if (uShadow==1. && (d < length(lightPos - ray_intersect)|| uSecond_Light_on_off*d2 < uSecond_Light_on_off*length(lightPos2 - ray_intersect))) { // If true then we've shaded a point on some object before, 
                                     // so shade the currnet point as shodow.
-        diffuse *= .3; // no half-shadow because the light source is a point.  
+        diffuse *= .3 ; // no half-shadow because the light source is a point.  
         diffuse2 *= .3;  
         specular = 0.; // shadows don't have specular component, I think.
         specular2 = 0.;
     }
+
 
 
     // Blinn-Phong stuff
