@@ -1,0 +1,139 @@
+/*---------- GENERAL ----------*/
+table,
+td,
+th
+{
+    border-collapse: collapse;
+    border: 1px solid white;
+    text-align: center;
+}
+
+table
+{
+    width: 100%;
+}
+
+a{color: #ffffff;
+    text-decoration: none;}
+a:hover {color: #1dd4f4;}
+
+/*---------- DOCUMENTATION SECTION ----------*/
+#documentation
+{
+    width: 45vw;
+    height: 90%;
+    background-color: #121212;
+    position: absolute;
+    right: 0;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    transform: translateX(45vw);
+    transition: 0.25s ease-in;
+}
+
+#documentation.display
+{
+    transform: translateX(0);
+    transition: 0.25s ease-out;
+}
+
+#documentation::-webkit-scrollbar
+{
+    display: none;
+}
+
+.doc_container
+{
+    box-sizing: border-box;
+    width: 100%;
+    padding: 5%;
+}
+
+h2.doc_main_title{
+    font-size: 2em;
+}
+
+h3.doc_title{
+    font-size: 1.5em;
+}
+
+ul{
+    list-style-type: none;
+}
+
+ul.structure {
+    list-style-type: none;
+    margin-left:8%;
+    margin-bottom: 2%;
+}
+
+.commentary{
+    color:#1dd4f4;
+}
+
+pre{
+    //background: #f4f4f4;
+    border: 1px solid #ddd;
+    border-left: 3px solid #1dd4f4;
+    color: rgb(255, 255, 255);
+    page-break-inside: avoid;
+    font-family: monospace;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 1.6em;
+    max-width: 100%;
+    overflow: auto;
+    padding: 1em 1.5em;
+    display: block;
+    word-wrap: break-word;
+}
+
+.code{
+    font-family: monospace;
+    font-size: 15px;
+}
+
+hr{
+    color:#1dd4f4;
+}
+
+.little-transition{
+    margin-top: 5%;
+    border-style: dashed;
+}
+
+.code-list{
+    padding-bottom: 2%;
+}
+
+#about{
+    flex-direction: column;
+    align-items: center;
+}
+
+.about_content{
+    width: 40%;
+    position: relative;
+    top:25%;
+}
+
+.about_content>h2{
+    font-size: 3em;
+    position: absolute;
+    top: -30%;
+    left: -8%;
+}
+
+.about_text>h3{
+    font-size: 1.5em;
+}
+
+.about_text>p{
+    text-align: justify;
+}
+
+.about_text{
+    border-left: 3px solid #1dd4f4;
+    padding-left: 3%;
+}

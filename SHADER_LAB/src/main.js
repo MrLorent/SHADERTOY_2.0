@@ -1,38 +1,67 @@
-import './scss/index.scss';
+import './scss/app.scss';
+import './scss/doc.scss';
 
-import { App } from './App.js'
-import { slider } from './html_generators/slider.jsx';
-import { CodeEditor } from './CodeEditor/CodeEditor.js';
+import { App } from './App.js';
 import * as THREE from 'three';
+import shaders_json from './shaders/shaders.json'
+import Shader from './Canvas/Shader';
 
 let SALLE = 0
 let BOX = 1;
 let SPHERE = 2;
 
-// 
-const app = new App();
+let shaders_as_text = [];
+let shader_list = [];
+let shaders_left = Object.keys(shaders_json).length;
 
-function animate(){
-    app.run()
-    requestAnimationFrame(animate)
+async function load_shaders(shaders_json,shaders_as_text,shaders_left)
+{
+    if(shaders_left === 0)
+    {
+        //load vertex shader 
+        let response = await fetch(shaders_json[0][0]['vertex']);
+        shaders_as_text[shaders_left] = await response.text();
+
+
+        launch_App(shaders_as_text);
+    }
+    else 
+    {
+        //load fragment shaders
+        let response = await fetch(shaders_json[shaders_left-1][0]['fragment']);
+        shaders_as_text[shaders_left] = await response.text();
+        load_shaders(shaders_json,shaders_as_text,shaders_left-1);
+    }
+
 }
 
-animate();
+function launch_App(shaders_as_text)
+{
+    //creation of shader_list
+    for ( let i = 1; i < shaders_as_text.length  ; i++)
+    {
+        shader_list[i-1] = new Shader(shaders_json[i-1],shaders_as_text[0],shaders_as_text[i]);
+    }
+    
 
-// TMP
-const PHONG = 2;
-
-app.list_of_shaders[app.current_shader].update("color", new THREE.Color('white'), SALLE)
-app.list_of_shaders[app.current_shader].update("color", new THREE.Color('green'), BOX)
-app.list_of_shaders[app.current_shader].update("rotate_light",1)
+    const app = new App(shader_list);
 
 
-// Inputs
-const inputs = document.getElementById('inputs');
+    function animate()
+    {
+        app.scene.camera_controls.update();
+        app.render()
+        requestAnimationFrame(animate)
+    }
 
-const tmp = slider(1,"Alpha", "input1",1,100);
+    animate();
+    
+}
 
-inputs.append(tmp);
 
-// GLSLCodeEditor
-const codeEditor = new CodeEditor('glsl-editor');
+    //this.codeEditor.getEditor().setValue(this.codeReader.analyzeText(this.codeEditor.getEditor().getValue(), this.shader_list[this.current_shader]));
+    // app.shader_list[app.current_shader].fragment_shader = app.codeEditor.get_editor().getValue();
+    // console.log(app.shader_list[app.current_shader].fragment_shader)
+
+
+load_shaders(shaders_json,shaders_as_text,shaders_left);

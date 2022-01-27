@@ -54,8 +54,6 @@ window.addEventListener('mousemove', (event) =>
     mouse.x = event.clientX / sizes.width * 2 - 1
     mouse.y = - (event.clientY / sizes.height) * 2 + 1
 
-    //console.log(mouse)
-
 })
 
 document.addEventListener('click', (event) => 
@@ -63,8 +61,6 @@ document.addEventListener('click', (event) =>
 
     mouse.x = event.clientX / sizes.width * 2 - 1
     mouse.y = - (event.clientY / sizes.height) * 2 + 1
-
-    console.log(mouse)
 
     const sphereMouse = new THREE.Mesh( geometry, material );
 
@@ -83,7 +79,6 @@ document.addEventListener('click', (event) =>
     draw();
 
     var timeMouse = new Date() - startMouse
-    console.log(timeMouse)
 })
 
 function rayIntersect(raycaster, objects){
@@ -217,15 +212,9 @@ raytracing();
 
 const tick = () =>
 {
-    //var start = new Date()
-
     createVAO(vertices);
     createShaders();
-    draw();
-
-    //var time = new Date() - start
-    //console.log(time)
-    
+    draw();   
     window.requestAnimationFrame(tick)
 
 }

@@ -1,0 +1,383 @@
+/*------------- GENERAL -------------*/
+
+html,
+body
+{
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    margin: 0;
+}
+
+body
+{
+    color: #ffffff;
+    font-family: 'Roboto';
+    background: #121212;
+    margin: 0;
+}
+
+main
+{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    position: relative;
+    box-sizing: border-box;
+    padding: 10vh 0 0 0;
+}
+
+section
+{
+    width: 100%;
+    display: flex;
+}
+
+h1
+{
+    margin: 0;
+}
+
+ul
+{
+    padding: 0;
+    margin: 0;
+}
+
+button
+{
+    cursor: pointer;
+    background-color: rgba($color: #000000, $alpha: 0.0);
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-size: 50%;
+    color: white;
+    font-weight: bold;
+    width: 50px;
+    height: 50px;
+    border: none;
+}
+
+button:active
+{
+    background-color: #13a9c4;
+}
+
+/*---------------- HEADER ----------------*/
+header
+{
+    background: #000000;
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    box-sizing: border-box;
+    z-index: 5;
+}
+
+h1
+{
+    margin: 0 1.5%;
+}
+
+/*------------------ NAV -----------------*/
+nav
+{
+    height: 100%;
+}
+
+#shader_list
+{
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.shader_link
+{
+    cursor: pointer;
+    list-style: none;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 12.5px;
+}
+
+.shader_link.current
+{
+    border-bottom: 2px solid white;
+}
+
+/*-------------- NAV BAR -------------*/
+#navigation_panel
+{
+    background: #000000;
+    width: 50px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav_button.active
+{
+    background-color: #1dd4f4;
+}
+
+#shader_inputs_button
+{
+    background-image: url("./img/inputs.svg");
+    background-size: 45%;
+}
+
+#code_editor_button
+{
+    background-image: url("./img/code.svg");
+    background-size: 45%;
+}
+
+#doc_button
+{
+    background-image: url("./img/doc.svg");
+    
+}
+
+#about_button
+{
+    background-image: url("./img/info.svg");
+    margin-top: auto;
+}
+
+/*---------- APPLICATION SECTION ----------*/
+#webgl_canvas
+{
+    width: 50%;
+    height: 100%;
+}
+
+#interactive_window
+{
+    flex-grow: 1;
+    display: flex;
+}
+
+#interactive_window  .container
+{
+    flex-grow: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: end;
+    overflow: scroll;
+    overflow-x: hidden;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+#interactive_window .container::-webkit-scrollbar
+{
+    display: none;
+}
+
+#interactive_window  .container.code_editor
+{
+    flex-direction: row;
+}
+
+#interactive_window .input_container
+{
+    min-width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    padding: 2.5%;
+}
+
+#interactive_window .input_container::-webkit-scrollbar
+{
+    display: none;
+}
+
+fieldset:not(:first-child)
+{
+    margin-top: 2.5%;
+}
+
+.one_input_container
+{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.one_input_container label{
+    text-align: center;
+    min-width: 150px;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 10px 15px;
+}
+
+input[type = range],
+input[type = color]
+{
+    flex-grow: 1;
+}
+
+input[type = color]
+{
+    border: none !important;
+    padding: 0;
+}
+
+#editor_container
+{
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.editor_scroll_window
+{
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.editor_scroll_window::-webkit-scrollbar
+{
+    display: none;
+}
+
+#code_editor
+{
+    width: 100%;
+    min-height: 100% !important;
+}
+
+#code_editor_panel
+{
+    display: flex;
+    height: 50px;
+}
+
+#console
+{
+    color: #acff30;
+    font-size: 0.975em;
+    height: 100%;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    padding: 0 2.5%;
+}
+
+#console.fail
+{
+    color: #f92672;
+}
+
+#compile_button
+{
+    background-image: url("./img/play.svg");
+    background-size: 45%;
+}
+
+#visual_window
+{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+#visual_window .input_container
+{
+    width: 70px;
+    height: 70px;
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    right: 0;
+    overflow: hidden;
+    padding: 10px;
+    box-sizing: border-box;
+    transition: 0.25s ease-out;
+}
+
+#visual_window .input_container.unwrap
+{
+    width: 100%;
+    transition: 0.25s ease-in;
+}
+
+.input_container.light
+{
+    top: 0;
+}
+
+.input_container.scene
+{
+    bottom: 0;
+}
+
+.preset_button
+{
+    background-color: #1dd4f4;
+    white-space: nowrap;
+    height: 100%;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 17.5px;
+}
+
+button.displayer
+{
+    background-color: #1dd4f4;
+    min-width: 50px;
+    min-height: 50px;
+    margin: 0 0 0 10px;
+}
+
+button.light_list
+{
+    background-image: url("./img/light.svg");
+    border-radius: 50%;
+}
+
+button.scene_list
+{
+    background-image: url("./img/box.svg");
+    border-radius: 50%;
+}
+
+/*---------- ABOUT SECTION ----------*/
+#about
+{
+    background-color: #121212;
+    width: calc(100% - 50px);
+    height: 90%;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transform: translateX(100%);
+    transition: 0.25s ease-out;
+    z-index: 5;
+}
+
+#about.display
+{
+    transform: translateX(0);
+    transition: 0.25s ease-in;
+}
