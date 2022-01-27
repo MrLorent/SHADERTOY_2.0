@@ -37,7 +37,7 @@ void init_object(){
     back_wall.b=vec3(-3., 0., 9.);
     back_wall.c=vec3(3., 5., 9.);
     back_wall.d=vec3(-3., 5., 9.);
-    back_wall.mat.base_color=uColors[5];
+    back_wall.mat.base_color=uColors[4];
 
     bottom_wall.a=vec3(-3., 0., -9.);
     bottom_wall.b=vec3(-3., 0., 9.);
@@ -93,7 +93,7 @@ void init_object(){
     back_wall.b=vec3(-3., 0., 9.);
     back_wall.c=vec3(3., 5., 9.);
     back_wall.d=vec3(-3., 5., 9.);
-    back_wall.mat.base_color=uColors[5];
+    back_wall.mat.base_color=uColors[4];
 
     bottom_wall.a=vec3(-3., 0., -9.);
     bottom_wall.b=vec3(-3., 0., 9.);
@@ -154,7 +154,7 @@ void init_object(){
     back_wall.b=vec3(-3., 0., 9.);
     back_wall.c=vec3(3., 5., 9.);
     back_wall.d=vec3(-3., 5., 9.);
-    back_wall.mat.base_color=uColors[5];
+    back_wall.mat.base_color=uColors[4];
     back_wall.mat.kd=uKd[5];
 
     bottom_wall.a=vec3(-3., 0., -9.);
@@ -231,7 +231,7 @@ void init_object(){
     back_wall.b=vec3(-3., 0., 9.);
     back_wall.c=vec3(3., 5., 9.);
     back_wall.d=vec3(-3., 5., 9.);
-    back_wall.mat.base_color=vec3(1.0, 1., 1.);
+    back_wall.mat.base_color=vec3(253.0/255., 245.0/255., 240.0/255.);
 
     bottom_wall.a=vec3(-3., 0., -9.);
     bottom_wall.b=vec3(-3., 0., 9.);

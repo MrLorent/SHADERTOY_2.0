@@ -298,6 +298,7 @@ void set_objects() {
                 <ul>
                     <li class="code-list"><span class="code">vec3 get_normal(vec3 intersection) : </span>returns the normal of a given intersection</li>
                     <li class="code-list"><span class="code">float rand(vec2 input) : </span>returns random value based on the input</li>
+                    <li class="code-list"><span class="code">bool intersect( vec3 ray_origin, vec3 ray_intersect, vec3 ray_direction ) : </span>returns true if at least one object is intersected by the ray</li>
                 </ul>
 
                 <hr>
@@ -305,11 +306,12 @@ void set_objects() {
                 <p>If you want to use flat painting on the first scene preset and move the sphere on y axis, for example, you can try this :</p>
 <pre>
 /// color_picker scene uColors colors
-/// slider scene uSpherePositionY sphere_position_y 0 1 0.1
+/// slider scene uPositionY position_y 0 1 0.1
 void set_objects(){
     box1.mat.base_color = uColors[0]; 
     sphere1.mat.base_color = uColors[1]; 
-    sphere1.origin = vec3(-1,uSpherePositionY[1],5); 
+    sphere1.origin = vec3(-1,uPositionY[1],5); 
+    box1.origin = vec3(1,uPositionY[0],5);
 }
 
 vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin,
