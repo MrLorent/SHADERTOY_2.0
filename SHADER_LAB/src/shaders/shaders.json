@@ -34,7 +34,7 @@
     
     "4" : [
         {
-            "nom" : "Personal",
+            "nom" : "Create your own shader !",
             "vertex" : "./shaders/vertex/vertexShader.glsl",
             "fragment" : "./shaders/fragment/personalFragment.glsl"
         }
