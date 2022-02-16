@@ -43,7 +43,7 @@ export default class Shader {
       new THREE.Color('#FFF5F0'), new THREE.Color('white'),
       new THREE.Color('#e36c44'), new THREE.Color('#8ab8a5')
     ];
-    this.diffus = [0.7, 0.5, 0.7, 1, 1, 1, 1, 1];
+    this.diffus = [1, 1, 1, 1, 1, 1, 1, 1];
     this.specular = [0.1, 0.2, 0.3, 1, 1, 0, 0, 0];
     this.subsurface = [0, 0.1, 1, 0.5, 0, 0.1, 1, 0.5];
     this.metallic = [0, 0.1, 1, 0.5, 0, 0.1, 1, 0.5];
