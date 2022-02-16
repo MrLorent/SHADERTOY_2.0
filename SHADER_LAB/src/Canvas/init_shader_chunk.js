@@ -1,11 +1,10 @@
 export default (shaderChunk) => {
-
-shaderChunk['test_compile']=`#version 300 es
+  shaderChunk['test_compile'] = `#version 300 es
 #define varying in
 out highp vec4 pc_fragColor;
 #define gl_FragColor pc_fragColor`
 
-shaderChunk['uniforms_and_defines']=`
+  shaderChunk['uniforms_and_defines'] = `
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -30,7 +29,7 @@ in vec2 vertex_uv;
 
 `
 
-shaderChunk['init_object_flat_painting']=`void set_objects(){}
+  shaderChunk['init_object_flat_painting'] = `void set_objects(){}
 void init_object(){
 
     back_wall.a=vec3(3., 0., 9.);
@@ -73,7 +72,7 @@ void init_object(){
         box1.mat.base_color=uColors[0];
 
     }else if(SCENE == 1){
-        sphere1.origin = vec3(-1,1.2,5);
+        sphere1.origin = vec3(1,0.8,4.5);
         sphere1.radius=0.5;
         sphere1.mat.base_color=uColors[0];
 
@@ -81,13 +80,13 @@ void init_object(){
         sphere2.radius = 1.;
         sphere2.mat.base_color=uColors[1];
 
-        sphere3.origin=vec3(1,0.8,4.5);
+        sphere3.origin = vec3(-1,1.2,5);
         sphere3.radius=0.5;
         sphere3.mat.base_color=uColors[2];
     }
 }`
 
-shaderChunk['init_object_lambert']=`void set_objects(){}
+  shaderChunk['init_object_lambert'] = `void set_objects(){}
 void init_object(){
     back_wall.a=vec3(3., 0., 9.);
     back_wall.b=vec3(-3., 0., 9.);
@@ -129,7 +128,7 @@ void init_object(){
         box1.mat.base_color=uColors[0];
 
     }else if(SCENE == 1){
-        sphere1.origin = vec3(-1,1.2,5);
+        sphere1.origin = vec3(1,0.8,4.5);
         sphere1.radius=0.5;
         sphere1.mat.base_color=uColors[0];
 
@@ -137,7 +136,7 @@ void init_object(){
         sphere2.radius = 1.;
         sphere2.mat.base_color=uColors[1];
 
-        sphere3.origin=vec3(1,0.8,4.5);
+        sphere3.origin=vec3(-1,1.2,5);
         sphere3.radius=0.5;
         sphere3.mat.base_color=uColors[2];
 
@@ -147,7 +146,7 @@ void init_object(){
     }
 }
 `
-shaderChunk['init_object_phong']=`void set_objects(){}
+  shaderChunk['init_object_phong'] = `void set_objects(){}
 void init_object(){
     
     back_wall.a=vec3(3., 0., 9.);
@@ -202,7 +201,7 @@ void init_object(){
         box1.mat.shininess= uShininess[0];
 
     }else if(SCENE == 1){
-        sphere1.origin = vec3(-1,1.2,5);
+        sphere1.origin = vec3(1,0.8,4.5);;
         sphere1.radius=0.5;
         sphere1.mat.base_color= uColors[0];
         sphere1.mat.kd= uKd[0];
@@ -216,7 +215,7 @@ void init_object(){
         sphere2.mat.ks= uKs[1];
         sphere2.mat.shininess= uShininess[1];
 
-        sphere3.origin=vec3(1,0.8,4.5);
+        sphere3.origin = vec3(-1,1.2,5);
         sphere3.radius=0.5;
         sphere3.mat.base_color= uColors[2];
         sphere3.mat.kd= uKd[2];
@@ -225,7 +224,7 @@ void init_object(){
     }
 }`
 
-shaderChunk['init_object_personal']=`
+  shaderChunk['init_object_personal'] = `
 void init_object(){
     back_wall.a=vec3(3., 0., 9.);
     back_wall.b=vec3(-3., 0., 9.);
@@ -265,17 +264,17 @@ void init_object(){
         box1.dimension=vec3(0.5);
 
     }else if(SCENE == 1){
-        sphere1.origin = vec3(-1,1.2,5);
+        sphere1.origin = vec3(1,0.8,4.5);
         sphere1.radius=0.5;
 
         sphere2.origin = vec3(0.5,1.5,6);
         sphere2.radius = 1.;
 
-        sphere3.origin=vec3(1,0.8,4.5);
+        sphere3.origin = vec3(-1,1.2,5);
         sphere3.radius=0.5;
     }
 }`
-shaderChunk['creation_object']=`
+  shaderChunk['creation_object'] = `
     struct Material{
         vec3 base_color;
         float ka;
@@ -316,8 +315,8 @@ shaderChunk['creation_object']=`
         vec3 col;
         vec3 vector;
     };`
-    
-shaderChunk['scene_preset_0']=`
+
+  shaderChunk['scene_preset_0'] = `
     #define SCENE 0
 
     Sphere sphere1, sphere2, sphere3;
@@ -427,7 +426,7 @@ shaderChunk['scene_preset_0']=`
         return (min(nearest_wall,nearest_object) == nearest_object);
     }
     `
-shaderChunk['scene_preset_1']=`
+  shaderChunk['scene_preset_1'] = `
 
     #define SCENE 1
 
@@ -536,8 +535,8 @@ shaderChunk['scene_preset_1']=`
         return (min(nearest_wall, nearest_object) == nearest_object);
     }
     `
-    
-shaderChunk['RayMarch']=`
+
+  shaderChunk['RayMarch'] = `
     float RayMarch(out Material hit_object, in vec3 ray_origin, in vec3 ray_direction) {
         float distance_from_origin = 0.; // Distance I've marched from origin
     
@@ -553,8 +552,8 @@ shaderChunk['RayMarch']=`
     return distance_from_origin;
 }   
 `
-    
-shaderChunk['get_normal'] = `
+
+  shaderChunk['get_normal'] = `
     
 vec3 get_normal(in vec3 ray_intersect) { // get surface normal using euler approx. method
       Material _;
@@ -570,24 +569,24 @@ vec3 get_normal(in vec3 ray_intersect) { // get surface normal using euler appro
     
     
 `
-    
-shaderChunk['rand']=`
+
+  shaderChunk['rand'] = `
     
 float rand(in vec2 co){
      return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453)-0.5;
 }
     
     
-`  
+`
 
-shaderChunk['dot2']=`
+  shaderChunk['dot2'] = `
 float dot2(in vec3 v){
     return dot(v,v);
 }
 
 `
 
-shaderChunk['main']=`
+  shaderChunk['main'] = `
 
 void main()
 {
@@ -633,9 +632,4 @@ void main()
 
 }
 `
-
-
-
 }
-    
-    
