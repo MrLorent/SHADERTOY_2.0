@@ -164,7 +164,7 @@ export default class Shader {
 
     }
 
-    else if (this.#name === 'Create your own shader !') {
+    else if (this.#name === 'Code your own shader !') {
       for (let i = 0; i < this.#inputs['scene'].length; i++) {
         if (type === 'slider' & name === this.#inputs['scene'][i].get_label()) {
           this.uniform[i][id] = value;
@@ -236,7 +236,7 @@ export default class Shader {
     if (uniform.target === 'scene') {
       this.#inputs[uniform.target].push(Input(uniform));
       let i = this.#inputs[uniform.target].length - 1;
-      if (this.#name === 'Create your own shader !') {
+      if (this.#name === 'Code your own shader !') {
         if (this.#inputs[uniform.target][i].get_type() === 'slider') {
           this.uniform[i] = [1., 1., 1., 1., 1., 1., 1., 1.];
           this.uniforms[this.#inputs[uniform.target][i].get_name()] = {
@@ -267,7 +267,7 @@ export default class Shader {
       this.#inputs[uniform.target][1].push(Input(uniform));
       let i = this.#inputs[uniform.target][1].length - 1;
 
-      if (this.#name === 'Create your own shader !' &&
+      if (this.#name === 'Code your own shader !' &&
           uniform.target == 'scene') {
         this.#inputs[uniform.target][0].push(Input(uniform));
 

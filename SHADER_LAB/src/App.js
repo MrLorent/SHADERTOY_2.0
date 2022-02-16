@@ -106,7 +106,7 @@ export class App {
     this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
 
     if (this.shader_list[this.current_shader].get_name() ===
-        'Create your own shader !') {
+        'Code your own shader !') {
       this.codeEditor.set_value(this.codeEditor.remove_include_personal(
           this.shader_list[this.current_shader].fragment_shader));
       this.shader_list[this.current_shader].fragment_shader =
@@ -125,7 +125,7 @@ export class App {
     let user_shader_input = this.codeEditor.get_value();
 
     if (this.shader_list[this.current_shader].get_name() ===
-        'Create your own shader !') {
+        'Code your own shader !') {
       user_shader_input = this.codeEditor.add_include_personal(
           user_shader_input, this.NUMERO_PRESET)
       user_shader_input += '\n' +
@@ -154,7 +154,7 @@ export class App {
     let new_text = '';
 
     if (this.shader_list[this.current_shader].get_name() ===
-        'Create your own shader !') {
+        'Code your own shader !') {
       this.NUMERO_PRESET = preset;
       new_text = this.codeEditor.change_scene_include(preset);
       new_text =
