@@ -633,6 +633,40 @@ vec3 get_normal(in vec3 ray_intersect) { // get surface normal using euler appro
     
 `
 
+shaderChunk['utils_cook'] = `
+float chiGGX(float v) { return (v > 0. ? 1. : 0.); }
+
+float GGX_Distribution(vec3 n, vec3 h, float alpha) {
+  float NoH = dot(n, h);
+  float alpha2 = alpha * alpha;
+  float NoH2 = NoH * NoH;
+  float den = NoH2 * alpha + (1. - NoH2);
+  return (chiGGX(NoH) * alpha2) / (3.14 * den * den);
+}
+
+float GGX_PartialGeometryTerm(vec3 v, vec3 n, vec3 h, float alpha) {
+  float VoH2 = clamp(dot(v, h), 0., 1.);
+  float VoN2 = clamp(dot(v, n), 0., 1.);
+  float chi = chiGGX(VoH2 / VoN2);
+  VoH2 = VoH2 * VoH2;
+  VoN2 = VoN2 * VoN2;
+  float tan2 = (1. - VoN2) / VoN2;
+  return (2. * chi) / (1. + sqrt(1. + alpha * alpha * tan2));
+}
+
+float G_cookTorrance(vec3 v, vec3 l, vec3 n, vec3 h, float alpha) {
+  float g_v = GGX_PartialGeometryTerm(normalize(v), n, h, alpha);
+  float g_l = GGX_PartialGeometryTerm(normalize(l), n, h, alpha);
+  return g_l * g_v;
+}
+
+vec3 Fresnel(vec3 v, vec3 h, float ior) {
+  float cosT = clamp(dot(h, v), 0., 1.);
+  vec3 F0 = vec3(abs((1.0 - ior) / (1.0 + ior)));
+  return F0 + (1. - F0) * pow(1. - cosT, 5.);
+}
+`
+
   shaderChunk['rand'] = `
     
 float rand(in vec2 co){

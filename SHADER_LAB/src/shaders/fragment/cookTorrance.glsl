@@ -25,38 +25,8 @@
 #include <get_normal>
 #include <rand>
 #include <init_object_cook_torrance>
+#include <utils_cook>
 
-float chiGGX(float v) { return (v > 0. ? 1. : 0.); }
-
-float GGX_Distribution(vec3 n, vec3 h, float alpha) {
-  float NoH = dot(n, h);
-  float alpha2 = alpha * alpha;
-  float NoH2 = NoH * NoH;
-  float den = NoH2 * alpha + (1. - NoH2);
-  return (chiGGX(NoH) * alpha2) / (3.14 * den * den);
-}
-
-float GGX_PartialGeometryTerm(vec3 v, vec3 n, vec3 h, float alpha) {
-  float VoH2 = clamp(dot(v, h), 0., 1.);
-  float VoN2 = clamp(dot(v, n), 0., 1.);
-  float chi = chiGGX(VoH2 / VoN2);
-  VoH2 = VoH2 * VoH2;
-  VoN2 = VoN2 * VoN2;
-  float tan2 = (1. - VoN2) / VoN2;
-  return (2. * chi) / (1. + sqrt(1. + alpha * alpha * tan2));
-}
-
-float G_cookTorrance(vec3 v, vec3 l, vec3 n, vec3 h, float alpha) {
-  float g_v = GGX_PartialGeometryTerm(normalize(v), n, h, alpha);
-  float g_l = GGX_PartialGeometryTerm(normalize(l), n, h, alpha);
-  return g_l * g_v;
-}
-
-vec3 Fresnel(vec3 v, vec3 h, float ior) {
-  float cosT = clamp(dot(h, v), 0., 1.);
-  vec3 F0 = vec3(abs((1.0 - ior) / (1.0 + ior)));
-  return F0 + (1. - F0) * pow(1. - cosT, 5.);
-}
 
 vec3 Model_Illumination(in vec3 ray_intersect, in vec3 ray_origin,
                         in Material hit_object) {
@@ -90,44 +60,48 @@ vec3 Model_Illumination(in vec3 ray_intersect, in vec3 ray_origin,
   float specular2 =
       clamp(dot(half_vector2, normal), 0., 1.); // also called `blinn term`
 
-  vec3 view_vector = normalize(ray_intersect - ray_origin);
+        // shadow stuff
+    vec3 position_offset = normal * SURF_DIST_MARCH * 1.2; // move the point above a little
+    Material _; //useless stuff but needed for the next RayMarch
+    float d = RayMarch(_, ray_intersect + position_offset, light_vector);
+    float d2 = RayMarch(_, ray_intersect + position_offset, light_vector2);
 
+
+    if (uShadow==1. && (d < length(lightPos - ray_intersect)|| uSecond_Light_on_off*d2 < uSecond_Light_on_off*length(lightPos2 - ray_intersect))) { // If true then we've shaded a point on some object before, 
+                                    // so shade the currnet point as shodow.
+        diffuse *= .3 ; // no half-shadow because the light source is a point.  
+        diffuse2 *= .3;  
+        specular = 0.; // shadows don't have specular component, I think.
+        specular2 = 0.;
+    }
+
+    //cook torrance stuff
   float nl = clamp(dot(normal, light_vector), 0., 1.);
+  float nl2 = clamp(dot(normal, light_vector2), 0., 1.);
   float nv = clamp(dot(normal, ray_vector), 0., 1.);
 
-  float d = GGX_Distribution(normal, half_vector, hit_object.roughness);
+  float distrib = GGX_Distribution(normal, half_vector, hit_object.roughness);
 
-  vec3 f = Fresnel(ray_vector, half_vector, 2.);
+  vec3 fresnel = Fresnel(ray_vector, half_vector, 2.);
 
   float g = G_cookTorrance(ray_vector, light_vector, normal, half_vector,
                            hit_object.roughness);
 
-  vec3 ct = f * f * (0.25 * d * g / nv);
+float g2 = G_cookTorrance(ray_vector, light_vector2, normal, half_vector,
+                            hit_object.roughness);
 
-  /*    float diff = max(nl, 0.0);
-   */
-  vec3 spec = (d * f * g) / (nv * nl);
+  vec3 spec = (distrib * fresnel * g) / (nv * nl);
 
-  vec3 diff = uColorLight * hit_object.base_color * (1. - f / 2.);
+    vec3 spec2 = (distrib * fresnel * g2) / (nv * nl2);
+
+
+  vec3 diff = uColorLight * hit_object.base_color * (1. - fresnel / 2.);
+  vec3 diff2 = uColorLight2 * hit_object.base_color * (1. - fresnel / 2.);
+
 
   vec3 col1 = (spec + diff) * nl;
+  vec3 col2 = uSecond_Light_on_off * (spec2 + diff2) * nl2;
 
-  // col1 *=ct*hit_object.ks + diff*hit_object.kd;
-
-  // Blinn-Phong stuff
-  // vec3 col1 =  hit_object.base_color/3.14;
-
-  /*    vec3 cook = dfg/(LoN*VoN*2.);
-
-      vec3 col1 = uColorLight * hit_object.base_color;
-      col1 = col1 * hit_object.kd * diffuse + cook * pow(specular,
-     hit_object.shininess);*/
-  // col1=(hit_object.base_color+uColorLight*cook)*LoN;
-  // col1 =col1+hit_object.ks*G_cookTorrance(ray_vector, light_vector, normal,
-  // half_vector, hit_object.roughness)*Fresnel(ray_vector, half_vector, normal,
-  // 0.5)*GGX_Distribution(normal, half_vector,
-  // hit_object.roughness)/(4.*(dot(ray_vector, normal))*dot(light_vector,
-  // normal));
 
   vec3 col = col1;
   return pow(col, vec3(0.8)); // Gama correction
