@@ -30,9 +30,17 @@
             "fragment" : "./shaders/fragment/phongIllumination.glsl"
         }
     ],
-    
-    
+
     "4" : [
+        {
+            "nom" : "Cook Torrance",
+            "vertex" : "./shaders/vertex/vertexShader.glsl",
+            "fragment" : "./shaders/fragment/cookTorrance.glsl"
+        }
+    ],
+    
+    
+    "5" : [
         {
             "nom" : "Code your own shader !",
             "vertex" : "./shaders/vertex/vertexShader.glsl",

@@ -25,7 +25,8 @@ export class App {
   LAMBERT = 1;
   LAMBERT_WITH_BOUNCE = 2;
   PHONG = 3;
-  PERSONAL = 4;
+  COOK_TORRANCE = 4;
+  PERSONAL = 5;
 
   NUMERO_PRESET = 0;
 

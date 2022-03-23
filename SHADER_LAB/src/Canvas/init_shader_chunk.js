@@ -224,6 +224,69 @@ void init_object(){
     }
 }`
 
+  shaderChunk['init_object_cook_torrance'] = `void set_objects(){}
+void init_object(){
+
+    back_wall.a=vec3(3., 0., 9.);
+    back_wall.b=vec3(-3., 0., 9.);
+    back_wall.c=vec3(3., 5., 9.);
+    back_wall.d=vec3(-3., 5., 9.);
+    back_wall.mat.base_color=uColors[4];
+
+    bottom_wall.a=vec3(-3., 0., -9.);
+    bottom_wall.b=vec3(-3., 0., 9.);
+    bottom_wall.c=vec3(3., 0., -9.);
+    bottom_wall.d=vec3(3., 0., 9.);
+    bottom_wall.mat.base_color=uColors[5];
+
+    top_wall.a=vec3(-3., 5., -9.);
+    top_wall.b=vec3(-3., 5., 9.);
+    top_wall.c=vec3(3., 5., -9.);
+    top_wall.d=vec3(3., 5., 9.);
+    top_wall.mat.base_color=uColors[5];
+
+    right_wall.a=vec3(3., 0., -9.);
+    right_wall.b=vec3(3., 5., -9.);
+    right_wall.c=vec3(3., 0., 9);
+    right_wall.d=vec3(3., 5., 9.);
+    right_wall.mat.base_color=uColors[6];
+
+    left_wall.a=vec3(-3., 0., -9.);
+    left_wall.b=vec3(-3., 5., -9.);
+    left_wall.c=vec3(-3., 0., 9.);
+    left_wall.d=vec3(-3., 5., 9.);
+    left_wall.mat.base_color=uColors[7];
+
+    if(SCENE == 0){
+        sphere1.origin=vec3(-1,1,5);
+        sphere1.radius=0.5;
+        sphere1.mat.base_color=uColors[1];
+        sphere1.mat.roughness=uRoughness[1];
+
+        box1.origin=vec3(1,1,5);
+        box1.dimension=vec3(0.5);
+        box1.mat.base_color=uColors[0];
+        box1.mat.roughness=uRoughness[0];
+
+    }else if(SCENE == 1){
+        sphere1.origin = vec3(1,0.8,4.5);
+        sphere1.radius=0.5;
+        sphere1.mat.base_color=uColors[0];
+        sphere1.mat.roughness=uRoughness[0];
+
+        sphere2.origin = vec3(0.5,1.5,6);
+        sphere2.radius = 1.;
+        sphere2.mat.base_color=uColors[1];
+        sphere2.mat.roughness=uRoughness[1];
+
+        sphere3.origin = vec3(-1,1.2,5);
+        sphere3.radius=0.5;
+        sphere3.mat.base_color=uColors[2];
+        sphere3.mat.roughness=uRoughness[2];
+    }
+}`
+
+
   shaderChunk['init_object_personal'] = `
 void init_object(){
     back_wall.a=vec3(3., 0., 9.);
