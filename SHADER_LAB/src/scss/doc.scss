@@ -58,7 +58,30 @@ h4{
 {
     box-sizing: border-box;
     width: 100%;
-    padding: 5%;
+    display: flex;
+}
+
+.summary{
+    width: 15%;
+    height: 100%;
+    background-color: #0f0f0f;
+    margin:0px;
+    font-size: 15px;
+}
+
+.summary p{
+    margin:5px;
+    padding:3px;
+    border-radius: 2px;
+}
+
+.summary p:hover{
+    background-color: #242424;
+    cursor: pointer;
+}
+
+.page{
+    padding:5%;
 }
 
 h2.doc_main_title{
