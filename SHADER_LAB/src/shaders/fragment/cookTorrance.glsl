@@ -81,8 +81,10 @@ vec3 Model_Illumination(in vec3 ray_intersect, in vec3 ray_origin,
   float nv = clamp(dot(normal, ray_vector), 0., 1.);
 
   float distrib = GGX_Distribution(normal, half_vector, hit_object.roughness);
+  float distrib2 = GGX_Distribution(normal, half_vector2, hit_object.roughness);
 
   vec3 fresnel = Fresnel(ray_vector, half_vector, 2.);
+  vec3 fresnel2 = Fresnel(ray_vector, half_vector2, 2.);
 
   float g = G_cookTorrance(ray_vector, light_vector, normal, half_vector,
                            hit_object.roughness);
@@ -92,11 +94,11 @@ float g2 = G_cookTorrance(ray_vector, light_vector2, normal, half_vector,
 
   vec3 spec = (distrib * fresnel * g) / (nv * nl);
 
-    vec3 spec2 = (distrib * fresnel * g2) / (nv * nl2);
+    vec3 spec2 = (distrib2 * fresnel2 * g2) / (nv * nl2);
 
 
   vec3 diff = uColorLight * hit_object.base_color * (1. - fresnel / 2.);
-  vec3 diff2 = uColorLight2 * hit_object.base_color * (1. - fresnel / 2.);
+  vec3 diff2 = uColorLight2 * hit_object.base_color * (1. - fresnel2 / 2.);
 
 
   vec3 col1 = (spec + diff) * nl;
