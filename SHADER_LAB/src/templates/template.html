@@ -60,135 +60,139 @@
         </section>
         <section id="documentation">
             <div class="doc_container">
-                <h2 class="doc_main_title">All you need to know to create your shader !</h2>
+                <div class = "scenes page show">
+                    <h2 class="doc_main_title">All you need to know to create your shader !</h2>
+                    <hr>
+                    <h3 class="doc_title">Scenes</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>SCENE 1</th>
+                                <th>SCENE 2</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>box1</td>
+                                <td>sphere1</td>
+                            </tr>
+                            <tr>
+                                <td>sphere1</td>
+                                <td>sphere2</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>sphere3</td>
+                            </tr>
+                        </tbody>
+                    </table>
+    
+                    <hr class="little-transition">
+                    <h4>OBJECTS</h4>
+                    <p>Box</p>
+                    <ul class="structure">
+                        <li>
+                            <span class="type">vec3</span>
+                            <span class="name">origin</span>
+                        </li>
+                        <li>
+                            <span class="type">vec3</span>
+                            <span class="name">dimensions (depth, width, height)</span>
+                        </li>
+                        <li>
+                            <span class="type">Material</span>
+                            <span class="name">mat</span>
+                        </li>
+                    </ul>
+    
+                    <p>Sphere</p>
+                    <ul class="structure">
+                        <li>
+                            <span class="type">vec3</span>
+                            <span class="name">origin</span>
+                        </li>
+                        <li>
+                            <span class="type">float</span>
+                            <span class="name">radius</span>
+                        </li>
+                        <li>
+                            <span class="type">Material</span>
+                            <span class="name">mat</span>
+                        </li>
+                    </ul>
+    
+                    <hr class="little-transition">
+                    <h4>ACCESS OBJECT ATTRIBUTES</h4>
+                    <p>name_object.attribute = value;</p>
+                    <pre><b>ex : </b>box1.origin = vec3(1.,1.,5.);</pre>
+    
+                    <h4 class="commentary">If you change an object position, be careful ! The camera points at the position (0,1,5).. Plus, be aware that the x axis is inverted...</h4>
+    
+                    <hr class="little-transition">
+                    <h4>AND FOR MATERIALS ?</h4>
+                    <p>Material</p>
+                    <ul class="structure">
+                        <li>
+                            <span class="type">vec3</span>
+                            <span class="name">base_color</span>
+                        </li>
+                        <li>
+                            <span class="type">float</span>
+                            <span class="name">kd</span>
+                        </li>
+                        <li>
+                            <span class="type">float</span>
+                            <span class="name">ks</span>
+                        </li>
+                        <li>
+                            <span class="type">float</span>
+                            <span class="name">shininess</span>
+                        </li>
+                        <li>
+                            <span class="type">float</span>
+                            <span class="name">subsurface</span>
+                        </li>
+                        <li>
+                            <span class="type">float</span>
+                            <span class="name">metallic</span>
+                        </li>
+                        <li>
+                            <span class="type">float</span>
+                            <span class="name">specularTint</span>
+                        </li>
+                        <li>
+                            <span class="type">float</span>
+                            <span class="name">roughness</span>
+                        </li>
+                        <li>
+                            <span class="type">float</span>
+                            <span class="name">anisotropic</span>
+                        </li>
+                        <li>
+                            <span class="type">float</span>
+                            <span class="name">sheen</span>
+                        </li>
+                        <li>
+                            <span class="type">float</span>
+                            <span class="name">sheenTint</span>
+                        </li>
+                        <li>
+                            <span class="type">float</span>
+                            <span class="name">clearcoat</span>
+                        </li>
+                        <li>
+                            <span class="type">float</span>
+                            <span class="name">clearcoatGloss</span>
+                        </li>
+                    </ul>
+    
+                    <pre><b>ex : </b>sphere1.mat.base_color = vec3(1.,0.,0.);</pre>
+    
+                </div>
                 <hr>
-                <h3 class="doc_title">Scenes</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>SCENE 1</th>
-                            <th>SCENE 2</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>box1</td>
-                            <td>sphere1</td>
-                        </tr>
-                        <tr>
-                            <td>sphere1</td>
-                            <td>sphere2</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>sphere3</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <hr class="little-transition">
-                <h4>Objects</h4>
-                <p>Box</p>
-                <ul class="structure">
-                    <li>
-                        <span class="type">vec3</span>
-                        <span class="name">origin</span>
-                    </li>
-                    <li>
-                        <span class="type">vec3</span>
-                        <span class="name">dimensions (depth, width, height)</span>
-                    </li>
-                    <li>
-                        <span class="type">Material</span>
-                        <span class="name">mat</span>
-                    </li>
-                </ul>
-
-                <p>Sphere</p>
-                <ul class="structure">
-                    <li>
-                        <span class="type">vec3</span>
-                        <span class="name">origin</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span>
-                        <span class="name">radius</span>
-                    </li>
-                    <li>
-                        <span class="type">Material</span>
-                        <span class="name">mat</span>
-                    </li>
-                </ul>
-
-                <hr class="little-transition">
-                <h4>How to access object attributes ?</h4>
-                <p>name_object.attribute = value;</p>
-                <pre><b>ex : </b>box1.origin = vec3(1.,1.,5.);</pre>
-
-                <h4 class="commentary">If you change an object position, be careful ! The camera points at the position (0,1,5).. Plus, be aware that the x axis is inverted...</h4>
-
-                <hr class="little-transition">
-                <h4>And for materials ?</h4>
-                <p>Material</p>
-                <ul class="structure">
-                    <li>
-                        <span class="type">vec3</span>
-                        <span class="name">base_color</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span>
-                        <span class="name">kd</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span>
-                        <span class="name">ks</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span>
-                        <span class="name">shininess</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span>
-                        <span class="name">subsurface</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span>
-                        <span class="name">metallic</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span>
-                        <span class="name">specularTint</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span>
-                        <span class="name">roughness</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span>
-                        <span class="name">anisotropic</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span>
-                        <span class="name">sheen</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span>
-                        <span class="name">sheenTint</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span>
-                        <span class="name">clearcoat</span>
-                    </li>
-                    <li>
-                        <span class="type">float</span>
-                        <span class="name">clearcoatGloss</span>
-                    </li>
-                </ul>
-
-                <pre><b>ex : </b>sphere1.mat.base_color = vec3(1.,0.,0.);</pre>
-
-                <hr>
-                <h3 class="doc_title">Lights</h3>
+                
+                <div class="lights page hidden">
+                    <h3 class="doc_title">Lights</h3>
 
                 <table>
                     <thead>
@@ -227,81 +231,89 @@
 
                 <p>If you want to change light parameters, just use inputs ! To have acces to them :</p>
                 <pre><b>ex : </b> vec3 light_position = light1.pos;</pre>
-                <hr>
-                <h3 class="doc_title">How to create an input ?</h3>
-                <ul>
-                    <li>
-                        <p><b>color_picker</b></p>
-                    </li>
-<pre>/// color_picker scene uName name min max step
-<b>ex : </b>///color_picker scene uColor color 
-                    <div class="result">uniform float uColor[N_MATERIALS]</div></pre>
-                    <li>
-                        <p><b>slider</b></p>
-                    </li>
-                </ul>
-<pre>/// slider scene uName name min max step
-<b>ex : </b>///slider scene uPosX posX 0 1 0.1
-                <div class="result">uniform float uPosX[N_MATERIALS]</div></pre>
-
-                <hr class="little-transition">
-                <h4>How to use an input in your code :</h4>
-                <pre>
-<b>ex : </b> /// color_picker scene uColor color
-result : uniform vec3 uColor[N_MATERIALS]
-void set_objects() {  
-    sphere1.mat.base_color = uColor[1];
-}</pre>
-<p class="commentary">To change object attributes, you should use set_objects() !</p>
-
-                <hr class="little-transition">
-                <h4>N_MATERIALS explanation</h4>
-                <p>N_MATERIALS represents the total number of materials in the scene. In scene 1, you can access to 2 materials and in scene 2 you can access 3 materials.</p>
-
- <table>
-                    <thead>
-                        <tr>
-                            <th>N_MATERIALS</th>
-                            <th>SCENE 1</th>
-                            <th>SCENE 2</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>0</td>
-                            <td>box1</td>
-                            <td>sphere1</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>sphere1</td>
-                            <td>sphere2</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>x</td>
-                            <td>sphere3</td>
-                        </tr>
-                        <tr>
-                    </tbody>
-                </table>
-
-                <p>The input created are linked to this indexes, for example if you want the box1 parameter in a uColor input you created, uColor[0] is what you are looking for!</p>
+                </div>
 
                 <hr>
-                <h3 class="doc_title">What is hit_object ?</h3>
-                <p>hit_object contains the material of the intersected object (ie : the material of the first object that the ray intersects)</p>
+                <div class="inputs page hidden">
+                    <h3 class="doc_title">How to create an input ?</h3>
+                    <ul>
+                        <li>
+                            <p><b>color_picker</b></p>
+                        </li>
+    <pre>/// color_picker scene uName name min max step
+    <b>ex : </b>///color_picker scene uColor color 
+                        <div class="result">uniform float uColor[N_MATERIALS]</div></pre>
+                        <li>
+                            <p><b>slider</b></p>
+                        </li>
+                    </ul>
+    <pre>/// slider scene uName name min max step
+    <b>ex : </b>///slider scene uPosX posX 0 1 0.1
+                    <div class="result">uniform float uPosX[N_MATERIALS]</div></pre>
+    
+                    <hr class="little-transition">
+                    <h4>USE AN INPUT IN YOUR CODE</h4>
+                    <pre>
+    <b>ex : </b> /// color_picker scene uColor color
+    result : uniform vec3 uColor[N_MATERIALS]
+    void set_objects() {  
+        sphere1.mat.base_color = uColor[1];
+    }</pre>
+    <p class="commentary">To change object attributes, you should use set_objects() !</p>
+    
+                    <hr class="little-transition">
+                    <h4>N_MATERIALS EXPLANATION</h4>
+                    <p>N_MATERIALS represents the total number of materials in the scene. In scene 1, you can access to 2 materials and in scene 2 you can access 3 materials.</p>
+    
+     <table>
+                        <thead>
+                            <tr>
+                                <th>N_MATERIALS</th>
+                                <th>SCENE 1</th>
+                                <th>SCENE 2</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>0</td>
+                                <td>box1</td>
+                                <td>sphere1</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>sphere1</td>
+                                <td>sphere2</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>x</td>
+                                <td>sphere3</td>
+                            </tr>
+                            <tr>
+                        </tbody>
+                    </table>
+    
+                    <p>The input created are linked to this indexes, for example if you want the box1 parameter in a uColor input you created, uColor[0] is what you are looking for!</p>
+    
+                </div>
+                <hr>
+
+                <div class="explanations page hidden">
+                    <h3 class="doc_title">What is hit_object ?</h3>
+                    <p>hit_object contains the material of the intersected object (ie : the material of the first object that the ray intersects)</p>
+    
+                    <hr>
+                    <h3 class="doc_title">Functions that you can use</h3>
+                    <p>We implanted various functions that you can use for your shader. </p>
+                    <ul>
+                        <li class="code-list"><span class="code">vec3 get_normal(vec3 intersection) : </span>returns the normal of a given intersection</li>
+                        <li class="code-list"><span class="code">float rand(vec2 input) : </span>returns random value based on the input</li>
+                        <li class="code-list"><span class="code">bool intersect( vec3 ray_origin, vec3 ray_intersect, vec3 ray_direction ) : </span>returns true if at least one object is intersected by the ray</li>
+                    </ul>
+                </div>
 
                 <hr>
-                <h3 class="doc_title">Functions that you can use</h3>
-                <p>We implanted various functions that you can use for your shader. </p>
-                <ul>
-                    <li class="code-list"><span class="code">vec3 get_normal(vec3 intersection) : </span>returns the normal of a given intersection</li>
-                    <li class="code-list"><span class="code">float rand(vec2 input) : </span>returns random value based on the input</li>
-                    <li class="code-list"><span class="code">bool intersect( vec3 ray_origin, vec3 ray_intersect, vec3 ray_direction ) : </span>returns true if at least one object is intersected by the ray</li>
-                </ul>
-
-                <hr>
+               <div class="simple_code page hidden">
                 <h3 class="doc_title">Example of a simple code</h3>
                 <p>If you want to use flat painting on the first scene preset and move the sphere on y axis, for example, you can try this :</p>
 <pre>
@@ -319,6 +331,7 @@ vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin,
     return hit_object.base_color;
 }
 </pre>
+               </div>
             </div>
         
         </section>
