@@ -97,12 +97,12 @@ float g2 = G_cookTorrance(ray_vector, light_vector2, normal, half_vector,
     vec3 spec2 = (distrib2 * fresnel2 * g2) / (nv * nl2);
 
 
-  vec3 diff = uColorLight * hit_object.base_color * (1. - fresnel / 2.);
+  vec3 diff = diffuse * uColorLight * hit_object.base_color * (1. - fresnel / 2.);
   vec3 diff2 = uColorLight2 * hit_object.base_color * (1. - fresnel2 / 2.);
 
 
-  vec3 col1 = (spec + diff) * nl;
-  vec3 col2 = uSecond_Light_on_off * (spec2 + diff2) * nl2;
+  vec3 col1 =  (spec + diff) * nl;
+  vec3 col2 = diffuse2 * uSecond_Light_on_off * (spec2 + diff2) * nl2;
 
 
   vec3 col = col1;
