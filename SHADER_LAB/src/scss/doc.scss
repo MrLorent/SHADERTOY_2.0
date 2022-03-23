@@ -33,7 +33,7 @@ h4{
 {
     width: 45vw;
     height: 90%;
-    background-color: #242424;
+    background-color: #1b1b1b;
     position: absolute;
     right: 0;
     overflow-y: scroll;
@@ -62,9 +62,8 @@ h4{
 }
 
 .summary{
-    width: 15%;
+    width: 25%;
     height: 100%;
-    background-color: #0f0f0f;
     margin:0px;
     font-size: 15px;
 }
@@ -81,7 +80,9 @@ h4{
 }
 
 .page{
+    background-color: #242424;
     padding:5%;
+    height: fit-content;
 }
 
 h2.doc_main_title{
@@ -125,7 +126,7 @@ hr{
 }
 
 .little-transition{
-    width: 80%;
+    margin-top:20px;
     border-width: 0.4px;
 }
 
