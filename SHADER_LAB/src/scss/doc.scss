@@ -81,10 +81,18 @@ h4{
 
 .page{
     min-height:100%;
+    width: 100%;
     background-color: #242424;
+    width: 100%;
     padding:5%;
     height: fit-content;
     display:none;
+}
+
+#doc_text{
+    width: 75%;
+    // background-color: #242424;
+    // min-height:100%;
 }
 
 h2.doc_main_title{
