@@ -255,11 +255,11 @@
                         <hr class="little-transition">
                         <h4>USE AN INPUT IN YOUR CODE</h4>
                         <pre>
-        <b>ex : </b> /// color_picker scene uColor color
-        result : uniform vec3 uColor[N_MATERIALS]
-        void set_objects() {  
-            sphere1.mat.base_color = uColor[1];
-        }</pre>
+<b>ex : </b> /// color_picker scene uColor color
+result : uniform vec3 uColor[N_MATERIALS]
+void set_objects() {  
+    sphere1.mat.base_color = uColor[1];
+}</pre>
         <p class="commentary">To change object attributes, you should use set_objects() !</p>
         
                         <hr class="little-transition">
@@ -316,19 +316,20 @@
                     <h3 class="doc_title">Example of a simple code</h3>
                     <p>If you want to use flat painting on the first scene preset and move the sphere on y axis, for example, you can try this :</p>
     <pre>
-    /// color_picker scene uColors colors
-    /// slider scene uPositionY position_y 0 1 0.1
-    void set_objects(){
-        box1.mat.base_color = uColors[0]; 
-        sphere1.mat.base_color = uColors[1]; 
-        sphere1.origin = vec3(-1,uPositionY[1],5); 
-        box1.origin = vec3(1,uPositionY[0],5);
-    }
+/// color_picker scene uColors colors
+/// slider scene uPositionY position_y 0 1 0.1
+void set_objects(){
+    box1.mat.base_color = uColors[0]; 
+    sphere1.mat.base_color = uColors[1]; 
+    sphere1.origin = vec3(-1,uPositionY[1],5); 
+    box1.origin = vec3(1,uPositionY[0],5);
+}
 
-    vec3 Model_Illumination(in vec3 ray_position, in vec3 ray_origin,
-        in Material hit_object){ 
-        return hit_object.base_color;
-    }
+vec3 Model_Illumination(in vec3 ray_position, 
+    in vec3 ray_origin, in Material hit_object)
+    { 
+    return hit_object.base_color;
+}
     </pre>
                 </div>
             </div>

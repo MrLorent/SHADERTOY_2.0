@@ -5,7 +5,6 @@ export default (summary_part, page_name) => {
     <p onclick = {function(){ 
         var pageToHide = document.querySelector('.show_page');
         pageToHide.classList.remove("show_page");
-        console.log(summary_part);
         var pageToShow = document.getElementById(summary_part);
         pageToShow.classList.add('show_page');
     }}>
