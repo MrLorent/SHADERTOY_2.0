@@ -258,7 +258,7 @@ export class App {
 
     if (light_inputs.length != 0) {
       let light_input_container =
-          input_fieldset_as_HTML(light_inputs, 'light parameters :');
+          input_fieldset_as_HTML(light_inputs, 'Light');
 
       for (let i in light_inputs) {
         light_input_container.append(
@@ -275,7 +275,7 @@ export class App {
           this.SCENE_ELEMENTS = 2;
           for (let k = 0; k < this.SCENE_ELEMENTS; k++) {
             let legend = '';
-            k == 0 ? legend = 'box parameters :' : legend = 'sphere parameters';
+            k == 0 ? legend = 'Box' : legend = 'Sphere';
             let scene_input_container =
                 input_fieldset_as_HTML(scene_inputs, legend)
             for (let i in scene_inputs) {
@@ -289,9 +289,9 @@ export class App {
           this.SCENE_ELEMENTS = 3;
           for (let k = 0; k < this.SCENE_ELEMENTS; k++) {
             let legend = '';
-            k == 0 ? legend = 'sphere 1 parameters :' :
-                     k == 1 ? legend = 'sphere 2 parameters' :
-                              legend = 'sphere 3 parameters';
+            k == 0 ? legend = 'Sphere 1' :
+                     k == 1 ? legend = 'Sphere 2' :
+                              legend = 'Sphere 3';
             let scene_input_container =
                 input_fieldset_as_HTML(scene_inputs, legend)
             for (let i in scene_inputs) {

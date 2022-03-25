@@ -10,7 +10,7 @@ export default (current_shader, scene_element_id, id, name, value, label) => {
             name    = { name }
             value   = { value }
             />
-            <label htmlFor={ name }>{ label }</label>
+            {/* <label htmlFor={ name }>{ label }</label> */}
         </div>
 
     return color_picker;
