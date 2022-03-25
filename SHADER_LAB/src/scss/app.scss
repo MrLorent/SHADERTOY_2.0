@@ -385,3 +385,18 @@ button.scene_list
     transform: translateX(0);
     transition: 0.25s ease-in;
 }
+
+input[type="color"]{
+    background-color: transparent;
+    width: fit-content;
+    flex-grow: 0;
+    cursor: pointer;
+}
+
+input[type="color"]::-webkit-color-swatch,
+::-moz-color-swatch {
+  border-color: transparent;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
