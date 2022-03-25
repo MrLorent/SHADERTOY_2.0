@@ -59,30 +59,33 @@ h4{
     box-sizing: border-box;
     width: 100%;
     display: flex;
+    height: fit-content;
 }
 
-.summary{
+#summary{
     width: 25%;
     height: 100%;
     margin:0px;
     font-size: 15px;
 }
 
-.summary p{
+#summary p{
     margin:5px;
     padding:3px;
     border-radius: 2px;
 }
 
-.summary p:hover{
+#summary p:hover{
     background-color: #242424;
     cursor: pointer;
 }
 
 .page{
+    height:100%;
     background-color: #242424;
     padding:5%;
-    height: fit-content;
+    // height: fit-content;
+    display:none;
 }
 
 h2.doc_main_title{
@@ -165,10 +168,6 @@ hr{
     padding-left: 3%;
 }
 
-.hidden{
-    display:none;
-}
-
-.show{
+.show_page{
     display:block;
 }

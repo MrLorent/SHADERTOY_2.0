@@ -60,14 +60,9 @@
         </section>
         <section id="documentation">
             <div class="doc_container">
-                <div class="summary">
-                    <p>Scenes</p>
-                    <p>Lights</p>
-                    <p>Inputs</p>
-                    <p>Help</p>
-                    <p>Example</p>
+                <div id="summary">
                 </div>
-                <div class = "scenes page show">
+                <div id="scenes" class = "page show_page">
                     <h2 class="doc_main_title">All you need to know to create your shader !</h2>
                     <hr>
                     <h3 class="doc_title">Scenes</h3>
@@ -198,7 +193,7 @@
                 </div>
                 <hr>
                 
-                <div class="lights page hidden">
+                <div id="lights" class="page">
                     <h3 class="doc_title">Lights</h3>
 
                 <table>
@@ -241,7 +236,7 @@
                 </div>
 
                 <hr>
-                <div class="inputs page hidden">
+                <div id="inputs" class="page">
                     <h3 class="doc_title">How to create an input ?</h3>
                     <ul>
                         <li>
@@ -305,7 +300,7 @@
                 </div>
                 <hr>
 
-                <div class="explanations page hidden">
+                <div id="help" class="page">
                     <h3 class="doc_title">What is hit_object ?</h3>
                     <p>hit_object contains the material of the intersected object (ie : the material of the first object that the ray intersects)</p>
     
@@ -320,7 +315,7 @@
                 </div>
 
                 <hr>
-               <div class="simple_code page hidden">
+               <div id="example" class="page">
                 <h3 class="doc_title">Example of a simple code</h3>
                 <p>If you want to use flat painting on the first scene preset and move the sphere on y axis, for example, you can try this :</p>
 <pre>

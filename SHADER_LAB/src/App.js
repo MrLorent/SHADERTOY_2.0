@@ -12,6 +12,7 @@ import shader_inputs_button_as_HTML from './inputs_button.jsx';
 import light_button_as_HTML from './light_button.jsx';
 import nav_bar_as_HTML from './nav_bar.jsx';
 import scene_button_as_HTML from './scene_button.jsx';
+import summary_as_HTML from './summary.jsx';
 
 export class App {
   // LIST OF SCENE ELEMENTS
@@ -37,6 +38,7 @@ export class App {
   current_shader;
 
   constructor(shader_list) {
+    
     // CODE_EDITOR
     this.codeEditor = new CodeEditor('code_editor');
     this.insert_compile_button();
@@ -65,8 +67,6 @@ export class App {
         this.shader_list[this.current_shader].fragment_shader);
     this.update_shader();
 
-
-
     // WINDOW MANAGEMENT
     this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
     window.addEventListener('resize', () => {
@@ -77,6 +77,7 @@ export class App {
     this.insert_navigation_panel_buttons_in_HTML();
     this.insert_scene_buttons_in_HTML();
     this.insert_light_buttons_in_HTML();
+    this.insert_summary_nav_in_HTML();
 
     document.querySelector('button.displayer.light_list')
         .addEventListener('click', () => {
@@ -231,6 +232,17 @@ export class App {
       shaders_id[this.shader_list[i].get_name()] = i;
     }
     header.append(nav_bar_as_HTML(shaders_name, shaders_id, this));
+  }
+
+  insert_summary_nav_in_HTML() {
+    const summary_nav = document.getElementById('summary');
+
+    let pages = ['scenes', 'lights', 'inputs', 'help', 'example'];
+    let pages_names = ['Scenes', 'Lights', 'Inputs', 'Help', 'Example'];
+
+     for (let i in pages) {
+    summary_nav.append(summary_as_HTML(pages[i], pages_names[i]));
+     }
   }
 
   insert_inputs_in_HTML() {
