@@ -1,7 +1,7 @@
 #include <uniforms_and_defines>
 
-/// color_picker scene uColors color
 /// checkbox light uSecond_Light_on_off preset 
+/// color_picker scene uColors color
 
 
 #include <creation_object>
