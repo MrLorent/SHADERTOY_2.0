@@ -38,7 +38,6 @@ export class App {
   current_shader;
 
   constructor(shader_list) {
-    
     // CODE_EDITOR
     this.codeEditor = new CodeEditor('code_editor');
     this.insert_compile_button();
@@ -240,9 +239,9 @@ export class App {
     let pages = ['scenes', 'lights', 'inputs', 'help', 'example'];
     let pages_names = ['Scenes', 'Lights', 'Inputs', 'Help', 'Example'];
 
-     for (let i in pages) {
-    summary_nav.append(summary_as_HTML(pages[i], pages_names[i]));
-     }
+    for (let i in pages) {
+      summary_nav.append(summary_as_HTML(pages[i], pages_names[i]));
+    }
   }
 
   insert_inputs_in_HTML() {
@@ -257,8 +256,7 @@ export class App {
     const light_inputs = shader.get_light_inputs();
 
     if (light_inputs.length != 0) {
-      let light_input_container =
-          input_fieldset_as_HTML(light_inputs, 'Light');
+      let light_input_container = input_fieldset_as_HTML(light_inputs, 'Light');
 
       for (let i in light_inputs) {
         light_input_container.append(
@@ -268,8 +266,10 @@ export class App {
     }
 
     const scene_inputs = shader.get_scene_inputs();
+    const colors_input = shader.get_colors_inputs();
+    console.log("colors inputs : ",colors_input[0])
 
-    if (scene_inputs.length != 0) {
+    if (scene_inputs.length != 0 || colors_input.length != 0) {
       switch (this.NUMERO_PRESET) {
         case 0:
           this.SCENE_ELEMENTS = 2;
@@ -282,6 +282,7 @@ export class App {
               scene_input_container.append(
                   scene_inputs[i].get_as_HTML(k, shader));
             }
+            scene_input_container.append(colors_input[k].get_as_HTML(k, shader));
             HTML_container.append(scene_input_container);
           }
           break;
@@ -290,20 +291,20 @@ export class App {
           for (let k = 0; k < this.SCENE_ELEMENTS; k++) {
             let legend = '';
             k == 0 ? legend = 'Sphere 1' :
-                     k == 1 ? legend = 'Sphere 2' :
-                              legend = 'Sphere 3';
+                     k == 1 ? legend = 'Sphere 2' : legend = 'Sphere 3';
             let scene_input_container =
                 input_fieldset_as_HTML(scene_inputs, legend)
             for (let i in scene_inputs) {
               scene_input_container.append(
                   scene_inputs[i].get_as_HTML(k, shader));
             }
+            scene_input_container.append(colors_input[k].get_as_HTML(k, shader));
             HTML_container.append(scene_input_container);
           }
       }
     }
 
-    if (light_inputs.length == 0 && scene_inputs == 0) {
+    if (light_inputs.length == 0 && scene_inputs == 0 && colors_input == 0) {
       HTML_container.innerHTML = 'No input detected for this shader yet.';
     }
   }

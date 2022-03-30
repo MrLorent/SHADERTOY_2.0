@@ -22,6 +22,7 @@ export default class Shader {
   sheenTint = [];
   clearcoat = [];
   clearcoatGloss = [];
+  colors_inputs_set = 0;
 
   uniform;
   uniform_color;
@@ -31,6 +32,7 @@ export default class Shader {
     shader_details = shader_details[0];
     this.#name = shader_details['nom'];
     this.#inputs['light'] = [[], []];
+    this.#inputs['colors'] = [];
     this.#inputs['scene'] = [];
     this.vertex_shader_path = shader_details['vertex'];
     this.fragment_shader_path = shader_details['fragment'];
@@ -106,8 +108,16 @@ export default class Shader {
     return this.#inputs['scene']
   }
 
+  get_colors_inputs(){
+    return this.#inputs['colors']
+  }
+
   get_material() {
     return this.#material;
+  }
+
+  get_color_at(i) {
+    return this.uniforms.uColors['value'][i];
   }
 
   set_fragment_shader(fragment_shader_text) {
@@ -233,9 +243,20 @@ export default class Shader {
   }
 
   add_input(uniform) {
-    if (uniform.target === 'scene') {
-      this.#inputs[uniform.target].push(Input(uniform));
-      let i = this.#inputs[uniform.target].length - 1;
+    if(uniform.length == 3){
+      if(uniform[0].target==='scene'){
+        console.log("COLOR", this.colors_inputs_set)
+        this.#inputs['colors'].push(Input(uniform[0]));
+        this.#inputs['colors'].push(Input(uniform[1]));
+        this.#inputs['colors'].push(Input(uniform[2]));
+        this.colors_inputs_set++;
+        console.log("COLOR", this.#inputs['colors'])
+
+      }
+    }
+    else if (uniform.target === 'scene') {
+        this.#inputs[uniform.target].push(Input(uniform));
+     let i = this.#inputs[uniform.target].length - 1;
       if (this.#name === 'Code your own shader !') {
         if (this.#inputs[uniform.target][i].get_type() === 'slider') {
           this.uniform[i] = [1., 1., 1., 1., 1., 1., 1., 1.];
@@ -315,9 +336,10 @@ export default class Shader {
           uniform.label != 'positionX_light2' &
           uniform.label != 'positionY_light2' &
           uniform.label != 'positionZ_light2') {
-        this.#inputs[uniform.target][0].push(Input(uniform));
-        let i = this.#inputs[uniform.target][0].length - 1;
+        //this.#inputs[uniform.target][0].push(Input(uniform));
+       // let i = this.#inputs[uniform.target][0].length - 1;
       }
+
     }
   }
 }
