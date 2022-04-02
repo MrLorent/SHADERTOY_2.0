@@ -73,7 +73,7 @@ export class CodeEditor {
                   let rgb2 = shader.get_color_at(2);
                   let rgb = [this.rgbToHex(rgb0['r'] * 255, rgb0['g'] * 255, rgb0['b'] * 255),
                   this.rgbToHex(rgb1['r'] * 255, rgb1['g'] * 255, rgb1['b'] * 255),
-                this.rgbToHex(rgb2['r']*255, rgb2['g']*255, rgb2['b']*255)]
+                  this.rgbToHex(rgb2['r']*255, rgb2['g']*255, rgb2['b']*255)]
     
                   input_details = [{
                     'target': word[2],
@@ -100,13 +100,24 @@ export class CodeEditor {
               else{
                 element = element.replace(
                   element, 'uniform  vec3 ' + word[3] + ';');
-                  input_details = {
+                  let rgb0 = shader.get_color_light_at(0);
+                  let rgb1 = shader.get_color_light_at(1);
+                  let rgb = [this.rgbToHex(rgb0['r'] * 255, rgb0['g'] * 255, rgb0['b'] * 255),
+                  this.rgbToHex(rgb1['r'] * 255, rgb1['g'] * 255, rgb1['b'] * 255)]
+                  input_details = [{
                     'target': word[2],
                     'type': 'color_picker',
                     'label': word[4],
                     'name': word[3],
-                    'value': '#FFFEGH'
-                  }
+                    'value': rgb[0]
+                  },
+                  {
+                    'target': word[2],
+                    'type': 'color_picker',
+                    'label': word[4],
+                    'name': word[3],
+                    'value': rgb[1]
+                  }]
               }
               
 
@@ -142,7 +153,6 @@ export class CodeEditor {
               console.log('Error: unknom input type.')
               break;
           }
-          // console.log("inputs details", input_details)
           shader.add_input(input_details);
         }
 

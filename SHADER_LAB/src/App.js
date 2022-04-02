@@ -255,6 +255,8 @@ export class App {
     const shader = this.shader_list[this.current_shader];
     const light_inputs = shader.get_light_inputs();
 
+    console.log("light inputs : ", light_inputs);
+
     if (light_inputs.length != 0) {
       let light_input_container = input_fieldset_as_HTML(light_inputs, 'Light');
 
@@ -267,7 +269,6 @@ export class App {
 
     const scene_inputs = shader.get_scene_inputs();
     const colors_input = shader.get_colors_inputs();
-    console.log("colors inputs : ",colors_input[0])
 
     if (scene_inputs.length != 0 || colors_input.length != 0) {
       switch (this.NUMERO_PRESET) {
