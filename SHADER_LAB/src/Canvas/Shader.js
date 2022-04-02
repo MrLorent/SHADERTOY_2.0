@@ -31,6 +31,8 @@ export default class Shader {
     shader_details = shader_details[0];
     this.#name = shader_details['nom'];
     this.#inputs['light'] = [[], []];
+    this.#inputs['color_light'] = [];
+    this.#inputs['colors'] = [];
     this.#inputs['scene'] = [];
     this.vertex_shader_path = shader_details['vertex'];
     this.fragment_shader_path = shader_details['fragment'];
@@ -94,6 +96,10 @@ export default class Shader {
     return this.#name;
   }
 
+  // get_light_inputs() {
+  //   return this.#inputs['color_light'];
+  // }
+
   get_light_inputs() {
     if (this.uniforms.uSecond_Light_on_off.value === 0) {
       return this.#inputs['light'][0];
@@ -106,8 +112,28 @@ export default class Shader {
     return this.#inputs['scene']
   }
 
+  get_colors_inputs() {
+    return this.#inputs['colors']
+  }
+
   get_material() {
     return this.#material;
+  }
+
+  get_color_at(i) {
+    return this.uniforms.uColors['value'][i];
+  }
+
+  get_color_light_at(i) {
+    if (i == 0) {
+      return this.uniforms.uColorLight.value;
+    } else {
+      return this.uniforms.uColorLight2.value;
+    }
+  }
+
+  is_second_light_on(){
+    return this.uniforms.uSecond_Light_on_off;
   }
 
   set_fragment_shader(fragment_shader_text) {
@@ -233,7 +259,17 @@ export default class Shader {
   }
 
   add_input(uniform) {
-    if (uniform.target === 'scene') {
+    if (uniform.length == 3) {
+      if (uniform[0].target === 'scene') {
+        this.#inputs['colors'].push(Input(uniform[0]));
+        this.#inputs['colors'].push(Input(uniform[1]));
+        this.#inputs['colors'].push(Input(uniform[2]));
+      }
+    }
+    //  else if (uniform.target == "light" && uniform.type == "color_picker") {
+    //   this.#inputs['color_light'].push(Input(uniform));
+  //  }
+     else if (uniform.target === 'scene') {
       this.#inputs[uniform.target].push(Input(uniform));
       let i = this.#inputs[uniform.target].length - 1;
       if (this.#name === 'Code your own shader !') {

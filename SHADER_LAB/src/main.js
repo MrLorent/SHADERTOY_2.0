@@ -40,7 +40,7 @@ function launch_App(shaders_as_text) {
 
 
   const app = new App(shader_list);
-
+  app.current_shader.update;
 
   function animate() {
     app.scene.camera_controls.update();

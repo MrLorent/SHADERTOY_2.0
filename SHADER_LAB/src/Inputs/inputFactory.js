@@ -30,6 +30,4 @@ export default (input_details)=>{
             input_details[  'value' ]
         );
     }
-    //else if color picker
-    ;
 }
