@@ -276,11 +276,11 @@ export class App {
             k == 0 ? legend = 'Box' : legend = 'Sphere';
             let scene_input_container =
                 input_fieldset_as_HTML(scene_inputs, legend)
+            scene_input_container.append(colors_input[k].get_as_HTML(k, shader));
             for (let i in scene_inputs) {
               scene_input_container.append(
                   scene_inputs[i].get_as_HTML(k, shader));
             }
-            scene_input_container.append(colors_input[k].get_as_HTML(k, shader));
             HTML_container.append(scene_input_container);
           }
           break;
@@ -292,11 +292,11 @@ export class App {
                      k == 1 ? legend = 'Sphere 2' : legend = 'Sphere 3';
             let scene_input_container =
                 input_fieldset_as_HTML(scene_inputs, legend)
+            scene_input_container.append(colors_input[k].get_as_HTML(k, shader));
             for (let i in scene_inputs) {
               scene_input_container.append(
                   scene_inputs[i].get_as_HTML(k, shader));
             }
-            scene_input_container.append(colors_input[k].get_as_HTML(k, shader));
             HTML_container.append(scene_input_container);
           }
       }
