@@ -96,8 +96,16 @@ export default class Shader {
     return this.#name;
   }
 
+  // get_light_inputs() {
+  //   return this.#inputs['color_light'];
+  // }
+
   get_light_inputs() {
-    return this.#inputs['color_light'];
+    if (this.uniforms.uSecond_Light_on_off.value === 0) {
+      return this.#inputs['light'][0];
+    } else {
+      return this.#inputs['light'][1];
+    }
   }
 
   get_scene_inputs() {
@@ -343,8 +351,8 @@ export default class Shader {
           uniform.label != 'positionX_light2' &
           uniform.label != 'positionY_light2' &
           uniform.label != 'positionZ_light2') {
-        // this.#inputs[uniform.target][0].push(Input(uniform));
-        // let i = this.#inputs[uniform.target][0].length - 1;
+        this.#inputs[uniform.target][0].push(Input(uniform));
+        let i = this.#inputs[uniform.target][0].length - 1;
       }
     }
   }
