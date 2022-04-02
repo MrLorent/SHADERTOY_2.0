@@ -259,11 +259,17 @@ export class App {
 
     if (light_inputs.length != 0) {
       let light_input_container = input_fieldset_as_HTML(light_inputs, 'Light');
+      light_input_container.append(
+        light_inputs[0].get_as_HTML(this.SCENE, shader));
 
-      for (let i in light_inputs) {
+      if(!shader.is_second_light_on()){
         light_input_container.append(
-            light_inputs[i].get_as_HTML(this.SCENE, shader));
+          light_inputs[1].get_as_HTML(this.SCENE, shader));
       }
+      // for (let i in light_inputs) {
+      //   light_input_container.append(
+      //       light_inputs[i].get_as_HTML(this.SCENE, shader));
+      // }
       HTML_container.append(light_input_container);
     }
 

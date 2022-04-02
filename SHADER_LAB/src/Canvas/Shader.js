@@ -257,10 +257,11 @@ export default class Shader {
         this.#inputs['colors'].push(Input(uniform[1]));
         this.#inputs['colors'].push(Input(uniform[2]));
       }
-    } else if (uniform.length == 2) {
-      this.#inputs['color_light'].push(Input(uniform[0]));
-      // this.#inputs['color_light'].push(Input(uniform[1]));
-    } else if (uniform.target === 'scene') {
+    }
+    //  else if (uniform.target == "light" && uniform.type == "color_picker") {
+    //   this.#inputs['color_light'].push(Input(uniform));
+  //  }
+     else if (uniform.target === 'scene') {
       this.#inputs[uniform.target].push(Input(uniform));
       let i = this.#inputs[uniform.target].length - 1;
       if (this.#name === 'Code your own shader !') {
