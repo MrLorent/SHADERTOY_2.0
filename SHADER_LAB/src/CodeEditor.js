@@ -101,6 +101,9 @@ export class CodeEditor {
                 element = element.replace(
                   element, 'uniform  vec3 ' + word[3] + ';');
                   let rgb0 = shader.get_color_light_at(0);
+                  if(word[3]=="uColorLight2"){
+                    rgb0 = shader.get_color_light_at(1);
+                  }
                   let rgb = this.rgbToHex(rgb0['r'] * 255, rgb0['g'] * 255, rgb0['b'] * 255);
                   input_details = {
                     'target': word[2],

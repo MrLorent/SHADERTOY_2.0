@@ -255,21 +255,12 @@ export class App {
     const shader = this.shader_list[this.current_shader];
     const light_inputs = shader.get_light_inputs();
 
-    console.log("light inputs : ", light_inputs);
-
     if (light_inputs.length != 0) {
       let light_input_container = input_fieldset_as_HTML(light_inputs, 'Light');
-      light_input_container.append(
-        light_inputs[0].get_as_HTML(this.SCENE, shader));
-
-      if(!shader.is_second_light_on()){
+      for (let i in light_inputs) {
         light_input_container.append(
-          light_inputs[1].get_as_HTML(this.SCENE, shader));
+            light_inputs[i].get_as_HTML(this.SCENE, shader));
       }
-      // for (let i in light_inputs) {
-      //   light_input_container.append(
-      //       light_inputs[i].get_as_HTML(this.SCENE, shader));
-      // }
       HTML_container.append(light_input_container);
     }
 
