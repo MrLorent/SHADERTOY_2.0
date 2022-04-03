@@ -113,7 +113,7 @@ export default class Shader {
   }
 
   get_colors_inputs() {
-    return this.#inputs['colors']
+    return this.#inputs['colors'];
   }
 
   get_material() {
@@ -122,6 +122,7 @@ export default class Shader {
 
   get_color_at(i) {
     return this.uniforms.uColors['value'][i];
+
   }
 
   get_color_light_at(i) {
@@ -266,10 +267,7 @@ export default class Shader {
         this.#inputs['colors'].push(Input(uniform[2]));
       }
     }
-    //  else if (uniform.target == "light" && uniform.type == "color_picker") {
-    //   this.#inputs['color_light'].push(Input(uniform));
-  //  }
-     else if (uniform.target === 'scene') {
+    else if (uniform.target === 'scene') {
       this.#inputs[uniform.target].push(Input(uniform));
       let i = this.#inputs[uniform.target].length - 1;
       if (this.#name === 'Code your own shader !') {
@@ -289,10 +287,10 @@ export default class Shader {
         } else if (
             this.#inputs[uniform.target][i].get_type() === 'color_picker') {
           this.uniform_color[i] = [
-            new THREE.Color('#9cb6f0'), new THREE.Color('#9cb6f0'),
-            new THREE.Color('#9cb6f0'), new THREE.Color('#9cb6f0'),
-            new THREE.Color('#9cb6f0'), new THREE.Color('#9cb6f0'),
-            new THREE.Color('#9cb6f0'), new THREE.Color('#9cb6f0')
+            new THREE.Color('#000000'), new THREE.Color('#000000'),
+            new THREE.Color('#000000'), new THREE.Color('#000000'),
+            new THREE.Color('#000000'), new THREE.Color('#000000'),
+            new THREE.Color('#000000'), new THREE.Color('#000000')
           ];
           this.uniforms[this.#inputs[uniform.target][i].get_name()] = {
             value: this.uniform_color[i]
@@ -333,10 +331,10 @@ export default class Shader {
         } else if (
             this.#inputs[uniform.target][1][i].get_type() === 'color_picker') {
           this.uniform_color[i] = [
-            new THREE.Color('#9cb6f0'), new THREE.Color('#9cb6f0'),
-            new THREE.Color('#9cb6f0'), new THREE.Color('#9cb6f0'),
-            new THREE.Color('#9cb6f0'), new THREE.Color('#9cb6f0'),
-            new THREE.Color('#9cb6f0'), new THREE.Color('#9cb6f0')
+            new THREE.Color('#000000'), new THREE.Color('#000000'),
+            new THREE.Color('#000000'), new THREE.Color('#000000'),
+            new THREE.Color('#000000'), new THREE.Color('#000000'),
+            new THREE.Color('#000000'), new THREE.Color('#000000')
           ];
           this.uniforms[this.#inputs[uniform.target][1][i].get_name()] = {
             value: this.uniform_color[i]

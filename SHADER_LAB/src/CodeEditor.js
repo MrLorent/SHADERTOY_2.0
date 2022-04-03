@@ -68,6 +68,16 @@ export class CodeEditor {
               if(word[2]== 'scene'){
                 element = element.replace(
                   element, 'uniform  vec3 ' + word[3] + '[N_MATERIALS];');
+                  if(shader.get_name()=== 'Code your own shader !'){
+                    input_details = {
+                      'target': word[2],
+                      'type': 'color_picker',
+                      'label': word[4],
+                      'name': word[3],
+                      'value': '#000000'
+                    }
+                  }
+                  else{
                   let rgb0 = shader.get_color_at(0);
                   let rgb1 = shader.get_color_at(1);
                   let rgb2 = shader.get_color_at(2);
@@ -96,6 +106,7 @@ export class CodeEditor {
                     'name': word[3],
                     'value': rgb[2]
                   }];
+                }
               }
               else{
                 element = element.replace(
