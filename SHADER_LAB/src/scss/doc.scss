@@ -4,25 +4,36 @@ td,
 th
 {
     border-collapse: collapse;
-    border: 1px solid white;
+    border: 0.2px solid rgb(8, 8, 8);
+    padding:10px;
     text-align: center;
+    background-color: #1b1b1b;
 }
 
 table
 {
     width: 100%;
+    margin:10px 0px;
+    border-radius:2px;    
 }
 
 a{color: #ffffff;
     text-decoration: none;}
 a:hover {color: #1dd4f4;}
 
+
+h4{
+    font-family: 'Roboto', sans-serif;
+    color:#858585;
+    font-size: 13px;
+}
+
 /*---------- DOCUMENTATION SECTION ----------*/
 #documentation
 {
     width: 45vw;
     height: 90%;
-    background-color: #121212;
+    background-color: #1b1b1b;
     position: absolute;
     right: 0;
     overflow-y: scroll;
@@ -47,7 +58,41 @@ a:hover {color: #1dd4f4;}
 {
     box-sizing: border-box;
     width: 100%;
-    padding: 5%;
+    display: flex;
+}
+
+#summary{
+    width: 25%;
+    height: 100%;
+    margin:0px;
+    font-size: 15px;
+}
+
+#summary p{
+    margin:5px;
+    padding:3px;
+    border-radius: 2px;
+}
+
+#summary p:hover{
+    background-color: #242424;
+    cursor: pointer;
+}
+
+.page{
+    min-height:100%;
+    width: 100%;
+    background-color: #242424;
+    width: 100%;
+    padding:5%;
+    height: fit-content;
+    display:none;
+}
+
+#doc_text{
+    width: 75%;
+    // background-color: #242424;
+    // min-height:100%;
 }
 
 h2.doc_main_title{
@@ -55,7 +100,7 @@ h2.doc_main_title{
 }
 
 h3.doc_title{
-    font-size: 1.5em;
+    font-size: 1.2em;
 }
 
 ul{
@@ -73,20 +118,10 @@ ul.structure {
 }
 
 pre{
-    //background: #f4f4f4;
-    border: 1px solid #ddd;
-    border-left: 3px solid #1dd4f4;
-    color: rgb(255, 255, 255);
-    page-break-inside: avoid;
-    font-family: monospace;
-    font-size: 15px;
-    line-height: 1.6;
-    margin-bottom: 1.6em;
-    max-width: 100%;
-    overflow: auto;
-    padding: 1em 1.5em;
-    display: block;
-    word-wrap: break-word;
+    background-color: #464646;
+    border-radius: 10px;
+    padding:5%;
+    margin: 5%;
 }
 
 .code{
@@ -95,12 +130,14 @@ pre{
 }
 
 hr{
-    color:#1dd4f4;
+    border: none;
+    height: 1px;
+    background-color: #707070;
 }
 
 .little-transition{
-    margin-top: 5%;
-    border-style: dashed;
+    margin-top:20px;
+    border-width: 0.4px;
 }
 
 .code-list{
@@ -134,6 +171,10 @@ hr{
 }
 
 .about_text{
-    border-left: 3px solid #1dd4f4;
+    border-left: 3px solid #1dd4f4;;
     padding-left: 3%;
+}
+
+.show_page{
+    display:block;
 }

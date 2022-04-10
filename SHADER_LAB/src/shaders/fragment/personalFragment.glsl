@@ -10,6 +10,7 @@
 
 /// color_picker light uColorLight color_light
 /// checkbox light uRotatingLight rotate_light
+/// checkbox light uSecond_Light_on_off preset 
 
 /// slider light uLightPositionX positionX_light -2. 2. 0.1
 /// slider light uLightPositionY positionY_light 1 4. 0.1
@@ -19,8 +20,6 @@
 /// slider light uLightPositionX2 positionX_light2 -2. 2. 0.1
 /// slider light uLightPositionY2 positionY_light2 1 4. 0.1
 /// slider light uLightPositionZ2 positionZ_light2 1 5 0.1
-
-/// checkbox light uSecond_Light_on_off preset 
 
 
 // To create an uniform value and to get a slider linked to it : 

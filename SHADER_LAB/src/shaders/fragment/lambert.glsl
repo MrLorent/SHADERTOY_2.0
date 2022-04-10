@@ -3,6 +3,8 @@
 
 /// color_picker scene uColors color
 /// checkbox light uRotatingLight rotate_light 
+/// checkbox light uSecond_Light_on_off preset 
+/// checkbox light uShadow shadow_on_off
 
 /// color_picker light uColorLight color_light
 /// slider light uLightPositionX positionX_light -2. 2. 0.1
@@ -14,8 +16,6 @@
 /// slider light uLightPositionY2 positionY_light2 1 4. 0.1
 /// slider light uLightPositionZ2 positionZ_light2 1 5 0.1
 
-/// checkbox light uSecond_Light_on_off preset 
-/// checkbox light uShadow shadow_on_off
 
 
 #include <creation_object>

@@ -1,5 +1,9 @@
 /*------------- GENERAL -------------*/
 
+* {
+    box-sizing: border-box;
+}
+
 html,
 body
 {
@@ -204,14 +208,29 @@ nav
     display: none;
 }
 
+fieldset{
+    border:none;
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+
 fieldset:not(:first-child)
 {
     margin-top: 2.5%;
 }
 
+fieldset:not(:last-child){
+    border-bottom: solid 0.3px;
+    margin-bottom:5%;
+    padding-bottom: 5%;
+}
+
 .one_input_container
 {
     width: 100%;
+    height: 50px;
     display: flex;
     align-items: center;
 }
@@ -224,16 +243,9 @@ fieldset:not(:first-child)
     padding: 10px 15px;
 }
 
-input[type = range],
-input[type = color]
+input[type = range]
 {
     flex-grow: 1;
-}
-
-input[type = color]
-{
-    border: none !important;
-    padding: 0;
 }
 
 #editor_container
@@ -380,4 +392,99 @@ button.scene_list
 {
     transform: translateX(0);
     transition: 0.25s ease-in;
+}
+
+input[type="color"]{
+    -webkit-appearance: none;
+    border:none;
+    margin:2%;
+    height: 50px;
+    background-color: transparent;
+    width: fit-content;
+    flex-grow: 0;
+    cursor: pointer;
+}
+
+input[type="color"]::-moz-color-swatch {
+  border-color: transparent;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+input[type=color]::-webkit-color-swatch {
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+
+:root{
+    --purple : #983be4;
+}
+
+input[type=range] {
+    height: 38px;
+    -webkit-appearance: none;
+    background-color: transparent;
+    margin: 10px 0;
+    width: 100%;
+  }
+  input[type=range]:focus {
+    outline: none;
+  }
+
+  input[type=range]::-moz-range-track {
+    height: 5px;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+}
+
+input[type=range]::-moz-range-thumb {
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: var(--purple);
+}
+
+input[type=range]:-moz-focusring{
+    outline: 1px solid white;
+    outline-offset: -1px;
+}
+
+input[type=range]:focus::-moz-range-track {
+    background: #ccc;
+}
+
+  input[type=range]::-webkit-slider-runnable-track {
+    width: 300px;
+    height: 5px;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: var(--purple);
+    margin-top: -4px;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+}
+
+  .checkbox{
+    width: 50%;
 }
