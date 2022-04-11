@@ -44,7 +44,7 @@ function launch_App(shaders_as_text) {
 
   function animate() {
     app.scene.camera_controls.update();
-    app.render()
+    //app.render()
     requestAnimationFrame(animate)
   }
 

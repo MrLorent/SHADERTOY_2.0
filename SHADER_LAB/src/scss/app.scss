@@ -17,7 +17,7 @@ body
 {
     color: #ffffff;
     font-family: 'Roboto';
-    background: #121212;
+    background: #242424;
     margin: 0;
 }
 
@@ -65,7 +65,7 @@ button
 
 button:active
 {
-    background-color: #13a9c4;
+    background-color: var(--light-grey);
 }
 
 /*---------------- HEADER ----------------*/
@@ -129,7 +129,7 @@ nav
 
 .nav_button.active
 {
-    background-color: #1dd4f4;
+    background-color: var(--light-grey);
 }
 
 #shader_inputs_button
@@ -344,7 +344,7 @@ input[type = range]
 
 .preset_button
 {
-    background-color: #1dd4f4;
+    background-color: var(--purple);
     white-space: nowrap;
     height: 100%;
     width: auto;
@@ -356,7 +356,7 @@ input[type = range]
 
 button.displayer
 {
-    background-color: #1dd4f4;
+    background-color: var(--purple);
     min-width: 50px;
     min-height: 50px;
     margin: 0 0 0 10px;
@@ -421,7 +421,12 @@ input[type=color]::-webkit-color-swatch {
 
 
 :root{
-    --purple : #983be4;
+    --purple : #782AA5;
+    --background: #242424;
+    --light-grey: #383838;
+    --border-grey: #707070;
+    --dark-grey: #1A1A1A;
+    --medium-grey:rgb(48, 48, 48);
 }
 
 input[type=range] {
