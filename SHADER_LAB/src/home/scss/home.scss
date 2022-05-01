@@ -1,9 +1,13 @@
 main
 {
-    background: url('./img/background.png') no-repeat;
-    background-size: cover;
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
+}
+
+.background_container
+{
+    background: url('./img/background.png') no-repeat;
+    background-size: cover;
 }
 
 section
