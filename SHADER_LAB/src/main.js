@@ -7,9 +7,6 @@ import {App} from './App.js';
 import Shader from './Canvas/Shader';
 import shaders_json from './shaders/shaders.json'
 
-let SALLE = 0
-let BOX = 1;
-let SPHERE = 2;
 
 let shaders_as_text = [];
 let shader_list = [];
@@ -44,7 +41,7 @@ function launch_App(shaders_as_text) {
 
   function animate() {
     app.scene.camera_controls.update();
-    //app.render()
+    // app.render()
     requestAnimationFrame(animate)
   }
 
