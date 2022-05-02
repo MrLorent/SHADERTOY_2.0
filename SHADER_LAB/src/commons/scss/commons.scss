@@ -54,7 +54,27 @@ h1, h2
     margin: 0,
 }
 
+p
+{
+    margin: 0 0 0 0;
+}
+
 strong
 {
     font-weight: 500;
+}
+
+.call_to_action
+{
+    color: #22cd95;
+    font-size: 0.9em;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 0.175em;
+    border: solid 4px #22cd95;
+    border-radius: calc(20px + 1em);
+    width: fit-content;
+    box-sizing: border-box;
+    padding: 10px 25px;
 }

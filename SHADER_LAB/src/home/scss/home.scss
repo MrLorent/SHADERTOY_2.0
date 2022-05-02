@@ -15,7 +15,7 @@ section
     display: flex;
     flex-direction: column;
     scroll-snap-align: start;
-    padding: 2.5%;
+    padding: 3%;
 }
 
 section:nth-child(even)
@@ -29,28 +29,61 @@ section:nth-child(even) p
     text-align: right;
 }
 
-h2 {
-    font-size: 2em;
+.container
+{
+    width: 60%;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+section:nth-child(even) .container
+{
+    align-items: flex-end;
+}
+
+h2
+{
+    font-size: 1.75em;
     text-transform: uppercase;
     letter-spacing: 0.25em;
+    white-space: nowrap;
 }
 
 .description
 {
-    width: 50%;
+    width: 100%;
     font-size: 1.25em;
     line-height: 1.75;
     letter-spacing: 0.05em;
+    padding: 20px 0 40px 0;
 }
 
 /*======== LANDING PAGE SECTION ========*/
-#landing_page {
+#landing_page
+{
     justify-content: flex-end;
 }
 
-#landing_page_logo {
+#landing_page_logo
+{
     fill: #ffffff;
     width: 750px;
     padding: 1% 0;
 }
 
+#about .container
+{
+    padding: 50vh 2.5% 0 0;
+}
+
+#discover .container
+{
+    padding: 15vh 0 0 2.5%;
+}
+
+#experiment .container
+{
+    padding: 10vh 2.5% 0 0;
+}
