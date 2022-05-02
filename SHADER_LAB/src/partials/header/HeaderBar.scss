@@ -2,6 +2,7 @@ header {
     background: var(--black);
     width: 100%;
     height: var(--header-height);
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     position: fixed;
@@ -9,7 +10,8 @@ header {
     padding: 0 20px;
 }
 
-.header_logo
+#header_logo
 {
+    fill: #ffffff;
     height: 30%;
 }

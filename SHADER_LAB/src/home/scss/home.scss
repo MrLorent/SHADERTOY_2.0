@@ -12,5 +12,19 @@ main
 
 section
 {
+    display: flex;
     scroll-snap-align: start;
+    padding: 2.5%;
 }
+
+/*======== LANDING PAGE SECTION ========*/
+#landing_page {
+    align-items: flex-end;
+}
+
+#landing_page_logo {
+    fill: #ffffff;
+    width: 750px;
+    padding: 1% 0;
+}
+
