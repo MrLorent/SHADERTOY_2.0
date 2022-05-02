@@ -13,13 +13,39 @@ main
 section
 {
     display: flex;
+    flex-direction: column;
     scroll-snap-align: start;
     padding: 2.5%;
 }
 
+section:nth-child(even)
+{
+    align-items: flex-end;
+}
+
+section:nth-child(even) h2,
+section:nth-child(even) p
+{
+    text-align: right;
+}
+
+h2 {
+    font-size: 2em;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+}
+
+.description
+{
+    width: 50%;
+    font-size: 1.25em;
+    line-height: 1.75;
+    letter-spacing: 0.05em;
+}
+
 /*======== LANDING PAGE SECTION ========*/
 #landing_page {
-    align-items: flex-end;
+    justify-content: flex-end;
 }
 
 #landing_page_logo {
