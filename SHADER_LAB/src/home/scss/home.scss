@@ -1,5 +1,6 @@
 main
 {
+    overflow-x: hidden;
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
 }
@@ -79,12 +80,69 @@ h2
     justify-content: flex-end;
 }
 
+/*======== TABLET DISPLAY ========*/
 @media (max-width: 991.98px)
 {
-  
+    section h2,
+    section p,
+    section:nth-child(even) h2,
+    section:nth-child(even) p
+    {
+        width: 100%;
+        text-align: center;
+    }
+
+    #landing_page
+    {
+        padding: 5%;
+    }
+
+    #landing_page_logo
+    {
+        width: 500px;
+    }
+
+    #about .container,
+    #discover .container,
+    #experiment .container
+    {
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
+/*======== MOBILE DISPLAY ========*/
 @media (max-width: 575.98px)
 {
-  
+    h2
+    {
+        font-size: 1.1em;
+        letter-spacing: 0.005;
+        white-space: normal;
+        padding: 15px 0 0 0;
+    }
+
+    .description
+    {
+        padding: 20px 0 30px 0;
+    }
+
+    #about .container,
+    #discover .container,
+    #experiment .container
+    {
+        justify-content: flex-start;
+        padding: 0;
+    }
+
+    #landing_page
+    {
+        justify-content: center;
+    }
+
+    #landing_page_logo
+    {
+        width: 100%;
+    }
 }

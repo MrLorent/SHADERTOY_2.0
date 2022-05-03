@@ -91,3 +91,23 @@ strong
     color: var(--white);
     transition: 0.25s ease-in;
 }
+
+/*======== TABLET DISPLAY ========*/
+@media (max-width: 991.98px)
+{
+
+}
+
+/*======== MOBILE DISPLAY ========*/
+@media (max-width: 575.98px)
+{
+    body
+    {
+        font-size: 0.9em;
+    }
+
+    .call_to_action
+    {
+        text-align: center;
+    }
+}
