@@ -267,7 +267,7 @@ export class App {
     const scene_inputs = shader.get_scene_inputs();
     const colors_input = shader.get_colors_inputs();
 
-    console.log("inpuuuts : ", scene_inputs)
+    console.log('inpuuuts : ', scene_inputs)
 
     if (scene_inputs.length != 0 || colors_input.length != 0) {
       switch (this.NUMERO_PRESET) {
@@ -278,8 +278,9 @@ export class App {
             k == 0 ? legend = 'Box' : legend = 'Sphere';
             let scene_input_container =
                 input_fieldset_as_HTML(scene_inputs, legend)
-            if(shader.get_name() != 'Code your own shader !'){
-              scene_input_container.append(colors_input[k].get_as_HTML(k, shader));
+            if (shader.get_name() != 'Code your own shader !') {
+              scene_input_container.append(
+                  colors_input[k].get_as_HTML(k, shader));
             }
             for (let i in scene_inputs) {
               scene_input_container.append(
@@ -296,9 +297,10 @@ export class App {
                      k == 1 ? legend = 'Sphere 2' : legend = 'Sphere 3';
             let scene_input_container =
                 input_fieldset_as_HTML(scene_inputs, legend)
-              if(shader.get_name() != 'Code your own shader !'){
-                scene_input_container.append(colors_input[k].get_as_HTML(k, shader));
-              }
+            if (shader.get_name() != 'Code your own shader !') {
+              scene_input_container.append(
+                  colors_input[k].get_as_HTML(k, shader));
+            }
             for (let i in scene_inputs) {
               scene_input_container.append(
                   scene_inputs[i].get_as_HTML(k, shader));
@@ -331,8 +333,8 @@ export class App {
   }
 
   on_window_resize(scene, current_shader) {
-    let SCREEN_WIDTH = window.innerWidth * 0.45;
-    let SCREEN_HEIGHT = window.innerHeight * 0.9;
+    let SCREEN_WIDTH = window.innerWidth * 0.33;
+    let SCREEN_HEIGHT = window.innerHeight * 0.5;
 
     scene.renderer.setPixelRatio(1);
     scene.renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);

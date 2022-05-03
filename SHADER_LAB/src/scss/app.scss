@@ -1,5 +1,4 @@
 /*------------- GENERAL -------------*/
-
 * {
     box-sizing: border-box;
 }
@@ -80,12 +79,19 @@ header
     position: fixed;
     top: 0;
     box-sizing: border-box;
+    padding: 0 15px;
     z-index: 5;
 }
 
-h1
+#home_link
 {
-    margin: 0 1.5%;
+    height: 25%;
+}
+
+#header_logo
+{
+    fill: #ffffff;
+    height: 100%;
 }
 
 /*------------------ NAV -----------------*/
@@ -109,7 +115,11 @@ nav
     display: flex;
     align-items: center;
     box-sizing: border-box;
-    padding: 0 12.5px;
+}
+
+.shader_link + .shader_link
+{
+    margin: 0 0 0 15px
 }
 
 .shader_link.current
@@ -156,16 +166,10 @@ nav
     margin-top: auto;
 }
 
-/*---------- APPLICATION SECTION ----------*/
-#webgl_canvas
-{
-    width: 50%;
-    height: 100%;
-}
-
+/*======== INTERACTIVE SECTION ========*/
 #interactive_window
 {
-    flex-grow: 1;
+    width: 50%;
     display: flex;
 }
 
@@ -305,23 +309,26 @@ input[type = range]
     background-size: 45%;
 }
 
+/*======== VISUAL WINDOW ========*/
 #visual_window
 {
+    width: 50%;
     display: flex;
     flex-direction: column;
+    align-items: center;
     position: relative;
 }
 
 #visual_window .input_container
 {
-    width: 70px;
-    height: 70px;
+    width: 90px;
+    height: 90px;
     display: flex;
     justify-content: flex-end;
     position: absolute;
     right: 0;
     overflow: hidden;
-    padding: 10px;
+    padding: 20px;
     box-sizing: border-box;
     transition: 0.25s ease-out;
 }
@@ -335,6 +342,11 @@ input[type = range]
 .input_container.light
 {
     top: 0;
+}
+
+#webgl_canvas
+{
+    margin: calc(70px + 5%) 0 0 0;
 }
 
 .input_container.scene
@@ -359,7 +371,7 @@ button.displayer
     background-color: var(--purple);
     min-width: 50px;
     min-height: 50px;
-    margin: 0 0 0 10px;
+    margin: 0 0 0 25px;
 }
 
 button.light_list
