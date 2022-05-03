@@ -16,6 +16,9 @@
 /*========= GLOBALS =========*/
 :root {
     --black: #000000;
+    --green: #22cd95;
+    --white: #ffffff;
+
     --header-height: 60px;
 }
 
@@ -30,11 +33,12 @@ body
 
 body
 {
-    position: relative;
-    overflow: hidden;
+    color: var(--white);
     font-family: 'Open sans';
     font-size: 1em;
     font-weight: 600;
+    position: relative;
+    overflow: hidden;
 }
 
 main {
@@ -64,17 +68,26 @@ strong
     font-weight: 500;
 }
 
+/*======== CALL TO ACTION ========*/
 .call_to_action
 {
-    color: #22cd95;
+    color: var(--green);
     font-size: 0.9em;
     font-weight: 700;
     text-transform: uppercase;
     text-decoration: none;
     letter-spacing: 0.175em;
-    border: solid 4px #22cd95;
+    border: solid 4px var(--green);
     border-radius: calc(20px + 1em);
     width: fit-content;
     box-sizing: border-box;
     padding: 10px 25px;
+    transition: 0.25s ease-out;
+}
+
+.call_to_action:hover
+{
+    background-color: var(--green);
+    color: var(--white);
+    transition: 0.25s ease-in;
 }
