@@ -9,6 +9,7 @@ header {
     position: fixed;
     top: 0;
     padding: 0 20px;
+    z-index: 1;
 }
 
 #home_link
@@ -99,13 +100,13 @@ header {
     left: 0;
     padding: 5% 5% 5% 55%;
     transform-origin: top;
-    transform: scaleY(0);
+    transform: translateX(105vw);
     transition: 0.5s ease-out;
 }
 
 .menu.unwraped
 {
-    transform: scaleY(1);
+    transform: translateX(0);
     transition: 0.5s ease-in;
 }
 

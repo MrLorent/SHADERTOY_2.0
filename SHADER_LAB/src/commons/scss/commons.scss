@@ -46,6 +46,13 @@ body
 main {
     height: calc(100% - var(--header-height));
     margin: var(--header-height) 0 0 0;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+}
+
+main::-webkit-scrollbar
+{
+  width: 0;
 }
 
 section {

@@ -16,12 +16,12 @@ module.exports = {
         to: 'shaders',
       }]
     }),
-    new CopyWebpackPlugin({
-      patterns: [{
-        from: path.resolve(__dirname, '../src/assets/img'),
-        to: 'img',
-      }]
-    }),
+    // new CopyWebpackPlugin({
+    //   patterns: [{
+    //     from: path.resolve(__dirname, '../src/assets/img'),
+    //     to: 'img',
+    //   }]
+    // }),
 
     // PARTIALS
     new HtmlWebpackPartialsPlugin({
