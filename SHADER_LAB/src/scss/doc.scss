@@ -31,7 +31,7 @@ h4{
 /*---------- DOCUMENTATION SECTION ----------*/
 #documentation
 {
-    width: 45vw;
+    width: 50vw;
     height: 90%;
     background-color: var(--dark-grey);
     position: absolute;
@@ -39,7 +39,7 @@ h4{
     overflow-y: scroll;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
-    transform: translateX(45vw);
+    transform: translateX(55vw);
     transition: 0.25s ease-in;
 }
 
