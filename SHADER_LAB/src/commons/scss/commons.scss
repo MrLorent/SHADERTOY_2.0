@@ -16,6 +16,8 @@
 /*========= GLOBALS =========*/
 :root {
     --black: #000000;
+    --grey: #303030;
+    --purple : #782AA5;
     --green: #22cd95;
     --white: #ffffff;
 
@@ -58,6 +60,13 @@ h1, h2
     margin: 0,
 }
 
+ul
+{
+    list-style: none;
+    padding: 0;
+    margin: 0;   
+}
+
 p
 {
     margin: 0 0 0 0;
@@ -68,6 +77,12 @@ strong
     font-weight: 500;
 }
 
+a
+{
+    color: var(--white);
+    text-decoration: none;
+}
+
 /*======== CALL TO ACTION ========*/
 .call_to_action
 {
@@ -75,7 +90,6 @@ strong
     font-size: 0.9em;
     font-weight: 700;
     text-transform: uppercase;
-    text-decoration: none;
     letter-spacing: 0.175em;
     border: solid 4px var(--green);
     border-radius: calc(20px + 1em);
