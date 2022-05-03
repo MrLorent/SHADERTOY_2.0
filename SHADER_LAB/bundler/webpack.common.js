@@ -1,95 +1,105 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPartialsPlugin = require('html-webpack-partials-plugin');
 
 module.exports = {
-    entry:
-    {
-        main: path.resolve(__dirname, '../src/main.js')
-    },
-    plugins:
-    [
-        new CopyWebpackPlugin({
-            patterns: [
-                { from: path.resolve(__dirname, '../src/shaders'), to: "shaders" }
-            ]
-        }),
-        new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, '../src/templates/template.html'),
-            minify: true
-        }),
-    ],
-    module:
-    {
-        rules:
-        [
-            // HTML
-            {
-                test: /\.(html)$/,
-                use:
-                [
-                    'html-loader'
-                ]
-            },
+  entry: {
+    home: path.resolve(__dirname, '../src/home/home.js'),
+    main: path.resolve(__dirname, '../src/main.js'),
+  },
+  plugins: [
+    // STATIC COPIES
+    new CopyWebpackPlugin({
+      patterns: [{
+        from: path.resolve(__dirname, '../src/shaders'),
+        to: 'shaders',
+      }]
+    }),
+    // new CopyWebpackPlugin({
+    //   patterns: [{
+    //     from: path.resolve(__dirname, '../src/assets/img'),
+    //     to: 'img',
+    //   }]
+    // }),
 
-            // JS
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use:
-                [
-                    'babel-loader'
-                ]
-            },
+    // PARTIALS
+    new HtmlWebpackPartialsPlugin({
+      path: path.resolve(__dirname, '../src/partials/header/HeaderBar.html'),
+      location: 'HeaderBar',
+      template_filename: ['index.html']
+    }),
 
-            // JSX
-            {
-                test: /\.jsx$/,
-                loader: "babel-loader",
-                exclude: /node_modules/,
-                options:
-                {
-                    plugins:
-                    [
-                        [
-                            "@babel/plugin-transform-react-jsx",
-                            {
-                                "pragma": "createElement"
-                            }
-                        ]
-                    ]
-                }
-            },
+    // PAGES
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      title: 'Shader Lab - Home',
+      template: path.resolve(__dirname, '../src/home/home-template.html'),
+      chunks: ['home'],
+      minify: true,
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'app.html',
+      title: 'Shader Lab - Application',
+      template: path.resolve(__dirname, '../src/templates/app-template.html'),
+      chunks: ['main'],
+      minify: true,
+    }),
+  ],
+  module: {
+    rules: [
+      // HTML
+      //   {
+      //     test: /\.(html)$/,
+      //     use: ['html-loader'],
+      //   },
 
-            // // SHADERS
-            // {
-            //     test: /\.(glsl|vs|fs|vert|frag)$/,
-            //     type: 'asset/resource',
-            //     generator:
-            //     {
-            //         filename: 'assets/shaders/[name][ext]'
-            //     }
-            // },
+      // JS
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: ['babel-loader'],
+      },
 
-            // IMAGES
-            {
-                test: /\.(jpg|png|gif|svg)$/,
-                type: 'asset/resource',
-                generator:
-                {
-                    filename: 'assets/images/[name].[hash][ext]'
-                }
-            },
+      // JSX
+      {
+        test: /\.jsx$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        options: {
+          plugins: [
+            ['@babel/plugin-transform-react-jsx', {'pragma': 'createElement'}]
+          ]
+        }
+      },
 
-            // FONTS
-            {
-                test: /\.(ttf|eot|woff|woff2)$/,
-                type: 'asset/resource',
-                generator:
-                {
-                    filename: 'assets/fonts/[name].[hash][ext]'
-                }
-            }
-        ]
-    }
+      // // SHADERS
+      // {
+      //     test: /\.(glsl|vs|fs|vert|frag)$/,
+      //     type: 'asset/resource',
+      //     generator:
+      //     {
+      //         filename: 'assets/shaders/[name][ext]'
+      //     }
+      // },
+
+      // IMAGES
+      {
+        test: /\.(jpg|png|gif|svg)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'css/img/[name].[hash][ext]',
+        }
+      },
+
+      // FONTS
+      {
+        test: /\.(ttf|eot|woff|woff2)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'css/fonts/[name].[hash][ext]',
+        }
+      }
+    ]
+  }
 }
