@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 
-import about_button_as_HTML from './about_button.jsx';
 import init_shader_chunk from './Canvas/init_shader_chunk.js';
 import Scene from './Canvas/Scene.js'
 import code_editor_button_as_HTML from './code_editor_button.jsx';
@@ -212,7 +211,6 @@ export class App {
     navigation_panel.append(inputs_button);
     navigation_panel.append(code_editor_button_as_HTML());
     navigation_panel.append(doc_button_as_HTML());
-    navigation_panel.append(about_button_as_HTML());
   }
 
   insert_compile_button() {

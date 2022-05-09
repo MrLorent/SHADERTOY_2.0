@@ -160,12 +160,6 @@ nav
     
 }
 
-#about_button
-{
-    background-image: url("./img/info.svg");
-    margin-top: auto;
-}
-
 /*======== INTERACTIVE SECTION ========*/
 #interactive_window
 {
@@ -392,26 +386,6 @@ button.scene_list
 {
     background-image: url("./img/box.svg");
     border-radius: 50%;
-}
-
-/*---------- ABOUT SECTION ----------*/
-#about
-{
-    background-color: #121212;
-    width: calc(100% - 50px);
-    height: 90%;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    transform: translateX(100%);
-    transition: 0.25s ease-out;
-    z-index: 5;
-}
-
-#about.display
-{
-    transform: translateX(0);
-    transition: 0.25s ease-in;
 }
 
 input[type="color"]{
