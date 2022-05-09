@@ -7,6 +7,7 @@ export default (app) => {
         id="compile_button"
         title = "Compilation"
     >
+        Compile
     </button>
     
     return compile_button;
