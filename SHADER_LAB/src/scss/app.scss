@@ -308,7 +308,16 @@ input[type = range]
 #compile_button
 {
     background-image: url("./img/play.svg");
-    background-size: 45%;
+    background-size: 18%;
+    right: 10px;
+    position: relative;
+    right: 30px;
+    background-color: var(--purple);
+    height: 80%;
+    border-radius: 5px;
+    width: 15%;
+    background-position-x: 70px;
+    padding-right: 20px;
 }
 
 /*======== VISUAL WINDOW ========*/
