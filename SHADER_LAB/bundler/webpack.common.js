@@ -18,7 +18,7 @@ module.exports = {
     }),
     // new CopyWebpackPlugin({
     //   patterns: [{
-    //     from: path.resolve(__dirname, '../src/assets/img'),
+    //     from: path.resolve(__dirname, '../src/assets/'),
     //     to: 'img',
     //   }]
     // }),
