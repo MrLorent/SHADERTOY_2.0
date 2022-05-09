@@ -177,7 +177,7 @@ export class App {
     if (this.shader_list[this.current_shader]
             .uniforms.uSecond_Light_on_off.value === 1) {
       this.shader_list[this.current_shader].uniforms.uColorLight.value =
-          new THREE.Color('red');
+          new THREE.Color('white');
     }
     if (this.shader_list[this.current_shader]
             .uniforms.uSecond_Light_on_off.value === 0) {

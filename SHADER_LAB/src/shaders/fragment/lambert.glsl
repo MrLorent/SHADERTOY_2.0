@@ -4,7 +4,7 @@
 /// color_picker scene uColors color
 /// checkbox light uRotatingLight rotate_light 
 /// checkbox light uSecond_Light_on_off preset 
-/// checkbox light uShadow shadow_on_off
+/// checkbox light uShadow shadow
 
 /// color_picker light uColorLight color_light
 /// slider light uLightPositionX positionX_light -2. 2. 0.1
