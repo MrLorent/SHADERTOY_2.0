@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 
-import about_button_as_HTML from './about_button.jsx';
 import init_shader_chunk from './Canvas/init_shader_chunk.js';
 import Scene from './Canvas/Scene.js'
 import code_editor_button_as_HTML from './code_editor_button.jsx';
@@ -178,7 +177,7 @@ export class App {
     if (this.shader_list[this.current_shader]
             .uniforms.uSecond_Light_on_off.value === 1) {
       this.shader_list[this.current_shader].uniforms.uColorLight.value =
-          new THREE.Color('red');
+          new THREE.Color('white');
     }
     if (this.shader_list[this.current_shader]
             .uniforms.uSecond_Light_on_off.value === 0) {
@@ -213,7 +212,6 @@ export class App {
     navigation_panel.append(inputs_button);
     navigation_panel.append(code_editor_button_as_HTML());
     navigation_panel.append(doc_button_as_HTML());
-    navigation_panel.append(about_button_as_HTML());
   }
 
   insert_compile_button() {

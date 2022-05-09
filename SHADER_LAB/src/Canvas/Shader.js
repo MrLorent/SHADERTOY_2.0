@@ -162,7 +162,7 @@ export default class Shader {
           this.uniforms.uRotatingLight.value = 0 :
           this.uniforms.uRotatingLight.value = 1;
     }
-    if (name == 'shadow_on_off') {
+    if (name == 'shadow') {
       this.uniforms.uShadow.value == 1 ? this.uniforms.uShadow.value = 0 :
                                          this.uniforms.uShadow.value = 1;
     } else if (name == 'color_light') {

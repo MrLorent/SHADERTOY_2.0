@@ -33,14 +33,26 @@ h4{
 {
     width: 50vw;
     height: 90%;
-    background-color: var(--dark-grey);
     position: absolute;
     right: 0;
-    overflow-y: scroll;
     -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
     transform: translateX(55vw);
     transition: 0.25s ease-in;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#doc_window{
+    overflow-y: scroll;
+    background-color: var(--dark-grey);
+    border:solid;
+    border-color: var(--light-grey);
+    scrollbar-width: none;  /* Firefox */
+    border-radius: 22px;
+    border-width: 1.5px;
+    width: 95%;
+    height: 95%;
 }
 
 #documentation.display
@@ -49,7 +61,7 @@ h4{
     transition: 0.25s ease-out;
 }
 
-#documentation::-webkit-scrollbar
+#doc_window::-webkit-scrollbar
 {
     display: none;
 }
@@ -57,6 +69,7 @@ h4{
 .doc_container
 {
     box-sizing: border-box;
+    min-height: 100%;
     width: 100%;
     display: flex;
 }
@@ -64,7 +77,7 @@ h4{
 #summary{
     width: 25%;
     height: 100%;
-    margin:0px;
+    margin:2%;
     font-size: 18px;
 }
 
@@ -114,7 +127,7 @@ ul.structure {
 }
 
 .commentary{
-    color:#1dd4f4;
+    color:var(--purple);
 }
 
 pre{
@@ -142,37 +155,6 @@ hr{
 
 .code-list{
     padding-bottom: 2%;
-}
-
-#about{
-    flex-direction: column;
-    align-items: center;
-}
-
-.about_content{
-    width: 40%;
-    position: relative;
-    top:25%;
-}
-
-.about_content>h2{
-    font-size: 3em;
-    position: absolute;
-    top: -30%;
-    left: -8%;
-}
-
-.about_text>h3{
-    font-size: 1.5em;
-}
-
-.about_text>p{
-    text-align: justify;
-}
-
-.about_text{
-    border-left: 3px solid var(--purple);;
-    padding-left: 3%;
 }
 
 .show_page{
