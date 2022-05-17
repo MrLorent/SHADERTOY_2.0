@@ -18,7 +18,7 @@ module.exports = {
     }),
     // new CopyWebpackPlugin({
     //   patterns: [{
-    //     from: path.resolve(__dirname, '../src/assets/img'),
+    //     from: path.resolve(__dirname, '../src/assets/'),
     //     to: 'img',
     //   }]
     // }),
@@ -27,7 +27,7 @@ module.exports = {
     new HtmlWebpackPartialsPlugin({
       path: path.resolve(__dirname, '../src/partials/header/HeaderBar.html'),
       location: 'HeaderBar',
-      template_filename: ['index.html']
+      template_filename: ['index.html', 'app.html']
     }),
 
     // PAGES

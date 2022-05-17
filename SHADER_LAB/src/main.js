@@ -1,7 +1,10 @@
-import './scss/app.scss';
-import './scss/doc.scss';
+/*========== SCSS ==========*/
+import './commons/scss/commons.scss';
+import './commons/scss/app.scss';
+import './commons/scss/doc.scss';
 
-import * as THREE from 'three';
+/*========= SCRIPTS =========*/
+import './partials/header/HeaderBar.js'
 
 import {App} from './App.js';
 import Shader from './Canvas/Shader';

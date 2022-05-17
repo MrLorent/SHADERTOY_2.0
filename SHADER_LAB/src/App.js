@@ -220,16 +220,30 @@ export class App {
   }
 
   insert_shader_buttons_in_HTML() {
-    const header = document.querySelector('header');
+    const shader_link_container = document.querySelector('nav .discover_link');
 
     let shaders_name = [];
     let shaders_id = [];
 
     for (let i in this.shader_list) {
-      shaders_name.push(this.shader_list[i].get_name());
-      shaders_id[this.shader_list[i].get_name()] = i;
+      if (this.shader_list[i].get_name() ===
+          this.shader_list[this.shader_list.length - 1].get_name()) {
+        const code_link = document.querySelector('.code_link a');
+        code_link.addEventListener('click', event => {
+          event.preventDefault();
+        })
+        const code_button = document.querySelector('.code_link');
+        code_button.addEventListener('click', () => {
+          this.switch_shader(i);
+          this.update_preset(this.NUMERO_PRESET);
+        });
+      } else {
+        shaders_name.push(this.shader_list[i].get_name());
+        shaders_id[this.shader_list[i].get_name()] = i;
+      }
     }
-    header.append(nav_bar_as_HTML(shaders_name, shaders_id, this));
+    shader_link_container.append(
+        nav_bar_as_HTML(shaders_name, shaders_id, this));
   }
 
   insert_summary_nav_in_HTML() {
