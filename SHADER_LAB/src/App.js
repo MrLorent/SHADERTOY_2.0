@@ -101,6 +101,8 @@ export class App {
 
     /* We change the current shader id */
     this.current_shader = new_shader_id;
+    const shader_title = document.querySelector('#shader_name');
+    shader_title.innerHTML = this.shader_list[this.current_shader].get_name();
     this.scene.update(this.shader_list[this.current_shader].get_material());
     this.insert_inputs_in_HTML();
     this.on_window_resize(this.scene, this.shader_list[this.current_shader]);
@@ -121,6 +123,9 @@ export class App {
   }
 
   update_shader() {
+    const shader_title = document.querySelector('#shader_name');
+    shader_title.innerHTML = this.shader_list[this.current_shader].get_name();
+
     let console_ = document.getElementById('console');
     let user_shader_input = this.codeEditor.get_value();
 
