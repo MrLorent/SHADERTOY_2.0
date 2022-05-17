@@ -280,8 +280,6 @@ export class App {
     const scene_inputs = shader.get_scene_inputs();
     const colors_input = shader.get_colors_inputs();
 
-    console.log('inpuuuts : ', scene_inputs)
-
     if (scene_inputs.length != 0 || colors_input.length != 0) {
       switch (this.NUMERO_PRESET) {
         case 0:

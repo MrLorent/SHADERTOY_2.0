@@ -81,31 +81,6 @@ header
     height: 100%;
 }
 
-/*------------------ NAV -----------------*/
-nav
-{
-    height: 100%;
-}
-
-.list_of_shaders
-{
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    list-style: none;
-}
-
-.shader_link
-{
-    cursor: pointer;
-    text-transform: none;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    margin: 15px 0 0 0;
-}
-
 /*-------------- NAV BAR -------------*/
 #navigation_panel
 {
@@ -165,6 +140,7 @@ nav
     border-radius: 22px;
     width: 95%;
     height:95%;
+    box-sizing: border-box;
 }
 
 #interactive_window .container::-webkit-scrollbar
@@ -240,6 +216,7 @@ input[type = range]
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+    z-index: 0;
 }
 
 .editor_scroll_window
@@ -266,6 +243,7 @@ input[type = range]
 {
     display: flex;
     height: 50px;
+    padding: 0 1.25%;
 }
 
 #console
@@ -286,17 +264,13 @@ input[type = range]
 
 #compile_button
 {
-    background-image: url("./img/play.svg");
-    background-size: 18%;
-    right: 10px;
-    position: relative;
-    right: 30px;
-    background-color: var(--purple);
+    background: no-repeat url("./img/play.svg") right center, var(--purple);
+    background-size: auto 60%;
+    width: fit-content;
     height: 80%;
     border-radius: 5px;
-    width: 15%;
-    background-position-x: 70px;
-    padding-right: 20px;
+    box-sizing: border-box;
+    padding: 0 25px 0 10px;
 }
 
 /*======== VISUAL WINDOW ========*/
