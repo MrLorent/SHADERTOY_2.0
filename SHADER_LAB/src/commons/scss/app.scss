@@ -3,21 +3,9 @@
     box-sizing: border-box;
 }
 
-html,
 body
 {
-    height: 100%;
-    width: 100%;
-    overflow-x: hidden;
-    margin: 0;
-}
-
-body
-{
-    color: #ffffff;
-    font-family: 'Roboto';
     background: #242424;
-    margin: 0;
 }
 
 main
@@ -27,7 +15,6 @@ main
     display: flex;
     position: relative;
     box-sizing: border-box;
-    padding: 10vh 0 0 0;
 }
 
 section
@@ -100,31 +87,23 @@ nav
     height: 100%;
 }
 
-#shader_list
+.list_of_shaders
 {
     height: 100%;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    list-style: none;
 }
 
 .shader_link
 {
     cursor: pointer;
-    list-style: none;
+    text-transform: none;
     height: 100%;
     display: flex;
     align-items: center;
     box-sizing: border-box;
-}
-
-.shader_link + .shader_link
-{
-    margin: 0 0 0 15px
-}
-
-.shader_link.current
-{
-    border-bottom: 2px solid white;
+    margin: 15px 0 0 0;
 }
 
 /*-------------- NAV BAR -------------*/
