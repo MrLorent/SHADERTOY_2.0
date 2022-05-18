@@ -1,7 +1,7 @@
 #include <uniforms_and_defines>
 
 /// color_picker scene uColors colors
-/// slider scene uRoughness roughness 0 1 0.01
+/// slider scene uRoughness roughness 0.00001 1 0.01
 
 /// checkbox light uRotatingLight rotate_light
 
@@ -92,20 +92,17 @@ vec3 Model_Illumination(in vec3 ray_intersect, in vec3 ray_origin,
 float g2 = G_cookTorrance(ray_vector, light_vector2, normal, half_vector,
                             hit_object.roughness);
 
-  vec3 spec = (distrib * fresnel * g) / (nv * nl);
+  vec3 spec = (distrib * fresnel * g);
 
-    vec3 spec2 = (distrib2 * fresnel2 * g2) / (nv * nl2);
-
-
-  vec3 diff = diffuse * uColorLight * hit_object.base_color * (1. - fresnel / 2.);
-  vec3 diff2 = uColorLight2 * hit_object.base_color * (1. - fresnel2 / 2.);
+    vec3 spec2 = (distrib2 * fresnel2 * g2);
 
 
-  vec3 col1 =  (spec + diff) * nl;
-  vec3 col2 = diffuse2 * uSecond_Light_on_off * (spec2 + diff2) * nl2;
+  vec3 diff = diffuse * uColorLight * hit_object.base_color* (1. - fresnel/2. );
+  vec3 diff2 = diffuse2 * uColorLight2 * hit_object.base_color* (1. - fresnel2/2. );
 
 
-  vec3 col = col1+col2;
+  vec3 col =  sqrt(nv*nl)*(spec+diff)+ uSecond_Light_on_off*sqrt(nv*nl2)*(spec2+diff2);
+
   return pow(col, vec3(0.8)); // Gama correction
 }
 
