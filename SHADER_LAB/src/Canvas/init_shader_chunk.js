@@ -183,6 +183,7 @@ void init_object(){
     left_wall.c=vec3(-3., 0., 9.);
     left_wall.d=vec3(-3., 5., 9.);
     left_wall.mat.base_color=uColors[7];
+    left_wall.mat.kd=uKd[7];
 
 
     if(SCENE == 0){

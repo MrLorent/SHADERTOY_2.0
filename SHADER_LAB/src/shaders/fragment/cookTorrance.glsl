@@ -5,18 +5,18 @@
 
 /// checkbox light uRotatingLight rotate_light
 
+/// checkbox light uSecond_Light_on_off preset
+/// checkbox light uShadow shadow
+
 /// color_picker light uColorLight color_light
-/// slider light uLightPositionX positionX_light -2. 2. 0.1
-/// slider light uLightPositionY positionY_light 1 4. 0.1
+/// slider light uLightPositionX positionX_light -2 2 0.1
+/// slider light uLightPositionY positionY_light 1 4 0.1
 /// slider light uLightPositionZ positionZ_light 1 5 0.1
 
 /// color_picker light uColorLight2 color_light2
-/// slider light uLightPositionX2 positionX_light2 -2. 2. 0.1
-/// slider light uLightPositionY2 positionY_light2 1 4. 0.1
+/// slider light uLightPositionX2 positionX_light2 -2 2 0.1
+/// slider light uLightPositionY2 positionY_light2 1 4 0.1
 /// slider light uLightPositionZ2 positionZ_light2 1 5 0.1
-
-/// checkbox light uSecond_Light_on_off preset
-/// checkbox light uShadow shadow_on_off
 
 #include <creation_object>
 #include <dot2>
@@ -67,12 +67,12 @@ vec3 Model_Illumination(in vec3 ray_intersect, in vec3 ray_origin,
     float d2 = RayMarch(_, ray_intersect + position_offset, light_vector2);
 
 
-    if (uShadow==1. && (d < length(lightPos - ray_intersect)|| uSecond_Light_on_off*d2 < uSecond_Light_on_off*length(lightPos2 - ray_intersect))) { // If true then we've shaded a point on some object before, 
+    if (uShadow==1. && (d < length(lightPos - ray_intersect))) { // If true then we've shaded a point on some object before, 
                                     // so shade the currnet point as shodow.
         diffuse *= .3 ; // no half-shadow because the light source is a point.  
+    }
+    if (uShadow==1. && (uSecond_Light_on_off*d2 < uSecond_Light_on_off*length(lightPos2 - ray_intersect))) { // If true then we've shaded a point on some object before, 
         diffuse2 *= .3;  
-        specular = 0.; // shadows don't have specular component, I think.
-        specular2 = 0.;
     }
 
     //cook torrance stuff
@@ -105,7 +105,7 @@ float g2 = G_cookTorrance(ray_vector, light_vector2, normal, half_vector,
   vec3 col2 = diffuse2 * uSecond_Light_on_off * (spec2 + diff2) * nl2;
 
 
-  vec3 col = col1;
+  vec3 col = col1+col2;
   return pow(col, vec3(0.8)); // Gama correction
 }
 

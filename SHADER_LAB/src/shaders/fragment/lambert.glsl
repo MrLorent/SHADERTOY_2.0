@@ -7,13 +7,13 @@
 /// checkbox light uShadow shadow
 
 /// color_picker light uColorLight color_light
-/// slider light uLightPositionX positionX_light -2. 2. 0.1
-/// slider light uLightPositionY positionY_light 1 4. 0.1
+/// slider light uLightPositionX positionX_light -2 2 0.1
+/// slider light uLightPositionY positionY_light 1 4 0.1
 /// slider light uLightPositionZ positionZ_light 1 5 0.1
 
 /// color_picker light uColorLight2 color_light2
-/// slider light uLightPositionX2 positionX_light2 -2. 2. 0.1
-/// slider light uLightPositionY2 positionY_light2 1 4. 0.1
+/// slider light uLightPositionX2 positionX_light2 -2 2 0.1
+/// slider light uLightPositionY2 positionY_light2 1 4 0.1
 /// slider light uLightPositionZ2 positionZ_light2 1 5 0.1
 
 
@@ -44,15 +44,12 @@ vec3 Model_Illumination(in vec3 ray_intersect,in vec3 ray_origin ,in Material hi
     Material _; //useless stuff but needed for the next RayMarch
     float d = RayMarch(_, ray_intersect + position_offset, light_vector);
     float d2 = RayMarch(_, ray_intersect + position_offset, light_vector2);
-    if (uShadow==1. &&  (d < length(lightPos - ray_intersect) || uSecond_Light_on_off*d2 < uSecond_Light_on_off*length(lightPos - ray_intersect))) { // If true then we've shaded a point on some object before, 
-    // If true then we've shaded a point on some object before, 
+    if (uShadow==1. && (d < length(lightPos - ray_intersect))) { // If true then we've shaded a point on some object before, 
                                     // so shade the currnet point as shodow.
-        diffuse *= .3 ;
-        diffuse2 *= .3 ;
-
-        // no half-shadow because the light source is a point.  
-                                 
-      
+        diffuse *= .3 ; // no half-shadow because the light source is a point.  
+    }
+    if (uShadow==1. && (uSecond_Light_on_off*d2 < uSecond_Light_on_off*length(lightPos2 - ray_intersect))) { // If true then we've shaded a point on some object before, 
+        diffuse2 *= .3;  
     }
     
 
