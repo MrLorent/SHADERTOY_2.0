@@ -268,6 +268,7 @@ input[type = range]
     background: no-repeat url("./img/play.svg") right 5px center, var(--purple);
     background-size: auto 50%;
     width: fit-content;
+    min-width: fit-content;
     height: 60%;
     border-radius: 5px;
     box-sizing: border-box;
